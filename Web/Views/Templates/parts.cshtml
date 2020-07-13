@@ -1,0 +1,67 @@
+@model Assmnts.Models.TemplateParts
+@{
+    ViewBag.Title = "Parts List";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+@section HeadContent {
+    <script>
+        //function downloadTemplate(href) {
+        //    $.ajax({
+        //        type: "GET",
+        //        url: "/Export/getViewTemplate",
+        //        data: { "templatePath": href },
+        //        success: function (data) {
+        //            //alert("SUCCESS: " + data);
+        //            document.getElementById('msg').innerHTML = data;
+        //        },
+        //        error: function (xhr, ajaxOptions, thrownError) {
+        //            //alert("ERROR: " + thrownError);
+        //            document.getElementById('msg').innerHTML = "download template error:  " + thrownError + "</br>";
+        //        },
+        //        complete: function (data) {
+        //            //alert("COMPLETE: " + data);
+        //        }
+        //    });
+        //}
+        $(document).ready(function () {
+            @*postdata = {
+                "sIden":"@Model.nextScreenTitle"
+            }*@
+
+            $('#dtParts').dataTable({
+                "processing": true,
+                "serverSide": true,
+                "ajax": {
+                    url: "/Templates/DataTableParts",
+                    //data: postdata,
+                    type: "POST"
+                },
+                "ordering": false,
+                "dom": 'lriptip'
+            });
+        });
+    </script>
+}
+
+<input type="button" class="return btn btn-primary" value="Return to Forms" onclick="window.location='Index'" />
+<h2>Parts for: <span class="text-primary">@Model.thisScreenTitle</span></h2>
+
+<div class="col-sm-2">
+    <input type="button" class="btn btn-success" value="Add New Part" style="width:100%" onclick="window.location='PartEdit'" />
+</div>
+<br /> <br />
+<table id="dtParts" class="table table-bordered table-striped datatable" cellpadding="0" cellspacing="0" border="0">
+    <thead>
+        <tr>
+            <th>No.</th>
+            <th>Part Id</th>
+            <th>Identifier</th>
+            <th>Title</th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+</table>
+<!-- End of Section List -->

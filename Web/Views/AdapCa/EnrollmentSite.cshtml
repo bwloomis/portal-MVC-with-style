@@ -1,0 +1,89 @@
+﻿@{
+    ViewBag.Title = "Enrollment Sites";
+    Layout = "~/Views/CAADAP/BaseAppLayoutNoForm.cshtml";
+}
+
+@section AddToHead{
+      <!-- dataTables -->
+<script src="https://cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.11/js/dataTables.bootstrap.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.0.2/js/dataTables.responsive.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.0.2/js/responsive.bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.11/css/dataTables.bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.0.2/css/responsive.bootstrap.min.css">
+
+
+<script type="text/javascript">
+    function doSearch() {
+        var dt = $("#DTenrollmentSites").DataTable();
+        var searchJurisdiction = $("#id_unit").val();
+        var searchSite = $("#id_siteName").val();
+        dt.columns(1).search(searchJurisdiction);
+        dt.columns(2).search(searchSite).draw();
+    };
+
+    $(document).ready(function () {
+        $('#id_Search').click(function () {
+            doSearch();
+        });
+
+        $('#DTenrollmentSites').dataTable({
+            "bPaginate": true,
+            "bFilter": false,
+            "bInfo": true,
+            "responsive": true,
+            "processing": true,
+            "serverSide": true,
+            "ordering": true,
+            "searching": true,
+            "ajax": {
+                url: "/AdapCa/DataTableEnrollmentSite",
+                type: "POST"
+            },
+            "dom": 'ri<"float"l>ptip'
+
+        });
+    });
+</script>
+
+}
+
+    <div class="container">
+        <h2>Enrollment Sites</h2>
+        <table id="DTenrollmentSites" class="table table-bordered table-striped" cellpadding="0" cellspacing="0" border="0">
+            <thead style="background-color:#d9edf7">
+                <tr>
+                    <th>Edit</th>
+                    <th>Unit</th>
+                    <th>Site&nbsp;#</th>
+                    <th>Restrictions</th>
+                    <th>Enrollment Site</th>
+                    <th>Address</th>
+                    <th>Telephone</th>
+                    <th>Contact</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+
+        <div class="bs-callout bs-callout-primary" style="background-color:#fcf8e3">
+            <h4 style="color:black">Search</h4>
+            <br>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-3">
+                        <label class="control-label" for="id_unit">Unit</label>
+                        <input type="text" class="form-control" id="id_unit" name="id_unit" maxlength="60">
+                    </div>
+                    <div class="col-md-4">
+                        <label class="control-label" for="">Enrollment Site Name</label>
+                        <input type="text" class="form-control" id="id_siteName" name="id_siteName" maxlength="120">
+                    </div>
+                    <div class="col-md-3">
+                        <label>&nbsp;</label>	<!-- TODO: find better way -->
+                        <button id="id_Search" class="btn btn-md btn-success btn-block" type="submit">Search</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

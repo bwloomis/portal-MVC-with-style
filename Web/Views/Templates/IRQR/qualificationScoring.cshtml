@@ -1,0 +1,508 @@
+@model Assmnts.Models.GeneralForm        
+@{
+    ViewBag.Title = "Qualification Scoring";
+    Layout = "~/Views/Shared/AssmntLayout.cshtml";
+    Validator.Required("The field is required.");
+}
+
+@section HeadContent {
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <style type="text/css">
+        #btnExpandResps
+        {
+            height: 18px; 
+            width: 184px;
+            font-family: Arial, Geneva, Verdana;
+        }
+
+        .class_wide_input {
+            width: 300px;
+        }
+
+        td {
+            font-size: 12px;
+        }
+
+        table.internalborders {
+            border: 2px solid black;
+            border-bottom: 1px solid black;
+            border-right: 1px solid black;
+            border-spacing:0px; 
+        }
+
+        table.internalborders td {
+            border-right: 1px solid black;
+            border-bottom: 1px solid black;
+        }
+
+        td.header {
+            font-weight: bold;
+            font-style: italic;
+            text-align: center;
+            background-color: rgb(217,217,217);
+        }
+
+        td.label {
+            font-weight: bold;
+            text-align: center;
+            vertical-align: top;
+            background-color: rgb(217,217,217);
+        }
+
+        td.info {
+            font-weight: normal;
+            text-align: left;
+            background-color: white;
+        }
+    </style>
+    
+    <link rel="stylesheet" type="text/css" href="/Content/css/jquery.datepick.css">
+    <link rel="stylesheet" type="text/css" href="/Content/css/jquery.timeentry.css">
+    <script src="/Content/js/jquery.plugin.js"></script>
+    <script src="/Content/js/jquery.datepick.js"></script>
+    <script src="/Content/js/jquery.maskedinput.min.js"></script>
+    <script src="/Content/js/jquery.timeentry.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('input').each(function () { updateInput(this) });
+            $('input').click(function () { updateInput(this) });
+        });
+
+        function updateInput(input) {
+            var i = $(input).attr('value');
+            for (var j = 0 ; j < 10 ; j++) {
+                var target = $(input).attr('class') + '_' + j;
+                $('.' + target).prop('checked',i==j);
+            }
+        }
+    </script>
+}
+<table id="tblData" border="0" cellpadding="0" cellspacing="0" style="height: 100%">
+    <tr>
+        <td style="width: 189px; background-color: #ffffff" valign="top" align="center">@Html.Partial("AssmntLeftPane")</td>
+        <td>
+            <br />
+            <table border="0" style="border-spacing:0px; width:625px;">
+                <tr>
+                    <td align="left">
+                        <!-- <asp:Label ID="lblErr" Visible="false" ForeColor="red" runat="server" />  -->
+                        <table border="0" cellpadding="5" cellspacing="0" style="background-color: #ffffff; margin-left: 1.3em;"
+                            width="625">
+                            <tr>
+                                <td>
+                                    <span class="titleblack">Interviewer Reliability and Qualification Review</span>
+                                </td>
+                            </tr>
+                        </table>
+                        <form action="/Results/Save" method="post" id="form-id">
+        <table style="width:800px; margin-left: 1.3em">
+            <tr>
+                <td>
+                    <table>
+                        <tr>
+                            <td colspan="2" style="border:2px solid black; background-color:rgb(204,255,255); text-align:center; font-weight:bold">
+                                Interviewer Techniques and Decision Making Scoring Tables
+                            </td>
+                        </tr>
+                        <tr style="height:4px"></tr>
+
+                        <tr><td>
+                        <table style="width:100%; border-spacing:0px">
+                            <tr>
+                                <td>
+                                    <table class="internalborders" style="width:390px">
+                                        <tr>
+                                            <td class="header" colspan="3">
+                                                Interview Techniques
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="label"><input type="radio" name="irqr2_inttech" id="irqr2_inttech1" class="class_inttech" value="1" />
+                                                <label for="irqr2_inttech1"><span></span></label></td>
+                                            <td class="label">Novice</td>
+                                            <td class="info">
+                                                8 or more items in Novice
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="label"><input type="radio" name="irqr2_inttech" id="irqr2_inttech2" class="class_inttech" value="2" />
+                                                <label for="irqr2_inttech2"><span></span></label></td>
+                                            <td class="label">Beginner</td>
+                                            <td class="info">
+                                                Majority of items in Beginner<br />
+                                                Maximum of 7 to 38 items in Novice
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="label"><input type="radio" name="irqr2_inttech" id="irqr2_inttech3" class="class_inttech" value="3" />
+                                                <label for="irqr2_inttech3"><span></span></label></td>
+                                            <td class="label">Qualified</td>
+                                            <td class="info">
+                                                Majority of items in Qualified<br />
+                                                Maximum of 11 to 38 items in Beginner<br />
+                                                No items in Novice
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="label"><input type="radio" name="irqr2_inttech" id="irqr2_inttech4" class="class_inttech" value="4" />
+                                                <label for="irqr2_inttech4"><span></span></label></td>
+                                            <td class="label">Advanced</td>
+                                            <td class="info">
+                                                Majority of items in Advanced<br />
+                                                Maximum of 7 to 38 items in Qualified<br />
+                                                No items in Beginner or Novice
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td>
+                                    <table class="internalborders" style="width:390px">
+                                        <tr>
+                                            <td class="header" colspan="3">
+                                                Decision Making
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="label"><input type="radio" name="irqr2_decmak" id="irqr2_decmak1" class="class_decmak" value="1" />
+                                                <label for="irqr2_decmak1"><span></span></label></td>
+                                            <td class="label">Novice</td>
+                                            <td class="info">
+                                                Not Scored
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="label"><input type="radio" name="irqr2_decmak" id="irqr2_decmak2" class="class_decmak" value="2" />
+                                                <label for="irqr2_decmak2"><span></span></label></td>
+                                            <td class="label">Beginner</td>
+                                            <td class="info">
+                                                7 domains or fewer in agreement<br />
+                                                (scoring all domains optional)
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="label"><input type="radio" name="irqr2_decmak" id="irqr2_decmak3" class="class_decmak" value="3" />
+                                                <label for="irqr2_decmak3"><span></span></label></td>
+                                            <td class="label">Qualified</td>
+                                            <td class="info">
+                                                8 or 9 domains in agreement<br /><br /><br />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="label"><input type="radio" name="irqr2_decmak" id="irqr2_decmak4" class="class_decmak" value="4" />
+                                                <label for="irqr2_decmak4"><span></span></label></td>
+                                            <td class="label">Advanced</td>
+                                            <td class="info">
+                                                All domains in agreement<br />
+                                                Maximum of 3 domains with disagreements<br />
+                                                (not to exceed 2 disagreements per domain)
+                                            </td>
+                                        </tr>
+                                        <script>
+                                            $(document).ready(function () {
+                                                var target = '@Model.rspValues["irqr2_inttech"]';
+                                                $(".class_inttech").each(function () {
+                                                    if ($(this).prop("value") == target) {
+                                                        $(this).attr("checked", "1");
+                                                    }
+                                                });
+                                                target = '@Model.rspValues["irqr2_decmak"]';
+                                                $(".class_decmak").each(function () {
+                                                    if ($(this).prop("value") == target) {
+                                                        $(this).attr("checked", "1");
+                                                    }
+                                                });
+                                            })
+                                        </script>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                        </td></tr>
+                                    <tr style="height:4px"></tr>
+                                    <tr>
+                                        <td colspan="2" style="border:2px solid black; background-color:rgb(204,255,255); text-align:center; font-weight:bold">
+                                            Qualification Scoring
+                                        </td>
+                                    </tr>
+                                    <tr style="height:4px"></tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <table style="border:2px solid black; border-spacing:0px; width:800px">
+                                                <tr >
+                                                    <td style="width:150px; background-color:rgb(204,255,255); vertical-align:top">
+                                                        <br /><input type="radio" class="class_status" name="irqr2_status" id="irqr2_status1" value="1">
+                                                        <label for="irqr2_status1"><span></span><b>Novice</b></label>
+                                                    </td>
+                                                    <td style="border-left:2px solid black;padding:0px">
+                                                        <table class="internalborders" style="border:none;width:100%;height:100%;">
+                                                            <tr>
+                                                                <td class="label"><input type="checkbox" class="class_inttech_1" disabled /></td>
+                                                                <td class="info" style="border-right:none">Scores Novice in Interviewer Techniques</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td colspan="2" style="border-right:none">and/or</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="label" style="border-bottom:none"><input type="checkbox" class="class_dcmak_1" disabled /></td>
+                                                                <td class="info" style="border-bottom:none;border-right:none">Scores Novice in Decision-Making</td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+
+                                    <tr style="height:4px"></tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <table style="border:2px solid black; border-spacing:0px; width:800px">
+                                                <tr >
+                                                    <td style="width:150px; background-color:rgb(204,255,255); vertical-align:top">
+                                                        <br /><input type="radio" class="class_status" name="irqr2_status" id="irqr2_status2" value="2">
+                                                        <label for="irqr2_status2"><span></span><b>Beginner</b></label>
+                                                    </td>
+                                                    <td style="border-left:2px solid black;padding:0px">
+                                                        <table class="internalborders" style="border:none;width:100%;height:100%;">
+                                                            <tr>
+                                                                <td class="label" style="border-bottom-style:dashed"><input type="checkbox" class="class_inttech_2" disabled /></td>
+                                                                <td class="info" style="border-bottom-style:dashed;border-right:none">Scores Beginner in Interviewer Techniques</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="label" style="border-bottom-width:2px;"><input type="checkbox" class="class_decmak_2" disabled /></td>
+                                                                <td class="info" style="border-bottom-width:2px;border-right:none">Scores Beginner in Decision-Making</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="label" style="border-bottom-style:dashed"><input type="checkbox" class="class_inttech_3" disabled /></td>
+                                                                <td class="info" style="border-bottom-style:dashed;border-right:none">Scores Qualified in Interviewer Techniques</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="label" style="border-bottom-width:2px;"><input type="checkbox" class="class_decmak_2" disabled /></td>
+                                                                <td class="info" style="border-bottom-width:2px;border-right:none">Scores Beginner in Decision-Making</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="label" style="border-bottom-style:dashed"><input type="checkbox" class="class_inttech_2" disabled /></td>
+                                                                <td class="info" style="border-bottom-style:dashed;border-right:none">Scores Beginner in Interviewer Techniques</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="label" style="border-bottom:none"><input type="checkbox" class="class_dcmak_3" disabled /></td>
+                                                                <td class="info" style="border-bottom:none;border-right:none">Scores Qualified in Decision-Making</td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                                                        
+                                    <tr style="height:4px"></tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <table style="border:2px solid black; border-bottom:1px solid black; border-spacing:0px; width:800px">
+                                                <tr >
+                                                    <td style="width:150px; background-color:rgb(204,255,255); vertical-align:top">
+                                                        <br /><input type="radio" class="class_status" name="irqr2_status" id="irqr2_status3" value="3">
+                                                        <label for="irqr2_status3"><span></span><b>Qualified</b></label>
+                                                    </td>
+                                                    <td style="border-left:2px solid black;padding:0px">
+                                                        <table class="internalborders" style="border:none;width:100%;height:100%;">
+                                                            <tr>
+                                                                <td class="label" style="border-bottom-style:dashed"><input type="checkbox" class="class_inttech_3" disabled /></td>
+                                                                <td class="info" style="border-bottom-style:dashed;border-right:none">Scores Qualified in Interviewer Techniques</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="label" style="border-bottom-width:2px;"><input type="checkbox" class="class_decmak_3" disabled /></td>
+                                                                <td class="info" style="border-bottom-width:2px;border-right:none">Scores Qualified in Decision-Making</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="label" style="border-bottom-style:dashed"><input type="checkbox" class="class_inttech_3" disabled /></td>
+                                                                <td class="info" style="border-bottom-style:dashed;border-right:none">Scores Qualified in Interviewer Techniques</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="label" style="border-bottom-width:2px;"><input type="checkbox" class="class_decmak_4" disabled /></td>
+                                                                <td class="info" style="border-bottom-width:2px;border-right:none">Scores Advanced in Decision-Making</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="label" style="border-bottom-style:dashed"><input type="checkbox" class="class_inttech_4" disabled /></td>
+                                                                <td class="info" style="border-bottom-style:dashed;border-right:none">Scores Advanced in Interviewer Techniques</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="label" style="border-bottom:none"><input type="checkbox" class="class_dcmak_3" disabled /></td>
+                                                                <td class="info" style="border-bottom:none;border-right:none">Scores Qualified in Decision-Making</td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2" style="border-top:2px solid black;padding:0px">
+                                                        <table class="internalborders" style="border:none;padding:0px;width:100%;height:100%">
+                                                            <tr>
+                                                                <td colspan="6" class="header" style="text-align:left;border-right:none">
+                                                                    Qualified Status: Demonstration of Proficiency 
+                                                                    <span style="font-weight:normal; font-style:normal">(progressive rubric)</span>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="width:50%" colspan="3" class="header">
+                                                                    Techniques
+                                                                </td>
+                                                                <td style="width:50%;border-right:none" colspan="3" class="header">
+                                                                    Decision Making
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="width:5%" class="label">
+                                                                    <input type="radio" name="irqr2_progtech" id="irqr2_progtech1" class="class_progtech" value="1" />
+                                                                    <label for="irqr2_progtech1"><span></span></label>
+                                                                </td>
+                                                                <td class="label" style="width:15%;background-color:white">
+                                                                    Sufficient
+                                                                </td>
+                                                                <td class="info" style="width:30%">
+                                                                    8 to 11 out of 38 in Beginner
+                                                                </td>
+                                                                <td style="width:5%" class="label">
+                                                                    <input type="radio" name="irqr2_progdec" id="irqr2_progdec1" class="class_progdec" value="1" />
+                                                                    <label for="irqr2_progdec1"><span></span></label>
+                                                                </td>
+                                                                <td class="label" style="width:15%;background-color:white">
+                                                                    Sufficient
+                                                                </td>
+                                                                <td class="info" style="width:30%;border-right:none">
+                                                                    1 domain -4 or more <b>and/or</b> more than 3 domains -3 or less
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="label">
+                                                                    <input type="radio" name="irqr2_progtech" id="irqr2_progtech2" class="class_progtech" value="2" />
+                                                                    <label for="irqr2_progtech2"><span></span></label>
+                                                                </td>
+                                                                <td class="label" style="background-color:white">
+                                                                    Satisfactory
+                                                                </td>
+                                                                <td class="info">
+                                                                    4 to 7 out of 38 in Beginner
+                                                                </td>
+                                                                <td class="label">
+                                                                    <input type="radio" name="irqr2_progdec" id="irqr2_progdec2" class="class_progdec" value="2" />
+                                                                    <label for="irqr2_progdec2"><span></span></label>
+                                                                </td>
+                                                                <td class="label" style="background-color:white">
+                                                                    Satisfactory
+                                                                </td>
+                                                                <td class="info" style="border-right:none">
+                                                                    1 domain with -4 or more <b>and/or</b> 2 to 3 domains with -3 or less
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="label">
+                                                                    <input type="radio" name="irqr2_progtech" id="irqr2_progtech3" class="class_progtech" value="3" />
+                                                                    <label for="irqr2_progtech3"><span></span></label>
+                                                                </td>
+                                                                <td class="label" style="background-color:white">
+                                                                    Excellent
+                                                                </td>
+                                                                <td class="info">
+                                                                    0 to 3 in Beginner; <b>or</b> majority in qualified and some in advanced; <b>or</b> majority in advanced
+                                                                </td>
+                                                                <td class="label">
+                                                                    <input type="radio" name="irqr2_progdec" id="irqr2_progdec3" class="class_progdec" value="3" />
+                                                                    <label for="irqr2_progdec3"><span></span></label>
+                                                                </td>
+                                                                <td class="label" style="background-color:white">
+                                                                    Excellent
+                                                                </td>
+                                                                <td class="info" style="border-right:none">
+                                                                    1 domain with -4 or more <b>and/or</b> 2 to 3 domains with -3 or less
+                                                                </td>
+                                                            </tr>
+                                                            <script>
+                                                                $(document).ready(function () {
+                                                                    var target = '@Model.rspValues["irqr2_progtech"]';
+                                                                    $(".class_progtech").each(function () {
+                                                                        if ($(this).prop("value") == target) {
+                                                                            $(this).attr("checked", "1");
+                                                                        }
+                                                                    });
+                                                                    target = '@Model.rspValues["irqr2_progdec"]';
+                                                                    $(".class_progdec").each(function () {
+                                                                        if ($(this).prop("value") == target) {
+                                                                            $(this).attr("checked", "1");
+                                                                        }
+                                                                    });
+                                                                })
+                                                            </script>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+
+                                    <tr style="height:4px"></tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <table style="border:2px solid black; border-spacing:0px; width:800px">
+                                                <tr >
+                                                    <td style="width:150px; background-color:rgb(204,255,255); vertical-align:top">
+                                                        <br /><input type="radio" class="class_status" name="irqr2_status" id="irqr2_status4" value="4">
+                                                        <label for="irqr2_status4"><span></span><b>Advanced</b></label>
+                                                        <script>
+                                                            $(document).ready(function () {
+                                                                var target = '@Model.rspValues["irqr2_status"]';
+                                                                $(".class_status").each(function () {
+                                                                    if ($(this).prop("value") == target) {
+                                                                        $(this).attr("checked", "1");
+                                                                    }
+                                                                });
+                                                            })
+                                                        </script>
+                                                    </td>
+                                                    <td style="border-left:2px solid black;padding:0px">
+                                                        <table class="internalborders" style="border:none;width:100%;height:100%;">
+                                                            <tr>
+                                                                <td class="label" style="border-bottom-style:dashed"><input type="checkbox" class="class_inttech_4" disabled /></td>
+                                                                <td class="info" style="border-bottom-style:dashed;border-right:none">Scores Advanced in Interviewer Techniques</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="label" style="border-bottom:none"><input type="checkbox" class="class_decmak_4" disabled /></td>
+                                                                <td class="info" style="border-right:none;border-bottom:none">Scores Advanced in Decision-Making</td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </table>
+
+                        @Html.Partial("AssmntNavPrevNext")
+
+                        <div class="copyright" style="text-align:center;font-size:smaller">
+                            <fieldset>
+                                <legend></legend>
+                                Copyright© 2014 by AAIDD   Supports Intensity Scale®   Revised July 2014
+                            </fieldset>
+                        </div>
+                        <div id="sectIntSetting" style="margin-top: 12px;" visible="false">
+                            &nbsp;
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <br />
+            <br />
+            <input type="submit" value="Submit" id="btnSubmit" />
+            </form>
+        </td>
+    </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0">
+    <tr>
+        <td style="height: 5px">&nbsp;</td>
+    </tr>
+</table>
+</td>
+    </tr>
+</table>
+<br />

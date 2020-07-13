@@ -1,0 +1,324 @@
+﻿@model Assmnts.Models.GeneralForm
+@{
+    Layout = "AdapAppLayout.cshtml";      
+}
+
+@section AddToHead{
+    <link rel="stylesheet" type="text/css" href="/Content/adap/css/ADAPForms.css" />
+    <script src="~/Content/js/ADAPLookupSelects.js"></script>
+    <script src="~/Content/js/jquery.maskedinput.min.js"></script>
+    <script src="https://rawgit.com/RobinHerbots/jquery.inputmask/3.x/dist/jquery.inputmask.bundle.js"></script>
+    <script>
+    $(document).ready(function () {
+
+        //hide the previous section button, because this is the first section
+        $('.class_prevscreen').hide();
+
+
+        @foreach (string shortName in new string[] { "D4_EthnicDrop", "D7_LangDrop", "D8_CurrGenderDrop", "D8_BirthGenderDrop" })
+        {
+            string identifier = "ADAP_" + shortName;
+            @:populateLookupSelect('@identifier', '@identifier', '@Model.rspValues[identifier]');
+        }
+
+        $("#ADAP_D10_SSN").mask("999-99-9999");
+        $("#ADAP_D9_Ramsell").inputmask("99999999999");
+        ADAP_D9_Ramsell
+    });
+
+    </script>
+}
+
+
+<!-- D1 name -->
+<div class="panel panel-default" id="dvName">
+    <div class="panel-body">
+        <div class="pull-right prevAppBtn"><button data-prevdiv="PreviousD1" class="btn" type="button"></button></div>
+        <div class="pull-right"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CmntModal" data-label="D1. @Model.sctTitles["ADAP_D1"]"><span class="glyphicon glyphicon-comment"></span></button></div>
+        <div class="form-group">
+            <label class="col-md-2 control-label" for="" style="text-align:left">D1. @Model.sctTitles["ADAP_D1"]</label>
+            @Helpers.LabelSpan(Model, "ADAP_D1_LastName_item", new { @class = "col-md-1 control-label", @style = "color: black;" })
+            <div class="col-md-2">
+                @Helpers.TextInput(Model, "ADAP_D1_LastName", new { @class = "form-control" })
+            </div>
+            @Helpers.LabelSpan(Model, "ADAP_D1_FirstName_item", new { @class = "col-md-1 control-label", @style = "color: black;" })
+            <div class="col-md-2">
+                @Helpers.TextInput(Model, "ADAP_D1_FirstName", new { @class = "form-control" })
+            </div>
+            @Helpers.LabelSpan(Model, "ADAP_D1_MiddleIntl_item", new { @class = "col-md-1 control-label", @style = "color: black;" })
+            <div class="col-md-1">
+                @Helpers.TextInput(Model, "ADAP_D1_MiddleIntl", new { @class = "form-control" })
+            </div>
+            @*<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CmntModal"><span class="glyphicon glyphicon-comment"></span></button>*@
+        </div>
+        <div class="form-group">
+            <label class="col-md-5 control-label" for="" style="text-align:left">@Model.fldLabels["ADAP_D1_AltName_item"]</label>
+            <div class="col-md-4">
+                @Helpers.TextInput(Model, "ADAP_D1_AltName", new { @class = "form-control" })
+            </div>
+        </div>
+        @*
+            <div id="dvCmntName" class="form-group">
+                <div class="col-lg-1">
+                    <br />
+                    <textarea id="txCmntName" class="text" rows="7" cols="50"> </textarea>
+                    <input type="button" id="btnCmntName" class="btn btn-success" value="Save" />
+                </div>
+            </div>*@
+    </div>
+</div>
+
+<!-- D2. DOB -->
+<div class="panel panel-default" id="dvDOB">
+    <div class="panel-body">
+        <div class="pull-right prevAppBtn"><button data-prevdiv="PreviousD2" class="btn" type="button"></button></div>
+        <div class="pull-right"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CmntModal" data-label="D2. @Model.sctTitles["ADAP_D2"]"><span class="glyphicon glyphicon-comment"></span></button></div>
+        <div class="form-group">
+            <label class="col-md-3 control-label" for="" style="text-align:left">D2. @Model.sctTitles["ADAP_D2"]</label>
+            <div class="col-md-4">
+                <div class="input-group date">
+                    @Helpers.TextInput(Model, "ADAP_D2_DOB", new { @class = "form-control", placeholder = "mm/dd/yyyy" })
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- D3 race -->
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="pull-right prevAppBtn"><button data-prevdiv="PreviousD3" class="btn" type="button"></button></div>
+        <div class="pull-right"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CmntModal" data-label="D3. @Model.sctTitles["ADAP_D3"]"><span class="glyphicon glyphicon-comment"></span></button></div>
+        <p><strong>D3. @Model.sctTitles["ADAP_D3"]</strong></p>
+        <div class="form-group" style="margin-left:25px">
+            <div class="col-md-4">
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "ADAP_D3_White")
+                </div>
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "ADAP_D3_Black")
+                </div>
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "ADAP_D3_Asian")
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "ADAP_D3_Native")
+                </div>
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "ADAP_D3_Indian")
+                </div>
+            </div>
+
+            <!-- asian ancestry -->
+            <div class="panel panel-default" id="PanelAsianAncestry" style="border:none">
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label class="col-md-10 control-label" for="" style="text-align:left">@Model.sctTitles["ADAP_D5"]</label>
+                    </div>
+                    <div class="form-group YesAsianAncestry" style="margin-left:25px">
+                        <div class="col-md-3">
+                            <div class="checkbox checkbox-info">
+                                @Helpers.LabeledCheckboxInput(Model, "ADAP_D5_Indian")
+                            </div>
+                            <div class="checkbox checkbox-info">
+                                @Helpers.LabeledCheckboxInput(Model, "ADAP_D5_Filipino")
+                            </div>
+                            <div class="checkbox checkbox-info">
+                                @Helpers.LabeledCheckboxInput(Model, "ADAP_D5_Korean")
+                            </div>
+                            <div class="checkbox checkbox-info">
+                                @Helpers.LabeledCheckboxInput(Model, "ADAP_D5_Other")
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="checkbox checkbox-info">
+                                @Helpers.LabeledCheckboxInput(Model, "ADAP_D5_Chinese")
+                            </div>
+                            <div class="checkbox checkbox-info">
+                                @Helpers.LabeledCheckboxInput(Model, "ADAP_D5_Japanese")
+                            </div>
+                            <div class="checkbox checkbox-info">
+                                @Helpers.LabeledCheckboxInput(Model, "ADAP_D5_Vietnamese")
+                            </div>
+                            <div class="checkbox checkbox-info">
+                                @Helpers.LabeledCheckboxInput(Model, "ADAP_D5_NA")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- hawaiian/PI ancestry -->
+            <div class="panel panel-default" id="PIAncestry" style="border:none">
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label class="col-md-10 control-label" for="" style="text-align:left">@Model.sctTitles["ADAP_D6"]</label>
+                    </div>
+                    <div class="form-group YesPIAncestry" style="margin-left:25px">
+                        <div class="col-md-3">
+                            <div class="checkbox checkbox-info">
+                                @Helpers.LabeledCheckboxInput(Model, "ADAP_D6_Native")
+                            </div>
+                            <div class="checkbox checkbox-info">
+                                @Helpers.LabeledCheckboxInput(Model, "ADAP_D6_Guam")
+                            </div>
+                            <div class="checkbox checkbox-info">
+                                @Helpers.LabeledCheckboxInput(Model, "ADAP_D6_Samoan")
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="checkbox checkbox-info">
+                                @Helpers.LabeledCheckboxInput(Model, "ADAP_D6_Other")
+                            </div>
+                            <div class="checkbox checkbox-info">
+                                @Helpers.LabeledCheckboxInput(Model, "ADAP_D6_NA")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+        //setup certain elements to be visible iff a certain checkbox is checked
+            $(document).ready(function () {
+                $('#PREVIOUS_PanelAsianAncestry').toggle($('#PREVIOUS_ADAP_D3_Asian').get(0).checked);
+                $('#PREVIOUS_PIAncestry').toggle($('#PREVIOUS_ADAP_D3_Native').get(0).checked);
+                toggleRace();
+                $('#ADAP_D3_Asian').change(toggleRace);
+                $('#ADAP_D3_Native').change(toggleRace);
+            });
+
+            function toggleRace() {
+                $('#PanelAsianAncestry').toggle($('#ADAP_D3_Asian').get(0).checked);
+                $('#PIAncestry').toggle($('#ADAP_D3_Native').get(0).checked);
+            }
+</script>
+    </div>
+</div>
+
+<!-- D4 ethnicity -->
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="pull-right prevAppBtn"><button data-prevdiv="PreviousD4" class="btn" type="button"></button></div>
+        <div class="pull-right"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CmntModal" data-label="D4. @Model.sctTitles["ADAP_D4"]"><span class="glyphicon glyphicon-comment"></span></button></div>
+        <div class="form-group">
+            <label class="col-md-3 control-label" for="" style="text-align:left">D4. @Model.sctTitles["ADAP_D4"]</label>
+            <div class="col-md-4">
+                @Helpers.DropDownList(Model, "ADAP_D4_EthnicDrop_item", "ADAP_D4_EthnicDrop")
+            </div>
+        </div>
+
+        <!-- hispanic conditional -->
+        <div class="form-group" id="hispanicToggle">
+            <p><strong>&nbsp;&nbsp;&nbsp;&nbsp;@Model.fldLabels["ADAP_D4_HispLabel_item"]</strong></p>
+            <div style="margin-left:25px">
+                <div class="col-md-4">
+                    <div class="checkbox checkbox-info">
+                        @Helpers.LabeledCheckboxInput(Model, "ADAP_D4_Mexican")
+                    </div>
+                    <div class="checkbox checkbox-info">
+                        @Helpers.LabeledCheckboxInput(Model, "ADAP_D4_Puerto")
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="checkbox checkbox-info">
+                        @Helpers.LabeledCheckboxInput(Model, "ADAP_D4_Cuban")
+                    </div>
+                    <div class="checkbox checkbox-info">
+                        @Helpers.LabeledCheckboxInput(Model, "ADAP_D4_Other")
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            $(document).ready(function () {                
+                updateHispanic();
+                $("#ADAP_D4_EthnicDrop").change(updateHispanic);
+            });
+
+            function updateHispanic() {
+                $("#PREVIOUS_hispanicToggle").toggle($("#PREVIOUS_ADAP_D4_EthnicDrop").val() == 1);
+                $("#hispanicToggle").toggle($("#ADAP_D4_EthnicDrop").val() == 1);
+            };
+        </script>
+    </div>
+</div>
+
+<!-- D5 language -->
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="pull-right prevAppBtn"><button data-prevdiv="PreviousD5" class="btn" type="button"></button></div>
+        <div class="pull-right"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CmntModal" data-label="D5. @Model.sctTitles["ADAP_D7"]"><span class="glyphicon glyphicon-comment"></span></button></div>
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="" style="text-align:left">D5. @Model.sctTitles["ADAP_D7"]</label>
+            <div class="col-md-4">
+                @Helpers.DropDownList(Model, "ADAP_D7_LangDrop_item", "ADAP_D7_LangDrop")
+            </div>
+            <div class="col-md-6 col-md-offset-2" style="margin-top:20px" id="langOtherToggle">
+                @Helpers.TextInput(Model, "ADAP_D7_LangOther", new { @class = "form-control" })
+            </div>
+            <script>
+                $(document).ready(function () {
+                    updateLangOther();
+                    $("#ADAP_D7_LangDrop").change(updateLangOther);
+                });
+                function updateLangOther() {
+                    $("#PREVIOUS_langOtherToggle").toggle($("#PREVIOUS_ADAP_D7_LangDrop").val() == 17);
+                    $("#langOtherToggle").toggle($("#ADAP_D7_LangDrop").val() == 17);
+                };
+            </script>
+        </div>
+    </div>
+</div>
+
+<!--- D6 Gender -->
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="pull-right prevAppBtn"><button data-prevdiv="PreviousD6" class="btn" type="button"></button></div>
+        <div class="pull-right"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CmntModal" data-label="D6. @Model.sctTitles["ADAP_D8"]"><span class="glyphicon glyphicon-comment"></span></button></div>
+        <p><strong>D6. @Model.sctTitles["ADAP_D8"]</strong></p>
+        <div class="form-group">
+            <div class="col-md-4">
+                @Helpers.DropDownList(Model, "ADAP_D8_CurrGenderDrop_item", "ADAP_D8_CurrGenderDrop")
+            </div>
+            @Helpers.LabelSpan(Model, "ADAP_D8_BirthGenderLabel_item", new { @class = "col-md-2 control-label" })
+            <div class="col-md-4">
+                @Helpers.DropDownList(Model, "ADAP_D8_BirthGenderDrop_item", "ADAP_D8_BirthGenderDrop")
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--- D7 Ramsell Member ID -->
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="pull-right prevAppBtn"><button data-prevdiv="PreviousD7" class="btn" type="button"></button></div>
+        <div class="pull-right"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CmntModal" data-label="D7. @Model.sctTitles["ADAP_D9"]"><span class="glyphicon glyphicon-comment"></span></button></div>
+        <div class="form-group">
+            <label class="col-md-3 control-label" for="" style="text-align:left">D7. @Model.sctTitles["ADAP_D9"]</label>
+            <div class="col-md-4">
+                @Helpers.TextInput(Model, "ADAP_D9_Ramsell", new { @class = "form-control" })
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--- D8 SSN -->
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="pull-right prevAppBtn"><button data-prevdiv="PreviousD8" class="btn" type="button"></button></div>
+        <div class="pull-right"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CmntModal" data-label="D8. @Model.sctTitles["ADAP_D10"]"><span class="glyphicon glyphicon-comment"></span></button></div>
+        <div class="form-group">
+            <label class="col-md-5 control-label" for="" style="text-align:left">D8. @Model.sctTitles["ADAP_D10"]</label>
+            <div class="col-md-4">
+                @Helpers.TextInput(Model, "ADAP_D10_SSN", new { @class = "form-control", placeholder = "___-__-____" })
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- TAB #1 - PERSONAL INFORMATION ENDS -->
+@Html.Partial("_AdapCommentModal", Model)

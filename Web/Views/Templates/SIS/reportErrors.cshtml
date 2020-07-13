@@ -1,0 +1,186 @@
+@model Assmnts.Models.GeneralForm  
+@using Data.Abstract
+@using Assmnts     
+@{
+    ViewBag.Title = "Report Errors";
+    Layout = "~/Views/Shared/AssmntLayout.cshtml";
+    Validator.Required("The field is required.");
+    IFormsRepository formsRepo = DependencyResolver.Current.GetService(typeof(IFormsRepository)) as IFormsRepository;
+}
+
+@section HeadContent {
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <style type="text/css">
+        #btnExpandResps
+        {
+            height: 18px;
+            width: 184px;
+            font-family: Arial, Geneva, Verdana;
+        }
+
+        .class_wide_input {
+            width: 300px;
+        }
+
+    </style>
+    
+    <link rel="stylesheet" type="text/css" href="/Content/css/jquery.datepick.css">
+    <link rel="stylesheet" type="text/css" href="/Content/css/jquery.timeentry.css">
+    <script src="/Content/js/jquery.plugin.js"></script>
+    <script src="/Content/js/jquery.datepick.js"></script>
+    <script src="/Content/js/jquery.maskedinput.min.js"></script>
+    <script src="/Content/js/jquery.timeentry.min.js"></script>
+}
+
+<table id="tblData" border="0" cellpadding="0" cellspacing="0" style="height: 100%">
+    <tr>
+        <td style="width: 189px; background-color: #ffffff" valign="top" align="center">@Html.Partial("AssmntLeftPane")</td>
+        <td style="vertical-align:top">
+            <br />
+            <table border="0" cellpadding="0" cellspacing="0" width="625">
+                <tr>
+                    <td align="left">
+                        <!-- <asp:Label ID="lblErr" Visible="false" ForeColor="red" runat="server" />  -->
+                        <table border="0" cellpadding="5" cellspacing="0" class="tableborder" style="background-color: #ffffff; margin-left: 1.3em;"
+                            width="800">
+                            <tr>
+                                <td style="background-color: #d5d5d5">
+                                    <span class="titleblack">Validation Issues</span>
+                                </td>
+                            </tr>
+                        </table>
+                        <form action="/Results/Save" method="post" id="form-id">
+                            <table border="0" cellpadding="5" cellspacing="0" class="tableborder" style="background-color: #f4f4f4; margin-left: 1.3em"
+                                   width="800">
+                                <tr>
+                                    <td>
+                                        <table>
+                                            @{
+                                                bool anyErrors = false;
+                                                
+                                                //display missing items, by part and section
+                                                if (Model.missingItemVariablesBySectionByPart != null)
+                                                {
+                                                    foreach (int prtId in Model.missingItemVariablesBySectionByPart.Keys)
+                                                    {
+                                                        def_Parts prt = formsRepo.GetPartById(prtId);
+                                                        <tr>
+                                                            <td><span style="font-weight:bold">@prt.identifier</span></td>
+                                                        </tr>
+                                                        foreach (int sctId in Model.missingItemVariablesBySectionByPart[prtId].Keys)
+                                                        {
+                                                            def_Sections sct = formsRepo.GetSectionById(sctId);
+                                                            <tr>
+                                                                <td>
+                                                                    <table>
+                                                                        <tr>
+                                                                            <td>
+                                                                                &nbsp;&nbsp;&nbsp;&nbsp;
+                                                                            </td>
+                                                                            <td> 
+                                                                                <a style="color:rgb(190, 65, 54);font-weight:bold;" href="#" onclick="SubmitForm('@prt.partId','@sct.sectionId')">@sct.title</a>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </td>
+                                                            </tr>
+                                                            foreach (string ivIdent in Model.missingItemVariablesBySectionByPart[prtId][sctId])
+                                                            {
+                                                                def_Items itm = formsRepo.GetItemVariableByIdentifier(ivIdent).def_Items;
+                                                                anyErrors = true;
+                                                                <tr>
+                                                                    <td>
+                                                                        <table>
+                                                                            <tr>
+                                                                                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                                                                <td>@Assmnts.Business.HtmlRemoval.StripTagsRegex(itm.label)</td>
+                                                                            </tr>
+                                                                        </table>
+                                                                    </td>
+                                                                </tr>
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                                
+                                                //display other validation messages
+
+                                                if (Model.validationMessages != null)
+                                                { 
+                                                    foreach( string message in Model.validationMessages )
+                                                    {
+                                                        anyErrors = true;
+                                                        <tr>
+                                                            <td>@message</td>
+                                                        </tr>
+                                                    }
+                                                }
+                                                //display a message if there were no validation problems
+                                                if (!anyErrors) 
+                                                { 
+                                                    <tr>
+                                                        <td><span style="font-weight:bold">Validation passed with no issues.</span></td>
+                                                    </tr>
+                                                }
+                                            }                                            
+                                            <tr>
+                                                <td>
+
+                                                       @Html.Partial("AssmntNavPrevNext")
+                                                            <script>
+                                                                $(document).ready(function () {
+                                                                    $('.class_nextscreen').hide();
+
+                                                                    if ('@Model.ventureMode' == 'True') {
+                                                                        $('.class_prevscreenbelowpage').html("Return to search");
+                                                                        $('.class_prevscreenbelowpage').click(function () { window.location = "/Search"; });
+                                                                    }
+                                                                });
+                                                            </script>
+
+
+                                                        
+                                                             
+
+
+                                                                <div id="sectIndivParticipation" hidden="hidden">
+                                                                    <fieldset>
+                                                                        <legend></legend>
+                                                                    </fieldset>
+                                                                </div>
+                                                                <div id="sectIntSetting" style="margin-top: 12px;" hidden="hidden">
+                                                                    &nbsp;
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                    @*<td valign="top" style="color:r">
+                                        Please resolve validation issues, or click <a href="@Request.Url.AbsoluteUri&ignoreValidation=1">here</a> to continue to report options (use at your own risk)
+                                    </td>*@
+                                </tr>
+                            </table>
+                            <br />
+                            <br />
+                            <input type="submit" value="Submit" id="btnSubmit" />
+                        </form>
+                    </td>
+                </tr>
+            </table>
+<table border="0" cellpadding="0" cellspacing="0">
+    <tr>
+        <td style="height: 5px">&nbsp;</td>
+    </tr>
+</table>
+</td>
+    </tr>
+</table>
+<br />
+<script>
+    $(document).ready(function () {
+        $(".class_leftprevscreen").off("click");
+        $(".class_leftprevscreen").click(function () {
+            SubmitForm('5', '27'); // supplemental questions
+        });
+    });
+</script>

@@ -1,0 +1,303 @@
+﻿@model Assmnts.Models.GeneralForm
+@{
+    // Layout = "AdapAppLayout.cshtml";
+    Layout = "BaseAppLayout.cshtml";
+}
+@using UAS.Business;
+
+@section AddToHead{
+    <link rel="stylesheet" type="text/css" href="/Content/adap/css/ADAPForms.css" />
+
+    <script src="~/Content/js/ADAPLookupSelects.js"></script>
+    <link href="~/stylesheets/jquery.growl.css" rel="stylesheet" />
+    <script src="~/javascripts/jquery.growl.js"></script>
+
+    <script type="text/javascript">
+        function SubmitForm(targetPartId, targetSectionId) {
+            document.getElementById('navPartId').setAttribute('value', targetPartId);
+            document.getElementById('navSectionId').setAttribute('value', targetSectionId);
+            $("#btnSubmit").click();
+        }
+
+        $(document).ready(function () {
+            if($("#C1_SVFRadio1_NoOption").prop("checked") == false){
+                $("#C1_SVFRadio1_YesOption").prop("checked", true);
+            }
+
+            if($("#C1_SVFRadio2_NoOption").prop("checked") == false){
+                $("#C1_SVFRadio2_YesOption").prop("checked", true);
+            }
+
+            if($("#C1_SVFRadio3_NoOption").prop("checked") == false){
+                $("#C1_SVFRadio3_YesOption").prop("checked", true);
+            }
+
+            $('#btnsubmitChanges').click(function () {
+                if ($("#C1_SVFRadio1_YesOption").prop("checked") && $("#C1_SVFRadio2_YesOption").prop("checked")
+                    && $("#C1_SVFRadio3_YesOption").prop("checked")) {
+
+                    if($("#C1_SVFEnrollmentWorkerCertify").prop("checked") === true ||
+                        $("#C1_SVFSelfCertify").prop("checked") === true)
+                    {
+
+                        // show success
+                        $("#messageSuccess").show();
+                        $("#messageFailure").hide();
+
+                        document.getElementById('navRedirect').setAttribute('value', '/ADAP/UpdateStatus?formResultId=' + @Model.formResultId);
+                        SubmitForm('46', '759');
+                    }
+                    else{
+                        $("#messageConfirmFailure").show()
+                    }
+                } else {
+                    // show failure
+                    $("#messageSuccess").hide();
+                    $("#messageFailure").show();
+                    $("#messageConfirmFailure").hide()
+                }
+            });
+
+            $("#btnsave").click(function () {
+                SubmitForm('46', '759');
+            });
+
+            $("#btncancel").click(function(){
+                window.location = '/AdapCa/CancelSVF?formResultId=' + @Model.formResultId;
+            });
+
+
+            $('.class_nextscreen').hide();
+            $('#certify').hide();
+            $('#checkErrors').hide();
+            $('.class_prevscreen').hide();
+            $('.class_submit').hide();
+
+
+            var Notify = '@ViewBag.Notify';
+            if (Notify == "Saved") {
+                // show either success or update required
+                if ($("#C1_SVFRadio1_YesOption").prop("checked") && $("#C1_SVFRadio2_YesOption").prop("checked")
+                    && $("#C1_SVFRadio3_YesOption").prop("checked")) {
+                    // show success
+                    $("#messageSuccess").show();
+                    $("#messageFailure").hide();
+                } else {
+                    // show failure
+                    $("#messageSuccess").hide();
+                    $("#messageFailure").show();
+                }
+            }
+        });
+    </script>
+    <script>
+
+        $(document).ready(function () {
+
+            $(".navbar-nav").find("li").each(function () {
+                $(this).click(function () {
+                    $.ajax({
+                        url: '@Url.Action("PageLoadEvents","Results")',
+                    });
+                });
+            });
+
+            $("button").click(function () {
+                $.ajax({
+                    url: '@Url.Action("PageLoadClickEvents", "Results")',
+                });
+            });
+
+            var Notify = '@ViewBag.Notify';
+            var NotifyMessage = '@ViewBag.NotifyMessage';
+            if (Notify == "Saved") {
+                console.log("notify start");
+                if (NotifyMessage != '')
+                    $.growl.notice({ title: "Save", message: NotifyMessage });
+                else
+                    $.growl.notice({ title: "Save", message: "Application Save successfully" });
+
+            }
+            else if (Notify == "Cancel") {
+                if (NotifyMessage != '')
+                    $.growl.error({ title: "Error", message: NotifyMessage });
+                else
+                    $.growl.error({ title: "Error", message: "Internal server error:Review the logs" });
+            }
+
+        });
+    </script>
+}
+<!-- SVF section 1 -->
+<br /><br />
+<div class="section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div id="messageSuccess" class="alert alert-dismissable alert-success" style="display:none">
+                    @*<strong>Success!</strong>*@&nbsp;&nbsp;Your Self-Verification Form has been saved.  You must click Submit to complete your Self-Verification requirement and have your eligibility extended.
+                </div>
+                <br>
+                <div id="messageFailure" class="alert alert-dismissable alert-danger" style="display:none">
+                    <strong>Error!</strong>&nbsp;&nbsp;Based on the answer(s) provided below your eligibility information has changed. From the main portal screen, select SVF with Changes and enter the updated eligibility information and provide the supporting documentation.
+                </div>
+                <div id="messageConfirmFailure" class="alert alert-dismissable alert-danger" style="display:none">
+                    SVF-3: You must check the box to certify that the information provided is true and correct.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<span class="label label-danger" style="font-size:15px;">@Model.sctTitles["CA-ADAP-SVFNoChanges-1_sub"]</span></p>
+<div class="panel panel-default">
+    <div class="panel-body">
+        <p>To continue receiving assistance you must recertify into the program  every six months after your birth date by completing a paper or online Self-Verification Form (SVF). To complete the online SVF with no changes, please answer the questions below and submit the SVF with no changes prior to the eligibility end date to avoid a gap in your care.</p>
+
+        <div class="form-group">
+            <div class="col-md-4">
+                @Helpers.LabelSpan(Model, "C1_MemberIdentifier_item", new { @class = "control-label" })
+            </div>
+            <div class="col-md-4">
+                @Helpers.TextInput(Model, "C1_MemberIdentifier", new { @class = "form-control", @readonly = "readonly" })
+            </div>
+        </div>
+        <hr />
+        <div class="form-group">
+            <div class="col-md-4">
+                @Helpers.LabelSpan(Model, "C1_SVFRadio1_item", new { @class = "control-label" })
+            </div>
+            @Helpers.YesNoRadioButtons(Model, "C1_SVFRadio1", false)
+        </div>
+        <div class="form-group">
+            <div class="col-md-5">
+                @*@Helpers.LabelSpan(Model, "C1_ResidentialAddressLine1_item", new { @class = "control-label" })
+                    @Helpers.LabelSpan(Model, "C1_ResidentialAddressLine2_item", new { @class = "control-label" })
+                    @Helpers.LabelSpan(Model, "C1_ResidentialAddressCity_item", new { @class = "control-label" })
+                    @Helpers.LabelSpan(Model, "C1_ResidentialAddressZIP_item", new { @class = "control-label" })*@
+                @Helpers.TextInput(Model, "C1_ResidentialAddressLine1", new { @class = "form-control", @readonly = "readonly" })
+                @Helpers.TextInput(Model, "C1_ResidentialAddressLine2", new { @class = "form-control", @readonly = "readonly" })
+                @Helpers.TextInput(Model, "C1_ResidentialAddressCity", new { @class = "form-control", @readonly = "readonly" })
+                @Helpers.TextInput(Model, "C1_ResidentialAddressZIP", new { @class = "form-control", @readonly = "readonly" })
+            </div>
+        </div>
+        <hr />
+        <div class="form-group">
+            <div class="col-md-4">
+                @Helpers.LabelSpan(Model, "C1_SVFRadio2_item", new { @class = "control-label" })
+            </div>
+            @Helpers.YesNoRadioButtons(Model, "C1_SVFRadio2", false)
+        </div>
+        <div class="form-group">
+            <div class="col-md-5">
+                @Helpers.TextInput(Model, "C1_MemberCalcHouseholdIncome", new { @class = "form-control", @readonly = "readonly" })
+
+            </div>
+        </div>
+        <hr />
+
+        <div class="form-group">
+            <div class="col-md-4">
+                @Helpers.LabelSpan(Model, "C1_SVFRadio3_item", new { @class = "control-label" })
+            </div>
+            @Helpers.YesNoRadioButtons(Model, "C1_SVFRadio3", false)
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-4">
+                @Helpers.LabelSpan(Model, "C1_OtherInsuranceProvider_item", new { @class = "control-label" })
+            </div>
+            <div class="col-md-4">
+                @Helpers.TextInput(Model, "C1_OtherInsuranceProvider", new { @class = "form-control", @readonly = "readonly" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-4">
+                @Helpers.LabelSpan(Model, "C1_MedicarePartDPlanName_item", new { @class = "control-label" })
+            </div>
+            <div class="col-md-4">
+                @Helpers.TextInput(Model, "C1_MedicarePartDPlanName", new { @class = "form-control", @readonly = "readonly" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-4">
+                @Helpers.LabelSpan(Model, "C1_SVFMediCalPlanName_item", new { @class = "control-label" })
+            </div>
+            <div class="col-md-4">
+                @Helpers.TextInput(Model, "C1_SVFMediCalPlanName", new { @class = "form-control", @readonly = "readonly" })
+            </div>
+        </div>
+        <hr />
+        <p>If you are co-enrolled in the Health Insurance Premium Payment (HIPP) Program, you must attach and submit a copy of your most recent insurance billing statement.</p>
+        <div class="form-group">
+            <div class="col-md-6">
+                @Helpers.LabelSpan(Model, "C1_SVFRecentBillingStatement_item", new { @class = "control-label" })
+            </div>
+
+            @Helpers.FileUpload(Model, "C1_SVFRecentBillingStatement")
+
+        </div>
+
+
+    </div>
+</div>
+
+<!--SVF section 2 -->
+<span class="label label-danger" style="font-size:15px;">@Model.sctTitles["CA-ADAP-SVFNoChanges-2_sub"]</span></p>
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="form-group">
+            <div class="col-md-6">
+                @Helpers.LabelSpan(Model, "C1_SVFConsentSignatureDoc_item", new { @class = "control-label" })
+            </div>
+
+            @Helpers.FileUpload(Model, "C1_SVFConsentSignatureDoc")
+
+        </div>
+
+    </div>
+</div>
+
+<!--SVF section 3 -->
+<span class="label label-danger" style="font-size:15px;">@Model.sctTitles["CA-ADAP-SVFNoChanges-3_sub"]</span></p>
+<div class="panel panel-default">
+    <div class="panel-body">
+        @if (UAS_Business_Functions.hasPermission(PermissionConstants.ASSIGNED, PermissionConstants.ASSMNTS))
+        {
+            <p>Client Acknowledgement :I understand that I may be denied program services if I have given false information or if I fail to give complete information By checking this box, I certify to the best of my knowledge the information provided is true and correct.</p>
+            @*<div class="form-group">
+                    <div class="col-md-4">
+                        @Helpers.LabelSpan(Model, "C1_SVFSelfCertify_item", new { @class = "control-label" })
+                    </div>
+                </div>*@
+
+            <div class="form-group">
+                <div class="col-md-8">
+                    @Helpers.LabeledCheckboxInput(Model, "C1_SVFSelfCertify")
+                </div>
+            </div>
+        }
+        else
+        {
+            <p>Enrollment Worker Acknowledgement : I, the enrollment worker, have verified with the client (Client listed above by ADAP Member ID) that the client’s eligibility information listed above has not changed. By checking this box, I (the enrollment worker) certify to the best of my knowledge the information provided is true and correct.</p>
+            @*<div class="form-group">
+                    <div class="col-md-4">
+                        @Helpers.LabelSpan(Model, "C1_HIVViralLoadProof_item", new { @class = "control-label" })
+                    </div>
+                </div>*@
+            <div class="form-group">
+                <div class="col-md-11">
+                    @Helpers.LabeledCheckboxInput(Model, "C1_SVFEnrollmentWorkerCertify")
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<div id="ADAPFooter" class="col-md-12">
+
+    <button type="button" id="btncancel" class="btn btn-primary btn-s pull-right " style="margin-right:5px"><span class="glyphicon glyphicon-question-sign"></span> Cancel</button>
+    <button type="button" id="btnsubmitChanges" class="btn btn-primary btn-s pull-right" style="margin-right:5px"><span class="glyphicon glyphicon-check"></span>Submit</button>
+    <button type="button" id="btnsave" class="btn btn-primary btn-s pull-right " style="margin-right:5px"><span class="glyphicon glyphicon-floppy-open"></span> Save</button>
+
+</div>

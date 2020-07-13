@@ -1,0 +1,51 @@
+@model Assmnts.Models.TemplateSectionItems
+@{
+    ViewBag.Title = "Item List";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        @*postdata = {
+            "sIden":"@Model.nextScreenTitle"
+        }*@
+
+        $('#dtSectionItems').dataTable({
+            "processing": true,
+            "serverSide": true,
+            "ajax": {
+                url: "/Templates/DataTableSectionItems",
+                //data: postdata,
+                type: "POST"
+            },
+            "ordering": false,
+            "dom": 'lriptip'
+        });
+    });
+</script>
+
+<input type="button" class="return btn btn-primary" value="Return to Sections" onclick="window.location = 'PartSections?partId=@Model.partId'" />
+<h2>Items for Section: <span class="text-primary">@Model.thisScreenTitle</span></h2>
+
+<div class="col-sm-2">
+    <input type="button" class="btn btn-success" value="Add New Item" style="width:100%" onclick="window.location='SectionItemEdit?sectionId=@Model.sectionId'" />
+</div>
+<br /> <br />
+
+<table id="dtSectionItems" class="table table-bordered table-striped datatable" cellpadding="0" cellspacing="0" border="0">
+    <thead>
+        <tr>
+            <th>Section Item Id</th>
+            <th>sub Section Id</th>
+            <th>Order</th>
+            <th>Display</th>
+            <th>Item Id</th>
+            <th>Identifier</th>
+            <th>Title</th>
+            <th>Label</th>
+            <th>Edit</th>
+            <th>View</th>
+        </tr>
+    </thead>
+</table>
+	<!-- End of Section List -->

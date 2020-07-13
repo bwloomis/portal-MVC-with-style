@@ -1,0 +1,56 @@
+@model Assmnts.Models.TemplateItemVariables
+@{
+    ViewBag.Title = "Item Variables";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+@section HeadContent {
+
+	@*<link rel="stylesheet" type="text/css" href="/Content/css/sitewide.css" />*@
+	
+@*<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <link href="/Content/css/sis-red/jquery-ui-1.7.sisred.css" rel="stylesheet" type="text/css" />*@
+    	
+<script>
+    $(document).ready(function () {
+        @*postdata = {
+            "sIden":"@Model.nextScreenTitle"
+        }*@
+
+        $('#dtItemVariables').dataTable({
+            "processing": true,
+            "serverSide": true,
+            "ajax": {
+                url: "/Templates/DataTableItemVariables",
+                //data: postdata,
+                type: "POST"
+            },
+            "ordering": false,
+            "dom": 'lriptip'
+        });
+    });
+</script>
+}
+
+<input type="button" class="return btn btn-primary" value="Return to Items" onclick="window.location = 'SectionItems?sectionId=@Model.sectionId'" />
+<h2>Item Variables for: <span class="text-primary">@Model.thisScreenTitle</span></h2>
+
+<div class="col-sm-2">
+    <input type="button" class="btn btn-success" value="Add New Item V." style="width:100%" onclick="window.location='ItemVariableEdit'" />
+</div>
+<br /> <br />
+<table id="dtItemVariables" class="table table-bordered table-striped datatable" cellpadding="0" cellspacing="0" border="0">
+    <thead>
+        <tr>
+            <th>No.</th>
+            <th>IV Id</th>
+            <th>Item Id</th>
+            <th>Identifier</th>
+            <th></th>
+            <th>Base Type Information</th>
+            <th>Default Value</th>
+        </tr>
+    </thead>
+</table>
+	<!-- End of Section List -->
+		

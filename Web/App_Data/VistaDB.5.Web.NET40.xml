@@ -1,0 +1,101 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>VistaDB.5.Web.NET40</name>
+    </assembly>
+    <members>
+        <member name="F:VistaDB.Build.Information.Build">
+            <summary>
+            The actual BUILD number as displayed on the site and changelogs.
+            </summary>
+        </member>
+        <member name="F:VistaDB.Build.Information.Release">
+            <summary>
+            The numerical value for a patch release.
+            </summary>
+        </member>
+        <member name="F:VistaDB.Build.Information.Major">
+            <summary>
+            Major Version - This is 5 for the VistaDB 5 engine.
+            </summary>
+        </member>
+        <member name="F:VistaDB.Build.Information.Minor">
+            <summary>
+            Minor Version - The product revision code.  It would be 0 for VistaDB 5.0
+            </summary>
+        </member>
+        <member name="F:VistaDB.Build.Information.AssemblyMajor">
+            <summary>
+            Assembly Major Version - The product revision code for the engine assembly.  Normally the same as the file Major version.
+            </summary>
+        </member>
+        <member name="F:VistaDB.Build.Information.AssemblyMinor">
+            <summary>
+            Assembly Minor Version - The product revision code for the engine assembly.  Normally the same as the file Minor version.
+            </summary>
+        </member>
+        <member name="F:VistaDB.Build.Information.OlderLockExtension">
+            <summary>
+            Old lock extension for locking non-exclusive read-only access to a VistaDB 3 database.
+            </summary>
+        </member>
+        <member name="F:VistaDB.Build.Information.OldLockExtension">
+            <summary>
+            Old lock extension for locking non-exclusive read-only access to a VistaDB 4 database.
+            </summary>
+        </member>
+        <member name="F:VistaDB.Build.Information.LockExtension">
+            <summary>
+            Lock extension for locking non-exclusive access to VistaDB 5 and later database formats.
+            </summary>
+        </member>
+        <member name="F:VistaDB.Build.Information.ProviderInvariantName">
+            <summary>
+            The invariant name for the provider
+            </summary>
+        </member>
+        <member name="F:VistaDB.Build.Information.ProviderRegisteredName">
+            <summary>
+            The registered/display name for the provider
+            </summary>
+        </member>
+        <member name="F:VistaDB.Build.Information.Edition">
+            <summary>
+            Debug edition
+            </summary>
+        </member>
+        <member name="F:VistaDB.Build.Information.Configuration">
+            <summary>
+            Debug release configuration was used
+            </summary>
+        </member>
+        <member name="F:VistaDB.Build.Information.VersionString">
+            <summary>
+            Short version string for engine assembly version.
+            </summary>
+        </member>
+        <member name="F:VistaDB.Build.Information.BuildString">
+            <summary>
+            Full version string for use as file version and non-library-type assembly versions.
+            </summary>
+        </member>
+        <member name="M:VistaDB.Build.Information.GetThisAssemblyFileVersion">
+            <summary>
+            Read the AssemblyFileVersion attribute to get the version string of this assembly.
+            </summary>
+            <returns>The version string read from the first AssemblyFileVersion attribute found, or the assembly version
+            if the attribute is not available (or empty string if even that could not be read).</returns>
+        </member>
+        <member name="T:VistaDB.Web.VistaDBRoleProvider">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:VistaDB.Web.VistaDBRoleProvider.RoleExists(System.String)">
+            <summary>
+            Does this role exist in teh current database?
+            </summary>
+            <param name="roleName">Name of the role to search for in the database</param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

@@ -1,0 +1,345 @@
+﻿@model Assmnts.Models.GeneralForm
+@{
+    Layout = "LA_AdapAppLayout.cshtml";
+}
+@section AddtoHead{
+    <link rel="stylesheet" type="text/css" href="/Content/adap/css/ADAPForms.css" />
+    <script src="~/Content/js/ADAPLookupSelects.js"></script>
+    <script>
+        $(document).ready(function () {
+            //Set the placeholder text for all dropdowns, except the "Jump to Application Section" dropdown
+            $('select[name!=jumpSection] option[value=""]').html("Choose One");
+
+            setApplicationProgressIndicator(17);
+
+            //$('.input-group.date').datepicker({
+            //    autoclose: true,
+            //    format: 'mm/dd/yyyy'
+            //});
+            $('.class_nextscreen').hide();
+        });
+
+    </script>
+    <script>
+        $(document).ready(function () {
+
+            $('#Chkbox2').hide();
+            $('#Chkbox3').hide();
+            $('#Chkbox4').hide();
+            $('#Chkbox5').hide();
+            $('#Chkbox6').hide();
+            $('#Chkbox7').hide();
+            $('#Chkbox8').hide();
+            $('#Chkbox9').hide();
+            $('#Chkbox10').hide();
+            $('#Chkbox11').hide();
+            $('#Chkbox12').hide();
+
+            $('#LA_ADAP_Client_ReCertify').change(function () {
+                var $this = $(this);
+                if ($this.is(':checked')) {
+                    $('#Chkbox1').show();
+                    $('#Chkbox2').show();
+                } else {
+                    $('#Chkbox2').hide();
+                    $('#Chkbox3').hide();
+                    $('#Chkbox4').hide();
+                    $('#Chkbox5').hide();
+                    $('#Chkbox6').hide();
+                    $('#Chkbox7').hide();
+                    $('#Chkbox8').hide();
+                    $('#Chkbox9').hide();
+                    $('#Chkbox10').hide();
+                    $('#Chkbox11').hide();
+                    $('#Chkbox12').hide();
+                }
+            }).change();
+
+            $('#LA_ADAP_Client_AddressChange').change(function () {
+                var $this = $(this);
+                if ($this.is(':checked')) {
+                    $('#Chkbox1').show();
+                    $('#Chkbox2').show();
+                    $('#Chkbox3').show();
+                } else {
+                    $('#Chkbox3').hide();
+                    $('#Chkbox4').hide();
+                    $('#Chkbox5').hide();
+                    $('#Chkbox6').hide();
+                    $('#Chkbox7').hide();
+                    $('#Chkbox8').hide();
+                    $('#Chkbox9').hide();
+                    $('#Chkbox10').hide();
+                    $('#Chkbox11').hide();
+                    $('#Chkbox12').hide();
+                }
+            }).change();
+            $('#LA_ADAP_Client_AddressChange').change(function () {
+                var $this = $(this);
+                if ($this.is(':checked')) {
+                    $('#Chkbox1').show();
+                    $('#Chkbox2').show();
+                    $('#Chkbox3').show();
+                } else {
+                    $('#Chkbox3').hide();
+                    $('#Chkbox4').hide();
+                    $('#Chkbox5').hide();
+                    $('#Chkbox6').hide();
+                    $('#Chkbox7').hide();
+                    $('#Chkbox8').hide();
+                    $('#Chkbox9').hide();
+                    $('#Chkbox10').hide();
+                    $('#Chkbox11').hide();
+                    $('#Chkbox12').hide();
+                }
+            }).change();
+            $('#LA_ADAP_Client_ReqDocs').change(function () {
+                var $this = $(this);
+                if ($this.is(':checked')) {
+                    $('#Chkbox1').show();
+                    $('#Chkbox2').show();
+                    $('#Chkbox3').show();
+                    $('#Chkbox4').show();
+                } else {
+                    $('#Chkbox4').hide();
+                    $('#Chkbox5').hide();
+                    $('#Chkbox6').hide();
+                    $('#Chkbox7').hide();
+                    $('#Chkbox8').hide();
+                    $('#Chkbox9').hide();
+                    $('#Chkbox10').hide();
+                    $('#Chkbox11').hide();
+                    $('#Chkbox12').hide();
+                }
+            }).change();
+            $('#LA_ADAP_Client_ActiveEnroll').change(function () {
+                var $this = $(this);
+                if ($this.is(':checked')) {
+                    $('#Chkbox1').show();
+                    $('#Chkbox2').show();
+                    $('#Chkbox3').show();
+                    $('#Chkbox4').show();
+                    $('#Chkbox5').show();
+                } else {
+
+                    $('#Chkbox5').hide();
+                    $('#Chkbox6').hide();
+                    $('#Chkbox7').hide();
+                    $('#Chkbox8').hide();
+                    $('#Chkbox9').hide();
+                    $('#Chkbox10').hide();
+                    $('#Chkbox11').hide();
+                    $('#Chkbox12').hide();
+                }
+            }).change();
+            $('#LA_ADAP_Client_AddressInsurance').change(function () {
+                var $this = $(this);
+                if ($this.is(':checked')) {
+                    $('#Chkbox1').show();
+                    $('#Chkbox2').show();
+                    $('#Chkbox3').show();
+                    $('#Chkbox4').show();
+                    $('#Chkbox5').show();
+                    $('#Chkbox6').show();
+                } else {
+                    $('#Chkbox6').hide();
+                    $('#Chkbox7').hide();
+                    $('#Chkbox8').hide();
+                    $('#Chkbox9').hide();
+                    $('#Chkbox10').hide();
+                    $('#Chkbox11').hide();
+                    $('#Chkbox12').hide();
+                }
+            }).change();
+
+            $('#LA_ADAP_Client_MailingInsurance').change(function () {
+                var $this = $(this);
+                if ($this.is(':checked')) {
+                    $('#Chkbox1').show();
+                    $('#Chkbox2').show();
+                    $('#Chkbox3').show();
+                    $('#Chkbox4').show();
+                    $('#Chkbox5').show();
+                    $('#Chkbox6').show();
+                    $('#Chkbox7').show();
+                } else {
+                    $('#Chkbox7').hide();
+                    $('#Chkbox8').hide();
+                    $('#Chkbox9').hide();
+                    $('#Chkbox10').hide();
+                    $('#Chkbox11').hide();
+                    $('#Chkbox12').hide();
+                }
+            }).change();
+
+            $('#LA_ADAP_Client_RyanWhiteInfo').change(function () {
+                var $this = $(this);
+                if ($this.is(':checked')) {
+                    $('#Chkbox1').show();
+                    $('#Chkbox2').show();
+                    $('#Chkbox3').show();
+                    $('#Chkbox4').show();
+                    $('#Chkbox5').show();
+                    $('#Chkbox6').show();
+                    $('#Chkbox7').show();
+                    $('#Chkbox8').show();
+                } else {
+                    $('#Chkbox8').hide();
+                    $('#Chkbox9').hide();
+                    $('#Chkbox10').hide();
+                    $('#Chkbox11').hide();
+                    $('#Chkbox12').hide();
+                }
+            }).change();
+
+            $('#LA_ADAP_Client_DemoConsent').change(function () {
+                var $this = $(this);
+                if ($this.is(':checked')) {
+                    $('#Chkbox1').show();
+                    $('#Chkbox2').show();
+                    $('#Chkbox3').show();
+                    $('#Chkbox4').show();
+                    $('#Chkbox5').show();
+                    $('#Chkbox6').show();
+                    $('#Chkbox7').show();
+                    $('#Chkbox8').show();
+                    $('#Chkbox9').show();
+                } else {
+                    $('#Chkbox9').hide();
+                    $('#Chkbox10').hide();
+                    $('#Chkbox11').hide();
+                    $('#Chkbox12').hide();
+                }
+            }).change();
+
+            $('#LA_ADAP_Client_DoctorConsent').change(function () {
+                var $this = $(this);
+                if ($this.is(':checked')) {
+                    $('#Chkbox1').show();
+                    $('#Chkbox2').show();
+                    $('#Chkbox3').show();
+                    $('#Chkbox4').show();
+                    $('#Chkbox5').show();
+                    $('#Chkbox6').show();
+                    $('#Chkbox7').show();
+                    $('#Chkbox8').show();
+                    $('#Chkbox9').show();
+                    $('#Chkbox10').show();
+                } else {
+                    $('#Chkbox10').hide();
+                    $('#Chkbox11').hide();
+                    $('#Chkbox12').hide();
+                }
+            }).change();
+
+            $('#LA_ADAP_Client_RyanWhiteMoney').change(function () {
+                var $this = $(this);
+                if ($this.is(':checked')) {
+                    $('#Chkbox1').show();
+                    $('#Chkbox2').show();
+                    $('#Chkbox3').show();
+                    $('#Chkbox4').show();
+                    $('#Chkbox5').show();
+                    $('#Chkbox6').show();
+                    $('#Chkbox7').show();
+                    $('#Chkbox8').show();
+                    $('#Chkbox9').show();
+                    $('#Chkbox10').show();
+                    $('#Chkbox11').show();
+                } else {
+                    $('#Chkbox11').hide();
+                    $('#Chkbox12').hide();
+                }
+            }).change();
+            $('#LA_ADAP_Client_IRSRefund').change(function () {
+                var $this = $(this);
+                if ($this.is(':checked')) {
+                    $('#Chkbox1').show();
+                    $('#Chkbox2').show();
+                    $('#Chkbox3').show();
+                    $('#Chkbox4').show();
+                    $('#Chkbox5').show();
+                    $('#Chkbox6').show();
+                    $('#Chkbox7').show();
+                    $('#Chkbox8').show();
+                    $('#Chkbox9').show();
+                    $('#Chkbox10').show();
+                    $('#Chkbox11').show();
+                    $('#Chkbox12').show();
+                } else {
+                    $('#Chkbox12').hide();
+                }
+            }).change();
+
+
+        });
+    </script>
+}
+<!DOCTYPE html>
+<html lang="en">
+<body>
+    <div class="panel panel-default" id="">
+        <div class="panel-body" style="background-color:#f8f8f8">
+            <div class="form-group">
+                <div class="col-md-12">
+                    @Model.sctTitles["LA_ADAP_Client_Consent"]
+                    @Helpers.ToolTipFromItemPrompt(Model, "LA_ADAP_Client_ReportInfo_item", new { @class = "pointer fa fa-question-circle text-primary fa-1x col-md-6", @style = "float:right" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-1 col-md-11">
+                    <div class="checkbox-inline" id="Chkbox1">
+                        @Helpers.LabeledCheckboxInput(Model, "LA_ADAP_Client_ReCertify")
+                    </div>
+                    <br />
+                    <div class="checkbox-inline" id="Chkbox2">
+                        @Helpers.LabeledCheckboxInput(Model, "LA_ADAP_Client_AddressChange")
+                    </div>
+                    <br />
+                    <div class="checkbox-inline" id="Chkbox3">
+                        @Helpers.LabeledCheckboxInput(Model, "LA_ADAP_Client_ReqDocs")
+                    </div>
+                    <br />
+                    <div class="checkbox-inline" id="Chkbox4">
+                        @Helpers.LabeledCheckboxInput(Model, "LA_ADAP_Client_ActiveEnroll")
+                    </div>
+                    <br />
+                    <div class="checkbox-inline" id="Chkbox5">
+                        @Helpers.LabeledCheckboxInput(Model, "LA_ADAP_Client_AddressInsurance")
+                    </div>
+                    <br />
+                    <div class="checkbox-inline" id="Chkbox6">
+                        @Helpers.LabeledCheckboxInput(Model, "LA_ADAP_Client_MailingInsurance")
+                    </div>
+                    <br />
+                    <div class="checkbox-inline" id="Chkbox7">
+                        @Helpers.LabeledCheckboxInput(Model, "LA_ADAP_Client_RyanWhiteInfo")
+                    </div>
+                    <br />
+                    <div class="checkbox-inline" id="Chkbox8">
+                        @Helpers.LabeledCheckboxInput(Model, "LA_ADAP_Client_DemoConsent")
+                    </div>
+                    <br />
+                    <div class="checkbox-inline" id="Chkbox9">
+                        @Helpers.LabeledCheckboxInput(Model, "LA_ADAP_Client_DoctorConsent")
+                    </div>
+                    <br />
+                    <div class="checkbox-inline" id="Chkbox10">
+                        @Helpers.LabeledCheckboxInput(Model, "LA_ADAP_Client_RyanWhiteMoney")
+                    </div>
+                    <br />
+                    <div class="checkbox-inline" id="Chkbox11">
+                        @Helpers.LabeledCheckboxInput(Model, "LA_ADAP_Client_IRSRefund")
+                    </div>
+                    <br />
+                    <div class="checkbox-inline" id="Chkbox12">
+                        @Helpers.LabeledCheckboxInput(Model, "LA_ADAP_Client_ConsentPeriod")
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

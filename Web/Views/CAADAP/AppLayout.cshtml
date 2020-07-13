@@ -1,0 +1,336 @@
+﻿@using Assmnts.Infrastructure;
+@using Data.Abstract;
+@using Data.Concrete;
+@using UAS.Business;
+@{
+    IFormsRepository formsRepo = DependencyResolver.Current.GetService(typeof(IFormsRepository)) as IFormsRepository;
+    int sctId = SessionHelper.SessionForm.sectionId;
+    Dictionary<string, int> sectionIds = new Dictionary<string, int>();
+    foreach (string identifier in new string[]{
+        "CA-ADAP-Contact",
+        "CA-ADAP-Demographic",
+        "CA-ADAP-Medical",
+        "CA-ADAP-Insurance",
+        "CA-ADAP-Income",
+        "CA-ADAP-Consent",
+        "CA-ADAP-Household",
+        "CA-ADAP-InsuranceAssistance",
+        "CA-ADAP-Eligibility-1_sub"
+    }){
+        Assmnts.def_Sections sct = formsRepo.GetSectionByIdentifier(identifier);
+        if (sct == null)
+        {
+            throw new Exception("could not find section with identifier \"" + identifier + "\"");
+        }
+        sectionIds.Add(identifier, sct.sectionId);
+    }
+    int adapFormId = SessionHelper.SessionForm.formResultId;
+    string firstName = "";
+    Assmnts.def_ResponseVariables firstNameRV = formsRepo.GetResponseVariablesByFormResultIdentifier(adapFormId, "C1_MemberFirstName");
+
+    if (firstNameRV != null) {
+        firstName = firstNameRV.rspValue;
+    }
+
+    string lastName = "";
+    Assmnts.def_ResponseVariables lastNameRV = formsRepo.GetResponseVariablesByFormResultIdentifier(adapFormId, "C1_MemberLastName");
+
+    if (lastNameRV != null)
+    {
+        lastName = lastNameRV.rspValue;
+    }
+
+    int adapPartId = SessionHelper.SessionForm.partId;
+    bool access = UAS.Business.UAS_Business_Functions.hasPermission(0, "RptsExpts");
+    bool readOnly = SessionHelper.SessionForm.readOnlyMode;
+}
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+    <meta name="author" content="" />
+    <meta name="description" content="" />
+    <!--<link rel="shortcut icon" href="../../favicon.ico">-->
+
+    <title>@Resources.AdapAppLayout.AdapApplication</title>
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400italic,700italic,400,700" rel="stylesheet" type="text/css" />
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+    <!--jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" />
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
+    <!-- custom bootstrap nav css -->
+    <link href="~/Content/adap/css/bootstrap.nav.custom.css" rel="stylesheet" type="text/css" />
+
+    <!-- sticky footer css -->
+    <link href="~/Content/adap/css/sticky-footer-navbar.css" rel="stylesheet" />
+
+    <!-- date picker -->
+    <script src="~/Content/adap/js/bootstrap-customdatepicker.js"></script>
+    <link href="~/Content/adap/css/bootstrap-datepicker3.css" rel="stylesheet" />
+
+    <!-- file upload -->
+    <script src="~/Content/adap/js/fileinput.min.js"></script>
+    <link href="~/Content/adap/css/fileinput.min.css" rel="stylesheet" />
+
+    <script>
+    $(document).ready(function () {
+
+            document.getElementById('navPartId').setAttribute('value', '@Model.nextScreenPartId');
+            document.getElementById('navSectionId').setAttribute('value', '@Model.nextScreenSectionId');
+			
+            $('.class_nextscreen').click(function () { SubmitForm('@Model.nextScreenPartId', '@Model.nextScreenSectionId'); });
+            $('.class_prevscreen').click(function () { SubmitForm('@Model.prevScreenPartId', '@Model.prevScreenSectionId'); });
+			$('.class_submit').click(
+				function () { 
+					var partId = @adapPartId;
+					var sectId = @sctId;
+					SubmitForm(partId, sectId);
+				}
+			);
+			
+            $('.class_cert').click(function () {
+                $('form').attr('action', '/AdapCa/Validate');
+                SubmitForm('@adapPartId', '@sectionIds["CA-ADAP-Consent"]');
+            });
+			
+            $('.class_check').click(function () {
+                $('form').attr('action', '/AdapCa/Validate');
+                SubmitForm('@adapPartId', '@sctId');
+            });
+
+            $('.input-group.date').datepicker({
+                autoclose: true,
+                format: 'mm/dd/yyyy'
+            });
+
+            $('[required]').removeAttr('required');
+            $('span.control-label').css("font-weight", "bold");
+            $('span.control-label').css("text-align", "left");
+    
+            // Hides the colored buttons on the top right of each panel
+            // Remove when a working solution is implemented.
+            $('.prevAppBtn').hide();
+        });
+
+        function SubmitForm(targetPartId, targetSectionId) {
+            document.getElementById('navPartId').setAttribute('value', targetPartId);
+            document.getElementById('navSectionId').setAttribute('value', targetSectionId);
+            $("#btnSubmit").click();
+        }
+        
+    </script>
+
+    @RenderSection("AddToHead", required: false)
+</head>
+<body>
+
+    <!-- Fixed navbar -->
+    <nav id="custom-bootstrap-menu" class="navbar navbar-default navbar-static-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="/" class="logo pull-left"><img src="~/Content/adap/images/california.png" class="img-responsive" /></a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="/Adap/Index"><i class="glyphicon glyphicon-copy"></i> ADAP Enrollment Application</a></li>
+                    @if (access)
+                    {
+                        
+                        //$$$ Start - Added for Contractor readonly role - Disabling the Reports menu if Only the default ADAP Report is present for them
+                        
+                        if (!UAS.Business.UAS_Business_Functions.hasPermission(PermissionConstants.ONLY_ADAP, PermissionConstants.ASSMNTS))
+                        {
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-list"></i> Reports <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li><b>&nbsp;Applicants</b></li>
+                                    <li><a href="/Adap/Report1">Applicant Reports</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="/Adap/ApplicationsPending">Applications Pending</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="/Adap/ReCertsDue">Re-Certifications Due</a></li>
+                                    <li class="divider"></li>
+                                    <li><b>&nbsp;Dashboards</b></li>
+                                    <li><a href="/Adap/AppOverview">Overview of All Applicant Records</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="/Adap/AppsPending">New Applications Pending</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="/Adap/CurrentNewApps">Current New Applicants</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="/Adap/DashboardReCerts">Re-certifications Due</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="/Adap/ProcessSummary">Process Summary</a></li>
+                                </ul>
+                            </li>
+                        }
+                        
+                       //$$$ End - Added for Contractor readonly role - Disabling the Reports menu if Only the default ADAP Report is present for them
+
+                        <li><a href="/Adap/UpdateStatus?formResultId=@adapFormId"><i class="glyphicon glyphicon-cog"></i> Update App Status</a></li>
+                    }
+                    <li>
+                        <a href="/Account/SsoLogout">@Resources.AdapAppNavMenu.ExitToPortalMenu</a>
+                    </li>
+                </ul>
+            </div><!--/.nav-collapse -->
+        </div>
+    </nav>
+
+    <div class="container" style="padding-top:0">
+        <div id="ADAPHeader">
+            <h3>@Resources.AdapAppLayout.AdapApplication: @firstName @lastName</h3>
+
+            <input type="button" id="id_BuildReport" value="Click Here to Build a PDF Report" />
+            <script>
+                $('#id_BuildReport').click(function () {
+                    window.location.href = '../AdapCa/BuildPDFReport';
+                });
+            </script>
+
+            <hr class="hr-dark" />
+
+
+            <div class="col-md-12">
+                <!---->
+                <button type="button" class="btn @(sctId == sectionIds["CA-ADAP-Contact"]  ? "btn-success" : "btn-default") btn-s" 
+                        onclick="SubmitForm('@adapPartId','@sectionIds["CA-ADAP-Contact"]')">Contact</button>
+
+                <button type="button" class="btn @(sctId == sectionIds["CA-ADAP-Demographic"]      ? "btn-success" : "btn-default") btn-s" 
+                        onclick="SubmitForm('@adapPartId', '@sectionIds["CA-ADAP-Demographic"]')">Demographics</button>
+
+                <button type="button" class="btn @(sctId == sectionIds["CA-ADAP-Medical"]      ? "btn-success" : "btn-default") btn-s" 
+                        onclick="SubmitForm('@adapPartId', '@sectionIds["CA-ADAP-Medical"]')">Clinical</button>
+
+                <button type="button" class="btn @(sctId == sectionIds["CA-ADAP-Insurance"]       ? "btn-success" : "btn-default") btn-s" 
+                        onclick="SubmitForm('@adapPartId', '@sectionIds["CA-ADAP-Insurance"]')">Insurance</button>
+
+                <button type="button" class="btn @(sctId == sectionIds["CA-ADAP-Household"] ? "btn-success" : "btn-default") btn-s"
+                        onclick="SubmitForm('@adapPartId', '@sectionIds["CA-ADAP-Household"]')">
+                    Household
+                </button>
+
+                <button type="button" class="btn @(sctId == sectionIds["CA-ADAP-InsuranceAssistance"] ? "btn-success" : "btn-default") btn-s"
+                        onclick="SubmitForm('@adapPartId', '@sectionIds["CA-ADAP-InsuranceAssistance"]')">
+                    Insurance Assistance
+                </button>
+
+                <button type="button" class="btn @(sctId == sectionIds["CA-ADAP-Income"]    ? "btn-success" : "btn-default") btn-s" 
+                        onclick="SubmitForm('@adapPartId', '@sectionIds["CA-ADAP-Income"]')">Income</button>
+
+                <button type="button" class="btn @(sctId == sectionIds["CA-ADAP-Eligibility-1_sub"] ? "btn-success" : "btn-default") btn-s"
+                        onclick="SubmitForm('@adapPartId', '@sectionIds["CA-ADAP-Eligibility-1_sub"]')">
+                    Eligibility
+                </button>
+
+                <button type="button" class="btn @(sctId == sectionIds["CA-ADAP-Consent"]       ? "btn-success" : "btn-default") btn-s" 
+                        onclick="SubmitForm('@adapPartId', '@sectionIds["CA-ADAP-Consent"]')">Certification</button>
+            </div>
+            <br />
+            <br />
+            <div class="col-md-12">
+                @{
+                    if (readOnly) 
+                    {
+                        <button type="button" class="btn btn-primary btn-s class_submit" disabled><span class="glyphicon glyphicon-floppy-open"></span> Save Application</button>
+                    }
+                    else 
+                    {
+                        <button type="button" class="btn btn-primary btn-s class_submit" ><span class="glyphicon glyphicon-floppy-open"></span> Save Application</button>
+                    }
+                }
+                
+                <button type="button" class="btn btn-primary btn-s class_check"  ><span class="glyphicon glyphicon-question-sign"></span> Check for Errors</button>
+                
+                @{
+                    if (readOnly)
+                    {
+                        <button type="button" class="btn btn-primary btn-s class_cert" disabled><span class="glyphicon glyphicon-check"></span> Certify and Submit</button>
+                    }
+                    else
+                    {
+                        <button type="button" class="btn btn-primary btn-s class_cert"><span class="glyphicon glyphicon-check"></span> Certify and Submit</button>
+                    }
+                }
+            </div>
+            <br />
+            <br />
+            <br />
+        </div>        
+        
+        <!-- the div below is for small numbers of messages to appear within the application screens, and should be made hidden in the validation errors screen-->
+        <div id="quickValidationMessages" >
+            @if (Model.validationMessages != null)
+            {
+                foreach (string message in Model.validationMessages)
+                {
+                    <div class="alert alert-success alert-dismissible" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close" style="top:-5px;"><span aria-hidden="true">&times;</span></button>
+                        @message
+                    </div>
+                }
+            }
+        </div>
+        
+        <form class="form-horizontal" action="/Results/Save" method="post" id="form-id" enctype="multipart/form-data">
+
+            <input type="hidden" id="navPartId" name="navPartId" />
+            <input type="hidden" id="navSectionId" name="navSectionId" />
+            <input type="hidden" id="navSectionId" name="UseThisControllerForTemplate" value="CAADAP" />
+
+            @RenderBody()
+
+            <hr class="hr-dark" />
+
+            <div class="col-md-12">
+                <button type="button" class="btn btn-danger btn-s class_prevornextscreen class_prevscreen">
+                    <span class="glyphicon glyphicon-arrow-left"></span> Previous Section
+                </button>
+                @{
+                    if (readOnly)
+                    {
+                        <button type="button" class="btn btn-primary btn-s pull-right class_cert" style="margin-right:5px" disabled><span class="glyphicon glyphicon-check"></span> Certify and Submit</button>
+                    }
+                    else
+                    {
+                        <button type="button" class="btn btn-primary btn-s pull-right class_cert" style="margin-right:5px"><span class="glyphicon glyphicon-check"></span> Certify and Submit</button>
+                    }
+                }
+                <button type="button" class="btn btn-primary btn-s pull-right class_check" style="margin-right:5px"><span class="glyphicon glyphicon-question-sign"></span> Check for Errors</button>
+                @{
+                    if (readOnly)
+                    {
+                        <button type="button" class="btn btn-primary btn-s pull-right class_submit" style="margin-right:5px" disabled><span class="glyphicon glyphicon-floppy-open"></span> Save Application</button>
+                    }
+                    else
+                    {
+                        <button type="button" class="btn btn-primary btn-s pull-right class_submit" style="margin-right:5px"><span class="glyphicon glyphicon-floppy-open"></span> Save Application</button>
+                    }
+                }
+            </div>
+
+            <input style="display:none" type="submit" value="Save" id="btnSubmit" />
+        </form>
+    </div>
+
+    @Html.Partial("~/Views/Templates/Adap/AdapFooter.cshtml");
+
+</body>
+</html>

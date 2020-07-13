@@ -1,0 +1,138 @@
+﻿@model Assmnts.Models.AdapApplicantRpt1
+@using UAS.Business;
+@using Data.Concrete;
+@{
+    Layout = "BaseAppLayout.cshtml";
+    var hasEditablePerm = UAS.Business.UAS_Business_Functions.hasPermission(PermissionConstants.CNGE_STATUS, PermissionConstants.ASSMNTS) || Model.FormId == 19;
+}
+
+@section AddToHead {
+    <link rel="stylesheet" type="text/css" href="/Content/DataTables-1.10.7/media/css/jquery.dataTables.css" />
+    <script type="text/javascript" src="/Scripts/DataTables-1.10.7/media/js/jquery.dataTables.js"></script>
+    @*<script type="text/javascript" src="https://cdn.datatables.net/plug-ins/1.10.6/integration/bootstrap/3/dataTables.bootstrap.js"></script>*@
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $('#ADAPHeader').hide(true);
+            $('#ADAPFooter').hide(true);
+
+            if(!$("#hasEditablesPermission").val())
+            {
+                DisableStatusPage();
+            }
+
+        });
+
+        //function to disable page ON "Ability to change status of applications is not present"
+        function DisableStatusPage(){           
+            $("input").attr("disabled","disabled");
+            $("textarea").attr("disabled","disabled");
+            $("#btnSubmit").hide();
+        }
+
+        function statusUpdatedRedirect() {
+
+            var value = "";
+
+            var radios = $('input[type=radio]');
+            for (i = 0; i < radios.size() ; i++) {
+                if (radios[i].checked) {
+                    value = radios[i].value;
+                }
+            }
+            var check = $("input[type='checkbox']")[0].checked;
+
+            var url = '/ADAP/StatusUpdated';
+            //alert(check + ' ' + url);
+
+            textData = {
+                message: $('#infoText').val(),
+                formResultId: @Model.formResult,
+                status: value,
+                email: check
+            };
+            post(url, textData )
+        }
+
+        //http://stackoverflow.com/questions/133925/javascript-post-request-like-a-form-submit
+        function post(path, params ) {
+            method = "post";
+
+            // The rest of this code assumes you are not using a library.
+            // It can be made less wordy if you use one.
+            var form = document.createElement("form");
+            form.setAttribute("method", method);
+            form.setAttribute("action", path);
+
+            for(var key in params) {
+                if(params.hasOwnProperty(key)) {
+                    var hiddenField = document.createElement("input");
+                    hiddenField.setAttribute("type", "hidden");
+                    hiddenField.setAttribute("name", key);
+                    hiddenField.setAttribute("value", params[key]);
+
+                    form.appendChild(hiddenField);
+                }
+            }
+
+            document.body.appendChild(form);
+            form.submit();
+        }
+</script>
+}
+
+    @{ string memberId = Model.MemberId.Equals("0") ? "No ID" : Model.MemberId.ToString(); }
+    <h3>Update Status for @memberId&#58; <span class="text-primary">@Model.FirstName @Model.LastName</span></h3>
+    <br />
+    <label for=".radio">Change the application status:</label>
+    <div class="radio" style="margin-top:-.2em">
+            @{bool first = true;}
+            @foreach (int statusSortOrder in Model.StatusDDL.Keys.OrderBy(i => i))
+            {
+                var attrChecked = first ? "checked" : String.Empty;
+                
+                <input type="radio" name="Status" id="@("StatusRadio" + statusSortOrder)" value="@statusSortOrder" style="margin-left:1px" @attrChecked >
+                <label for="@("StatusRadio" + statusSortOrder)" class="small">@Model.StatusDDL[statusSortOrder]</label>
+                <br />
+                
+                first = false;
+            }
+    </div>
+<input type="hidden" id="hasEditablesPermission" value="@hasEditablePerm"/>
+   <div id="InfoField">
+        <br />
+        @{  // setTeam is being used for the Status Comment
+            if (Model.setTeam != null)
+            {
+                <p><b>Previous comment saved for this application:</b>
+                <br />
+                @Model.setTeam</p>
+            }
+        }
+        <button type="button" class="btn btn-success btn-sm" onclick="window.location='StatusHistory?formResultId=@Model.formResult'">Review Status History</button>
+        <br /><br />
+        <label for="infoText">Enter any comments to be saved here:</label>
+        <br />
+        <textarea id="infoText" class="text" rows="7" cols="50"> </textarea>
+        <br />
+        @{
+            if (@Model.StatusDDL.ContainsKey(1) && Model.setStatus.Equals(@Model.StatusDDL[1]))
+            {
+                <label for="emailCheck" class="small">Emails are sent automatically when status is changed from @Model.StatusDDL[1]</label>
+                <input type="checkbox" name="emailCheck" value="true" disabled/>
+            }
+            else
+            {
+                <label for="emailCheck" class="small">Email this message to the applicant?</label>
+                <input type="checkbox" name="emailCheck" />
+            }
+        }
+    </div>
+    <br />
+    <br />
+   
+    <button type="button" id="btnSubmit" class="btn btn-success btn-sm" onclick="statusUpdatedRedirect()">Submit</button>
+    <button type="button" class="btn btn-danger btn-sm" onclick="window.location='/ADAP/Report1'">Cancel</button>
+
+   

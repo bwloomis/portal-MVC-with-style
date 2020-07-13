@@ -1,0 +1,257 @@
+﻿@model Assmnts.Models.TemplateItems
+@using Data.Concrete;
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+    <meta name="author" content="" />
+    <meta name="description" content="" />
+    <!--<link rel="shortcut icon" href="../../favicon.ico">-->
+
+    <title>@Resources.AdapAppLayout.AdapApplication</title>
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400italic,700italic,400,700" rel="stylesheet" type="text/css" />
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+    <!--jQuery was 1.11.3 to 2.1.3 RRB 11/17/15 -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" />
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
+    @Scripts.Render("~/bundles/inputmask")
+
+    <!-- custom bootstrap nav css -->
+    <link href="~/Content/adap/css/bootstrap.nav.custom.css" rel="stylesheet" type="text/css" />
+
+    <!-- sticky footer css -->
+    <link href="~/Content/adap/css/sticky-footer-navbar.css" rel="stylesheet" />
+
+    <!-- date picker -->
+    <script src="~/Content/adap/js/bootstrap-customdatepicker.js"></script>
+    <link href="~/Content/adap/css/bootstrap-datepicker3.css" rel="stylesheet" />
+
+    <!-- file upload -->
+    <script src="~/Content/adap/js/fileinput.min.js"></script>
+    <link href="~/Content/adap/css/fileinput.min.css" rel="stylesheet" />
+    @{
+          var formsRepo = new FormsRepository(1);
+          var formType = formsRepo.GetResponseVariablesByFormResultIdentifier(Model.formResultId, "C1_FormType");
+          string formVariant = string.Empty;
+          if(formType != null)
+          {
+              formVariant = formType.rspValue;
+          }
+    }
+
+    <script>
+    $(document).ready(function () {
+
+        $("#formVariant").text('@formVariant');
+
+        $('.class_nextscreen').click(function () { SubmitForm('@Model.nextScreenPartId', '@Model.nextScreenSectionId'); });
+        $('.class_prevscreen').click(function () { SubmitForm('@Model.prevScreenPartId', '@Model.prevScreenSectionId'); });
+
+
+        $('.input-group.date').datepicker({
+            autoclose: true,
+            showOnFocus: false,
+            format: 'mm/dd/yyyy'
+        });
+
+        $('[required]').removeAttr('required');
+        //$('span.control-label').css("font-weight", "bold");
+        $('span.control-label').css("text-align", "left");
+    });
+
+    function SubmitForm(targetPartId, targetSectionId, targetFormId) {
+        document.getElementById('navPartId').setAttribute('value', targetPartId);
+        document.getElementById('navSectionId').setAttribute('value', targetSectionId);
+        if (targetFormId) {
+            $("#navFormId").val(targetFormId);
+        }
+        $("#btnSubmit").click();
+    }
+
+    </script>    
+    
+    @RenderSection("AddToHead", required: false)
+    
+    <script>
+
+        @*javascript below is for toggling and comparing with previous-response panels*@
+
+        $(document).ready(function () {
+
+            //style all previous-response panels and disable their inputs
+            $('.previous-response').each(function () {
+                $(this).hide();
+                $(this).children('.panel-body').css('background-color', 'rgb(220,220,220)');
+                disableInputs($(this));
+            });
+
+            //for each of the red/green buttons...
+            $('.prevAppBtn button').each(function () {
+                var prevdiv = $('#' + $(this).attr('data-prevdiv'));
+
+                //set this button to toggle the corresponding previous-reponse panel
+                $(this).click(function () {
+                    prevdiv.toggle();
+                });
+
+                //add some styling to match comments buttons
+                $(this).append('<span class="glyphicon" style="width: 14px; height: 14px;"></span>');
+                $(this).css('margin-left', '4px');
+
+                //compare previous response with current responses
+                $(this).addClass(compareResponses(prevdiv) ? 'btn-success' : 'btn-danger');
+            });
+        });
+
+        function getRsp(element) {
+
+            //drop-downs
+            if (element.is('select')) {
+                return element.val();
+            }
+
+            //checkboxes
+            if (element.is('input[type=checkbox]')) {
+                return element.attr('checked');
+            }
+
+            //radios
+            if (element.is('input[type=radio]')) {
+                return $('[name=' + element.attr('name') + '][checked]').attr('value');
+            }
+
+            //regular text fields
+            return element.attr('value');
+        }
+
+        function compareResponses(parent) {
+            //compare
+            if( parent.is('[name]') ){
+                var prevName = parent.attr('name');
+                if (prevName.slice(0, 9) == 'PREVIOUS_') {
+                    var currName = prevName.slice(9);
+
+                    var prevRsp = getRsp(parent);
+                    var currRsp = getRsp($('[name=' + currName + ']'));
+                                      
+                    if (!( prevRsp === currRsp))
+                        return false;
+                }
+            }
+
+            //recurse
+            var result = true;
+            parent.children().each(function () {
+                if (!compareResponses($(this))) {
+                    result = false;
+                    return false; //break out of this each() loop
+                }
+            });
+            return result;
+        }
+
+        //should be called for each previous-response panel
+        function disableInputs(parent) {
+
+            //disable inpuyt elements
+            if (parent.is('input, select')) {
+                parent.prop('disabled', true);
+            }
+
+            //hide icons on the top-right of the panel
+            if (parent.is('.pull-right')) {
+                parent.hide();
+            }
+
+            parent.children().each(function () {
+                disableInputs($(this));
+            });
+        }
+
+        function StatusRedirect(url, id) {
+            try {
+
+                $("#formResultId").val(id);
+
+                $("#applicationContext").attr('action', url);
+                $("#applicationContext").submit();
+            }
+            catch (ex) {
+
+            }
+        }
+
+    </script>
+</head>
+<body>
+    <form id="applicationContext" method="post">
+        <input type="hidden" id="formResultId" name="formResultId" />
+    </form>
+
+    @Html.Partial("~/Views/CAADAP/AdapAppNavMenu.cshtml", @Model.navMenuModel)
+
+    <div class="container" style="padding-bottom:75px; padding-top:0px;">
+
+        <!-- the div below is for small numbers of messages to appear within the application screens, and should be made hidden in the validation errors screen-->
+        <div id="quickValidationMessages">
+            @if (Model.validationMessages != null)
+            {
+                foreach (string message in Model.validationMessages)
+                {
+                    <div class="alert alert-success alert-dismissible" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close" style="top:-5px;"><span aria-hidden="true">&times;</span></button>
+                        @message
+                    </div>
+                }
+            }
+        </div>
+
+        <form class="form-horizontal" action="/Results/Save" method="post" id="form-id" enctype="multipart/form-data">
+
+            <input type="hidden" id="redirectUrl" name="redirectUrl" />
+            <input type="hidden" id="navPartId" name="navPartId" value="@Model.nextScreenPartId" />
+            <input type="hidden" id="navSectionId" name="navSectionId" value="@Model.nextScreenSectionId" />
+            <input type="hidden" id="navFormId" name="navFormId" />
+            <input type="hidden" id="controller" name="UseThisControllerForTemplate" value="COADAP" />
+            
+            @RenderBody()
+
+            <hr class="hr-dark" />
+
+            @* Hide the Previous / Next buttons if on the validation screen. *@
+            <div class="col-md-12">
+                <button type="button" class="btn btn-info btn-s class_prevornextscreen class_prevscreen">
+                    <span class="glyphicon glyphicon-arrow-left"></span> @Resources.AdapAppLayout.PrevSection
+                </button>
+                <button type="button" class="btn btn-info btn-s pull-right class_prevornextscreen class_nextscreen">
+                    @Resources.AdapAppLayout.NextSection <span class="glyphicon glyphicon-arrow-right"></span>
+                </button>
+                @{ string disabledAttr = (@Model.navMenuModel.readOnly) ? "disabled" : String.Empty; }
+                <button type="button" class="btn btn-primary btn-s pull-right class_cert" style="margin-right:5px" @disabledAttr><span class="glyphicon glyphicon-check"></span> @Resources.AdapAppLayout.CertAndSubmit</button>
+                <button type="button" class="btn btn-primary btn-s pull-right class_check" style="margin-right:5px"><span class="glyphicon glyphicon-question-sign"></span> @Resources.AdapAppLayout.CheckForErrors</button>
+                <button type="button" class="btn btn-primary btn-s pull-right class_submit" style="margin-right:5px" @disabledAttr><span class="glyphicon glyphicon-floppy-open"></span> @Resources.AdapAppLayout.SaveApp</button>
+
+            </div>
+
+            <input style="display:none" type="submit" value="Save" id="btnSubmit" />
+        </form>
+
+        @RenderSection("AfterForm", required: false)
+    </div>    
+    
+    @Html.Partial("~/Views/Templates/Adap/AdapFooter.cshtml")
+</body>
+</html>

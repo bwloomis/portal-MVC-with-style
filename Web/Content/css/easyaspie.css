@@ -1,0 +1,149 @@
+/********************************/
+/* Firefox fix for Font Weight */
+/******************************/
+
+@-moz-document url-prefix() {
+    body, p, h1, h2, h3, h4, h5, h6, nav, strong, li, a, span{
+        font-weight:normal !important;
+        opacity:0.99;
+        }
+}
+
+body{
+	font-size: 62.5%;
+	font-family: arial, helvetica, sans-serif;
+	}
+.menubtn{
+	display: none;
+	}
+nav{
+    font-size:1.6em;/*16px*/
+    line-height: 1.2;
+    display: block;
+    position: relative;
+    z-index:9999;
+    min-height: 32px;
+	}
+nav span{
+	display: none;
+	}
+
+/* all lists */
+nav ul, nav ul ul {
+	padding: 0;
+	margin: 0;
+	list-style: none;
+	line-height: 1;
+	position: relative;
+	}
+nav ul a {
+	display: block;
+	text-decoration: none;
+	}
+/* all list items */
+nav ul li {
+	float:left;
+	-webkit-transition: background-color 0.7s ease;
+    -moz-transition: background-color 0.7s ease;
+    -o-transition: background-color 0.7s ease;
+    -ms-transition: background-color 0.7s ease;
+    transition: background-color 0.7s ease;
+	}
+nav ul li:last-child{
+	border:none;
+	}
+/* second-level lists */
+nav ul li ul {
+	position: absolute;
+	width: 12em;
+	left: -999em; /* using left instead of display to hide menus because display: none isn't read by screen readers */
+	}
+nav ul li ul li{
+	width: 12em;
+	}
+nav ul ul li,
+nav ul ul ul li,
+nav ul ul ul ul li{
+	border-right:none;
+	}
+nav ul li a.sf-with-ul:after {
+	content: '\00BB';/*Right Double Arrows*/
+	display: inline-block;
+	*float:right;/*IE7 Fix*/
+	position:relative;
+	top: 0em;
+	right: -0.3em;
+	}
+nav ul li.sfHover a.sf-with-ul:after{
+	-moz-transform: rotate(90deg);
+	-webkit-transform: rotate(90deg);
+	-o-transform: rotate(90deg);
+	-ms-transform: rotate(90deg);
+	transform: rotate(90deg);
+	}
+nav ul li.sfHover li a.sf-with-ul:after{
+	-moz-transform: rotate(0deg);
+	-webkit-transform: rotate(0deg);
+	-o-transform: rotate(0deg);
+	-ms-transform: rotate(0deg);
+	transform: rotate(0deg);
+	}
+nav ul li a.sf-with-ul:only-child:after{
+	content: '';/* if only child, delete arrow */
+	 }
+nav ul li ul a{
+	padding:0.5em 1.5em;
+	margin-top:-1px; /*to offset bottom border*/
+	}
+nav ul li ul li:last-child a{
+	border-bottom:none;
+	}
+/* third-and-above-level lists */
+nav ul li ul ul {
+	margin: -2em 0 0 12em;/* negative margin calculated by li padding plus line height*/
+	}
+nav ul li:hover ul ul,
+nav ul li:hover ul ul ul,
+nav ul li.sfhover ul ul,
+nav ul li.sfhover ul ul ul {
+	left: -999em;
+	}
+
+nav ul li:hover ul,
+nav ul li li:hover ul,
+nav ul li li li:hover ul,
+nav ul li.sfhover ul,
+nav ul li li.sfhover ul,
+nav ul li li li.sfhover ul { /* lists nested under hovered list items */
+	left: auto;
+	}
+/*UNIVERSAL PADDING*/
+nav ul a,
+nav ul li a,
+nav ul li ul a {
+	padding:0.5em 1.5em;
+	}
+/*----------------------------------
+	COLORS
+-----------------------------------*/
+nav{
+    background:#106296;/*#e5e5e5;*/
+    }
+nav ul a {
+	color:#333;
+	}
+/*Top Nav borders*/
+nav ul li {
+	border-right:1px solid #ccc;
+	}
+
+nav ul li:hover{
+	color: #666;
+	background: #106296;/*#e5e5e5;*/;
+	}
+nav ul li ul a{
+	border-bottom:1px solid white;/*#e5e5e5;*/;
+	}
+nav ul li ul {
+	background: rgb(90,140,200);/*#ccc;*/
+	}

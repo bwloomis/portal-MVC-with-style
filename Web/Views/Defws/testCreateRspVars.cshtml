@@ -1,0 +1,101 @@
+@model Assmnts.Models.TemplateForms
+@{
+    ViewBag.Title = "Test Export.CreateNewResponseValues";
+    Layout = "~/Views/Shared/ApplicationLayout.cshtml";
+}
+
+@section HeadContent {
+
+    <link href="/Content/css/sis-red/jquery-ui-1.7.sisred.css" rel="stylesheet" type="text/css" />
+	
+    <script>
+        function CreateRspVals(formResultId) {
+		
+			var formResultId = document.getElementById('formResultId').value;
+			alert("formResultId: " + formResultId);
+			var idntVals = {};
+			var idnt;
+			for (i=0;i<5;i++)  {
+				idnt = document.getElementById('idnt'+i).value;
+				if ( (idnt == undefined) ||  (idnt == null)  || (idnt.length <= 0) )  {
+					continue;
+				}
+				else  {
+					idntVals[idnt] = document.getElementById('rval'+i).value;
+				}
+			}
+			
+			var params = {};
+			params.frmRsltId = formResultId;
+			params.responsesByIdentifier = idntVals;
+			
+			// if (1 == 1) return;
+			
+            $.ajax({
+                type: "POST",
+                url: "/Defws/CreateNewResponseValues",
+				dataType: 'json',
+                data: JSON.stringify(params),
+				contentType: 'application/json',
+				async: false,
+				cache: false,
+                success: function (data) {
+                    alert("SUCCESS: " + data);
+                    document.getElementById('msg').innerHTML += data + "</br>";
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    //alert("ERROR: " + thrownError);
+                    document.getElementById('msg').innerHTML += "Add ResponseValue error:  " + thrownError + "</br>";
+                },
+                complete: function (data) {
+                    alert("COMPLETE: " + data);
+                }
+            });
+        }
+    </script>
+}
+		<br /><br />
+		<h1>Add ResponseValues to a FormResult</h1>
+		<br /><br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		formResultId: @Html.TextBox("formResultId")<br />
+		<br />
+        <table border="0" width="450">
+            <tr>
+                <td valign="top">
+                    <!-- start Section List -->
+                    <table id="Table1" border="0" cellpadding="0" cellspacing="1">
+                        <caption><b>ResponseValues</b></caption>
+                        <thead>
+                            <tr style="height: 21px">
+								<td width="50"  valign="middle" align="left">No.</td>
+                                <td width="150" valign="middle" align="left">Identifier</td>
+								<td width="200" valign="middle" align="left">Value</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+						@{int itmCnt = 5;}
+						@for(var rows = 0; rows < 5; rows++)
+						{
+							string bgColor = (itmCnt % 2) == 0 ? "#d5d5d5" : "#ffffff";
+                            <tr style="height: 28px" >
+							    <td width="50" valign="top">@rows.</td>
+                                <td width="150">@Html.TextBox("idnt" + @rows)</td>
+                                <td width="500">@Html.TextBox("rval" + @rows)</td>
+                            </tr>
+						}
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td height="10">
+                    &nbsp;
+                </td>
+            </tr>
+        </table>
+		<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<button type="button" onclick="CreateRspVals()"/>&nbsp;&nbsp;Submit</button><br /><br />
+	<!-- End of Forms List -->
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Message:<div id="msg"></div><br />
+		

@@ -1,0 +1,125 @@
+﻿@model Assmnts.Models.GeneralForm
+@{
+    Layout = "AdapAppLayout.cshtml";
+}
+
+@section AddToHead{
+    <link rel="stylesheet" type="text/css" href="/Content/adap/css/ADAPForms.css" />
+   
+
+    <script src="~/Content/js/ADAPLookupSelects.js"></script>
+    <script src="~/Scripts/jquery.inputmask/inputmask.js"></script>
+    <script src="~/Scripts/jquery.inputmask/inputmask.date.extensions.js"></script>
+    <script src="~/Scripts/jquery.inputmask/jquery.inputmask.js"></script>
+    <script>
+
+        $(document).ready(function() {
+
+            @foreach (string shortName in new string[] { "M2_ToldAIDS", "M3_ToldHepC" })
+            {
+                string identifier = "ADAP_" + shortName;
+                @:populateLookupSelect('@identifier', '@identifier', '@Model.rspValues[identifier]');
+            }
+
+            clinicLookupCode = "ADAP_CLINIC";
+
+            populateLookupSelect(clinicLookupCode, 'ADAP_M4_Clinic', '@Model.rspValues["ADAP_M4_Clinic"]');
+        
+            $("#ADAP_M1_Month").inputmask("m", {"placeholder":""});
+            $("#ADAP_M1_Year").inputmask("y", {"placeholder":""});
+
+            $('#btnSubmit').click(function () {
+                clinicValue = $("#ADAP_M4_Clinic").val();
+
+                $.ajax({
+                    type: "POST",
+                    url: "/ADAP/UpdateTeam",
+                    data: param = { clinicDataValue: clinicValue, formResultId: @Assmnts.Infrastructure.SessionHelper.SessionForm.formResultId, lookupCode: clinicLookupCode},
+                    async: false,
+                    cache: false,
+                    success: function (result) {
+                    },
+                    error: function (xhr, status, err) {
+                        alert("Something went wrong: " + err);
+                    }
+                });
+            });
+        });
+    </script>
+
+
+}
+
+
+<!-- M1 first diag -->
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="pull-right prevAppBtn"><button data-prevdiv="PreviousM1" class="btn" type="button"></button></div>
+        <div class="pull-right"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CmntModal" data-label="M1. @Model.sctTitles["ADAP_M1"]"><span class="glyphicon glyphicon-comment"></span></button></div>
+        <div class="form-group">
+            <label class="col-md-6 control-label pull-left" for="" style="text-align: left; width: 500px">M1. @Model.sctTitles["ADAP_M1"]</label>
+
+            @Helpers.LabelSpan(Model, "ADAP_M1_Month_item", new { @class = "col-md-1 control-label", @style = "color: black;" })
+            <div class="col-md-1">
+                @Helpers.TextInput(Model, "ADAP_M1_Month", new { @class = "form-control" })
+            </div>
+
+            @Helpers.LabelSpan(Model, "ADAP_M1_Year_item", new { @class = "col-md-1 control-label", @style = "color: black;" })
+            <div class="col-md-2">
+                @Helpers.TextInput(Model, "ADAP_M1_Year", new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Helpers.LabelSpan(Model, "ADAP_M1_DiagnosisLoc_item", new { @class = "col-md-5 control-label", @style = "color: black;" })
+            <div class="col-md-3">
+                @Helpers.TextInput(Model, "ADAP_M1_DiagnosisLoc", new { @class = "form-control" })
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- M2 aids -->
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="pull-right prevAppBtn"><button data-prevdiv="PreviousM2" class="btn" type="button"></button></div>
+        <div class="pull-right"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CmntModal" data-label="M2. @Model.sctTitles["ADAP_M2"]"><span class="glyphicon glyphicon-comment"></span></button></div>
+        <div class="form-group">
+            <label class="col-md-6 control-label" style="text-align:left">M2. @Model.sctTitles["ADAP_M2"]</label>
+            <div class="col-md-3">
+                @Helpers.DropDownList(Model, "ADAP_M2_ToldAIDS_item", "ADAP_M2_ToldAIDS")
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- M3 hep c -->
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="pull-right prevAppBtn"><button data-prevdiv="PreviousM3" class="btn" type="button"></button></div>
+        <div class="pull-right"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CmntModal" data-label="M3. @Model.sctTitles["ADAP_M3"]"><span class="glyphicon glyphicon-comment"></span></button></div>
+        <div class="form-group">
+            <label class="col-md-6 control-label" style="text-align:left">M3. @Model.sctTitles["ADAP_M3"]</label>
+            <div class="col-md-3">
+                @Helpers.DropDownList(Model, "ADAP_M3_ToldHepC_item", "ADAP_M3_ToldHepC")
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- M4 which clinic -->
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="pull-right prevAppBtn"><button data-prevdiv="PreviousM4" class="btn" type="button"></button></div>
+        <div class="pull-right"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CmntModal" data-label="M4. @Model.sctTitles["ADAP_M4"]"><span class="glyphicon glyphicon-comment"></span></button></div>
+        <div class="form-group">
+            <label class="col-md-6 control-label" style="text-align:left">M4. @Model.sctTitles["ADAP_M4"]</label>
+            <div class="col-md-3">
+                @*Helpers.TextInput(Model, "ADAP_M4_Clinic", new{ @class="form-control"})*@
+                <select class="form-control" id="ADAP_M4_Clinic" name="ADAP_M4_Clinic"></select>
+            </div>
+        </div>
+    </div>
+</div>
+
+        <!-- Comments Modal -->@Html.Partial("_AdapCommentModal", Model)

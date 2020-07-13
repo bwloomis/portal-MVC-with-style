@@ -1,0 +1,472 @@
+@model Assmnts.Models.GeneralForm          
+@using Assmnts
+@{
+    ViewBag.Title = @Model.thisScreenCaption;
+    // ViewBag.Title = @Model.thisScreenTitle;
+    Layout = "~/Views/Shared/AssmntLayout.cshtml";
+}
+
+@section HeadContent {
+<link rel="stylesheet" href="/Content/themes/base/jquery-ui.css" />
+	
+    <script src="/Content/js/misc.js" type="text/javascript" async></script>
+    <script src="/Content/js/textchanger.js" type="text/javascript" async></script>
+    <script src="/Content/js/SelectionControl.js" type="text/javascript" async></script>
+    <script src="/Content/js/PopulateSelects.js" async></script>
+    <style>
+        .ui-tooltip {
+            max-width:500px;
+        }
+    </style>
+}
+
+<table id="tblData" border="0" cellpadding="0" cellspacing="0" style="height: 100%">
+    <tr>
+        <td style="width: 189px; background-color: #ffffff" valign="top" align="center">@Html.Partial("AssmntLeftPane")</td>
+        <td>
+            <table border="0" cellpadding="0" cellspacing="0" width="625">
+                <tr>
+                    <td align="left">
+<form id="form-id" action="/Results/Save" method="post">
+        <table border="0" width="741">
+            <tr>
+                <td align="left">
+					<!-- 
+                    <asp:Label ID="lblCheck" EnableViewState="False" ForeColor="red" Font-Bold="True"
+                        runat="Server" /><br />
+                    <asp:Label ID="lblError" EnableViewState="False" ForeColor="red" Font-Bold="True"
+                        runat="Server" /><br />
+					  -->
+					<br />
+                    <!-- start error table -->
+                    <table id="tblErrors" width="100%" border="0" style="display:none" cellspacing="1" cellpadding="2">
+                        <tr id="trHeader">
+                            <td id="Td1" width="18" bgcolor="#d5d5d5">&nbsp;</td>
+                            <td id="Td2" width="70" bgcolor="#d5d5d5" align="center">
+                                <b>Item Errors</b>
+                            </td>
+                            <td id="Td3" bgcolor="#d5d5d5" align="center">
+                                <b>Error Description</b>
+                            </td>
+                        </tr>
+                        <tr id="trItem1">
+                            <td id="Td4" width="18" bgcolor="#ffffff">
+                                <img alt="Error" src="/Content/images/error.gif" />
+                            </td>
+                            <td id="Td5" width="70" bgcolor="#ffffff" align="center">
+                                Item One
+                            </td>
+                            <td id="Td6" bgcolor="#ffffff">
+								<!--
+                                <asp:Label ID="lblItemOneZeros" EnableViewState="False" ForeColor="red" runat="Server" />
+                                <asp:Label ID="lblItemOneFQYRange" EnableViewState="False" ForeColor="red" runat="server" />
+                                <asp:Label ID="lblItemOneDSTRange" EnableViewState="False" ForeColor="red" runat="server" />
+                                <asp:Label ID="lblItemOneTOSRange" EnableViewState="False" ForeColor="red" runat="server" />
+								  -->
+                            </td>
+                        </tr>
+                    </table>
+					<br />
+                    <!-- end error table -->
+                </td>
+            </tr>
+            <tr>
+                <td valign="top">
+                    <!-- start survey -->
+                    <table id="Table1" border="0" cellpadding="0" cellspacing="1">
+                        <thead>
+                            <tr style="height: 21px">
+                                <td width="625" bgcolor="#606060" style="color:white" valign="middle" align="center">
+									@Model.thisScreenCaption
+                                </td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        @{int itmCnt = 0, ssiIndex = 0;}
+                        @foreach (var sctn in Model.subSections)
+                        { 
+						<tr style="height: 28px">
+                            <!-- <td colspan="1" style="color: #FFFFFF;"><b>@sctn.title</b></td>
+								<div id="sectServInjury" class="section" style="width: 625px;">  -->
+							<td>
+								<div class="sectionHeader">
+									<span id="sctn@itmCnt" class="sectionHeaderDesc">@sctn.title</span>
+								</div>
+							</td>
+						</tr>
+                            string idSub = "";
+                            int subSectionItmCnt = 0;
+                            Model.formsRepo.SortSectionItems(sctn);
+                            foreach (var si in sctn.def_SectionItems)
+                            {
+                                if (si.subSectionId == null)  // this returns true if this is a gray question
+                                {
+                                    // var itm = si.def_Items;
+                                    def_Items itm = Model.formsRepo.GetItemById(si.itemId);
+                                    Model.formsRepo.GetItemVariables(itm);
+                                    def_ItemVariables iv = itm.def_ItemVariables.FirstOrDefault();
+                                    if (iv == null)
+                                    {
+                                        throw new Exception("splmntlQuestions: no item variable for question with itemId " + itm.itemId);
+                                    }
+                                    itmCnt++;
+                                    subSectionItmCnt++;
+                                    string bgColor = /*(subSectionItmCnt % 2) == 0 ? "#FFFFFF" :*/ "#FFE4B5";
+                                    string
+                                        sCnt = itmCnt.ToString(),
+                                        idNoAnswer = "radioIdNoAnswer_" + sCnt,
+                                        rClass = "radioClass_" + sCnt,
+                                        idYes = "radioIdYes_" + sCnt,
+                                        idNo = "radioIdNo_" + sCnt,
+                                        idUnans = "radioIdUnAnswered_" + sCnt;
+                                    idSub = "SubQuest" + sCnt;
+                                    bool isTrue = (Model.rspValues[iv.identifier] == "true");
+                                    bool isFalse = (Model.rspValues[iv.identifier] == "false");
+                                <tr style="height: 28px" bgcolor="@bgColor" id="trs1a_@{@itmCnt}">
+                                    <td width="625">
+									    <div id="quest4" class="question">
+										    <div id="quest4header" class="questionHeader">
+											    <div id="ctl00_ctl00_cntMain_cntSection_ctl01_s4Orl_4_ttip" class="toolTip" title="@itm.prompt">
+												    <span id="span@itmCnt" class="topQuestionDesc"><b>@itmCnt.</b>@Html.Raw(itm.label)</span>
+											    </div>
+											    <br />
+										    </div>
+										    <div class="questionContent">
+											    <div id="topQuestion4" class="topQuestion">
+											        <span>
+
+                                                        <input type="radio" name="@iv.identifier" id="@idUnans" value="unanswered" @( !isTrue && !isFalse ? "checked" : "")>
+                                                        <input id="@idYes" name="@iv.identifier" class="@rClass" type="radio" value="1" @(isTrue ? "checked" : "") />
+                                                        <label for="@idYes"><span></span>Yes</label>
+                                                        <input id="@idNo" name="@iv.identifier" class="@rClass" type="radio" value="0" @(isFalse ? "checked" : "") />
+                                                        <label for="@idNo"><span></span>No</label>
+                                                        @*<input id="@idNoAnswer" name="@iv.identifier" class="@rClass" type="radio" value="none" />
+                                                        <label for="@idNoAnswer"><span></span>No Answer</label>*@
+                                                        <script>
+                                                            $(document).ready(function () {
+                                                                @{
+                                                                    string target = Model.rspValues[iv.identifier];
+                                                                      
+                                                                }
+                                                                $(".@rClass").each(function () {
+                                                                    if ($(this).prop("value") == '@target')
+                                                                        $(this).attr("checked", "1");
+                                                                });
+                                                                $("#@idSub").toggle($("#@idYes").prop("checked"));
+                                                                $(".@rClass").change(function () {
+                                                                  //  $(".@rClass").attr('name', '@iv.identifier');
+                                                                    $("#@idSub").toggle($("#@idYes").prop("checked"));
+                                                                })
+                                                            })
+                                                        </script>
+											        </span>	
+                                                </div>
+										    </div>
+									    </div>
+                                    </td>
+                                </tr>
+                            
+                                }
+                                else
+                                {
+                                    // this must be a white question, belonging in the hidden area of the question above
+                                <tr>
+                                    <td bgcolor="#FFFFFF" colspan="20" id="@idSub">
+                                        <ol style="list-style:lower-alpha" >
+                                            @{
+                                                int listIndex = 1; 
+                                                def_Sections subSctn = Model.formsRepo.GetSubSectionById(si.subSectionId); 
+                                                Model.formsRepo.SortSectionItems(subSctn); 
+                                            }
+
+                                            @foreach (def_SectionItems ssi in subSctn.def_SectionItems)
+                                            // @foreach (def_SectionItems ssi in si.def_SubSections.def_Sections.def_SectionItems)
+                                            {
+                                                def_Items itm = Model.formsRepo.GetItemById(ssi.itemId);
+                                                Model.formsRepo.GetItemVariables(itm);
+                                                def_ItemVariables subiv = itm.def_ItemVariables.FirstOrDefault();
+                                                // def_ItemVariables subiv = ssi.def_Items.def_ItemVariables.FirstOrDefault();
+                                                string label = ssi.def_Items.label, 
+													prompt = ssi.def_Items.prompt;
+												string ttClass = prompt.IsEmpty() ? "" : "toolTip";
+                                                bool separateItem = !(label.StartsWith("Approximately") || label.StartsWith("Notes"));
+												
+                                                <li value="@(separateItem?(listIndex++).ToString():"")" 
+                                                    style="@(separateItem?"":"list-style:none")"}>
+                                                @switch (subiv.baseTypeId)
+                                                {
+
+                                                    case 1:       // BOOLEAN                        
+                                                        string subrClass = "subradioClass_" + ssiIndex;
+												        <span title="@prompt" class="@ttClass">@Html.Raw(label)</span>
+                                                        <br />
+                                                        <span>           
+                                                            @{
+                                                                bool isTrue = (Model.rspValues[subiv.identifier] == "true");
+                                                                bool isFalse = (Model.rspValues[subiv.identifier] == "false");
+                                                            }
+                                                            <input type="radio" class="@subrClass" name="@subiv.identifier" id="@{@subiv.identifier}_radio_u" value="unanswered" @( !isTrue && !isFalse ? "checked":"") >
+                                                            <input type="radio" class="@subrClass" name="@subiv.identifier" id="@{@subiv.identifier}_radio_y" value="1" @(isTrue ? "checked" : "")>
+                                                            <label for="@{@subiv.identifier}_radio_y"><span></span>Yes</label>
+                                                            <input type="radio" class="@subrClass" name="@subiv.identifier" id="@{@subiv.identifier}_radio_n" value="0" @(isFalse ? "checked" : "")>
+                                                            <label for="@{@subiv.identifier}_radio_n"><span></span>No</label>
+                                                        </span>
+                                                        break;
+
+                                                    case 14:    // STRING  
+												        <span title="@prompt" class="@ttClass">@Html.Raw(label)</span>
+                                                        <br />
+                                                        <span>           
+														    @Html.TextArea(@subiv.identifier, Model.rspValues[subiv.identifier], 6, 60 , new {id = subiv.identifier})
+                                                            <!-- <input type="text" name="@subiv.identifier" style="width:400px; height:40px" value="@Model.rspValues[subiv.identifier]"/> -->
+                                                        </span>
+                                                        break;
+
+                                                    case 8:   // INTEGER  
+                                                        if (subiv.identifier.Contains("d2"))
+                                                        {
+                                                            <span title="@prompt" class="@ttClass">
+                                                                @Html.Raw(label) </span>
+                                                            <span>    <select class="hours" id="@subiv.identifier" name="@subiv.identifier" style="width:120px"></select>
+                                                                <span id=@(subiv.identifier + "_data") data="@Model.rspValues[subiv.identifier]" hidden="hidden" />
+                                                            </span>
+                                                        }
+                                                        else if (subiv.identifier.Contains("d"))
+                                                        {
+                                                            <span title="@prompt" class="@ttClass">
+                                                                @Html.Raw(label) </span>
+                                                            <span>    <select class="days" id="@subiv.identifier" name="@subiv.identifier" style="width:120px"></select>
+                                                                <span id=@(subiv.identifier + "_data") data="@Model.rspValues[subiv.identifier]" hidden="hidden" />
+                                                            </span>
+                                                        }
+                                                        else
+                                                        { 
+												            <span title="@prompt" class="@ttClass">
+                                                                @Html.Raw(label) (integers only)</span>
+                                                            <span>    <input type="text" name="@subiv.identifier" id="@subiv.identifier" value="@Model.rspValues[subiv.identifier]">
+                                                            </span>
+                                                        }
+                                                    break;
+
+                                                    default:
+												        <span title="@prompt" class="@ttClass">@Html.Raw(label)</span>
+                                                        <span>unrecognized BaseTypeId: @subiv.baseTypeId</span>
+                                                        break;
+                                                }
+                                                </li>
+                                                ssiIndex++;
+                                            }
+                                        </ol>
+                                    </td>
+                                </tr>
+                                }
+                            }
+                        }
+                        </tbody>
+                    </table>
+                    <table id="Table2" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff" width="100%">
+                        <tr>
+                            <td>&nbsp;</td>
+                        </tr>
+                    </table>
+                    @Html.Partial("AssmntPageNotes")
+					<br /><br />
+					<input type="submit" value="Submit" id="btnSubmit"/>
+                    <!-- end survey -->
+                </td>
+            </tr>
+            <tr>
+                <td height="10">&nbsp;</td>
+            </tr>
+            <tr>
+                <td align="right">
+                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                        <tr>
+                            <td align="right" valign="middle">
+                                @Html.Partial("AssmntNavPrevNext")
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td height="10"> </td>
+            </tr>
+            <tr>
+                <td>
+                    <table border="0">
+                        <tr>
+                            <td>
+                                <br />
+                                <table border="0" cellpadding="2" cellspacing="0" class="tableborderg" style="height: 50px">
+                                    <tr>
+                                        <td valign="top" width="740">
+                                            <table border="0">
+                                                <tr>
+                                                    <td>
+                                                        <img src="~/Content/images/redPlus.gif" alt="+" />
+                                                        &nbsp;
+                                                        <img src="~/Content/images/redminus.gif" alt="-" />
+                                                    </td>
+                                                    <td>&nbsp;</td>
+                                                    <td>
+                                                        Hidden content indicator - Click (<img src="~/Content/images/redPlus.gif" alt="+" />) to view or
+                                                        (<img src="~/Content/images/redminus.gif" alt="-" />) to hide
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td align="right">
+                                                        <font color="#FF0000">T &nbsp; F</font>
+                                                    </td>
+                                                    <td>&nbsp;</td>
+                                                    <td>
+                                                        Indicates item is important <b>To</b> (<font color="#ff0000">T</font>) or <b>For</b>
+                                                        (<font color="#ff0000">F</font>) the individual
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td align="right">
+                                                        <font color="#ff0000">N</font>
+                                                    </td>
+                                                    <td>&nbsp;</td>
+                                                    <td>
+                                                        Indicates that notes pertaining to the individual exist for a given item in the hidden content area
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+</form>
+	<!-- End of Form -->
+        </td>
+    </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0">
+    <tr>
+        <td style="height: 5px">&nbsp;</td>
+    </tr>
+</table>
+</td>
+    </tr>
+</table>
+<br />
+
+<script type="text/javascript">
+
+    /*  Sets character count for 'textarea' boxes. */
+    function TextCounterOnLoad() {
+        var theForm = document.forms[0];
+        /*
+        for (i = 0; i < theForm.elements.length; i++) {
+            if (theForm.elements[i].type == "textarea") {
+                var notesTextArea = theForm.elements[i];
+                var counterDisplay = theForm.elements[i + 1];
+                var limit = theForm.elements[i + 1].value;
+                textCounter(notesTextArea, counterDisplay, limit)
+            }
+        }
+        */
+
+    }
+
+    // Execute this code after the DOM has loaded.
+    $(document).ready(function () {
+        TextCounterOnLoad();
+
+        if ('@Model.ventureMode' == 'True') {
+            $('.class_nextscreen').hide();
+        }
+
+        $(document).tooltip({
+            track: true,
+            content: function () {
+                return $(this).prop('title');
+            }
+        });
+
+        //Populate Multiple dropdowns with the same data.  Necessary for faster loading.
+        $.ajax({
+            type: "GET",
+            url: "/Defws/GetLookup",
+            data: param = { lkpCd: 'daysEachWeek' },
+            async: false,
+            cache: false,
+            success: function (result) {
+
+                var obj = JSON.parse(result);
+
+                var mySelect = $('.days');
+                mySelect.append('<option selected="selected"></option>');
+                for (var i = 0; i < obj.def_LookupDetail.length; i++) {
+                    if (typeof obj.def_LookupDetail[i]["def_LookupText"][0] !== 'undefined') {
+                        mySelect.append('<option value="' + obj.def_LookupDetail[i]["dataValue"] + '">' + obj.def_LookupDetail[i]["def_LookupText"][0]["displayText"] + '</option>');
+                    }
+                }
+
+                //the variables this works on run from sis_s41d through sis_s44d
+                for (var i = 41; i < 45; i++) {
+                    var myDDL = $('#sis_s' + i + 'd');
+                    var myDDLdata = $('#sis_s' + i + 'd_data');
+                    myDDL.val(myDDLdata.attr('data'));
+
+                    if (myDDLdata.attr('data') != '' && myDDLdata.attr('data') != myDDL.val()) {
+                        myDDL.append('<option value="' + myDDLdata.attr('data') + '" selected>' + myDDLdata.attr('data') + '</option>');
+                    }
+                }
+            },
+            error: function (xhr, status, err) {
+                alert("Error loading drop down for " + lookupCode + ".  Status: " + xhr.status + "  Message: " + err);
+            }
+        });
+
+        //Populate Multiple dropdowns with the same data.  Necessary for faster loading.
+        $.ajax({
+            type: "GET",
+            url: "/Defws/GetLookup",
+            data: param = { lkpCd: 'hoursEachDay' },
+            async: false,
+            cache: false,
+            success: function (result) {
+
+                var obj = JSON.parse(result);
+
+                var mySelect = $('.hours');
+                mySelect.append('<option selected="selected"></option>');
+                for (var i = 0; i < obj.def_LookupDetail.length; i++) {
+                    if (typeof obj.def_LookupDetail[i]["def_LookupText"][0] !== 'undefined') {
+                        mySelect.append('<option value="' + obj.def_LookupDetail[i]["dataValue"] + '">' + obj.def_LookupDetail[i]["def_LookupText"][0]["displayText"] + '</option>');
+                    }
+                }
+
+                //the variables this works on run from sis_s41d2 through sis_s44d2
+                for (var i = 41; i < 45; i++) {
+                    var myDDL = $('#sis_s' + i + 'd2');
+                    var myDDLdata = $('#sis_s' + i + 'd2_data');
+                    myDDL.val(myDDLdata.attr('data'));
+
+                    if (myDDLdata.attr('data') != '' && myDDLdata.attr('data') != myDDL.val()) {
+                        myDDL.append('<option value="' + myDDLdata.attr('data') + '" selected>' + myDDLdata.attr('data') + '</option>');
+                    }
+                }
+            },
+            error: function (xhr, status, err) {
+                alert("Error loading drop down for " + lookupCode + ".  Status: " + xhr.status + "  Message: " + err);
+            }
+        });
+    });
+
+    function expandcontent(id) {
+        var s = document.getElementById(id).style;
+        s.display = (s.display == "block") ? "none" : "block";
+    }
+
+</script>
+
+		

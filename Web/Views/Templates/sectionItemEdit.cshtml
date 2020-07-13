@@ -1,0 +1,398 @@
+@model Assmnts.Models.TemplateSectionItems
+@{
+    ViewBag.Title = "Item Edit";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+@section HeadContent {
+
+	@*<link rel="stylesheet" type="text/css" href="/Content/css/sitewide.css" />*@
+	
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <link href="/Content/css/sis-red/jquery-ui-1.7.sisred.css" rel="stylesheet" type="text/css" />
+	
+    <script type="text/javascript">
+    $(document).ready(function () {
+        var noDsplyRecs = 10;
+        $('#ItemModalSearch').on('click', function (event) {
+            $('#ModalPaging').data('iniIndex', 0);
+            ModalQuery(0);
+        });
+
+        $('#ModalPrev').on('click', function () {
+            var iniIndex = $('#ModalPaging').data('iniIndex');
+            if (iniIndex > 0) {
+                ModalQuery(-1 * noDsplyRecs);
+            }
+        });
+
+        $('#ModalNext').on('click', function () {
+            var iniIndex = $('#ModalPaging').data('iniIndex');
+            var count = $('#ModalPaging').data('count');
+            if (iniIndex < count - noDsplyRecs) {
+                ModalQuery(noDsplyRecs);
+            }
+        });
+
+        function ModalQuery(turnPage) {
+            var iden = $('#IdSearch').val();
+            var title = $('#TitleSearch').val();
+            var iniIndex = $('#ModalPaging').data('iniIndex');
+
+            postdata = {
+                "identifier": iden,
+                "title": title,
+                "iniIndex": iniIndex,
+                "turnPage": turnPage
+            }
+
+            $.ajax({
+                url: "/Templates/ItemList",
+                type: 'POST',
+                data: postdata,
+                dataType: 'json',
+                success: function (data) {
+                    var iniIndex = data[0].substring(data[0].indexOf("page=") + "page=".length, data[0].indexOf("&"));
+                    var last = data[0].substring(data[0].indexOf("endIndex=") + "endIndex=".length, data[0].indexOf("&", data[0].indexOf("endIndex=")));
+                    var count = data[0].substring(data[0].indexOf("count=") + "count=".length, data[0].length);
+                    var paging = $('#ModalPaging');
+                    if (count > 10) {
+                        paging.show();
+                    } else {
+                        paging.hide();
+                    }
+
+                    paging.data('iniIndex', iniIndex);
+                    paging.data('count', count);
+
+                    $('#pageLabel').html(iniIndex + ' to ' + last + ' of ' + count + ' Records');
+
+                    var result = "<br /><b>";
+                    for (var i = 1; i < data.length; i++) {
+                        result += "<br />";
+                        result += data[i];
+                    }
+                    result += "</b><br /><br />";
+                    $('#ItemSearchResults').html(result);
+                }
+            });
+        }
+
+        $('#ModalSelect').on('click', function () {
+            var id = "";
+            var ident = "";
+            var title = "";
+
+            var radios = $('input[type=radio]');
+            for (i = 0; i < radios.size() ; i++) {
+                if (radios[i].checked) {
+                    var value = radios[i].value;
+                    id = value.substring(value.indexOf("id=") + "id=".length, value.indexOf("&"));
+                    ident = value.substring(value.indexOf("identifier=") + "identifier=".length, value.indexOf("&", value.indexOf("identifier=")));
+                    title = value.substring(value.indexOf("title=") + "title=".length, value.length);
+                }
+            }
+
+            if (value != "") {
+                $('#sectionItems_0__itemId').val(id);
+                $('#sectionItems_0__def_Items_identifier').val(ident);
+                $('#sectionItems_0__def_Items_title').val(title);
+
+                $('#sectionItemChange').val('true');
+                itemDetails(id);
+            }
+        });
+
+        function itemDetails(itemId) {
+            var postdata = {
+                "itemId" : itemId
+            }
+            $.ajax({
+                url: "/Templates/SectionItemDetails",
+                type: 'POST',
+                data: postdata,
+                dataType: 'json',
+                success: function (data) {
+                    var label = data[0];
+                    var prompt = data[1];
+                    var body = data[2];
+                    var lang = data[3];
+
+                    $('#sectionItems_0__def_Items_label').val(label);
+                    $('#sectionItems_0__def_Items_prompt').val(prompt);
+                    $('#sectionItems_0__def_Items_itemBody').val(body);
+                    $('#sectionItems_0__def_Items_langId').val(lang);
+                }
+            });
+        }
+
+        // validation fields indicating required database updates.
+        // items are updated when the item fields are changed.
+        // sectionItems are updated when the sectionItem (section hieracrhy) fields are changed, or when the item is replaced.
+        $('#sectionItems_0__def_Items_identifier').change(function () {
+            $('#itemChange').val('true');
+        });
+        $('#sectionItems_0__def_Items_title').change(function () {
+            $('#itemChange').val('true');
+        });
+        $('#sectionItems_0__def_Items_label').change(function () {
+            $('#itemChange').val('true');
+        });
+        $('#sectionItems_0__def_Items_prompt').change(function () {
+            $('#itemChange').val('true');
+        });
+        $('#sectionItems_0__def_Items_itemBody').change(function () {
+            $('#itemChange').val('true');
+        });
+        $('#sectionItems_0__def_Items_langId').change(function () {
+            $('#itemChange').val('true');
+        });
+
+        $('#sectionItems_0__subSectionId').change(function () {
+            $('#sectionItemChange').val('true');
+        });
+        $('#sectionItems_0__order').change(function () {
+            $('#sectionItemChange').val('true');
+        });
+        $('#sectionItems_0__validation').change(function () {
+            $('#sectionItemChange').val('true');
+        });
+        $('#sectionItems_0__display').change(function () {
+            $('#sectionItemChange').val('true');
+        });
+        $('#sectionItems_0__readOnly').change(function () {
+            $('#sectionItemChange').val('true');
+        });
+        $('#sectionItems_0__requiredSection').change(function () {
+            $('#sectionItemChange').val('true');
+        });
+        $('#sectionItems_0__requiredForm').change(function () {
+            $('#sectionItemChange').val('true');
+        });
+    });
+
+    function newItem() {
+        $('#sectionItems_0__itemId').val("0");
+        $('#sectionItems_0__def_Items_identifier').val("");
+        $('#sectionItems_0__def_Items_title').val("");
+        $('#sectionItems_0__def_Items_label').val("");
+        $('#sectionItems_0__def_Items_prompt').val("");
+        $('#sectionItems_0__def_Items_itemBody').val("");
+        $('#sectionItems_0__def_Items_langId').val("1");
+        $('#sectionItemChange').val('true');
+    }
+    </script>
+}
+	
+<style>
+    table, th, td {
+        padding: 5px;
+    }
+
+    .pageEdit {
+        padding-top: .6em;
+        font-size: small;
+    }
+
+    input[type=text] {
+        font-size: small;
+        margin-top: 0px;
+    }
+</style>
+
+<h3>Item Edit</h3>
+<div class="form-group">
+    <form action="/Templates/PostSectionItem" method="post">
+        @Html.HiddenFor(model => model.sectionItems[0].sectionItemId)
+        @Html.HiddenFor(model => model.itemChange)
+        @Html.HiddenFor(model => model.sectionItemChange)
+        <div class="row">
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.sectionItems[0].itemId, @"Item Id", new { @class = "pageEdit" })
+            </div>
+            <div class="col-md-2">
+                @Html.TextBoxFor(model => model.sectionItems[0].itemId, new { @class = "form-control", @readonly = "readonly" })
+            </div>
+            <div class="col-md-3">
+                <input type="button" class="btn btn-primary" data-toggle="modal" data-target="#ItemModal" value="Find Item" />
+                <input type="button" class="btn btn-success" value="New Item" onclick="newItem()" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.sectionItems[0].def_Items.identifier, @"Identifier", new { @class = "control-label pageEdit", @maxlength = "256" })
+            </div>
+            <div class="col-md-2">
+                @Html.TextBoxFor(model => model.sectionItems[0].def_Items.identifier, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.sectionItems[0].def_Items.title, @"Title", new { @class = "control-label pageEdit" })
+            </div>
+            <div class="col-md-2">
+                @Html.TextBoxFor(model => model.sectionItems[0].def_Items.title, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.sectionItems[0].def_Items.label, @"Label", new { @class = "control-label pageEdit" })
+            </div>
+            <div class="col-md-2">
+                @Html.TextAreaFor(model => model.sectionItems[0].def_Items.label, new { @class = "form-control long-text-area" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.sectionItems[0].def_Items.prompt, @"Prompt", new { @class = "control-label pageEdit" })
+            </div>
+            <div class="col-md-2">
+                @Html.TextAreaFor(model => model.sectionItems[0].def_Items.prompt, new { @class = "form-control long-text-area" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.sectionItems[0].def_Items.itemBody, @"Item Body", new { @class = "control-label pageEdit" })
+            </div>
+            <div class="col-md-2">
+                @Html.TextAreaFor(model => model.sectionItems[0].def_Items.itemBody, new { @class = "form-control long-text-area" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.sectionItems[0].def_Items.langId, @"Language Id", new { @class = "control-label pageEdit" })
+            </div>
+            <div class="col-md-2">
+                @Html.DropDownListFor(model => model.sectionItems[0].def_Items.langId, Model.languages, "Language", new { @class = "form-control" })
+            </div>
+        </div>
+
+        <br />
+        <h4>Section Hierarchy: </h4>
+
+        <div class="row">
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.sectionItems[0].subSectionId, @"Sub-Section Id", new { @class = "pageEdit" })
+            </div>
+            <div class="col-md-2">
+                @Html.TextBoxFor(model => model.sectionItems[0].subSectionId, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.sectionItems[0].order, @"Order", new { @class = "pageEdit" })
+            </div>
+            <div class="col-md-2">
+                @Html.TextBoxFor(model => model.sectionItems[0].order, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.sectionItems[0].validation, @"Validation", new { @class = "pageEdit" })
+            </div>
+            <div class="col-md-2">
+                @Html.TextBoxFor(model => model.sectionItems[0].validation, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1">
+                @Html.LabelFor(model => model.sectionItems[0].display, @"Display", new { @class = "pageEdit" })
+            </div>
+            <div class="col-md-1">
+                @Html.CheckBoxFor(model => model.sectionItems[0].display, new { @class = "control" })
+            </div>
+        @*</div>
+        <div class="row">*@
+            <div class="col-md-1">
+                @Html.LabelFor(model => model.sectionItems[0].readOnly, @"Read Only", new { @class = "pageEdit" })
+            </div>
+            <div class="col-md-1">
+                @Html.CheckBoxFor(model => model.sectionItems[0].readOnly, new { @class = "control" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1">
+                @Html.LabelFor(model => model.sectionItems[0].requiredSection, @"Required Section", new { @class = "pageEdit" })
+            </div>
+            <div class="col-md-1">
+                @Html.CheckBoxFor(model => model.sectionItems[0].requiredSection, new { @class = "control" })
+            </div>
+        @*</div>
+        <div class="row">*@
+            <div class="col-md-1">
+                @Html.LabelFor(model => model.sectionItems[0].requiredForm, @"Required Form", new { @class = "pageEdit" })
+            </div>
+            <div class="col-md-1">
+                @Html.CheckBoxFor(model => model.sectionItems[0].requiredForm, new { @class = "control" })
+            </div>
+        </div>
+
+        <br />
+        <h4>Links to: </h4>
+
+        <div class="row">
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.sectionItems[0].sectionId, @"Section Id", new { @class = "pageEdit" })
+            </div>
+            <div class="col-md-2">
+                @Html.TextBoxFor(model => model.sectionItems[0].sectionId, new { @class = "form-control", @readonly = "readonly" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.sectionItems[0].def_Sections.identifier, @"Identifier", new { @class = "control-label pageEdit" })
+            </div>
+            <div class="col-md-4">
+                @Html.TextBoxFor(model => model.sectionItems[0].def_Sections.identifier, new { @class = "form-control", @readonly = "readonly" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.sectionItems[0].def_Sections.title, @"Title", new { @class = "control-label pageEdit" })
+            </div>
+            <div class="col-md-4">
+                @Html.TextBoxFor(model => model.sectionItems[0].def_Sections.title, new { @class = "form-control", @readonly = "readonly" })
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-2">
+                <input type="submit" class="btn btn-success" value="Submit">
+                <input type="button" class="btn btn-danger" value="Cancel" onclick="window.location='/Templates/SectionItems?sectionId=@Model.sectionId'">
+            </div>
+        </div>
+    </form>
+</div>
+<!-- End of Form -->
+<!-- Item Id Modal -->
+<div class="modal fade" id="ItemModal" tabindex="-1" role="dialog" aria-labelledby="ItemModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="ItemModalLabel">
+                    <b><span id="Title">Item Search</span></b>
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <label>Identifier</label>
+                    <input type="text" id="IdSearch" class="control" />
+                    <label>Title</label>
+                    <input type="text" id="TitleSearch" class="control" />
+                    <input type="button" id="ItemModalSearch" class="button btn-success" value="Search" />
+                    <span id="ItemSearchResults"></span>
+                </div>
+                <div id="ModalPaging" hidden="hidden" data-iniIndex="0" data-count="0">
+                    <input type="button" id="ModalPrev" class="button btn-primary" value="Prev" />
+                    <span id="pageLabel"></span>
+                    <input type="button" id="ModalNext" class="button btn-primary" value="Next" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="ModalSelect" type="button" class="btn btn-success" data-toggle="modal" data-target="#ItemModal">Select</button>
+                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#ItemModal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>

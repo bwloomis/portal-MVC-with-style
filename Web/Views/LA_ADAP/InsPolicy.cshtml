@@ -1,0 +1,189 @@
+﻿@model Assmnts.Models.GeneralForm
+@using Assmnts.Models;
+@{
+    Layout = "LA_AdapAppLayout.cshtml";
+}
+
+@section AddtoHead{
+    <link rel="stylesheet" type="text/css" href="/Content/adap/css/ADAPForms.css" />
+    <script src="~/Content/js/ADAPLookupSelects.js"></script>
+    <script src="~/Scripts/jquery.inputmask/inputmask.js"></script>
+    <script src="~/Scripts/jquery.inputmask/jquery.inputmask.js"></script>
+    <script src="~/Scripts/Validate.js"></script>
+    <link href="~/stylesheets/Validate.css" rel="stylesheet" />
+    <script>
+        $(document).ready(function () {
+            populateLookupSelect('LA_ADAP_InsPolicy_TypeDrop', 'LA_ADAP_InsPolicy_TypeDrop', '@Model.rspValues["LA_ADAP_InsPolicy_TypeDrop"]');
+            populateLookupSelect('LA_ADAP_InsPolicy_SecondTypeDrop', 'LA_ADAP_InsPolicy_SecondTypeDrop', '@Model.rspValues["LA_ADAP_InsPolicy_SecondTypeDrop"]');
+
+            $('.class_dob_input').inputmask("99/99/9999");
+            setApplicationProgressIndicator(9);
+
+            var prevScreenIdentifier = '@(((TemplateAdapNavMenu)Model.navMenuModel).sectionIds["LA_ADAP_MedPrem"])';    //By default, the previous screen is Medicare Premium.
+
+            if (!($('#LA_ADAP_HaveInsMed').val() == "true"))                                                            //If "Yes.  I have Medicare..." was unchecked...
+                prevScreenIdentifier = '@(((TemplateAdapNavMenu)Model.navMenuModel).sectionIds["LA_ADAP_Assistance"])'; //...the previous screen is Assistance.
+
+            $('.class_prevscreen').click(function () {
+                SubmitForm('@(((TemplateAdapNavMenu)Model.navMenuModel).adapPartId)', prevScreenIdentifier);
+            });
+        });
+    </script>
+}
+
+@{int i = 1;}
+
+<div style="display:none">
+    @Helpers.TextInput(Model, "LA_ADAP_HaveInsMed", new { @class = "form-control" })
+</div>
+
+@foreach (string insert in new string[] { "", "Second" })
+{
+
+    if (insert == "Second")
+    {
+        <p><span class="label label-danger" style="font-size:15px;">Secondary Insurance</span></p>
+    }
+    
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="form-group">
+                <span class="col-md-4 control-label" style="font-weight: bold; text-align: left;">
+                    @(i++). @Model.sctTitles["LA_ADAP_InsPolicy_" + insert + "Presc"]
+                </span>
+                @Helpers.YesNoRadioButtons(Model, "LA_ADAP_InsPolicy_" + insert + "PrescCoverage")
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <p><strong>@(i++). @Model.sctTitles["LA_ADAP_InsPolicy_" + insert + "Type"]</strong></p>
+            <div class="form-group">
+                <div class="col-md-12">
+                    @Helpers.DropDownList(Model, "LA_ADAP_InsPolicy_" + insert + "TypeDrop_item", "LA_ADAP_InsPolicy_" + insert + "TypeDrop")
+                </div>
+            </div>
+            <div class="form-group" id=@("toggle" + insert + "Other")>
+                @Helpers.LabelSpan(Model, "LA_ADAP_InsPolicy_" + insert + "TypeOther_item", new { @class = "col-md-4 control-label" })
+                <div class="col-md-4">
+                    @Helpers.TextInput(Model, "LA_ADAP_InsPolicy_" + insert + "TypeOther", new { @class = "form-control" })
+                </div>
+            </div>
+            <script>
+            $(document).ready(function () {
+                @{var functionName = "Update" + insert + "Other";}
+                $("#LA_ADAP_InsPolicy_@(insert)TypeDrop").change(@functionName);
+                @{functionName += "()";}
+                @functionName;
+            });
+
+            function @functionName {
+                $("#toggle@(insert)Other").toggle($("#LA_ADAP_InsPolicy_@(insert)TypeDrop").val() == 6);
+                $("#toggle@(insert)COBRA").toggle($("#LA_ADAP_InsPolicy_@(insert)TypeDrop").val() == 3);
+                @if (insert == "Second")
+                {
+                    @:$("#toggle@(insert)").toggle($("#LA_ADAP_InsPolicy_@(insert)TypeDrop").val() != 7 && $("#LA_ADAP_InsPolicy_@(insert)TypeDrop").prop("selectedIndex") != 0);
+                }
+            };
+            </script>
+        </div>
+    </div>
+
+    <div id=@("toggle" + insert)>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <p><strong>@(i++). @Model.sctTitles["LA_ADAP_InsPolicy_" + insert + "Request"]</strong></p>
+                <div class="form-group">
+                    @foreach (string suffix in new string[] { "Prem", "Copay", "Drug" })
+                    {
+                        <div class="col-md-12">
+                            @Helpers.LabeledCheckboxInput(Model, "LA_ADAP_InsPolicy_" + insert + "Req" + suffix)
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <p><strong>@(i++). @Model.sctTitles["LA_ADAP_InsPolicy_" + insert + "Name"]</strong></p>
+                <div class="form-group">
+                    @Helpers.LabelSpan(Model, "LA_ADAP_InsPolicy_" + insert + "Co_item", new { @class = "col-md-4 control-label" })
+                    <div class="col-md-4">
+                        @Helpers.TextInput(Model, "LA_ADAP_InsPolicy_" + insert + "Co", new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Helpers.LabelSpan(Model, "LA_ADAP_InsPolicy_" + insert + "Plan_item", new { @class = "col-md-4 control-label" })
+                    <div class="col-md-4">
+                        @Helpers.TextInput(Model, "LA_ADAP_InsPolicy_" + insert + "Plan", new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="form-group">
+                    <div class="col-md-4">
+                        <p><strong>@(i++). @Model.sctTitles["LA_ADAP_InsPolicy_" + insert + "ID"]</strong></p>
+                    </div>
+                    <div class="col-md-4">
+                        @Helpers.TextInput(Model, "LA_ADAP_InsPolicy_" + insert + "IDNum", new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    @Helpers.LabeledCheckboxInput(Model, "LA_ADAP_InsPolicy_" + insert + "NoID")
+                </div>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="form-group">
+                    <div class="col-md-4">
+                        <p><strong>@(i++). @Model.sctTitles["LA_ADAP_InsPolicy_" + insert + "Group"]</strong></p>
+                    </div>
+                    <div class="col-md-4">
+                        @Helpers.TextInput(Model, "LA_ADAP_InsPolicy_" + insert + "GroupNum", new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    @Helpers.LabeledCheckboxInput(Model, "LA_ADAP_InsPolicy_" + insert + "NoGroup")
+                </div>
+            </div>
+        </div>
+
+  <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="form-group">
+                    <div class="col-md-4">
+                        <p><strong>@(i++). @Model.sctTitles["LA_ADAP_InsPolicy_" + insert + "Start"]</strong></p>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-group date">
+                            @Helpers.TextInput(Model, "LA_ADAP_InsPolicy_" + insert + "StartDt", new { @class = "form-control class_dob_input", placeholder = "mm/dd/yyyy" })
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel panel-default" id=@("toggle" + insert + "COBRA")>
+            <div class="panel-body">
+                <p><strong>@(i++). @Model.sctTitles["LA_ADAP_InsPolicy_" + insert + "End"]</strong></p>
+                <div class="form-group">
+                    <div class="col-md-4">
+                        <div class="input-group date">
+                            @Helpers.TextInput(Model, "LA_ADAP_InsPolicy_" + insert + "EndDt", new { @class = "form-control class_dob_input", placeholder = "mm/dd/yyyy" })
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+                    { i = 1; }
+}

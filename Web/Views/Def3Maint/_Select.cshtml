@@ -1,0 +1,91 @@
+﻿@using Assmnts
+@model dynamic
+<div>
+    <h3><label>Lookup Maintenance</label></h3>
+    Enterprise:
+    <select id="entSelect">
+        @foreach(KeyValuePair<int, string> ent in Model.enterprises) {
+            <option value="@ent.Key">@ent.Value</option>
+        }
+    </select>
+
+     Group:
+     <select id="groupSelect">
+        @*@foreach (KeyValuePair<int, string> group in Model.groups)
+        {
+            <option value="@group.Key">@group.Value</option>
+        }*@
+    </select>
+
+    <input type="button" id="set" class="btn btn-success" value="Search" />
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("#entSelect").change();
+    });
+
+    function makeSelect(obj, mySelect, value, display) {
+        var dispVars = display.split(" ");
+        mySelect.empty();
+
+        mySelect.append('<option value="0"></option>')
+
+        for (i = 0; i < obj.length; i++) {
+            mySelect.append('<option value="' + obj[i][value] + '">' + getDisp(obj[i], dispVars) + '</option>');
+        }
+    }
+
+    function getDisp(obj, dispVars) {
+        var disp = "";
+        for (j = 0; j < dispVars.length; j++) {
+            disp += obj[dispVars[j]];
+
+            if (j < dispVars.length - 1) {
+                disp += " ";
+            }
+        }
+        return disp;
+    }
+
+    $("#set").click(function () {
+        var entSelect = $("#entSelect");
+        var groupSelect = $("#groupSelect");
+
+        $("#enterpriseID").val(entSelect.val());
+        $("#groupID").val(groupSelect.val());
+
+        $("#enterpriseName").text($("#entSelect option:selected").text());
+        if ($("#groupSelect option:selected").text() != "") {
+            $("#groupName").text(": " + $("#groupSelect option:selected").text());
+        } else {
+            $("#groupName").text("");
+        }
+        Select();
+    });
+
+    $("#entSelect").change(function () {
+        var ent = $("#entSelect").val();
+        $.ajax({
+            type: "POST",
+            url: "/Def3Maint/getGroups/",
+            data: { ent: ent },
+            async: false,
+            cache: false,
+            success: function (result) {
+                //alert("Success!");
+
+                var obj = JSON.parse(result);
+
+                makeSelect(obj, $("#groupSelect"), "GroupID", "GroupName");
+            },
+            error: function () {
+                alert("Error!");
+
+            }
+        });
+    });
+
+
+
+</script>

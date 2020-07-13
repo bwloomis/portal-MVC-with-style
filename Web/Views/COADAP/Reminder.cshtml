@@ -1,0 +1,92 @@
+﻿@model Assmnts.Models.GeneralForm
+@{
+    Layout = "AdapAppLayout.cshtml";
+}
+
+@section AddToHead{
+    <link rel="stylesheet" type="text/css" href="/Content/adap/css/ADAPForms.css" />
+    <script>
+        $(document).ready(function () {
+            @*uncommenting the line below will remove the "Previous Section" button*@
+            @*$('.class_prevscreen').hide();*@
+
+            $('.class_nextscreen').hide();
+            $('.btn-primary').hide();
+
+            @*extend the default behaviro of the "next section" button, to check simple validation before navigating*@
+            $('#returnButton').click(function () {
+
+                //$('form').attr('action', '/COADAP/FinalSubmit');
+                //SubmitForm('', '');
+            });
+
+            $('#successModal').on('show.bs.modal', function (event) {
+                var modal = $(this);
+
+                $.ajax({
+                    url: "/COADAP/FinalSubmit",
+                    type: 'GET',
+                    success: function (data) {
+                        if (data == 'True') {
+                            
+                        } else {
+                            // Some condition for failure.
+                        }
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        alert('xhr.status: ' + xhr.status);
+                        alert(thrownError);
+                    }
+
+                });
+            });
+
+            $('#successModal').on('hidden.bs.modal', function () {
+                $('form').attr('action', '/COADAP/CloseApplication');
+                SubmitForm('', '');
+            });
+        });
+    </script>
+}
+
+<h3><span class="label label-danger">@Model.thisScreenTitle</span></h3>
+
+<div class="panel panel-default">
+    <div class="panel-heading" style="color:red; font-weight:bold;">
+        @Resources.Reminder.ReminderHeader
+    </div>
+    <div class="panel-body" style="background-color:#f8f8f8">
+        @Html.Raw(Resources.Reminder.ReminderText)
+    </div>
+</div>
+
+<div class="container" style="padding-bottom:75px">
+    <div class="col-md-12">
+        <button id="returnButton" type="button" class="btn btn-success btn-s" data-toggle="modal" data-target="#successModal">
+            @Resources.Reminder.SubmitAndReturn
+        </button>
+    </div>
+</div>
+
+<!-- Success Modal -->
+<div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #337ab7; color:white;">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="successModalLabel"><b><span id="successHdr"></span></b>Success</h4>
+            </div>
+            <div class="modal-body" style="overflow-y:auto">
+                <div>
+                    <span id="success">
+                        Your Application has been successfully submitted, and it will be reviewed by Colorado ADAP.
+                    </span>
+                </div>
+            </div>
+            <div class="modal-footer" style="height:50px">
+                <button type="button" class="btn btn-primary" style="display:inline;" data-dismiss="modal">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+

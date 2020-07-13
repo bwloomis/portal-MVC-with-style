@@ -1,0 +1,2987 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="Authentication" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="http://localhost:45678/Authentication.svc?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://localhost:45678/Authentication.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://localhost:45678/Authentication.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/WS_UAS.DataDTO" />
+      <xsd:import schemaLocation="http://localhost:45678/Authentication.svc?xsd=xsd3" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+      <xsd:import schemaLocation="http://localhost:45678/Authentication.svc?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/WS_UAS.Business.ServiceImplementation.CAADAP" />
+      <xsd:import schemaLocation="http://localhost:45678/Authentication.svc?xsd=xsd5" namespace="http://schemas.datacontract.org/2004/07/WS_UAS.Business.ServiceImplementation" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IAuthentication_GetRoleTypes_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetRoleTypes" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetRoleTypes_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetRoleTypesResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_AddUserProfile_InputMessage">
+    <wsdl:part name="parameters" element="tns:AddUserProfile" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_AddUserProfile_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AddUserProfileResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetUserProfiles_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetUserProfiles" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetUserProfiles_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetUserProfilesResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetSecretQuestion_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetSecretQuestion" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetSecretQuestion_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetSecretQuestionResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetSecretQuestionIDs_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetSecretQuestionIDs" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetSecretQuestionIDs_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetSecretQuestionIDsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_AddSecretQuestionAnswer_InputMessage">
+    <wsdl:part name="parameters" element="tns:AddSecretQuestionAnswer" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_AddSecretQuestionAnswer_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AddSecretQuestionAnswerResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetSecretQuestionIDsByUser_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetSecretQuestionIDsByUser" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetSecretQuestionIDsByUser_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetSecretQuestionIDsByUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetSecretQuestionAnswersByUser_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetSecretQuestionAnswersByUser" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetSecretQuestionAnswersByUser_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetSecretQuestionAnswersByUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_ResetSecretQuestionAnswers_InputMessage">
+    <wsdl:part name="parameters" element="tns:ResetSecretQuestionAnswers" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_ResetSecretQuestionAnswers_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ResetSecretQuestionAnswersResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetLanguageByTwoLetterISOCode_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetLanguageByTwoLetterISOCode" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetLanguageByTwoLetterISOCode_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetLanguageByTwoLetterISOCodeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetUserInfo_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetUserInfo" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetUserInfo_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetUserInfoResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_CreateUser_InputMessage">
+    <wsdl:part name="parameters" element="tns:CreateUser" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_CreateUser_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CreateUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_UpdateUser_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateUser" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_UpdateUser_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_DeleteUserByUserName_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteUserByUserName" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_DeleteUserByUserName_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteUserByUserNameResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetAllUsers_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAllUsers" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetAllUsers_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAllUsersResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_UpdateSentLockoutEmail_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateSentLockoutEmail" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_UpdateSentLockoutEmail_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateSentLockoutEmailResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetLastLoginTime_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetLastLoginTime" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetLastLoginTime_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetLastLoginTimeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_List_Enrollment_Sites_InputMessage">
+    <wsdl:part name="parameters" element="tns:List_Enrollment_Sites" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_List_Enrollment_Sites_OutputMessage">
+    <wsdl:part name="parameters" element="tns:List_Enrollment_SitesResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetADAPIdentifier_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetADAPIdentifier" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetADAPIdentifier_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetADAPIdentifierResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetExistingAdapIdentifier_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetExistingAdapIdentifier" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetExistingAdapIdentifier_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetExistingAdapIdentifierResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_List_people_Users_InputMessage">
+    <wsdl:part name="parameters" element="tns:List_people_Users" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_List_people_Users_OutputMessage">
+    <wsdl:part name="parameters" element="tns:List_people_UsersResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_List_CSS_people_Users_InputMessage">
+    <wsdl:part name="parameters" element="tns:List_CSS_people_Users" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_List_CSS_people_Users_OutputMessage">
+    <wsdl:part name="parameters" element="tns:List_CSS_people_UsersResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_ListUsersClientSearch_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListUsersClientSearch" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_ListUsersClientSearch_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListUsersClientSearchResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_UpdateUserGroup_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateUserGroup" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_UpdateUserGroup_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateUserGroupResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetEmailUsers_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetEmailUsers" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetEmailUsers_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetEmailUsersResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_List_Email_Users_InputMessage">
+    <wsdl:part name="parameters" element="tns:List_Email_Users" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_List_Email_Users_OutputMessage">
+    <wsdl:part name="parameters" element="tns:List_Email_UsersResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_List_ENWorkers_InputMessage">
+    <wsdl:part name="parameters" element="tns:List_ENWorkers" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_List_ENWorkers_OutputMessage">
+    <wsdl:part name="parameters" element="tns:List_ENWorkersResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_IsEnrollmentWorker_InputMessage">
+    <wsdl:part name="parameters" element="tns:IsEnrollmentWorker" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_IsEnrollmentWorker_OutputMessage">
+    <wsdl:part name="parameters" element="tns:IsEnrollmentWorkerResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_ListPermissionGroupsByApplicationId_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListPermissionGroupsByApplicationId" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_ListPermissionGroupsByApplicationId_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListPermissionGroupsByApplicationIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_ListPermissionGroups_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListPermissionGroups" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_ListPermissionGroups_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListPermissionGroupsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetPermissionGroupById_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetPermissionGroupById" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetPermissionGroupById_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetPermissionGroupByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_AddPermissionGroup_InputMessage">
+    <wsdl:part name="parameters" element="tns:AddPermissionGroup" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_AddPermissionGroup_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AddPermissionGroupResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_DeletePermissionGroupById_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeletePermissionGroupById" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_DeletePermissionGroupById_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeletePermissionGroupByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_UpdatePermissionGroup_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdatePermissionGroup" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_UpdatePermissionGroup_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdatePermissionGroupResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_ListPermissionCodes_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListPermissionCodes" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_ListPermissionCodes_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListPermissionCodesResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetPermissionCodeById_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetPermissionCodeById" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetPermissionCodeById_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetPermissionCodeByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_AddPermissionCode_InputMessage">
+    <wsdl:part name="parameters" element="tns:AddPermissionCode" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_AddPermissionCode_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AddPermissionCodeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_DeletePermissionCodeById_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeletePermissionCodeById" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_DeletePermissionCodeById_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeletePermissionCodeByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_UpdatePermissionCode_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdatePermissionCode" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_UpdatePermissionCode_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdatePermissionCodeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_SecureDomain_InputMessage">
+    <wsdl:part name="parameters" element="tns:SecureDomain" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_SecureDomain_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SecureDomainResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_CheckActiveUser_InputMessage">
+    <wsdl:part name="parameters" element="tns:CheckActiveUser" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_CheckActiveUser_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CheckActiveUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_AuthenticateUser_InputMessage">
+    <wsdl:part name="parameters" element="tns:AuthenticateUser" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_AuthenticateUser_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AuthenticateUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_SignUserOut_InputMessage">
+    <wsdl:part name="parameters" element="tns:SignUserOut" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_SignUserOut_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SignUserOutResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_SsoLogin_InputMessage">
+    <wsdl:part name="parameters" element="tns:SsoLogin" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_SsoLogin_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SsoLoginResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_SsoLogout_InputMessage">
+    <wsdl:part name="parameters" element="tns:SsoLogout" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_SsoLogout_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SsoLogoutResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_CheckUserLoginStatus_InputMessage">
+    <wsdl:part name="parameters" element="tns:CheckUserLoginStatus" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_CheckUserLoginStatus_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CheckUserLoginStatusResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_AuthenticateAdminUser_InputMessage">
+    <wsdl:part name="parameters" element="tns:AuthenticateAdminUser" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_AuthenticateAdminUser_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AuthenticateAdminUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_IsUserLoginIDUnique_InputMessage">
+    <wsdl:part name="parameters" element="tns:IsUserLoginIDUnique" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_IsUserLoginIDUnique_OutputMessage">
+    <wsdl:part name="parameters" element="tns:IsUserLoginIDUniqueResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetUsers_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetUsers" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetUsers_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetUsersResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetUsersByEnterpriseId_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetUsersByEnterpriseId" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetUsersByEnterpriseId_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetUsersByEnterpriseIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_List_limited_Users_InputMessage">
+    <wsdl:part name="parameters" element="tns:List_limited_Users" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_List_limited_Users_OutputMessage">
+    <wsdl:part name="parameters" element="tns:List_limited_UsersResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_List_simple_Users_InputMessage">
+    <wsdl:part name="parameters" element="tns:List_simple_Users" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_List_simple_Users_OutputMessage">
+    <wsdl:part name="parameters" element="tns:List_simple_UsersResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_List_limited_LogAccess_InputMessage">
+    <wsdl:part name="parameters" element="tns:List_limited_LogAccess" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_List_limited_LogAccess_OutputMessage">
+    <wsdl:part name="parameters" element="tns:List_limited_LogAccessResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_List_limited_PermLogs_InputMessage">
+    <wsdl:part name="parameters" element="tns:List_limited_PermLogs" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_List_limited_PermLogs_OutputMessage">
+    <wsdl:part name="parameters" element="tns:List_limited_PermLogsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_Insert_LogAccess_InputMessage">
+    <wsdl:part name="parameters" element="tns:Insert_LogAccess" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_Insert_LogAccess_OutputMessage">
+    <wsdl:part name="parameters" element="tns:Insert_LogAccessResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_Insert_Multiple_LogAccesses_InputMessage">
+    <wsdl:part name="parameters" element="tns:Insert_Multiple_LogAccesses" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_Insert_Multiple_LogAccesses_OutputMessage">
+    <wsdl:part name="parameters" element="tns:Insert_Multiple_LogAccessesResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetUserDisplay_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetUserDisplay" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetUserDisplay_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetUserDisplayResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetUserDisplayByLoginId_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetUserDisplayByLoginId" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetUserDisplayByLoginId_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetUserDisplayByLoginIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetUserStringCSV_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetUserStringCSV" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetUserStringCSV_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetUserStringCSVResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetUser_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetUser" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetUser_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetUserByLoginID_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetUserByLoginID" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetUserByLoginID_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetUserByLoginIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetUserByNameAndBirthday_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetUserByNameAndBirthday" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetUserByNameAndBirthday_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetUserByNameAndBirthdayResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetUserIDByEmail_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetUserIDByEmail" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetUserIDByEmail_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetUserIDByEmailResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_UpdateUserDisplay_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateUserDisplay" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_UpdateUserDisplay_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateUserDisplayResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_UpdateUserPassword_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateUserPassword" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_UpdateUserPassword_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateUserPasswordResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_UpdateUserKey_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateUserKey" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_UpdateUserKey_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateUserKeyResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_AddUser_InputMessage">
+    <wsdl:part name="parameters" element="tns:AddUser" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_AddUser_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AddUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_DeleteUser_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteUser" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_DeleteUser_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetFirstContactableEmail_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetFirstContactableEmail" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetFirstContactableEmail_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetFirstContactableEmailResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_CountUsers_InputMessage">
+    <wsdl:part name="parameters" element="tns:CountUsers" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_CountUsers_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CountUsersResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_SignUsersOut_InputMessage">
+    <wsdl:part name="parameters" element="tns:SignUsersOut" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_SignUsersOut_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SignUsersOutResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetUserContextLightweight_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetUserContextLightweight" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetUserContextLightweight_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetUserContextLightweightResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetRecentUserLoginActivity_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetRecentUserLoginActivity" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetRecentUserLoginActivity_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetRecentUserLoginActivityResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetSystemConfigsByAppId_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetSystemConfigsByAppId" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetSystemConfigsByAppId_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetSystemConfigsByAppIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_AddSystemConfig_InputMessage">
+    <wsdl:part name="parameters" element="tns:AddSystemConfig" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_AddSystemConfig_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AddSystemConfigResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_UpdateSystemConfig_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateSystemConfig" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_UpdateSystemConfig_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateSystemConfigResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_DeleteSystemConfigById_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteSystemConfigById" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_DeleteSystemConfigById_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteSystemConfigByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetBaseTypes_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetBaseTypes" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetBaseTypes_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetBaseTypesResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetEnterprises_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetEnterprises" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetEnterprises_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetEnterprisesResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetAllEnterprises_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAllEnterprises" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetAllEnterprises_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAllEnterprisesResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_List_a_Enterprises_InputMessage">
+    <wsdl:part name="parameters" element="tns:List_a_Enterprises" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_List_a_Enterprises_OutputMessage">
+    <wsdl:part name="parameters" element="tns:List_a_EnterprisesResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetEnterpriseStringCSV_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetEnterpriseStringCSV" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetEnterpriseStringCSV_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetEnterpriseStringCSVResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetEnterprise_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetEnterprise" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetEnterprise_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetEnterpriseResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetEnterpriseByName_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetEnterpriseByName" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetEnterpriseByName_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetEnterpriseByNameResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_UpdateEnterprise_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateEnterprise" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_UpdateEnterprise_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateEnterpriseResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_DeleteEnterprise_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteEnterprise" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_DeleteEnterprise_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteEnterpriseResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_AddEnterprise_InputMessage">
+    <wsdl:part name="parameters" element="tns:AddEnterprise" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_AddEnterprise_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AddEnterpriseResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetAppEnt_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAppEnt" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetAppEnt_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAppEntResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetEntAppConfigs_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetEntAppConfigs" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetEntAppConfigs_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetEntAppConfigsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetEntAppConfigsFiltered_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetEntAppConfigsFiltered" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetEntAppConfigsFiltered_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetEntAppConfigsFilteredResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_AddEntAppConfig_InputMessage">
+    <wsdl:part name="parameters" element="tns:AddEntAppConfig" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_AddEntAppConfig_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AddEntAppConfigResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetEntAppConfig_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetEntAppConfig" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetEntAppConfig_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetEntAppConfigResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetEntAppConfigByEnumAndEnt_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetEntAppConfigByEnumAndEnt" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetEntAppConfigByEnumAndEnt_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetEntAppConfigByEnumAndEntResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetEntAppConfigByEntAppAndEnum_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetEntAppConfigByEntAppAndEnum" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetEntAppConfigByEntAppAndEnum_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetEntAppConfigByEntAppAndEnumResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_UpdateEntAppConfig_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateEntAppConfig" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_UpdateEntAppConfig_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateEntAppConfigResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_DeleteEntAppConfig_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteEntAppConfig" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_DeleteEntAppConfig_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteEntAppConfigResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_ListEnrollment_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListEnrollment" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_ListEnrollment_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListEnrollmentResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_ListHandout_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListHandout" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_ListHandout_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListHandoutResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetGroups_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetGroups" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetGroups_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetGroupsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetGroupsByEnterprise_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetGroupsByEnterprise" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetGroupsByEnterprise_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetGroupsByEnterpriseResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetGroupsByEnterpriseID_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetGroupsByEnterpriseID" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetGroupsByEnterpriseID_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetGroupsByEnterpriseIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetActiveGroupsByGroupTypeID_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetActiveGroupsByGroupTypeID" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetActiveGroupsByGroupTypeID_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetActiveGroupsByGroupTypeIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetActiveGroupsByGroupTypeIDIncludingSelectedInactive_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetActiveGroupsByGroupTypeIDIncludingSelectedInactive" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetActiveGroupsByGroupTypeIDIncludingSelectedInactive_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetActiveGroupsByGroupTypeIDIncludingSelectedInactiveResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetGroupsByEnterpriseIDIncludingGroupZero_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetGroupsByEnterpriseIDIncludingGroupZero" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetGroupsByEnterpriseIDIncludingGroupZero_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetGroupsByEnterpriseIDIncludingGroupZeroResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetGroupsInUserPermissions_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetGroupsInUserPermissions" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetGroupsInUserPermissions_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetGroupsInUserPermissionsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetGroupsInUserPermissionsDDL_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetGroupsInUserPermissionsDDL" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetGroupsInUserPermissionsDDL_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetGroupsInUserPermissionsDDLResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetGroupsByGroupNameAndEnterpriseID_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetGroupsByGroupNameAndEnterpriseID" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetGroupsByGroupNameAndEnterpriseID_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetGroupsByGroupNameAndEnterpriseIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetChildGroups_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetChildGroups" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetChildGroups_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetChildGroupsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_IsAuthorizedGroup_InputMessage">
+    <wsdl:part name="parameters" element="tns:IsAuthorizedGroup" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_IsAuthorizedGroup_OutputMessage">
+    <wsdl:part name="parameters" element="tns:IsAuthorizedGroupResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_getGroup_InputMessage">
+    <wsdl:part name="parameters" element="tns:getGroup" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_getGroup_OutputMessage">
+    <wsdl:part name="parameters" element="tns:getGroupResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_UpdateGroup_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateGroup" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_UpdateGroup_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateGroupResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_AddGroup_InputMessage">
+    <wsdl:part name="parameters" element="tns:AddGroup" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_AddGroup_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AddGroupResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_DeleteGroup_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteGroup" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_DeleteGroup_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteGroupResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_AddGroupType_InputMessage">
+    <wsdl:part name="parameters" element="tns:AddGroupType" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_AddGroupType_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AddGroupTypeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_UpdateGroupType_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateGroupType" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_UpdateGroupType_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateGroupTypeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_DeleteGroupType_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteGroupType" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_DeleteGroupType_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteGroupTypeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetGroupTypes_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetGroupTypes" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetGroupTypes_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetGroupTypesResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetGroupType_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetGroupType" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetGroupType_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetGroupTypeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetGroupTypesByEnterpriseID_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetGroupTypesByEnterpriseID" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetGroupTypesByEnterpriseID_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetGroupTypesByEnterpriseIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetGroupUserAppPermissions_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetGroupUserAppPermissions" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetGroupUserAppPermissions_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetGroupUserAppPermissionsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetGroupUserAppPermissionsByGroupUserAppId_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetGroupUserAppPermissionsByGroupUserAppId" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetGroupUserAppPermissionsByGroupUserAppId_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetGroupUserAppPermissionsByGroupUserAppIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetGroupUserAppPermissionsByUser_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetGroupUserAppPermissionsByUser" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetGroupUserAppPermissionsByUser_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetGroupUserAppPermissionsByUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetGroupUserAppPermissionsByUserID_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetGroupUserAppPermissionsByUserID" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetGroupUserAppPermissionsByUserID_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetGroupUserAppPermissionsByUserIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetUserGroupAffiliation_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetUserGroupAffiliation" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetUserGroupAffiliation_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetUserGroupAffiliationResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_UpdateGroupUserAppPermissions_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateGroupUserAppPermissions" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_UpdateGroupUserAppPermissions_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateGroupUserAppPermissionsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_DeleteGroupUserAppPermissions_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteGroupUserAppPermissions" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_DeleteGroupUserAppPermissions_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteGroupUserAppPermissionsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_AddGroupUserAppPermissions_InputMessage">
+    <wsdl:part name="parameters" element="tns:AddGroupUserAppPermissions" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_AddGroupUserAppPermissions_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AddGroupUserAppPermissionsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GenerateMinimalGroupUserAppPermissions_InputMessage">
+    <wsdl:part name="parameters" element="tns:GenerateMinimalGroupUserAppPermissions" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GenerateMinimalGroupUserAppPermissions_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GenerateMinimalGroupUserAppPermissionsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GenerateMinimalGroupUserAppPermissionsWithGroup_InputMessage">
+    <wsdl:part name="parameters" element="tns:GenerateMinimalGroupUserAppPermissionsWithGroup" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GenerateMinimalGroupUserAppPermissionsWithGroup_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GenerateMinimalGroupUserAppPermissionsWithGroupResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_ListRoleAppPermissionsByRoleID_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListRoleAppPermissionsByRoleID" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_ListRoleAppPermissionsByRoleID_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListRoleAppPermissionsByRoleIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_ListActiveRoleAppPermissionsByEnterpriseID_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListActiveRoleAppPermissionsByEnterpriseID" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_ListActiveRoleAppPermissionsByEnterpriseID_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListActiveRoleAppPermissionsByEnterpriseIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_ListActiveRoleAppPermissionsByAppIDEnterpriseID_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListActiveRoleAppPermissionsByAppIDEnterpriseID" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_ListActiveRoleAppPermissionsByAppIDEnterpriseID_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListActiveRoleAppPermissionsByAppIDEnterpriseIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_ListRoleAppPermissions_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListRoleAppPermissions" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_ListRoleAppPermissions_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListRoleAppPermissionsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetRoleAppPermissions_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetRoleAppPermissions" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetRoleAppPermissions_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetRoleAppPermissionsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_UpdateRoleAppPermissions_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateRoleAppPermissions" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_UpdateRoleAppPermissions_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateRoleAppPermissionsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_AddRoleAppPermissions_InputMessage">
+    <wsdl:part name="parameters" element="tns:AddRoleAppPermissions" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_AddRoleAppPermissions_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AddRoleAppPermissionsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_RemoveRoleAppPermissions_InputMessage">
+    <wsdl:part name="parameters" element="tns:RemoveRoleAppPermissions" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_RemoveRoleAppPermissions_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RemoveRoleAppPermissionsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetApplicationPermission_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetApplicationPermission" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetApplicationPermission_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetApplicationPermissionResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_ListApplicationPermissionsByAppID_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListApplicationPermissionsByAppID" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_ListApplicationPermissionsByAppID_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListApplicationPermissionsByAppIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_UpdateApplicationPermission_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateApplicationPermission" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_UpdateApplicationPermission_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateApplicationPermissionResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_AddApplicationPermission_InputMessage">
+    <wsdl:part name="parameters" element="tns:AddApplicationPermission" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_AddApplicationPermission_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AddApplicationPermissionResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetRoles_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetRoles" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetRoles_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetRolesResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetRolesByEnterpriseID_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetRolesByEnterpriseID" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetRolesByEnterpriseID_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetRolesByEnterpriseIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetRole_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetRole" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetRole_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetRoleResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetRoleByName_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetRoleByName" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetRoleByName_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetRoleByNameResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_UpdateRole_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateRole" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_UpdateRole_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateRoleResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_DeleteRole_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteRole" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_DeleteRole_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteRoleResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_AddRole_InputMessage">
+    <wsdl:part name="parameters" element="tns:AddRole" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_AddRole_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AddRoleResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetApplications_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetApplications" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetApplications_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetApplicationsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetApplication_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetApplication" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetApplication_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetApplicationResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetApplicationByName_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetApplicationByName" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetApplicationByName_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetApplicationByNameResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetApplicationsInUserPermissions_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetApplicationsInUserPermissions" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetApplicationsInUserPermissions_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetApplicationsInUserPermissionsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_UpdateApplication_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateApplication" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_UpdateApplication_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateApplicationResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_DeleteApplication_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteApplication" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_DeleteApplication_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteApplicationResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_AddApplication_InputMessage">
+    <wsdl:part name="parameters" element="tns:AddApplication" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_AddApplication_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AddApplicationResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetEnterpriseConfigID_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetEnterpriseConfigID" />
+  </wsdl:message>
+  <wsdl:message name="IAuthentication_GetEnterpriseConfigID_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetEnterpriseConfigIDResponse" />
+  </wsdl:message>
+  <wsdl:portType name="IAuthentication">
+    <wsdl:operation name="GetRoleTypes">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/GetRoleTypes" message="tns:IAuthentication_GetRoleTypes_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/GetRoleTypesResponse" message="tns:IAuthentication_GetRoleTypes_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AddUserProfile">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/AddUserProfile" message="tns:IAuthentication_AddUserProfile_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/AddUserProfileResponse" message="tns:IAuthentication_AddUserProfile_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUserProfiles">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/GetUserProfiles" message="tns:IAuthentication_GetUserProfiles_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/GetUserProfilesResponse" message="tns:IAuthentication_GetUserProfiles_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetSecretQuestion">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/GetSecretQuestion" message="tns:IAuthentication_GetSecretQuestion_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/GetSecretQuestionResponse" message="tns:IAuthentication_GetSecretQuestion_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetSecretQuestionIDs">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/GetSecretQuestionIDs" message="tns:IAuthentication_GetSecretQuestionIDs_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/GetSecretQuestionIDsResponse" message="tns:IAuthentication_GetSecretQuestionIDs_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AddSecretQuestionAnswer">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/AddSecretQuestionAnswer" message="tns:IAuthentication_AddSecretQuestionAnswer_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/AddSecretQuestionAnswerResponse" message="tns:IAuthentication_AddSecretQuestionAnswer_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetSecretQuestionIDsByUser">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/GetSecretQuestionIDsByUser" message="tns:IAuthentication_GetSecretQuestionIDsByUser_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/GetSecretQuestionIDsByUserResponse" message="tns:IAuthentication_GetSecretQuestionIDsByUser_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetSecretQuestionAnswersByUser">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/GetSecretQuestionAnswersByUser" message="tns:IAuthentication_GetSecretQuestionAnswersByUser_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/GetSecretQuestionAnswersByUserResponse" message="tns:IAuthentication_GetSecretQuestionAnswersByUser_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ResetSecretQuestionAnswers">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/ResetSecretQuestionAnswers" message="tns:IAuthentication_ResetSecretQuestionAnswers_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/ResetSecretQuestionAnswersResponse" message="tns:IAuthentication_ResetSecretQuestionAnswers_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetLanguageByTwoLetterISOCode">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/GetLanguageByTwoLetterISOCode" message="tns:IAuthentication_GetLanguageByTwoLetterISOCode_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/GetLanguageByTwoLetterISOCodeResponse" message="tns:IAuthentication_GetLanguageByTwoLetterISOCode_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUserInfo">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/GetUserInfo" message="tns:IAuthentication_GetUserInfo_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/GetUserInfoResponse" message="tns:IAuthentication_GetUserInfo_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateUser">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/CreateUser" message="tns:IAuthentication_CreateUser_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/CreateUserResponse" message="tns:IAuthentication_CreateUser_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateUser">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/UpdateUser" message="tns:IAuthentication_UpdateUser_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/UpdateUserResponse" message="tns:IAuthentication_UpdateUser_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteUserByUserName">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/DeleteUserByUserName" message="tns:IAuthentication_DeleteUserByUserName_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/DeleteUserByUserNameResponse" message="tns:IAuthentication_DeleteUserByUserName_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAllUsers">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/GetAllUsers" message="tns:IAuthentication_GetAllUsers_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/GetAllUsersResponse" message="tns:IAuthentication_GetAllUsers_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateSentLockoutEmail">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/UpdateSentLockoutEmail" message="tns:IAuthentication_UpdateSentLockoutEmail_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/UpdateSentLockoutEmailResponse" message="tns:IAuthentication_UpdateSentLockoutEmail_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetLastLoginTime">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/GetLastLoginTime" message="tns:IAuthentication_GetLastLoginTime_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/GetLastLoginTimeResponse" message="tns:IAuthentication_GetLastLoginTime_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="List_Enrollment_Sites">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/List_Enrollment_Sites" message="tns:IAuthentication_List_Enrollment_Sites_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/List_Enrollment_SitesResponse" message="tns:IAuthentication_List_Enrollment_Sites_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetADAPIdentifier">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/GetADAPIdentifier" message="tns:IAuthentication_GetADAPIdentifier_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/GetADAPIdentifierResponse" message="tns:IAuthentication_GetADAPIdentifier_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetExistingAdapIdentifier">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/GetExistingAdapIdentifier" message="tns:IAuthentication_GetExistingAdapIdentifier_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/GetExistingAdapIdentifierResponse" message="tns:IAuthentication_GetExistingAdapIdentifier_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="List_people_Users">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/List_people_Users" message="tns:IAuthentication_List_people_Users_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/List_people_UsersResponse" message="tns:IAuthentication_List_people_Users_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="List_CSS_people_Users">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/List_CSS_people_Users" message="tns:IAuthentication_List_CSS_people_Users_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/List_CSS_people_UsersResponse" message="tns:IAuthentication_List_CSS_people_Users_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListUsersClientSearch">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/ListUsersClientSearch" message="tns:IAuthentication_ListUsersClientSearch_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/ListUsersClientSearchResponse" message="tns:IAuthentication_ListUsersClientSearch_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateUserGroup">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/UpdateUserGroup" message="tns:IAuthentication_UpdateUserGroup_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/UpdateUserGroupResponse" message="tns:IAuthentication_UpdateUserGroup_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetEmailUsers">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/GetEmailUsers" message="tns:IAuthentication_GetEmailUsers_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/GetEmailUsersResponse" message="tns:IAuthentication_GetEmailUsers_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="List_Email_Users">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/List_Email_Users" message="tns:IAuthentication_List_Email_Users_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/List_Email_UsersResponse" message="tns:IAuthentication_List_Email_Users_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="List_ENWorkers">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/List_ENWorkers" message="tns:IAuthentication_List_ENWorkers_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/List_ENWorkersResponse" message="tns:IAuthentication_List_ENWorkers_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="IsEnrollmentWorker">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/IsEnrollmentWorker" message="tns:IAuthentication_IsEnrollmentWorker_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/IsEnrollmentWorkerResponse" message="tns:IAuthentication_IsEnrollmentWorker_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListPermissionGroupsByApplicationId">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/ListPermissionGroupsByApplicationId" message="tns:IAuthentication_ListPermissionGroupsByApplicationId_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/ListPermissionGroupsByApplicationIdResponse" message="tns:IAuthentication_ListPermissionGroupsByApplicationId_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListPermissionGroups">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/ListPermissionGroups" message="tns:IAuthentication_ListPermissionGroups_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/ListPermissionGroupsResponse" message="tns:IAuthentication_ListPermissionGroups_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPermissionGroupById">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/GetPermissionGroupById" message="tns:IAuthentication_GetPermissionGroupById_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/GetPermissionGroupByIdResponse" message="tns:IAuthentication_GetPermissionGroupById_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AddPermissionGroup">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/AddPermissionGroup" message="tns:IAuthentication_AddPermissionGroup_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/AddPermissionGroupResponse" message="tns:IAuthentication_AddPermissionGroup_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeletePermissionGroupById">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/DeletePermissionGroupById" message="tns:IAuthentication_DeletePermissionGroupById_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/DeletePermissionGroupByIdResponse" message="tns:IAuthentication_DeletePermissionGroupById_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdatePermissionGroup">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/UpdatePermissionGroup" message="tns:IAuthentication_UpdatePermissionGroup_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/UpdatePermissionGroupResponse" message="tns:IAuthentication_UpdatePermissionGroup_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListPermissionCodes">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/ListPermissionCodes" message="tns:IAuthentication_ListPermissionCodes_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/ListPermissionCodesResponse" message="tns:IAuthentication_ListPermissionCodes_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPermissionCodeById">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/GetPermissionCodeById" message="tns:IAuthentication_GetPermissionCodeById_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/GetPermissionCodeByIdResponse" message="tns:IAuthentication_GetPermissionCodeById_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AddPermissionCode">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/AddPermissionCode" message="tns:IAuthentication_AddPermissionCode_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/AddPermissionCodeResponse" message="tns:IAuthentication_AddPermissionCode_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeletePermissionCodeById">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/DeletePermissionCodeById" message="tns:IAuthentication_DeletePermissionCodeById_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/DeletePermissionCodeByIdResponse" message="tns:IAuthentication_DeletePermissionCodeById_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdatePermissionCode">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/UpdatePermissionCode" message="tns:IAuthentication_UpdatePermissionCode_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/UpdatePermissionCodeResponse" message="tns:IAuthentication_UpdatePermissionCode_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SecureDomain">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/SecureDomain" message="tns:IAuthentication_SecureDomain_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/SecureDomainResponse" message="tns:IAuthentication_SecureDomain_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CheckActiveUser">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/CheckActiveUser" message="tns:IAuthentication_CheckActiveUser_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/CheckActiveUserResponse" message="tns:IAuthentication_CheckActiveUser_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AuthenticateUser">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/AuthenticateUser" message="tns:IAuthentication_AuthenticateUser_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/AuthenticateUserResponse" message="tns:IAuthentication_AuthenticateUser_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SignUserOut">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/SignUserOut" message="tns:IAuthentication_SignUserOut_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/SignUserOutResponse" message="tns:IAuthentication_SignUserOut_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SsoLogin">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/SsoLogin" message="tns:IAuthentication_SsoLogin_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/SsoLoginResponse" message="tns:IAuthentication_SsoLogin_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SsoLogout">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/SsoLogout" message="tns:IAuthentication_SsoLogout_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/SsoLogoutResponse" message="tns:IAuthentication_SsoLogout_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CheckUserLoginStatus">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/CheckUserLoginStatus" message="tns:IAuthentication_CheckUserLoginStatus_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/CheckUserLoginStatusResponse" message="tns:IAuthentication_CheckUserLoginStatus_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AuthenticateAdminUser">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/AuthenticateAdminUser" message="tns:IAuthentication_AuthenticateAdminUser_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/AuthenticateAdminUserResponse" message="tns:IAuthentication_AuthenticateAdminUser_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="IsUserLoginIDUnique">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/IsUserLoginIDUnique" message="tns:IAuthentication_IsUserLoginIDUnique_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/IsUserLoginIDUniqueResponse" message="tns:IAuthentication_IsUserLoginIDUnique_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUsers">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/GetUsers" message="tns:IAuthentication_GetUsers_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/GetUsersResponse" message="tns:IAuthentication_GetUsers_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUsersByEnterpriseId">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/GetUsersByEnterpriseId" message="tns:IAuthentication_GetUsersByEnterpriseId_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/GetUsersByEnterpriseIdResponse" message="tns:IAuthentication_GetUsersByEnterpriseId_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="List_limited_Users">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/List_limited_Users" message="tns:IAuthentication_List_limited_Users_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/List_limited_UsersResponse" message="tns:IAuthentication_List_limited_Users_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="List_simple_Users">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/List_simple_Users" message="tns:IAuthentication_List_simple_Users_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/List_simple_UsersResponse" message="tns:IAuthentication_List_simple_Users_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="List_limited_LogAccess">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/List_limited_LogAccess" message="tns:IAuthentication_List_limited_LogAccess_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/List_limited_LogAccessResponse" message="tns:IAuthentication_List_limited_LogAccess_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="List_limited_PermLogs">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/List_limited_PermLogs" message="tns:IAuthentication_List_limited_PermLogs_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/List_limited_PermLogsResponse" message="tns:IAuthentication_List_limited_PermLogs_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Insert_LogAccess">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/Insert_LogAccess" message="tns:IAuthentication_Insert_LogAccess_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/Insert_LogAccessResponse" message="tns:IAuthentication_Insert_LogAccess_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Insert_Multiple_LogAccesses">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/Insert_Multiple_LogAccesses" message="tns:IAuthentication_Insert_Multiple_LogAccesses_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/Insert_Multiple_LogAccessesResponse" message="tns:IAuthentication_Insert_Multiple_LogAccesses_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUserDisplay">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/GetUserDisplay" message="tns:IAuthentication_GetUserDisplay_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/GetUserDisplayResponse" message="tns:IAuthentication_GetUserDisplay_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUserDisplayByLoginId">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/GetUserDisplayByLoginId" message="tns:IAuthentication_GetUserDisplayByLoginId_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/GetUserDisplayByLoginIdResponse" message="tns:IAuthentication_GetUserDisplayByLoginId_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUserStringCSV">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/GetUserStringCSV" message="tns:IAuthentication_GetUserStringCSV_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/GetUserStringCSVResponse" message="tns:IAuthentication_GetUserStringCSV_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUser">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/GetUser" message="tns:IAuthentication_GetUser_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/GetUserResponse" message="tns:IAuthentication_GetUser_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUserByLoginID">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/GetUserByLoginID" message="tns:IAuthentication_GetUserByLoginID_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/GetUserByLoginIDResponse" message="tns:IAuthentication_GetUserByLoginID_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUserByNameAndBirthday">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/GetUserByNameAndBirthday" message="tns:IAuthentication_GetUserByNameAndBirthday_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/GetUserByNameAndBirthdayResponse" message="tns:IAuthentication_GetUserByNameAndBirthday_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUserIDByEmail">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/GetUserIDByEmail" message="tns:IAuthentication_GetUserIDByEmail_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/GetUserIDByEmailResponse" message="tns:IAuthentication_GetUserIDByEmail_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateUserDisplay">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/UpdateUserDisplay" message="tns:IAuthentication_UpdateUserDisplay_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/UpdateUserDisplayResponse" message="tns:IAuthentication_UpdateUserDisplay_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateUserPassword">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/UpdateUserPassword" message="tns:IAuthentication_UpdateUserPassword_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/UpdateUserPasswordResponse" message="tns:IAuthentication_UpdateUserPassword_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateUserKey">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/UpdateUserKey" message="tns:IAuthentication_UpdateUserKey_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/UpdateUserKeyResponse" message="tns:IAuthentication_UpdateUserKey_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AddUser">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/AddUser" message="tns:IAuthentication_AddUser_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/AddUserResponse" message="tns:IAuthentication_AddUser_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteUser">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/DeleteUser" message="tns:IAuthentication_DeleteUser_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/DeleteUserResponse" message="tns:IAuthentication_DeleteUser_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetFirstContactableEmail">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/GetFirstContactableEmail" message="tns:IAuthentication_GetFirstContactableEmail_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/GetFirstContactableEmailResponse" message="tns:IAuthentication_GetFirstContactableEmail_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CountUsers">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/CountUsers" message="tns:IAuthentication_CountUsers_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/CountUsersResponse" message="tns:IAuthentication_CountUsers_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SignUsersOut">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/SignUsersOut" message="tns:IAuthentication_SignUsersOut_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/SignUsersOutResponse" message="tns:IAuthentication_SignUsersOut_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUserContextLightweight">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/GetUserContextLightweight" message="tns:IAuthentication_GetUserContextLightweight_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/GetUserContextLightweightResponse" message="tns:IAuthentication_GetUserContextLightweight_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetRecentUserLoginActivity">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/GetRecentUserLoginActivity" message="tns:IAuthentication_GetRecentUserLoginActivity_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/GetRecentUserLoginActivityResponse" message="tns:IAuthentication_GetRecentUserLoginActivity_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetSystemConfigsByAppId">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/GetSystemConfigsByAppId" message="tns:IAuthentication_GetSystemConfigsByAppId_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/GetSystemConfigsByAppIdResponse" message="tns:IAuthentication_GetSystemConfigsByAppId_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AddSystemConfig">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/AddSystemConfig" message="tns:IAuthentication_AddSystemConfig_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/AddSystemConfigResponse" message="tns:IAuthentication_AddSystemConfig_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateSystemConfig">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/UpdateSystemConfig" message="tns:IAuthentication_UpdateSystemConfig_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/UpdateSystemConfigResponse" message="tns:IAuthentication_UpdateSystemConfig_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteSystemConfigById">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/DeleteSystemConfigById" message="tns:IAuthentication_DeleteSystemConfigById_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/DeleteSystemConfigByIdResponse" message="tns:IAuthentication_DeleteSystemConfigById_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetBaseTypes">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/GetBaseTypes" message="tns:IAuthentication_GetBaseTypes_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/GetBaseTypesResponse" message="tns:IAuthentication_GetBaseTypes_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetEnterprises">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/GetEnterprises" message="tns:IAuthentication_GetEnterprises_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/GetEnterprisesResponse" message="tns:IAuthentication_GetEnterprises_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAllEnterprises">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/GetAllEnterprises" message="tns:IAuthentication_GetAllEnterprises_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/GetAllEnterprisesResponse" message="tns:IAuthentication_GetAllEnterprises_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="List_a_Enterprises">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/List_a_Enterprises" message="tns:IAuthentication_List_a_Enterprises_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/List_a_EnterprisesResponse" message="tns:IAuthentication_List_a_Enterprises_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetEnterpriseStringCSV">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/GetEnterpriseStringCSV" message="tns:IAuthentication_GetEnterpriseStringCSV_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/GetEnterpriseStringCSVResponse" message="tns:IAuthentication_GetEnterpriseStringCSV_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetEnterprise">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/GetEnterprise" message="tns:IAuthentication_GetEnterprise_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/GetEnterpriseResponse" message="tns:IAuthentication_GetEnterprise_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetEnterpriseByName">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/GetEnterpriseByName" message="tns:IAuthentication_GetEnterpriseByName_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/GetEnterpriseByNameResponse" message="tns:IAuthentication_GetEnterpriseByName_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateEnterprise">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/UpdateEnterprise" message="tns:IAuthentication_UpdateEnterprise_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/UpdateEnterpriseResponse" message="tns:IAuthentication_UpdateEnterprise_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteEnterprise">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/DeleteEnterprise" message="tns:IAuthentication_DeleteEnterprise_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/DeleteEnterpriseResponse" message="tns:IAuthentication_DeleteEnterprise_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AddEnterprise">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/AddEnterprise" message="tns:IAuthentication_AddEnterprise_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/AddEnterpriseResponse" message="tns:IAuthentication_AddEnterprise_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAppEnt">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/GetAppEnt" message="tns:IAuthentication_GetAppEnt_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/GetAppEntResponse" message="tns:IAuthentication_GetAppEnt_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetEntAppConfigs">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/GetEntAppConfigs" message="tns:IAuthentication_GetEntAppConfigs_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/GetEntAppConfigsResponse" message="tns:IAuthentication_GetEntAppConfigs_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetEntAppConfigsFiltered">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/GetEntAppConfigsFiltered" message="tns:IAuthentication_GetEntAppConfigsFiltered_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/GetEntAppConfigsFilteredResponse" message="tns:IAuthentication_GetEntAppConfigsFiltered_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AddEntAppConfig">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/AddEntAppConfig" message="tns:IAuthentication_AddEntAppConfig_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/AddEntAppConfigResponse" message="tns:IAuthentication_AddEntAppConfig_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetEntAppConfig">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/GetEntAppConfig" message="tns:IAuthentication_GetEntAppConfig_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/GetEntAppConfigResponse" message="tns:IAuthentication_GetEntAppConfig_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetEntAppConfigByEnumAndEnt">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/GetEntAppConfigByEnumAndEnt" message="tns:IAuthentication_GetEntAppConfigByEnumAndEnt_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/GetEntAppConfigByEnumAndEntResponse" message="tns:IAuthentication_GetEntAppConfigByEnumAndEnt_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetEntAppConfigByEntAppAndEnum">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/GetEntAppConfigByEntAppAndEnum" message="tns:IAuthentication_GetEntAppConfigByEntAppAndEnum_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/GetEntAppConfigByEntAppAndEnumResponse" message="tns:IAuthentication_GetEntAppConfigByEntAppAndEnum_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateEntAppConfig">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/UpdateEntAppConfig" message="tns:IAuthentication_UpdateEntAppConfig_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/UpdateEntAppConfigResponse" message="tns:IAuthentication_UpdateEntAppConfig_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteEntAppConfig">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/DeleteEntAppConfig" message="tns:IAuthentication_DeleteEntAppConfig_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/DeleteEntAppConfigResponse" message="tns:IAuthentication_DeleteEntAppConfig_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListEnrollment">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/ListEnrollment" message="tns:IAuthentication_ListEnrollment_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/ListEnrollmentResponse" message="tns:IAuthentication_ListEnrollment_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListHandout">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/ListHandout" message="tns:IAuthentication_ListHandout_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/ListHandoutResponse" message="tns:IAuthentication_ListHandout_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetGroups">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/GetGroups" message="tns:IAuthentication_GetGroups_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/GetGroupsResponse" message="tns:IAuthentication_GetGroups_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetGroupsByEnterprise">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/GetGroupsByEnterprise" message="tns:IAuthentication_GetGroupsByEnterprise_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/GetGroupsByEnterpriseResponse" message="tns:IAuthentication_GetGroupsByEnterprise_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetGroupsByEnterpriseID">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/GetGroupsByEnterpriseID" message="tns:IAuthentication_GetGroupsByEnterpriseID_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/GetGroupsByEnterpriseIDResponse" message="tns:IAuthentication_GetGroupsByEnterpriseID_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetActiveGroupsByGroupTypeID">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/GetActiveGroupsByGroupTypeID" message="tns:IAuthentication_GetActiveGroupsByGroupTypeID_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/GetActiveGroupsByGroupTypeIDResponse" message="tns:IAuthentication_GetActiveGroupsByGroupTypeID_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetActiveGroupsByGroupTypeIDIncludingSelectedInactive">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/GetActiveGroupsByGroupTypeIDIncludingSelectedInactive" message="tns:IAuthentication_GetActiveGroupsByGroupTypeIDIncludingSelectedInactive_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/GetActiveGroupsByGroupTypeIDIncludingSelectedInactiveResponse" message="tns:IAuthentication_GetActiveGroupsByGroupTypeIDIncludingSelectedInactive_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetGroupsByEnterpriseIDIncludingGroupZero">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/GetGroupsByEnterpriseIDIncludingGroupZero" message="tns:IAuthentication_GetGroupsByEnterpriseIDIncludingGroupZero_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/GetGroupsByEnterpriseIDIncludingGroupZeroResponse" message="tns:IAuthentication_GetGroupsByEnterpriseIDIncludingGroupZero_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetGroupsInUserPermissions">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/GetGroupsInUserPermissions" message="tns:IAuthentication_GetGroupsInUserPermissions_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/GetGroupsInUserPermissionsResponse" message="tns:IAuthentication_GetGroupsInUserPermissions_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetGroupsInUserPermissionsDDL">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/GetGroupsInUserPermissionsDDL" message="tns:IAuthentication_GetGroupsInUserPermissionsDDL_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/GetGroupsInUserPermissionsDDLResponse" message="tns:IAuthentication_GetGroupsInUserPermissionsDDL_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetGroupsByGroupNameAndEnterpriseID">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/GetGroupsByGroupNameAndEnterpriseID" message="tns:IAuthentication_GetGroupsByGroupNameAndEnterpriseID_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/GetGroupsByGroupNameAndEnterpriseIDResponse" message="tns:IAuthentication_GetGroupsByGroupNameAndEnterpriseID_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetChildGroups">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/GetChildGroups" message="tns:IAuthentication_GetChildGroups_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/GetChildGroupsResponse" message="tns:IAuthentication_GetChildGroups_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="IsAuthorizedGroup">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/IsAuthorizedGroup" message="tns:IAuthentication_IsAuthorizedGroup_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/IsAuthorizedGroupResponse" message="tns:IAuthentication_IsAuthorizedGroup_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="getGroup">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/getGroup" message="tns:IAuthentication_getGroup_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/getGroupResponse" message="tns:IAuthentication_getGroup_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateGroup">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/UpdateGroup" message="tns:IAuthentication_UpdateGroup_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/UpdateGroupResponse" message="tns:IAuthentication_UpdateGroup_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AddGroup">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/AddGroup" message="tns:IAuthentication_AddGroup_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/AddGroupResponse" message="tns:IAuthentication_AddGroup_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteGroup">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/DeleteGroup" message="tns:IAuthentication_DeleteGroup_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/DeleteGroupResponse" message="tns:IAuthentication_DeleteGroup_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AddGroupType">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/AddGroupType" message="tns:IAuthentication_AddGroupType_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/AddGroupTypeResponse" message="tns:IAuthentication_AddGroupType_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateGroupType">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/UpdateGroupType" message="tns:IAuthentication_UpdateGroupType_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/UpdateGroupTypeResponse" message="tns:IAuthentication_UpdateGroupType_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteGroupType">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/DeleteGroupType" message="tns:IAuthentication_DeleteGroupType_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/DeleteGroupTypeResponse" message="tns:IAuthentication_DeleteGroupType_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetGroupTypes">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/GetGroupTypes" message="tns:IAuthentication_GetGroupTypes_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/GetGroupTypesResponse" message="tns:IAuthentication_GetGroupTypes_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetGroupType">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/GetGroupType" message="tns:IAuthentication_GetGroupType_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/GetGroupTypeResponse" message="tns:IAuthentication_GetGroupType_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetGroupTypesByEnterpriseID">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/GetGroupTypesByEnterpriseID" message="tns:IAuthentication_GetGroupTypesByEnterpriseID_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/GetGroupTypesByEnterpriseIDResponse" message="tns:IAuthentication_GetGroupTypesByEnterpriseID_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetGroupUserAppPermissions">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/GetGroupUserAppPermissions" message="tns:IAuthentication_GetGroupUserAppPermissions_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/GetGroupUserAppPermissionsResponse" message="tns:IAuthentication_GetGroupUserAppPermissions_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetGroupUserAppPermissionsByGroupUserAppId">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/GetGroupUserAppPermissionsByGroupUserAppId" message="tns:IAuthentication_GetGroupUserAppPermissionsByGroupUserAppId_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/GetGroupUserAppPermissionsByGroupUserAppIdResponse" message="tns:IAuthentication_GetGroupUserAppPermissionsByGroupUserAppId_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetGroupUserAppPermissionsByUser">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/GetGroupUserAppPermissionsByUser" message="tns:IAuthentication_GetGroupUserAppPermissionsByUser_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/GetGroupUserAppPermissionsByUserResponse" message="tns:IAuthentication_GetGroupUserAppPermissionsByUser_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetGroupUserAppPermissionsByUserID">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/GetGroupUserAppPermissionsByUserID" message="tns:IAuthentication_GetGroupUserAppPermissionsByUserID_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/GetGroupUserAppPermissionsByUserIDResponse" message="tns:IAuthentication_GetGroupUserAppPermissionsByUserID_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUserGroupAffiliation">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/GetUserGroupAffiliation" message="tns:IAuthentication_GetUserGroupAffiliation_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/GetUserGroupAffiliationResponse" message="tns:IAuthentication_GetUserGroupAffiliation_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateGroupUserAppPermissions">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/UpdateGroupUserAppPermissions" message="tns:IAuthentication_UpdateGroupUserAppPermissions_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/UpdateGroupUserAppPermissionsResponse" message="tns:IAuthentication_UpdateGroupUserAppPermissions_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteGroupUserAppPermissions">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/DeleteGroupUserAppPermissions" message="tns:IAuthentication_DeleteGroupUserAppPermissions_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/DeleteGroupUserAppPermissionsResponse" message="tns:IAuthentication_DeleteGroupUserAppPermissions_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AddGroupUserAppPermissions">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/AddGroupUserAppPermissions" message="tns:IAuthentication_AddGroupUserAppPermissions_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/AddGroupUserAppPermissionsResponse" message="tns:IAuthentication_AddGroupUserAppPermissions_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GenerateMinimalGroupUserAppPermissions">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/GenerateMinimalGroupUserAppPermissions" message="tns:IAuthentication_GenerateMinimalGroupUserAppPermissions_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/GenerateMinimalGroupUserAppPermissionsResponse" message="tns:IAuthentication_GenerateMinimalGroupUserAppPermissions_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GenerateMinimalGroupUserAppPermissionsWithGroup">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/GenerateMinimalGroupUserAppPermissionsWithGroup" message="tns:IAuthentication_GenerateMinimalGroupUserAppPermissionsWithGroup_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/GenerateMinimalGroupUserAppPermissionsWithGroupResponse" message="tns:IAuthentication_GenerateMinimalGroupUserAppPermissionsWithGroup_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListRoleAppPermissionsByRoleID">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/ListRoleAppPermissionsByRoleID" message="tns:IAuthentication_ListRoleAppPermissionsByRoleID_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/ListRoleAppPermissionsByRoleIDResponse" message="tns:IAuthentication_ListRoleAppPermissionsByRoleID_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListActiveRoleAppPermissionsByEnterpriseID">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/ListActiveRoleAppPermissionsByEnterpriseID" message="tns:IAuthentication_ListActiveRoleAppPermissionsByEnterpriseID_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/ListActiveRoleAppPermissionsByEnterpriseIDResponse" message="tns:IAuthentication_ListActiveRoleAppPermissionsByEnterpriseID_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListActiveRoleAppPermissionsByAppIDEnterpriseID">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/ListActiveRoleAppPermissionsByAppIDEnterpriseID" message="tns:IAuthentication_ListActiveRoleAppPermissionsByAppIDEnterpriseID_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/ListActiveRoleAppPermissionsByAppIDEnterpriseIDResponse" message="tns:IAuthentication_ListActiveRoleAppPermissionsByAppIDEnterpriseID_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListRoleAppPermissions">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/ListRoleAppPermissions" message="tns:IAuthentication_ListRoleAppPermissions_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/ListRoleAppPermissionsResponse" message="tns:IAuthentication_ListRoleAppPermissions_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetRoleAppPermissions">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/GetRoleAppPermissions" message="tns:IAuthentication_GetRoleAppPermissions_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/GetRoleAppPermissionsResponse" message="tns:IAuthentication_GetRoleAppPermissions_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateRoleAppPermissions">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/UpdateRoleAppPermissions" message="tns:IAuthentication_UpdateRoleAppPermissions_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/UpdateRoleAppPermissionsResponse" message="tns:IAuthentication_UpdateRoleAppPermissions_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AddRoleAppPermissions">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/AddRoleAppPermissions" message="tns:IAuthentication_AddRoleAppPermissions_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/AddRoleAppPermissionsResponse" message="tns:IAuthentication_AddRoleAppPermissions_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RemoveRoleAppPermissions">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/RemoveRoleAppPermissions" message="tns:IAuthentication_RemoveRoleAppPermissions_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/RemoveRoleAppPermissionsResponse" message="tns:IAuthentication_RemoveRoleAppPermissions_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetApplicationPermission">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/GetApplicationPermission" message="tns:IAuthentication_GetApplicationPermission_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/GetApplicationPermissionResponse" message="tns:IAuthentication_GetApplicationPermission_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListApplicationPermissionsByAppID">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/ListApplicationPermissionsByAppID" message="tns:IAuthentication_ListApplicationPermissionsByAppID_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/ListApplicationPermissionsByAppIDResponse" message="tns:IAuthentication_ListApplicationPermissionsByAppID_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateApplicationPermission">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/UpdateApplicationPermission" message="tns:IAuthentication_UpdateApplicationPermission_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/UpdateApplicationPermissionResponse" message="tns:IAuthentication_UpdateApplicationPermission_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AddApplicationPermission">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/AddApplicationPermission" message="tns:IAuthentication_AddApplicationPermission_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/AddApplicationPermissionResponse" message="tns:IAuthentication_AddApplicationPermission_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetRoles">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/GetRoles" message="tns:IAuthentication_GetRoles_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/GetRolesResponse" message="tns:IAuthentication_GetRoles_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetRolesByEnterpriseID">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/GetRolesByEnterpriseID" message="tns:IAuthentication_GetRolesByEnterpriseID_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/GetRolesByEnterpriseIDResponse" message="tns:IAuthentication_GetRolesByEnterpriseID_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetRole">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/GetRole" message="tns:IAuthentication_GetRole_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/GetRoleResponse" message="tns:IAuthentication_GetRole_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetRoleByName">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/GetRoleByName" message="tns:IAuthentication_GetRoleByName_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/GetRoleByNameResponse" message="tns:IAuthentication_GetRoleByName_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateRole">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/UpdateRole" message="tns:IAuthentication_UpdateRole_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/UpdateRoleResponse" message="tns:IAuthentication_UpdateRole_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteRole">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/DeleteRole" message="tns:IAuthentication_DeleteRole_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/DeleteRoleResponse" message="tns:IAuthentication_DeleteRole_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AddRole">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/AddRole" message="tns:IAuthentication_AddRole_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/AddRoleResponse" message="tns:IAuthentication_AddRole_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetApplications">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/GetApplications" message="tns:IAuthentication_GetApplications_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/GetApplicationsResponse" message="tns:IAuthentication_GetApplications_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetApplication">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/GetApplication" message="tns:IAuthentication_GetApplication_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/GetApplicationResponse" message="tns:IAuthentication_GetApplication_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetApplicationByName">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/GetApplicationByName" message="tns:IAuthentication_GetApplicationByName_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/GetApplicationByNameResponse" message="tns:IAuthentication_GetApplicationByName_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetApplicationsInUserPermissions">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/GetApplicationsInUserPermissions" message="tns:IAuthentication_GetApplicationsInUserPermissions_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/GetApplicationsInUserPermissionsResponse" message="tns:IAuthentication_GetApplicationsInUserPermissions_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateApplication">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/UpdateApplication" message="tns:IAuthentication_UpdateApplication_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/UpdateApplicationResponse" message="tns:IAuthentication_UpdateApplication_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteApplication">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/DeleteApplication" message="tns:IAuthentication_DeleteApplication_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/DeleteApplicationResponse" message="tns:IAuthentication_DeleteApplication_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AddApplication">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/AddApplication" message="tns:IAuthentication_AddApplication_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/AddApplicationResponse" message="tns:IAuthentication_AddApplication_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetEnterpriseConfigID">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAuthentication/GetEnterpriseConfigID" message="tns:IAuthentication_GetEnterpriseConfigID_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAuthentication/GetEnterpriseConfigIDResponse" message="tns:IAuthentication_GetEnterpriseConfigID_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BasicHttpBinding_IAuthentication" type="tns:IAuthentication">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetRoleTypes">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/GetRoleTypes" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddUserProfile">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/AddUserProfile" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserProfiles">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/GetUserProfiles" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSecretQuestion">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/GetSecretQuestion" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSecretQuestionIDs">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/GetSecretQuestionIDs" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddSecretQuestionAnswer">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/AddSecretQuestionAnswer" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSecretQuestionIDsByUser">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/GetSecretQuestionIDsByUser" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSecretQuestionAnswersByUser">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/GetSecretQuestionAnswersByUser" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ResetSecretQuestionAnswers">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/ResetSecretQuestionAnswers" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetLanguageByTwoLetterISOCode">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/GetLanguageByTwoLetterISOCode" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserInfo">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/GetUserInfo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateUser">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/CreateUser" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateUser">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/UpdateUser" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteUserByUserName">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/DeleteUserByUserName" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllUsers">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/GetAllUsers" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateSentLockoutEmail">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/UpdateSentLockoutEmail" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetLastLoginTime">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/GetLastLoginTime" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="List_Enrollment_Sites">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/List_Enrollment_Sites" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetADAPIdentifier">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/GetADAPIdentifier" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetExistingAdapIdentifier">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/GetExistingAdapIdentifier" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="List_people_Users">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/List_people_Users" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="List_CSS_people_Users">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/List_CSS_people_Users" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListUsersClientSearch">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/ListUsersClientSearch" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateUserGroup">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/UpdateUserGroup" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetEmailUsers">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/GetEmailUsers" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="List_Email_Users">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/List_Email_Users" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="List_ENWorkers">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/List_ENWorkers" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="IsEnrollmentWorker">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/IsEnrollmentWorker" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListPermissionGroupsByApplicationId">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/ListPermissionGroupsByApplicationId" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListPermissionGroups">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/ListPermissionGroups" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPermissionGroupById">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/GetPermissionGroupById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddPermissionGroup">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/AddPermissionGroup" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeletePermissionGroupById">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/DeletePermissionGroupById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdatePermissionGroup">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/UpdatePermissionGroup" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListPermissionCodes">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/ListPermissionCodes" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPermissionCodeById">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/GetPermissionCodeById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddPermissionCode">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/AddPermissionCode" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeletePermissionCodeById">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/DeletePermissionCodeById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdatePermissionCode">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/UpdatePermissionCode" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SecureDomain">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/SecureDomain" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CheckActiveUser">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/CheckActiveUser" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AuthenticateUser">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/AuthenticateUser" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SignUserOut">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/SignUserOut" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SsoLogin">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/SsoLogin" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SsoLogout">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/SsoLogout" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CheckUserLoginStatus">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/CheckUserLoginStatus" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AuthenticateAdminUser">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/AuthenticateAdminUser" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="IsUserLoginIDUnique">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/IsUserLoginIDUnique" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUsers">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/GetUsers" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUsersByEnterpriseId">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/GetUsersByEnterpriseId" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="List_limited_Users">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/List_limited_Users" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="List_simple_Users">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/List_simple_Users" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="List_limited_LogAccess">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/List_limited_LogAccess" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="List_limited_PermLogs">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/List_limited_PermLogs" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Insert_LogAccess">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/Insert_LogAccess" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Insert_Multiple_LogAccesses">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/Insert_Multiple_LogAccesses" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserDisplay">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/GetUserDisplay" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserDisplayByLoginId">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/GetUserDisplayByLoginId" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserStringCSV">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/GetUserStringCSV" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUser">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/GetUser" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserByLoginID">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/GetUserByLoginID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserByNameAndBirthday">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/GetUserByNameAndBirthday" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserIDByEmail">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/GetUserIDByEmail" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateUserDisplay">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/UpdateUserDisplay" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateUserPassword">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/UpdateUserPassword" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateUserKey">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/UpdateUserKey" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddUser">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/AddUser" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteUser">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/DeleteUser" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFirstContactableEmail">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/GetFirstContactableEmail" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CountUsers">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/CountUsers" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SignUsersOut">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/SignUsersOut" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserContextLightweight">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/GetUserContextLightweight" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRecentUserLoginActivity">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/GetRecentUserLoginActivity" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSystemConfigsByAppId">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/GetSystemConfigsByAppId" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddSystemConfig">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/AddSystemConfig" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateSystemConfig">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/UpdateSystemConfig" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteSystemConfigById">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/DeleteSystemConfigById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBaseTypes">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/GetBaseTypes" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetEnterprises">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/GetEnterprises" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllEnterprises">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/GetAllEnterprises" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="List_a_Enterprises">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/List_a_Enterprises" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetEnterpriseStringCSV">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/GetEnterpriseStringCSV" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetEnterprise">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/GetEnterprise" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetEnterpriseByName">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/GetEnterpriseByName" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateEnterprise">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/UpdateEnterprise" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteEnterprise">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/DeleteEnterprise" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddEnterprise">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/AddEnterprise" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAppEnt">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/GetAppEnt" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetEntAppConfigs">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/GetEntAppConfigs" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetEntAppConfigsFiltered">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/GetEntAppConfigsFiltered" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddEntAppConfig">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/AddEntAppConfig" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetEntAppConfig">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/GetEntAppConfig" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetEntAppConfigByEnumAndEnt">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/GetEntAppConfigByEnumAndEnt" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetEntAppConfigByEntAppAndEnum">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/GetEntAppConfigByEntAppAndEnum" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateEntAppConfig">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/UpdateEntAppConfig" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteEntAppConfig">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/DeleteEntAppConfig" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListEnrollment">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/ListEnrollment" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListHandout">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/ListHandout" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetGroups">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/GetGroups" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetGroupsByEnterprise">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/GetGroupsByEnterprise" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetGroupsByEnterpriseID">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/GetGroupsByEnterpriseID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetActiveGroupsByGroupTypeID">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/GetActiveGroupsByGroupTypeID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetActiveGroupsByGroupTypeIDIncludingSelectedInactive">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/GetActiveGroupsByGroupTypeIDIncludingSelectedInactive" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetGroupsByEnterpriseIDIncludingGroupZero">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/GetGroupsByEnterpriseIDIncludingGroupZero" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetGroupsInUserPermissions">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/GetGroupsInUserPermissions" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetGroupsInUserPermissionsDDL">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/GetGroupsInUserPermissionsDDL" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetGroupsByGroupNameAndEnterpriseID">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/GetGroupsByGroupNameAndEnterpriseID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetChildGroups">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/GetChildGroups" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="IsAuthorizedGroup">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/IsAuthorizedGroup" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getGroup">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/getGroup" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateGroup">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/UpdateGroup" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddGroup">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/AddGroup" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteGroup">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/DeleteGroup" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddGroupType">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/AddGroupType" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateGroupType">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/UpdateGroupType" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteGroupType">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/DeleteGroupType" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetGroupTypes">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/GetGroupTypes" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetGroupType">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/GetGroupType" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetGroupTypesByEnterpriseID">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/GetGroupTypesByEnterpriseID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetGroupUserAppPermissions">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/GetGroupUserAppPermissions" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetGroupUserAppPermissionsByGroupUserAppId">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/GetGroupUserAppPermissionsByGroupUserAppId" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetGroupUserAppPermissionsByUser">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/GetGroupUserAppPermissionsByUser" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetGroupUserAppPermissionsByUserID">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/GetGroupUserAppPermissionsByUserID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserGroupAffiliation">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/GetUserGroupAffiliation" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateGroupUserAppPermissions">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/UpdateGroupUserAppPermissions" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteGroupUserAppPermissions">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/DeleteGroupUserAppPermissions" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddGroupUserAppPermissions">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/AddGroupUserAppPermissions" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GenerateMinimalGroupUserAppPermissions">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/GenerateMinimalGroupUserAppPermissions" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GenerateMinimalGroupUserAppPermissionsWithGroup">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/GenerateMinimalGroupUserAppPermissionsWithGroup" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListRoleAppPermissionsByRoleID">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/ListRoleAppPermissionsByRoleID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListActiveRoleAppPermissionsByEnterpriseID">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/ListActiveRoleAppPermissionsByEnterpriseID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListActiveRoleAppPermissionsByAppIDEnterpriseID">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/ListActiveRoleAppPermissionsByAppIDEnterpriseID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListRoleAppPermissions">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/ListRoleAppPermissions" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRoleAppPermissions">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/GetRoleAppPermissions" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateRoleAppPermissions">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/UpdateRoleAppPermissions" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddRoleAppPermissions">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/AddRoleAppPermissions" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RemoveRoleAppPermissions">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/RemoveRoleAppPermissions" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetApplicationPermission">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/GetApplicationPermission" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListApplicationPermissionsByAppID">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/ListApplicationPermissionsByAppID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateApplicationPermission">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/UpdateApplicationPermission" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddApplicationPermission">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/AddApplicationPermission" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRoles">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/GetRoles" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRolesByEnterpriseID">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/GetRolesByEnterpriseID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRole">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/GetRole" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRoleByName">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/GetRoleByName" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateRole">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/UpdateRole" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteRole">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/DeleteRole" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddRole">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/AddRole" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetApplications">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/GetApplications" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetApplication">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/GetApplication" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetApplicationByName">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/GetApplicationByName" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetApplicationsInUserPermissions">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/GetApplicationsInUserPermissions" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateApplication">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/UpdateApplication" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteApplication">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/DeleteApplication" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddApplication">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/AddApplication" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetEnterpriseConfigID">
+      <soap:operation soapAction="http://tempuri.org/IAuthentication/GetEnterpriseConfigID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Authentication">
+    <wsdl:port name="BasicHttpBinding_IAuthentication" binding="tns:BasicHttpBinding_IAuthentication">
+      <soap:address location="http://localhost:45678/Authentication.svc" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

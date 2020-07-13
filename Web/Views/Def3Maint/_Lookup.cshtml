@@ -1,0 +1,45 @@
+﻿
+@{
+    Layout = null;
+}
+    <script src="~/Content/js/jquery-2.1.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-theme.min.css" rel="stylesheet" />
+
+    
+    <script>
+        function getLookupMasters() {
+            $.ajax({
+                type: "POST",
+                url: "/Lookup/GetLookupMasters",
+                async: false,
+                cache: false,
+                success: function (result) {
+
+                    alert(result);
+
+                    var obj = JSON.parse(result);
+
+                
+                },
+                error: function () {
+                    alert("Error loading lookup masters.");
+
+                }
+            });
+        }
+    </script>
+
+
+    <div id="lookupMaster">
+                   
+
+    </div>
+    <div id="lookupDetail" hidden="hidden">
+
+    </div>
+
+    <div id="lookupText" hidden="hidden">
+
+    </div>

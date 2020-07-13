@@ -1,0 +1,575 @@
+﻿@model Assmnts.Models.GeneralForm
+@{
+    Layout = "AdapAppLayout.cshtml";
+}
+
+@section AddToHead{
+    <link rel="stylesheet" type="text/css" href="/Content/adap/css/ADAPForms.css" />
+<script src="~/Content/js/ADAPLookupSelects.js"></script>
+<script src="/Content/js/jquery.maskedinput.min.js"></script>
+<link href="~/stylesheets/jquery.growl.css" rel="stylesheet" />
+<script src="~/javascripts/jquery.growl.js"></script>
+
+    <script>
+        $(document).ready(function () {
+
+
+            //hide the previous section button, because this is the first section
+            //$('.class_prevscreen').hide();
+            $(".navbar-nav").find("li").each(function () {
+                $(this).click(function () {
+                    $.ajax({
+                        url: '@Url.Action("PageLoadEvents","Results")',
+                    });
+                });
+            });
+
+            $("button").click(function () {
+                $.ajax({
+                    url: '@Url.Action("PageLoadClickEvents", "Results")',
+                });
+            });
+
+            //hide the previous section button, because this is the first section
+            //$('.class_prevscreen').hide();
+
+
+
+            var Notify = '@ViewBag.Notify';
+            var NotifyMessage = '@ViewBag.NotifyMessage';
+            if (Notify == "Saved") {
+                console.log("notify start");
+                if (NotifyMessage != '')
+                    $.growl.notice({ title: "Save", message: NotifyMessage });
+                else
+                    $.growl.notice({ title: "Save", message: "Application Save successfully" });
+
+            }
+            else if (Notify == "Cancel") {
+                if (NotifyMessage != '')
+                    $.growl.error({ title: "Error", message: NotifyMessage });
+                else
+                    $.growl.error({ title: "Error", message: "Internal server error:Review the logs" });
+            }
+
+            //setup certain elements to be visible iff a certain checkbox is checked
+            @foreach (string pair in new string[] {
+            //"[element to toggle]/[controlling checkbox]",
+            "PanelAsianAncestry/C1_MemberRaceIdAsian",
+            "PIAncestry/C1_MemberRaceIdNative"
+        })
+        {
+            string[] parts = pair.Split('/');
+            @:$('#@parts[0]').toggle($('#@parts[1]').get(0).checked);
+                                                @:$('#@parts[1]').change(function () { $('#@parts[0]').toggle($(this).get(0).checked); });
+                                                                                                                                            }
+        });
+    </script>
+}
+<br/>
+<!-- D3 race -->
+<span class="label label-danger" style="font-size:15px;">@Model.sctTitles["CA-ADAP-Demographic-1_sub"]</span></p>
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="pull-right prevAppBtn"><button data-prevdiv="PreviousD3" class="btn" type="button"></button></div>
+        <div class="pull-right"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CmntModal" data-label="D1. @Model.sctTitles["CA-ADAP-Demographic-1_sub"]"><span class="glyphicon glyphicon-comment"></span></button></div>
+        @*<p><strong>@Model.sctTitles["CA-ADAP-Demographic-1_sub"]</strong></p>*@
+        @*<p><strong>D1. @Model.fldLabels["C1_MemberRaceIdentification_item"]</strong></p>*@
+        <div class="form-group" style="margin-left:25px">
+            <div class="col-md-4">
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "C1_MemberRaceIdWhite")
+                </div>
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "C1_MemberRaceIdAfrican")
+                </div>
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "C1_MemberRaceIdAsian")
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "C1_MemberRaceIdNative")
+                </div>
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "C1_MemberRaceIdIndian")
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- PREVIOUS D3 race -->
+<div class="panel panel-default previous-response" id="PreviousD3">
+    <div class="panel-body">
+        <div class="pull-right prevAppBtn"><button data-prevdiv="PreviousD3" class="btn" type="button"></button></div>
+        <div class="pull-right"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CmntModal"><span class="glyphicon glyphicon-comment"></span></button></div>
+        <p><strong>@Model.sctTitles["CA-ADAP-Demographic-1_sub"]</strong></p>
+        @*<p><strong>D1. @Model.fldLabels["C1_MemberRaceIdentification_item"]</strong></p>*@
+        <div class="form-group" style="margin-left:25px">
+            <div class="col-md-4">
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "PREVIOUS_C1_MemberRaceIdWhite", Model.fldLabels["C1_MemberRaceIdWhite_item"])
+                </div>
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "PREVIOUS_C1_MemberRaceIdAfrican", Model.fldLabels["C1_MemberRaceIdAfrican_item"])
+                </div>
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "PREVIOUS_C1_MemberRaceIdAsian", Model.fldLabels["C1_MemberRaceIdAsian_item"])
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "PREVIOUS_C1_MemberRaceIdNative", Model.fldLabels["C1_MemberRaceIdNative_item"])
+                </div>
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "PREVIOUS_C1_MemberRaceIdIndian", Model.fldLabels["C1_MemberRaceIdIndian_item"])
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- D5 asian ancestry -->
+<div class="panel panel-default" id="PanelAsianAncestry">
+    <div class="panel-body">
+        <div class="pull-right prevAppBtn"><button data-prevdiv="PreviousD5" class="btn" type="button"></button></div>
+        <div class="pull-right"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CmntModal" data-label="D3. @Model.sctTitles["CA-ADAP-Demographic-1_sub"]"><span class="glyphicon glyphicon-comment"></span></button></div>
+        <div class="form-group">
+            @*<label class="col-md-10 control-label" for="" style="text-align:left">@Model.fldLabels["C1_MemberRaceIdAsianSub_item"]</label>*@
+            @Helpers.LabelSpan(Model, "C1_MemberRaceIdAsianSub_item", new { @class = "cold-md-10 control-label" })
+        </div>
+        <div class="form-group YesAsianAncestry" style="margin-left:25px">
+            <div class="col-md-3">
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "C1_MRaceIdAsianSubAsian")
+                </div>
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "C1_MRaceIdAsianSubFilipino")
+                </div>
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "C1_MRaceIdAsianSubKorean")
+                </div>
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "C1_MRaceIdAsianSubChinese")
+                </div>
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "C1_MRaceIdAsianSubJapanese")
+                </div>
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "C1_MRaceIdAsianSubVietnamese")
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "C1_MRaceIdAsianSubLaotian")
+                </div>
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "C1_MRaceIdAsianSubCambodian")
+                </div>
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "C1_MRaceIdAsianSubBangladeshi")
+                </div>
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "C1_MRaceIdAsianSubHmong")
+                </div>
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "C1_MRaceIdAsianSubIndonesian")
+                </div>
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "C1_MRaceIdAsianSubMalaysian")
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "C1_MRaceIdAsianSubPakistani")
+                </div>
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "C1_MRaceIdAsianSubSriLankan")
+                </div>
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "C1_MRaceIdAsianSubTaiwanese")
+                </div>
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "C1_MRaceIdAsianSubThai")
+                </div>
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "C1_MRaceIdAsianSubBurmese")
+                </div>
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "C1_MRaceIdAsianSubSingaporean")
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "C1_MRaceIdAsianSubOther")
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- PREVIOUS D5 asian ancestry -->
+<div class="panel panel-default previous-response" id="PreviousD5">
+    <div class="panel-body">
+        <div class="pull-right prevAppBtn"><button data-prevdiv="PreviousD5" class="btn" type="button"></button></div>
+        <div class="pull-right"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CmntModal"><span class="glyphicon glyphicon-comment"></span></button></div>
+        <div class="form-group">
+            @*<label class="col-md-10 control-label" for="" style="text-align:left">@Model.fldLabels["C1_MemberRaceIdAsianSub_item"]</label>*@
+            @Helpers.LabelSpan(Model, "C1_MemberRaceIdAsianSub_item", new { @class = "col-md-10 control-label" })
+        </div>
+        <div class="form-group YesAsianAncestry" style="margin-left:25px">
+            <div class="col-md-3">
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "PREVIOUS_C1_MRaceIdAsianSubAsian", Model.fldLabels["C1_MRaceIdAsianSubAsian_item"])
+                </div>
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "PREVIOUS_C1_MRaceIdAsianSubFilipino", Model.fldLabels["C1_MRaceIdAsianSubFilipino_item"])
+                </div>
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "PREVIOUS_C1_MRaceIdAsianSubKorean", Model.fldLabels["C1_MRaceIdAsianSubKorean_item"])
+                </div>
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "PREVIOUS_C1_MRaceIdAsianSubChinese", Model.fldLabels["C1_MRaceIdAsianSubChinese_item"])
+                </div>
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "PREVIOUS_C1_MRaceIdAsianSubJapanese", Model.fldLabels["C1_MRaceIdAsianSubJapanese_item"])
+                </div>
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "PREVIOUS_C1_MRaceIdAsianSubVietnamese", Model.fldLabels["C1_MRaceIdAsianSubVietnamese_item"])
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "PREVIOUS_C1_MRaceIdAsianSubLaotian", Model.fldLabels["C1_MRaceIdAsianSubLaotian_item"])
+                </div>
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "PREVIOUS_C1_MRaceIdAsianSubCambodian", Model.fldLabels["C1_MRaceIdAsianSubCambodian_item"])
+                </div>
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "PREVIOUS_C1_MRaceIdAsianSubBangladeshi", Model.fldLabels["C1_MRaceIdAsianSubBangladeshi_item"])
+                </div>
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "PREVIOUS_C1_MRaceIdAsianSubHmong", Model.fldLabels["C1_MRaceIdAsianSubHmong_item"])
+                </div>
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "PREVIOUS_C1_MRaceIdAsianSubIndonesian", Model.fldLabels["C1_MRaceIdAsianSubIndonesian_item"])
+                </div>
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "PREVIOUS_C1_MRaceIdAsianSubMalaysian", Model.fldLabels["C1_MRaceIdAsianSubMalaysian_item"])
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "PREVIOUS_C1_MRaceIdAsianSubPakistani", Model.fldLabels["C1_MRaceIdAsianSubPakistani_item"])
+                </div>
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "PREVIOUS_C1_MRaceIdAsianSubSriLankan", Model.fldLabels["C1_MRaceIdAsianSubSriLankan_item"])
+                </div>
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "PREVIOUS_C1_MRaceIdAsianSubTaiwanese", Model.fldLabels["C1_MRaceIdAsianSubTaiwanese_item"])
+                </div>
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "PREVIOUS_C1_MRaceIdAsianSubThai", Model.fldLabels["C1_MRaceIdAsianSubThai_item"])
+                </div>
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "PREVIOUS_C1_MRaceIdAsianSubBurmese", Model.fldLabels["C1_MRaceIdAsianSubBurmese_item"])
+                </div>
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "PREVIOUS_C1_MRaceIdAsianSubSingaporean", Model.fldLabels["C1_MRaceIdAsianSubSingaporean_item"])
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "PREVIOUS_C1_MRaceIdAsianSubOther", Model.fldLabels["C1_MRaceIdAsianSubOther_item"])
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- D6 hawaiian/PI ancestry -->
+<div class="panel panel-default" id="PIAncestry">
+    <div class="panel-body">
+        <div class="pull-right prevAppBtn"><button data-prevdiv="PreviousD6" class="btn" type="button"></button></div>
+        <div class="pull-right"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CmntModal" data-label="D4. @Model.sctTitles["CA-ADAP-Demographic-1_sub"]"><span class="glyphicon glyphicon-comment"></span></button></div>
+        <div class="form-group">
+            @*<label class="col-md-10 control-label" for="" style="text-align:left">@Model.fldLabels["C1_MemberRaceIdNativeAPI_item"]</label>*@
+            @Helpers.LabelSpan(Model, "C1_MemberRaceIdNativeAPI_item", new { @class = "col-md-10 control-label" })
+        </div>
+        <div class="form-group YesPIAncestry" style="margin-left:25px">
+            <div class="col-md-3">
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "C1_MRaceIdAPINative")
+                </div>
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "C1_MRaceIdAPIGuam")
+                </div>
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "C1_MRaceIdAPISamoa")
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "C1_MRaceIdAPIFiji")
+                </div>
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "C1_MRaceIdAPITonga")
+                </div>
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "C1_MRaceIdAPIOther")
+                </div>
+                @*<div class="checkbox checkbox-info">
+                        @Helpers.LabeledCheckboxInput(Model, "ADAP_D6_NA")
+                    </div>*@
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- PREVIOUS D6 hawaiian/PI ancestry -->
+<div class="panel panel-default previous-response" id="PreviousD6">
+    <div class="panel-body">
+        <div class="pull-right prevAppBtn"><button data-prevdiv="PreviousD6" class="btn" type="button"></button></div>
+        <div class="pull-right"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CmntModal"><span class="glyphicon glyphicon-comment"></span></button></div>
+        <div class="form-group">
+            @*<label class="col-md-10 control-label" for="" style="text-align:left">@Model.fldLabels["C1_MemberRaceIdNativeAPI_item"]</label>*@
+            @Helpers.LabelSpan(Model, "C1_MemberRaceIdNativeAPI_item", new { @class = "col-md-10 control-label" })
+        </div>
+        <div class="form-group YesPIAncestry" style="margin-left:25px">
+            <div class="col-md-3">
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "PREVIOUS_C1_MRaceIdAPINative", Model.fldLabels["C1_MRaceIdAPINative_item"])
+                </div>
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "PREVIOUS_C1_MRaceIdAPIGuam", Model.fldLabels["C1_MRaceIdAPIGuam_item"])
+                </div>
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "PREVIOUS_C1_MRaceIdAPISamoa", Model.fldLabels["C1_MRaceIdAPISamoa_item"])
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "PREVIOUS_C1_MRaceIdAPIFiji", Model.fldLabels["C1_MRaceIdAPIFiji_item"])
+                </div>
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "PREVIOUS_C1_MRaceIdAPITonga", Model.fldLabels["C1_MRaceIdAPITonga_item"])
+                </div>
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "PREVIOUS_C1_MRaceIdAPIOther", Model.fldLabels["C1_MRaceIdAPIOther_item"])
+                </div>
+                @*<div class="checkbox checkbox-info">
+                        @Helpers.LabeledCheckboxInput(Model, "PREVIOUS_ADAP_D6_NA", Model.fldLabels["ADAP_D6_NA_item"])
+                    </div>*@
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- D4 ethnicity -->
+<span class="label label-danger" style="font-size:15px;">@Model.sctTitles["CA-ADAP-Demographic-2_sub"]</span></p>
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="pull-right prevAppBtn"><button data-prevdiv="PreviousD4" class="btn" type="button"></button></div>
+        <div class="pull-right"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CmntModal" data-label="D2. @Model.sctTitles["CA-ADAP-Demographic-2_sub"]"><span class="glyphicon glyphicon-comment"></span></button></div>
+        @*@<p><strong>@Model.sctTitles["CA-ADAP-Demographic-2_sub"]</strong></p>*@
+        <div class="form-group">
+            @*<label class="col-md-3 control-label" for="" style="text-align:left">@Model.fldLabels["C1_MemberEthnicId_item"]</label>*@
+            @Helpers.LabelSpan(Model, "C1_MemberEthnicId_item", new { @class = "col-md-3 control-label" })
+            <div class="col-md-4">
+                @Helpers.DropDownList(Model, "C1_MemberEthnicId_item", "C1_MemberEthnicId", true)
+            </div>
+        </div>
+
+        <!-- hispanic conditional -->
+        <p class="hispanicToggle"><strong>@Model.fldLabels["C1_MemberEthnicIdSub_item"]</strong></p>
+        <div class="form-group hispanicToggle" style="margin-left:25px">
+            <div class="col-md-4">
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "C1_MemberEthSub1")
+                </div>
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "C1_MemberEthSub2")
+                </div>
+            </div>
+            @*<div class="checkbox checkbox-info">
+                @Helpers.LabeledCheckboxInput(Model, "C1_MemberEthSub4")
+            </div>*@
+            <div class="col-md-5">
+
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "C1_MemberEthSub3")
+                </div>
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "C1_MemberEthSub4")
+                </div>
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "C1_MemberEthSub5")
+                </div>
+        </div>
+        <script>
+            $(document).ready(function () {
+                updateHispanic();
+                $("#C1_MemberEthnicId").change(updateHispanic);
+            });
+
+            function updateHispanic() {
+                $(".hispanicToggle").toggle($("#C1_MemberEthnicId").val() === "0");
+            };
+        </script>
+    </div>
+        </div>
+</div>
+
+<!-- PREVIOUS D4 ethnicity -->
+<div class="panel panel-default previous-response" id="PreviousD4">
+    <div class="panel-body">
+        <div class="pull-right prevAppBtn"><button data-prevdiv="PreviousD4" class="btn" type="button"></button></div>
+        <div class="pull-right"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CmntModal"><span class="glyphicon glyphicon-comment"></span></button></div>
+        <p><strong>@Model.sctTitles["CA-ADAP-Demographic-2_sub"]</strong></p>
+        <div class="form-group">
+            @*<label class="col-md-3 control-label" for="" style="text-align:left">@Model.fldLabels["C1_MemberEthnicId_item"]</label>*@
+            @Helpers.LabelSpan(Model, "C1_MemberEthnicId_item", new { @class = "col-md-3 control-label" })
+            <div class="col-md-4">
+                @Helpers.DropDownList(Model, "C1_MemberEthnicId_item", "PREVIOUS_C1_MemberEthnicId", true)
+            </div>
+        </div>
+
+        <!-- hispanic conditional -->
+        <p class="PREVIOUS_hispanicToggle"><strong>@Model.fldLabels["C1_MemberEthnicIdSub_item"]</strong></p>
+        <div class="form-group PREVIOUS_hispanicToggle" style="margin-left:25px">
+            <div class="col-md-4">
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "PREVIOUS_C1_MemberEthSub1", Model.fldLabels["C1_MemberEthSub1_item"])
+                </div>
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "PREVIOUS_C1_MemberEthSub2", Model.fldLabels["C1_MemberEthSub2_item"])
+                </div>
+            </div>
+            <div class="col-md-5">
+
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "PREVIOUS_C1_MemberEthSub3", Model.fldLabels["C1_MemberEthSub3_item"])
+                </div>
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "PREVIOUS_C1_MemberEthSub4", Model.fldLabels["C1_MemberEthSub4_item"])
+                </div>
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "PREVIOUS_C1_MemberEthSub5", Model.fldLabels["C1_MemberEthSub5_item"])
+                </div>
+                  </div>
+                </div>
+              <script>
+            $(document).ready(function () {
+                PREVIOUS_updateHispanic();
+                $("#PREVIOUS_C1_MemberEthnicId").change(PREVIOUS_updateHispanic);
+            });
+
+            function PREVIOUS_updateHispanic() {
+                $(".PREVIOUS_hispanicToggle").toggle($("#PREVIOUS_C1_MemberEthnicId").val() == 1);
+            };
+        </script>
+    </div>
+</div>
+
+<!--- D8 Gender -->
+<span class="label label-danger" style="font-size:15px;">@Model.sctTitles["CA-ADAP-Demographic-3_sub"]</span></p>
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="pull-right prevAppBtn"><button data-prevdiv="PreviousD8" class="btn" type="button"></button></div>
+        <div class="pull-right"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CmntModal" data-label="D5. @Model.sctTitles["CA-ADAP-Demographic-3_sub"]"><span class="glyphicon glyphicon-comment"></span></button></div>
+                 
+            <div class="form-group">
+                    @Helpers.LabelSpan(Model, "C1_MemberCurrentGender_item", new { @class = "col-md-3 control-label" })
+                    <div class="col-md-4">
+                        @Helpers.DropDownList(Model, "C1_MemberCurrentGender_item", "C1_MemberCurrentGender", true)
+                    </div>                   
+                </div>
+           
+            <div class="form-group">
+                
+                @Helpers.LabelSpan(Model, "C1_MemberBirthGender_item", new { @class = "col-md-3 control-label" })
+                               
+                <div class="col-md-4">
+                    @Helpers.DropDownList(Model, "C1_MemberBirthGender_item", "C1_MemberBirthGender", true)
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-4 col-lg-offset-0">
+                    @Helpers.LabelSpan(Model, "C1_MemberIsPregnant_item", new { @class = "control-label" })
+                </div>
+
+                @Helpers.YesNoRadioButtons(Model, "C1_MemberIsPregnant")
+
+            </div>
+
+        </div>
+    </div>
+
+
+<!--- PREVIOUS D8 Gender -->
+<div class="panel panel-default previous-response" id="PreviousD8">
+    <div class="panel-body">
+        <div class="pull-right prevAppBtn"><button data-prevdiv="PreviousD8" class="btn" type="button"></button></div>
+        <div class="pull-right"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CmntModal"><span class="glyphicon glyphicon-comment"></span></button></div>
+        <p><strong>@Model.sctTitles["CA-ADAP-Demographic-3_sub"]</strong></p>
+        @*@<p><strong>@Model.fldLabels["C1_MemberCurrentGender_item"]</strong></p>*@
+        <div class="form-group">
+            @Helpers.LabelSpan(Model, "C1_MemberCurrentGender_item", new { @class = "col-md-3 control-label" })
+            <div class="col-md-4">
+                @Helpers.DropDownList(Model, "C1_MemberCurrentGender_item", "PREVIOUS_C1_MemberCurrentGender", true)
+            </div>
+        </div>
+        <div class="form-group">
+
+            @Helpers.LabelSpan(Model, "C1_MemberBirthGender_item", new { @class = "col-md-3 control-label" })
+
+            <div class="col-md-4">
+                @Helpers.DropDownList(Model, "C1_MemberBirthGender_item", "PREVIOUS_C1_MemberBirthGender", true)
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-4">
+                @Helpers.LabelSpan(Model, "C1_MemberIsPregnant_item", new { @class = "control-label" })
+            </div>
+            @Helpers.YesNoRadioButtons(Model, "PREVIOUS_C1_MemberIsPregnant")
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+<!--- D9 Ramsell Member ID -->
+@*<div class="panel panel-default">
+        <div class="panel-body">
+            <div class="pull-right prevAppBtn"><button data-prevdiv="PreviousD9" class="btn" type="button"></button></div>
+            <div class="pull-right"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CmntModal" data-label="D6. @Model.sctTitles["ADAP_D9"]"><span class="glyphicon glyphicon-comment"></span></button></div>
+            <div class="form-group">
+                <label class="col-md-3 control-label" for="" style="text-align:left">D6. @Model.sctTitles["ADAP_D9"]</label>
+                <div class="col-md-4">
+                    @Helpers.TextInput(Model, "ADAP_D9_Ramsell", new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+    </div>*@
+<!--- PREVIOUS D9 Ramsell Member ID -->
+@*<div class="panel panel-default previous-response" id="PreviousD9">
+        <div class="panel-body">
+            <div class="pull-right prevAppBtn"><a href="#" class="btn btn-success btn-xs active" id="hsName" role="button">&nbsp;</a></div>
+            <div class="pull-right"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CmntModal"><span class="glyphicon glyphicon-comment"></span></button></div>
+            <div class="form-group">
+                <label class="col-md-3 control-label" for="" style="text-align:left">D6. @Model.sctTitles["ADAP_D9"]</label>
+                <div class="col-md-4">
+                    @Helpers.TextInput(Model, "PREVIOUS_ADAP_D9_Ramsell", new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+    </div>*@
+
+
+<!-- TAB #1 - PERSONAL INFORMATION ENDS -->
+@Html.Partial("_AdapCommentModal", Model)

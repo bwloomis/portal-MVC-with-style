@@ -1,0 +1,289 @@
+﻿@model Assmnts.Models.GeneralForm
+@{
+    Layout = "AdapAppLayout.cshtml";
+}
+@section AddToHead{
+    <link rel="stylesheet" type="text/css" href="/Content/adap/css/ADAPForms.css" />
+    <script src="~/Content/js/ADAPLookupSelects.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            $(".linkEmployerForm")
+                .attr("href", "/Content/adap/docs/Employer%20Insurance%20Info%20Form.pdf")
+                .attr("download", "Employer Insurance Info Form.pdf");
+
+            //hide the next section button, because this is the last section
+            $('.class_nextscreen').hide();
+
+            @foreach( char c in "ABCD".ToCharArray() ){
+            @:updateEmployment("@c");
+                        @:$("#ADAP_F3_@(c)_IncomeTypeDrop").change(function () {
+                                @:  updateEmployment("@c");
+                            @:
+            });
+                    }
+        });
+
+        function updateEmployment(c) {
+            var v = $("#ADAP_F3_" + c + "_IncomeTypeDrop").val();
+            $(".employment_" + c).toggle(v === "0");
+            $(".other_" + c).toggle(v == 13);
+        };
+    </script>
+}
+
+
+<!-- F1 employment status -->
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="pull-right prevAppBtn"><button data-prevdiv="PreviousF1" class="btn" type="button"></button></div>
+        <div class="pull-right"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CmntModal" data-label="F1. @Model.sctTitles["ADAP_F1"]"><span class="glyphicon glyphicon-comment"></span></button></div>
+        <p><strong>F1. @Model.sctTitles["ADAP_F1"]</strong></p>
+        <div class="form-group" style="margin-left:25px">
+            <div class="col-md-7">
+                @Helpers.DropDownList(Model, "ADAP_F1_EmployOpt_item", "ADAP_F1_EmployOpt", true)
+            </div>
+        </div>
+        <div class="form-group toggleF1Other" style="margin-left:25px">
+            <div class="col-md-7">
+                @Helpers.TextInput(Model, "ADAP_F1_EmployOther", new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group toggleF1Employed" style="margin-left:25px">
+            @Helpers.LabelSpan(Model, "ADAP_F1_EmployerInsOptLabel_item", new { @class = "col-md-4 control-label" })
+            <div class="col-md-7">
+                @Helpers.DropDownList(Model, "ADAP_F1_EmployerInsOpt_item", "ADAP_F1_EmployerInsOpt", true)
+            </div>
+        </div>
+        <div class="form-group toggleF1NotEnrolled" style="margin-left:25px">
+            <div class="col-md-10">
+                @Helpers.TextInput(Model, "ADAP_F1_EmployNotEnrolled", new { @class = "form-control" })
+            </div>
+        </div>
+        <script>
+            $(document).ready(function () {
+                updateF1();
+                $("#ADAP_F1_EmployOpt").change(updateF1);
+                $("#ADAP_F1_EmployerInsOpt").change(updateF1);
+            });
+
+            function updateF1() {
+                var val = $("#ADAP_F1_EmployOpt").val();
+                $(".toggleF1Other").toggle(val == 7);
+                var employed = (val == 4 || val == 5 || val == 6);
+                $(".toggleF1Employed").toggle(employed);
+                $(".toggleF1NotEnrolled").toggle(employed && $("#ADAP_F1_EmployerInsOpt").val() == 4);
+            };
+        </script>
+    </div>
+</div>
+<!-- PREVIOUS F1 employment status -->
+<div class="panel panel-default previous-response" id="PreviousF1">
+    <div class="panel-body">
+        <div class="pull-right prevAppBtn"><a href="#" class="btn btn-success btn-xs active" id="hsName" role="button">&nbsp;</a></div>
+        <div class="pull-right"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CmntModal"><span class="glyphicon glyphicon-comment"></span></button></div>
+        <p><strong>F1. @Model.sctTitles["ADAP_F1"]</strong></p>
+        <div class="form-group" style="margin-left:25px">
+            <div class="col-md-7">
+                @Helpers.DropDownList(Model, "ADAP_F1_EmployOpt_item", "PREVIOUS_ADAP_F1_EmployOpt", true)
+            </div>
+        </div>
+        <div class="form-group PREVIOUS_toggleF1Other" style="margin-left:25px">
+            <div class="col-md-7">
+                @Helpers.TextInput(Model, "PREVIOUS_ADAP_F1_EmployOther", new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group PREVIOUS_toggleF1Employed" style="margin-left:25px">
+            @Helpers.LabelSpan(Model, "ADAP_F1_EmployerInsOptLabel_item", new { @class = "col-md-4 control-label" })
+            <div class="col-md-7">
+                @Helpers.DropDownList(Model, "ADAP_F1_EmployerInsOpt_item", "PREVIOUS_ADAP_F1_EmployerInsOpt", true)
+            </div>
+        </div>
+        <div class="form-group PREVIOUS_toggleF1NotEnrolled" style="margin-left:25px">
+            <div class="col-md-10">
+                @Helpers.TextInput(Model, "PREVIOUS_ADAP_F1_EmployNotEnrolled", new { @class = "form-control" })
+            </div>
+        </div>
+        <script>
+            $(document).ready(function () {
+                PREVIOUS_updateF1();
+                $("#PREVIOUS_ADAP_F1_EmployOpt").change(PREVIOUS_updateF1);
+                $("#PREVIOUS_ADAP_F1_EmployerInsOpt").change(PREVIOUS_updateF1);
+            });
+
+            function PREVIOUS_updateF1() {
+                var val = $("#PREVIOUS_ADAP_F1_EmployOpt").val();
+                $(".PREVIOUS_toggleF1Other").toggle(val == 7);
+                var employed = (val == 4 || val == 5 || val == 6);
+                $(".PREVIOUS_toggleF1Employed").toggle(employed);
+                $(".PREVIOUS_toggleF1NotEnrolled").toggle(employed && $("#PREVIOUS_ADAP_F1_EmployerInsOpt").val() == 4);
+            };
+        </script>
+    </div>
+</div>
+
+
+<!-- F2 employment start -->
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="pull-right prevAppBtn"><button data-prevdiv="PreviousF2" class="btn" type="button"></button></div>
+        <div class="pull-right"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CmntModal" data-label="F2. @Model.sctTitles["ADAP_F2"]"><span class="glyphicon glyphicon-comment"></span></button></div>
+        <div class="form-group">
+            <label class="col-md-6 control-label" for="" style="text-align:left">F2. @Model.sctTitles["ADAP_F2"]</label>
+            @Helpers.YesNoRadioButtons(Model, "ADAP_F2_EmployLast90YN")
+        </div>
+    </div>
+</div>
+<!-- PREVIOUS F2 employment start -->
+<div class="panel panel-default previous-response" id="PreviousF2">
+    <div class="panel-body">
+        <div class="pull-right prevAppBtn"><a href="#" class="btn btn-success btn-xs active" id="hsName" role="button">&nbsp;</a></div>
+        <div class="pull-right"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CmntModal"><span class="glyphicon glyphicon-comment"></span></button></div>
+        <div class="form-group">
+            <label class="col-md-6 control-label" for="" style="text-align:left">F2. @Model.sctTitles["ADAP_F2"]</label>
+            @Helpers.YesNoRadioButtons(Model, "PREVIOUS_ADAP_F2_EmployLast90YN")
+        </div>
+    </div>
+</div>
+
+
+<!-- F3 long label w/o responses -->
+<div class="panel panel-default">
+    <div class="panel-body">
+        <p>
+            <strong>
+                F3. @Model.fldLabels["ADAP_F3_InstructionsLabel_item"]
+            </strong>
+        </p>
+    </div>
+</div>
+
+
+@for (int proofSectionIndex = 1; proofSectionIndex <= 4; proofSectionIndex++)
+{
+    string letter = "ABCD".Substring(proofSectionIndex - 1, 1);
+    string prefix = "ADAP_F3_" + letter + "_";
+
+    <span class="label label-danger">Proof of Income #@proofSectionIndex</span>
+
+    <!-- F3X Proof of income -->
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="pull-right prevAppBtn"><button data-prevdiv="Previous@(prefix)" class="btn" type="button"></button></div>
+            <div class="pull-right"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CmntModal" data-label="Proof of Income #@proofSectionIndex"><span class="glyphicon glyphicon-comment"></span></button></div>
+            <div class="form-group">
+                @Helpers.LabelSpan(Model, prefix + "Recipient_item", new { @class = "col-md-5 control-label" })
+                <div class="col-md-4">
+                    @Helpers.TextInput(Model, prefix + "Recipient", new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Helpers.LabelSpan(Model, "ADAP_F3_IncomeTypeLabel_item", new { @class = "col-md-3 control-label" })
+                <div class="col-md-4">
+                    @Helpers.DropDownList(Model, prefix + "IncomeTypeDrop_item", prefix + "IncomeTypeDrop", true)
+                </div>
+            </div>
+            <div class="form-group other_@letter">
+                <div class="col-md-8">
+                    @Helpers.TextInput(Model, prefix + "IncomeTypeOther", new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group employment_@letter">
+                @Helpers.LabelSpan(Model, prefix + "Employer_item", new { @class = "col-md-2 control-label" })
+                <div class="col-md-4">
+                    @Helpers.TextInput(Model, prefix + "Employer", new { @class = "form-control" })
+                </div>
+                @Helpers.LabelSpan(Model, prefix + "EmployStart_item", new { @class = "col-md-2 control-label" })
+                <div class="col-md-3">
+                    <div class="input-group date">
+                        @Helpers.TextInput(Model, prefix + "EmployStart", new { @class = "form-control", placeholder = "mm/dd/yyyy" })
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group employment_@letter">
+                @Helpers.LabelSpan(Model, prefix + "TempYN_item", new { @class = "col-md-4 control-label" })
+                @Helpers.YesNoRadioButtons(Model, prefix + "TempYN")
+            </div>
+            <div class="form-group">
+                @Helpers.LabelSpan(Model, prefix + "IncomeAmt_item", new { @class = "col-md-3 control-label" })
+                <div class="col-md-3">
+                    @Helpers.TextInput(Model, prefix + "IncomeAmt", new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Helpers.LabelSpan(Model, prefix + "IncomeProof_item", new { @class = "col-md-4 control-label" })
+                @Helpers.FileUpload(Model, prefix + "IncomeProof")
+            </div>
+            <div class="form-group employment_@letter">
+                <div class="col-md-12">
+                    @Html.Raw(Model.fldLabels[prefix + "EmployerForm_item"])
+                </div>
+            </div>
+            <div class="form-group employment_@letter">
+                @Helpers.FileUpload(Model, prefix + "EmployerForm")
+            </div>
+        </div>
+    </div>
+
+    <!-- PREVIOUS F3X Proof of income -->
+    <div class="panel panel-default previous-response" id="Previous@(prefix)">
+        <div class="panel-body">
+            <div class="pull-right prevAppBtn"><a href="#" class="btn btn-success btn-xs active" id="hsName" role="button">&nbsp;</a></div>
+            <div class="pull-right"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CmntModal"><span class="glyphicon glyphicon-comment"></span></button></div>
+            <div class="form-group">
+                @Helpers.LabelSpan(Model, prefix + "Recipient_item", new { @class = "col-md-5 control-label" })
+                <div class="col-md-4">
+                    @Helpers.TextInput(Model, "PREVIOUS_" + prefix + "Recipient", new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Helpers.LabelSpan(Model, "ADAP_F3_IncomeTypeLabel_item", new { @class = "col-md-3 control-label" })
+                <div class="col-md-4">
+                    @Helpers.DropDownList(Model, prefix + "IncomeTypeDrop_item", "PREVIOUS_" + prefix + "IncomeTypeDrop", true)
+                </div>
+            </div>
+            <div class="form-group other_@letter">
+                <div class="col-md-8">
+                    @Helpers.TextInput(Model, "PREVIOUS_" + prefix + "IncomeTypeOther", new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group employment_@letter">
+                @Helpers.LabelSpan(Model, prefix + "Employer_item", new { @class = "col-md-2 control-label" })
+                <div class="col-md-4">
+                    @Helpers.TextInput(Model, "PREVIOUS_" + prefix + "Employer", new { @class = "form-control" })
+                </div>
+                @Helpers.LabelSpan(Model, prefix + "EmployStart_item", new { @class = "col-md-2 control-label" })
+                <div class="col-md-3">
+                    <div class="input-group date">
+                        @Helpers.TextInput(Model, "PREVIOUS_" + prefix + "EmployStart", new { @class = "form-control", placeholder = "mm/dd/yyyy" })
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group employment_@letter">
+                @Helpers.LabelSpan(Model, prefix + "TempYN_item", new { @class = "col-md-4 control-label" })
+                @Helpers.YesNoRadioButtons(Model, "PREVIOUS_" + prefix + "TempYN")
+            </div>
+            <div class="form-group">
+                @Helpers.LabelSpan(Model, prefix + "IncomeAmt_item", new { @class = "col-md-3 control-label" })
+                <div class="col-md-3">
+                    @Helpers.TextInput(Model, "PREVIOUS_" + prefix + "IncomeAmt", new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Helpers.LabelSpan(Model, prefix + "IncomeProof_item", new { @class = "col-md-4 control-label" })
+                @Helpers.FileUpload(Model, "PREVIOUS_" + prefix + "IncomeProof")
+            </div>
+            <div class="form-group employment_@letter">
+                <div class="col-md-12">
+                    @Html.Raw(Model.fldLabels[prefix + "EmployerForm_item"])
+                </div>
+            </div>
+            <div class="form-group employment_@letter">
+                @Helpers.FileUpload(Model, "PREVIOUS_" + prefix + "EmployerForm")
+            </div>
+        </div>
+    </div>
+}
+<!-- Comments Modal -->@Html.Partial("_AdapCommentModal", Model)

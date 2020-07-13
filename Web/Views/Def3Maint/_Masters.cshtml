@@ -1,0 +1,94 @@
+﻿@using Assmnts;
+@model dynamic
+
+
+<style type="text/css">
+    thead th {
+        background-color: #BFDFFF;
+    }
+</style>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#hideAddMasterForm").hide();
+        $("#showAddMasterForm").click(function () {
+            $("#showAddMasterForm").hide();
+            $("#hideAddMasterForm").show();
+            $("#addMaster").show();
+        });
+        $("#hideAddMasterForm").click(function () {
+            $("#hideAddMasterForm").hide();
+            $("#showAddMasterForm").show();
+            $("#addMaster").hide();
+        });
+        $("#backToSelect").click(function () {
+            $("#lookupMasters").hide();
+            $("#lookupSelect").show();
+            editingMasters = false;
+            editingDetails = false;
+            editingTexts = false;
+        });
+        filterData = {
+            @*"Enterprise": "@Model.setTeam",
+            "Group": "@Model.setStatus",*@
+        }
+        $('#dtMaster').dataTable({
+            "processing": true,
+            "serverSide": true,
+            "ajax": {
+                url: "/Def3Maint/DataTableMasters",
+                type: "POST"
+            },
+            "ordering": false,
+            "dom": 'lriptip'
+        });
+    });
+ </script>
+
+<h3><label>Lookup Masters</label></h3>
+
+<input type="button" id="showAddMasterForm" class="btn btn-success" value="Add a new Lookup Code" />
+<input type="button" id="hideAddMasterForm" class="btn btn-danger" value="Cancel new Lookup Code" />
+<input type="button" id="backToSelect" class="btn btn-success" value="Return to Lookup Search" />
+<br /><br />
+<div id="addMaster" hidden="hidden">
+    <form class="form-inline">
+        <span><label for="addMasterCode">Lookup Code</label><input type="text" name="addMasterCode" class="form-control" id="addCode" /></span>
+        <span><label for="addMasterTitle">Title</label><input type="text" name="addMasterTitle" class="form-control" id="addMasterTitle" /></span>
+        <span>
+            <label for="addMasterBase">Base Type</label>
+            <select id="addMasterBase" name="addMasterBase" class="form-control">
+                @foreach (def_BaseTypes baseType in Model.baseTypes)
+                {
+                    if (baseType.enumeration == "INTEGER")
+                    {
+                        <option selected="selected" value="@baseType.baseTypeId">@baseType.enumeration</option>
+                    }
+                    else
+                    {
+                        <option value="@baseType.baseTypeId">@baseType.enumeration</option>
+                    }
+                }
+
+
+            </select>
+        </span>
+        <span><input type="button" class="btn btn-success" onclick="createMaster()" value="Create"></span>
+    </form>
+</div>
+
+@*<div id="context" class="context" data-toggle="context" data-target="#context-menu">*@
+    <table id="dtMaster" class="table table-bordered table-striped" cellpadding="0" cellspacing="0" border="0">
+        <thead>
+            <tr>
+                <th>Lookup Code</th>
+                <th>Title</th>
+                <th>Base Type</th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+    </table>
+@*</div>*@
+

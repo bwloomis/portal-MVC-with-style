@@ -1,0 +1,350 @@
+@model Assmnts.Models.GeneralForm
+@{
+    ViewBag.Title = "Post Interview";
+    Layout = "~/Views/Shared/AssmntLayout.cshtml";
+    Validator.Required("The field is required.");
+}
+
+@section HeadContent {
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <link rel="stylesheet" type="text/css" href="/Content/css/jquery.datepick.css">
+    <link rel="stylesheet" type="text/css" href="/Content/css/jquery.timeentry.css">
+    <script src="/Content/js/jquery.plugin.js"></script>
+    <script src="/Content/js/jquery.datepick.js"></script>
+    <script src="/Content/js/jquery.maskedinput.min.js"></script>
+    <script src="/Content/js/jquery.timeentry.min.js"></script>
+    <script src="/Content/js/PopulateSelects.js"></script>
+    <script src="/Content/js/Misc.js"></script>
+    <script>
+        $(document).ready(function () {
+            populateLookupSelect('LEVEL_OF_CARE_CHOICES', 'post_level_of_care', '@Model.rspValues["post_level_of_care"]');
+            $('#post_package_mailed').datepicker({ constrainInput: false });
+
+            $(".time").timeEntry({ spinnerImage: '/Content/images/spinnerDefault.png' }).change(updateDurationField());
+            updateDurationField();
+
+            $.ajax({
+                type: "GET",
+                url: "/Defws/GetLookup",
+                data: param = { lkpCd: 'LEVEL_OF_CARE_LABEL' },
+                async: false,
+                cache: false,
+                success: function (result) {
+
+                    var obj = JSON.parse(result);
+
+                    var myHeader = $('#post_level_of_care_header');
+                    var myLabel = $('#post_level_of_care_label');
+                    if (typeof obj.def_LookupDetail[0]["def_LookupText"][0] !== 'undefined') {
+                        myHeader.text(obj.def_LookupDetail[0]["def_LookupText"][0]["displayText"]);
+                        myLabel.text(obj.def_LookupDetail[0]["def_LookupText"][0]["displayText"]);
+                    }
+                    
+                    myHeader.page();
+                    myLabel.page();
+
+                    //mySelect.val(target);
+                },
+                error: function (xhr, status, err) {
+                    alert("Error loading lookup text for " + lookupCode + ".  Status: " + xhr.status + "  Message: " + err);
+                }
+            });
+        });
+
+        function updateDurationField() {
+            try {
+                $("#duration").attr('value', GetInterviewDuration($("input[name=sis_startTime]"), $("input[name=sis_endTime]")));
+            } catch (e) {
+                console.log(e);
+            }
+        }
+
+        function GetInterviewDuration(intStartTime, intEndTime) {
+            var duration = "0.00";
+
+            if (intEndTime != null && intEndTime.value != ""
+                && intStartTime != null && intStartTime.value != "") {
+                var tmpDuration = 0.00;
+                tmpDuration = intEndTime.timeEntry('getTime') - intStartTime.timeEntry('getTime');
+                tmpDuration = (tmpDuration / (1000 * 60 * 60)).toFixed(2);
+
+                // have a valid duration?
+                if (tmpDuration >= 0) {
+                    duration = tmpDuration + " hrs";
+                }
+                else {
+                    duration = "N/A";
+                }
+            }
+            else {
+                duration += " hrs";
+            }
+
+            return duration;
+        }
+    </script>
+
+    <style type="text/css">
+        #btnExpandResps {
+            height: 18px;
+            width: 184px;
+            font-family: Arial, Geneva, Verdana;
+        }
+
+        .class_wide_input {
+            width: 300px;
+            }
+    </style>
+
+}
+
+<table id="tblData" border="0" cellpadding="0" cellspacing="0" style="height: 100%">
+    <tr>
+        <td style="width: 189px; background-color: #ffffff" valign="top" align="center">@Html.Partial("AssmntLeftPane")</td>
+        <td>
+            <br />
+            <table border="0" cellpadding="0" cellspacing="0" width="625">
+                <tr>
+                    <td align="left">
+                        <!-- <asp:Label ID="lblErr" Visible="false" ForeColor="red" runat="server" />  -->
+                        <table border="0" cellpadding="5" cellspacing="0" class="tableborder" style="background-color: #ffffff; margin-left: 1.3em;"
+                               width="800">
+                            <tr>
+                                <td style="background-color: #d5d5d5">
+                                    <span class="titleblack">Post Interview Information</span>
+                                </td>
+                            </tr>
+                        </table>
+                        <form action="/Results/Save" method="post" id="form-id">
+                            <table border="0" cellpadding="5" cellspacing="0" class="tableborder" style="background-color: #f4f4f4; margin-left: 1.3em"
+                                   width="800">
+                                <tr>
+                                    <td>
+                                        <table>
+                                            <tr><td>&nbsp;</td></tr>
+                                            <tr>
+                                                <td>
+                                                    @Helpers.LabelSpan(Model, "post_checklist_given")
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <input type="radio" id="post_checklist_given_y" class="checklist" name="post_checklist_given" value="1" />
+                                                    <label for="post_checklist_given_y" style="margin-left:1.5em"><span data-target="post_checklist_given_y"></span>Yes</label>
+                                                    <input type="radio" id="post_checklist_given_n" class="checklist" name="post_checklist_given" value="0" />
+                                                    <label for="post_checklist_given_n" style="margin-left:1.5em"><span data-target="post_checklist_given_n"></span>No</label>
+                                                    <script>
+                                                        $(document).ready(function () {
+                                                            // passing data to the page tranlates a bit value to STRING true, rather than BOOLEAN true.
+                                                            var target = '@Model.rspValues["post_checklist_given"]';
+                                                            var value = 0;
+                                                            if (target == 'true') {
+                                                                value = 1;
+                                                            }
+                                                            if (target != null) {
+                                                                $(".checklist").each(function () {
+                                                                    if ($(this).prop("value") == value) {
+                                                                        $(this).attr("checked", "1");
+                                                                    }
+                                                                });
+                                                            }
+                                                        })
+                                                    </script>
+                                                </td>
+                                            </tr>
+                                            <tr><td>&nbsp;</td></tr>
+                                            <tr>
+                                                <td>
+                                                    @Helpers.LabelSpan(Model, "post_summary", new { style = "text-align: left; font-weight: bold" })
+                                                    (Operation results to supervisors for quality reviews)
+                                                </td>
+                                                <td>
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@Helpers.LabeledCheckboxInput(Model, "post_request_review", Model.items[1].label,
+                                                                                            new { @style = "float:right", @value = Model.rspValues["post_request_review"] })
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        <table style="width:100%">
+                                            <tr>
+                                                <td>
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;<textarea id="post_summary_textArea" wrap="soft" rows="16" maxlength="2400" style="width:95%"
+                                                              onkeydown="textCounter(this.form.post_summary_textArea, this.form.post_summary_notes_count, 2400);"
+                                                              onkeyup="textCounter(this.form.post_summary_textArea, this.form.post_summary_notes_count, 2400);"
+                                                              class="" name="post_summary">
+                                                        @Model.rspValues["post_summary"]
+                                                    </textarea>
+                                                    <script>
+                                                        $(document).ready(function () {
+                                                            textCounter($('#post_summary_textArea').get(0), $('#post_summary_notes_count').get(0), 2400);
+                                                        });
+                                                    </script>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td align="right">
+                                                    <label for="post_summary_notes_count">
+                                                        <span class="important">2400</span> characters maximum allowed for section notes field.
+                                                    </label>
+                                                    <input readonly="readonly" type="text" id="post_summary_notes_count" name="post_summary_notes_count"
+                                                           size="3" maxlength="4" value="2400" class="textCounter" /> remain.&nbsp;&nbsp;&nbsp;&nbsp;
+                                                </td>
+                                            </tr>
+                                        </table>
+
+                                        <table>
+                                            <tr class="spaceUnder">
+                                                <td>
+                                                    @Helpers.LabelSpan(Model, "sis_cl_attend_item")
+                                                </td>
+                                                <td>
+                                                    <input type="radio" class="class_attend" name="sis_cl_attend" id="sis_cl_attend_1" value="1">
+                                                    <label for="sis_cl_attend_1"><span data-target="sis_cl_attend_1"></span>All Of</label>
+                                                    <br>
+                                                </td>
+                                                <td>
+                                                    <input type="radio" class="class_attend" name="sis_cl_attend" id="sis_cl_attend_2" value="2">
+                                                    <label for="sis_cl_attend_2"><span data-target="sis_cl_attend_2"></span>Part Of</label>
+                                                    <br>
+                                                </td>
+                                                <td>
+                                                    <input type="radio" class="class_attend" name="sis_cl_attend" id="sis_cl_attend_3" value="3">
+                                                    <label for="sis_cl_attend_3"><span data-target="sis_cl_attend_3"></span>Did Not</label>
+                                                    <br>
+                                                    <script>
+                                                        $(document).ready(function () {
+                                                            var target = '@Model.rspValues["sis_cl_attend"]';
+                                                            $(".class_attend").each(function () {
+                                                                if ($(this).prop("value") == target) {
+                                                                    $(this).attr("checked", "1");
+                                                                }
+                                                            });
+                                                        })
+                                                    </script>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        <br />
+                                        <table>
+                                            <tr>
+                                                <td>
+                                                    @Helpers.LabelSpan(Model, "sis_duration_item")
+                                                    @Helpers.TextInput(Model, "sis_duration", new { style = "width:60px", id = "duration", disabled = "disabled" })
+                                                </td>
+                                                <td style="width:40px;">&nbsp;</td>
+                                                <td>
+                                                    <div style="white-space: nowrap">
+                                                        <span style="display:inline-block">
+                                                            @Helpers.TextInput(Model, "sis_startTime", new { @class = "time" })
+                                                        </span>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div style="white-space: nowrap">
+                                                        <span style="display:inline-block">
+                                                            @Helpers.TextInput(Model, "sis_endTime", new { @class = "time" })
+                                                        </span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                    @Helpers.LabelSpan(Model, "sis_startTime_item")
+                                                </td>
+                                                <td>
+                                                    @Helpers.LabelSpan(Model, "sis_endTime_item")
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        <hr />
+                                        <table>
+                                            <tr><td>&nbsp;</td></tr>
+                                            <tr>
+                                                <td>
+                                                    <span style="text-align: left; font-weight: bold">Followup Data:</span>
+                                                </td>
+                                            </tr>
+                                            <tr><td>&nbsp;</td></tr>
+                                            <tr>
+                                                <td>
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;@Helpers.LabelSpan(Model, "post_package_mailed")
+                                                </td>
+                                                <td>
+                                                    @Helpers.TextInput(Model, "post_package_mailed", new { id = "post_package_mailed", style = "width:100px" })
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        <table>
+                                            <tr><td>&nbsp;</td></tr>
+                                            <tr>
+                                                <td>
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;@Helpers.LabelSpan(Model, "post_level_of_care", new { id = "post_level_of_care_header" })
+                                                    @{
+                                                        string LOCare = Model.rspValues["post_level_of_care"];
+                                                        if (String.IsNullOrEmpty(LOCare))
+                                                        {
+                                                            <br /><span>&nbsp;</span>
+                                                        }
+                                                     }
+                                                </td>
+                                                <td>
+                                                    @{
+                                                        if (!String.IsNullOrEmpty(LOCare))
+                                                        {
+                                                            <span> is set to: @LOCare</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <select id="post_level_of_care" name="post_level_of_care" style="width:120px"></select>
+                                                            <br /><span>This option will be locked once selected.</span>
+                                                        }
+                                                     }
+                                                </td>
+                                            </tr>
+                                            <tr><td>&nbsp;</td></tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+
+                                        @Html.Partial("AssmntNavPrevNext")
+                                        <script>
+                                            //$(document).ready(function () {
+                                            //    $('.class_nextscreen').hide();
+                                            //})
+                                        </script>
+
+                                        @*<div id="sectIndivParticipation" visible="false">
+                                            <fieldset>
+                                                <legend></legend>
+                                            </fieldset>
+                                        </div>*@
+                                        @*<div id="sectIntSetting" style="margin-top: 12px;" visible="false">
+                                            &nbsp;
+                                        </div>*@
+                                    </td>
+                                </tr>
+                            </table>
+                            <br />
+                            <br />
+                            <input type="submit" value="Submit" id="btnSubmit" />
+                        </form>
+                    </td>
+
+                </tr>
+            </table>
+            <table border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td style="height: 5px">&nbsp;</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+<br />
+

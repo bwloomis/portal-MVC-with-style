@@ -1,0 +1,47 @@
+﻿@model Assmnts.Models.GeneralForm
+@{
+    Layout = "AdapAppLayout.cshtml";
+}
+
+@section AddToHead{
+    <link rel="stylesheet" type="text/css" href="/Content/adap/css/ADAPForms.css" />
+    <script>
+        $(document).ready(function () {
+            $('.btn-primary').hide();
+        });
+    </script>
+}
+
+<h3>
+    <span class="label label-danger">        
+        @Resources.Cert.CertHeader
+    </span>
+</h3>
+
+<div class="panel panel-default">
+    <div class="panel-body" style="background-color:#f8f8f8">
+
+        @*<div class="form-group" style="margin-left:25px">
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Helpers.LabeledCheckboxInput(Model, "ADAP_cert_NoSharing")
+                </div>
+            </div>
+        </div>*@
+
+        <p>
+            @Resources.Cert.CertHeader
+            <ul style="font-weight:normal">
+                @Html.Raw(Resources.Cert.CertText)
+            </ul>
+        </p>
+        <hr class="hr-dark">
+        <div class="form-group" style="margin-left:25px">
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Helpers.LabeledCheckboxInput(Model, "ADAP_cert_Reminders")
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

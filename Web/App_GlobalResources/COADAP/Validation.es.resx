@@ -1,0 +1,222 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="CheckedYesButNoInvoice" xml:space="preserve">
+    <value>comprobado que "yes" indicando que sería cargar una factura de prima, pero no fue subido factura.</value>
+  </data>
+  <data name="MedicareANoDate" xml:space="preserve">
+    <value>Usted indica que usted está inscrito en Medicare parte A, pero no indicaron una fecha efectiva.</value>
+  </data>
+  <data name="MedicareBNoDate" xml:space="preserve">
+    <value>Usted indica que usted está inscrito en Medicare parte B, pero no indicaron una fecha efectiva.</value>
+  </data>
+  <data name="MustCheckOneUnderSection_" xml:space="preserve">
+    <value>Se debe comprobar al menos una opción en la sección </value>
+  </data>
+  <data name="MustCompleteAllFieldsUnder_" xml:space="preserve">
+    <value>debe completar todos los campos de </value>
+  </data>
+  <data name="MustEnterCaseWorker" xml:space="preserve">
+    <value>debe ingresar al menos un nombre del trabajador de caso social manager</value>
+  </data>
+  <data name="MustExplainOtherLang" xml:space="preserve">
+    <value>Ya que seleccionaste "other" como un idioma de preferencia, debe agregar una explicación</value>
+  </data>
+  <data name="MustSelectEmployerInsOpt" xml:space="preserve">
+    <value>usted debe hacer una selección de "¿su empleador ofrece seguro de salud?"</value>
+  </data>
+  <data name="NeeedReasonNotEnrolledEmpIns" xml:space="preserve">
+    <value>Puesto que usted ha indicado que usted no está inscrito en el seguro de salud de su empleador, usted debe proporcionar una razón</value>
+  </data>
+  <data name="NoProofResidency" xml:space="preserve">
+    <value>No adjuntar comprobante de domicilio.</value>
+  </data>
+  <data name="ProofOfIncome" xml:space="preserve">
+    <value>Comprobante de ingreso</value>
+  </data>
+  <data name="SctMissingRsps" xml:space="preserve">
+    <value>Las secciones faltantes requieren respuestas</value>
+  </data>
+  <data name="SinceAsian_" xml:space="preserve">
+    <value>Puesto que usted ha indicado que usted identifica como asiáticos, </value>
+  </data>
+  <data name="SinceEmpOtherMustSpecify" xml:space="preserve">
+    <value>Puesto que ha seleccionado la situación en el empleo "otros", debe agregar una descripción</value>
+  </data>
+  <data name="SinceHaveEmp_" xml:space="preserve">
+    <value>Puesto que usted ha indicado que un empleador, </value>
+  </data>
+  <data name="SinceHispanic_" xml:space="preserve">
+    <value>Puesto que indica "Hispanic / Latino (a)" por etnia, </value>
+  </data>
+  <data name="SinceIncomeEmpMustComplete" xml:space="preserve">
+    <value>Puesto que ha seleccionado el tipo de ingresos «Empleo», debe completar todos los campos de esta sección</value>
+  </data>
+  <data name="SinceIncomOtherMustSpecify" xml:space="preserve">
+    <value>Puesto que usted seleccionó ingresos tipo "otros", se debe especificar en texto</value>
+  </data>
+  <data name="SinceIslander_" xml:space="preserve">
+    <value>Puesto que usted ha indicado que se identifica como un hawaiano nativo o isleño del Pacífico,</value>
+  </data>
+  <data name="SinceMailNotResid_" xml:space="preserve">
+    <value>Puesto que usted ha indicado que su dirección de correo no es la misma que su dirección de residencia, </value>
+  </data>
+  <data name="SinceMedicareMustCheckAOrB" xml:space="preserve">
+    <value>puesto que usted indica que usted está en Medicare, usted debe verificar parte A o parte B.</value>
+  </data>
+  <data name="SinceYesUnder_" xml:space="preserve">
+    <value>Ya comprobado que "yes" debajo de </value>
+  </data>
+  <data name="ValidationErrors" xml:space="preserve">
+    <value>Errores de Validación</value>
+  </data>
+  <data name="WARNING" xml:space="preserve">
+    <value>ADVERTENCIA</value>
+  </data>
+  <data name="YouMustComplete_" xml:space="preserve">
+    <value>deberá completar </value>
+  </data>
+  <data name="OtherValProblems" xml:space="preserve">
+    <value>Otros Problemas de Validación</value>
+  </data>
+  <data name="SctMissingReqRsps" xml:space="preserve">
+    <value>Las Secciones Faltantes Requieren Respuestas</value>
+  </data>
+  <data name="ValidPassed" xml:space="preserve">
+    <value>[Validation passed with no issues.]</value>
+  </data>
+  <data name="WarningsHeader" xml:space="preserve">
+    <value>&lt;b&gt;ADVERTENCIAS&lt;/b&gt; (mientras que estos artículos no impedirá la presentación de su solicitud, usted puede conseguir una llamada de un miembro del personal ADAP solicitando completar estos artículos para ampliar su elegibilidad para recibir servicios.)</value>
+  </data>
+  <data name="SubmitWithErrorsCancel" xml:space="preserve">
+    <value>Me gustaría ir hacia atrás y corregir antes de enviar</value>
+  </data>
+  <data name="SubmitWithErrorsConfirm" xml:space="preserve">
+    <value>Sí, presentar solicitud incompleta</value>
+  </data>
+  <data name="SubmitWithErrorsHeader" xml:space="preserve">
+    <value>Presentar Solicitud Incompleta</value>
+  </data>
+  <data name="SubmitWithErrorsPrompt" xml:space="preserve">
+    <value>Intenta presentar una solicitud incompleta, un personal ADAP puede llegar a usted y pedirle objetos desaparecidos de corregir antes de procesar su solicitud. Está seguro que desea enviar?</value>
+  </data>
+  <data name="MustExplainOther" xml:space="preserve">
+    <value>Ya que seleccionaste "other", debe agregar una explicación</value>
+  </data>
+</root>

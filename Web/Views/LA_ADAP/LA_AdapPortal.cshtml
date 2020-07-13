@@ -1,0 +1,306 @@
+﻿@model Assmnts.Models.AdapPortal
+@{
+    Layout = "/Views/LA_ADAP/LA_AdapReportLayout.cshtml";
+}
+
+@section AddToHead {
+    
+    <!-- dataTables -->
+<script src="https://cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.11/js/dataTables.bootstrap.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.0.2/js/dataTables.responsive.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.0.2/js/responsive.bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.11/css/dataTables.bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.0.2/css/responsive.bootstrap.min.css">
+
+    <style>
+        thead th {
+            background-color: #BFDFFF;
+        }
+    </style>
+    <script>
+        $(document).ready(function () {
+            $('#ADAPHeader').hide(true);
+            $('#ADAPFooter').hide(true);
+            //$(".form-control").keypress(function (e) {
+            //    if ((e.which && e.which == 13) || (e.keyCode && e.keyCode == 13)) {
+            //        doSearch();
+            //        return false;
+            //    } else {
+            //        return true;
+            //    }
+            //});
+
+            //$('#id_Search').click(function () {
+            //    doSearch();
+            //});
+
+            $('#DTgridPortal').DataTable({
+                "bPaginate": true,
+                "bFilter": false,
+                "bInfo": true,
+                "responsive": true,
+                "processing": true,
+                "serverSide": true,
+                "ajax": {
+                    url: "/ADAP/DataTablePortal",
+                    data: {
+                        "UserId": "@Model.UserId",
+                        "FormIdentifiers": "LA-ADAP;LA-ADAP-Stub;LA-ADAP-PreIns"
+                    },
+                    type: "POST"
+                },
+                "ordering": false,
+                "dom": '<lr<"row"<"col-md-6"i><"col-md-6"p>><t><"row"<"col-md-6"i><"col-md-6"p>>>',
+                "language": {
+                    "lengthMenu": "@Resources.AdapPortal.ShowNumEntries.Replace( "#", "_MENU_" )"
+                },
+                "infoCallback": function (settings, start, end, max, total, pre) {
+                    return "@Resources.AdapPortal.Showing " + start + " @Resources.AdapPortal.to " + end + " @Resources.AdapPortal.of " + total + " @Resources.AdapPortal.entries";
+                },
+                "initComplete": function () {
+                    $("a.paginate_button.next").text("@Resources.AdapPortal.Next");
+                    $("a.paginate_button.previous").text("@Resources.AdapPortal.Previous");
+                }
+            });
+
+            // user data table
+            $('#DTUsers').dataTable({
+                "processing": true,
+                "serverSide": true,
+                "ajax": {
+                    url: "/Adap/DataTablePeopleList",
+                    type: "POST"
+                },
+                "ordering": false,
+                "dom": 'ri<"float"l>ptip',
+            });
+
+            $("body").on('click', '.ppCheck', function () {
+                var checked = $(this).prop('checked');
+                if (checked === true) {
+                    var userId = $(this).val();
+                    $("#userId").val(userId);
+                    $("#userName").val(firstName + " " + lastName);
+                    var firstName = $(this).parent().siblings("td:eq(0)").text();
+                    var lastName = $(this).parent().siblings("td:eq(1)").text();
+
+                    var id = $(this).attr("id");
+                    $(".ppCheck:checked").each(function (index, item) {
+                        var itemId = $(item).attr("id");
+                        if (itemId != id) {
+                            $(item).removeAttr("checked");
+                        }
+                    });
+
+                    $("#userSelectModal").modal('hide');
+                    $("#noneSelected").hide();
+                    $("#selectedUser").show();
+                }
+            });
+
+            $("#pp_Search").click(function () {
+                var searchFName = $('#pp_fn').val();
+                var searchLName = $('#pp_ln').val();
+                var searchAdapId = $('#pp_adapId').val();
+                var searchDob = $("#pp_dob").val();
+                //var searchSsn = $("#pp_ssn").ssnValue();
+                //var searchEsNumber = $("#pp_es").val();
+
+                var dt = $('#DTUsers').DataTable();
+
+                dt.columns(1).search(searchFName);
+                dt.columns(2).search(searchLName);
+                dt.columns(3).search(searchAdapId);
+                dt.columns(4).search(searchDob).draw();
+                //dt.columns(5).search(searchSsn);
+                //dt.columns(6).search(searchEsNumber).draw();
+            });
+
+        $('#cancelCreate').on('click', function () {
+            $("#userId").val('');
+            $("#userName").val('');
+            $("#noneSelected").show();
+            $("#selectedUser").hide();
+            $(".ppCheck:checked").removeAttr("checked");
+        });
+
+        $('#createApp').click(function () {
+            $("#newUserSelectModal").modal('show');
+        });
+
+        $('#userCreate').click(function () {
+            $("#newUserSelectModal").modal('hide');
+            $("#userCreateModal").modal('show');
+        });
+
+        $('#userSelect').click(function () {
+            $("#newUserSelectModal").modal('hide');
+            $("#userSelectModal").modal('show');
+        });
+    });
+    </script>
+}
+<div class="container">
+    <h3>@Resources.AdapPortal.AdapAppsFor @Model.Name</h3>
+
+    <div>
+        @if (!String.IsNullOrEmpty(Model.RecertDate))
+        {
+            <label class="info">@Resources.AdapPortal.NextRecertDate:</label> <label class="text-primary" style="font-size:large"> @Model.RecertDate</label>
+        }
+        
+        @if (UAS.Business.UAS_Business_Functions.hasPermission(2, "RptsExpts")) // Case Manager Permission
+        {
+            <div id="selectedUser" hidden="hidden">
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <label for="userName">Application for: </label><input type="text" id="userName" name="userName" class="form-control" placeholder="User" readonly="readonly" />
+                        <input type="hidden" id="userId" name="userId" class="form-control" placeholder="User" />
+                        <br />
+                        <button type="button" class="btn btn-sm btn-success" onclick="location.href='CreateAdapApplication?userId=' + $('#userId').val()">@Resources.AdapPortal.CreateApp</button>
+                        <button id="cancelCreate" type="button" class="btn btn-sm btn-danger" onclick="">Cancel</button>
+                        <br />
+                    </div>
+                </div>
+            </div>
+            <div id="noneSelected">
+                <button type="button" id="creteUserRedirect" class="btn btn-sm btn-success" onclick="window.location = '/LAADAP/RedirectToCaseManagerProfile'">Create New Client</button>
+                <br />
+            </div>
+        }
+        else
+        {
+            <button type="button" class="btn btn-sm btn-success" onclick="location.href='CreateAdapApplication?userId=@Model.UserId'">@Resources.AdapPortal.CreateApp</button>
+            <br/>    
+        }
+        
+        @if (!String.IsNullOrEmpty(Model.errorMsg))
+        {
+            <label class="error text-danger">@Model.errorMsg</label>
+        }
+    </div>
+
+    <div id="context" class="context" data-toggle="context" data-target="#context-menu">
+        <table id="DTgridPortal" class="table table-bordered table-striped" cellpadding="0" cellspacing="0" border="0">
+            <thead>
+                <tr>
+                    <th>@Resources.AdapPortal.MemberId</th>
+                    <th>@Resources.AdapPortal.AppDate</th>
+                    <th>@Resources.AdapPortal.AppStatus</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <!-- These Case Manager modals are hidden behind a Razor condition to prevent the data from being accessed or viewed in source by unauthorized users -->
+    @if (UAS.Business.UAS_Business_Functions.hasPermission(2, "RptsExpts"))
+    { 
+        <!-- New/Current User Modal -->
+        <div class ="modal fade" id="newUserSelectModal" tabindex="-1" role="dialog" aria-labelledby="newUserLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content" style="width:900px;">
+                    <div class="modal-header" style="background-color: #337ab7; color:white;">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="userSelectModalLabel"><b><span id="usrSlctHdr"></span></b>Choose user from</h4>
+                    </div>
+                    <div class="modal-body" style="height:100px; overflow-y:auto">
+                        @*<button type="button" id="userCreate" class="btn btn-sm btn-success" onclick="">Create New User</button>*@
+                        <button type="button" id="creteUserRedirect" class="btn btn-sm btn-success" onclick="window.location = '/LAADAP/RedirectToCaseManagerProfile'">Create New Client</button>
+                        <button type="button" id="userSelect" class="btn btn-sm btn-success" onclick="">Select Existing User</button>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Select User -->
+        <div class="modal fade" id="userSelectModal" tabindex="-1" role="dialog" aria-labelledby="userSelectLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content" style="width:900px;">
+                    <div class="modal-header" style="background-color: #337ab7; color:white;">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="userSelectModalLabel"><b><span id="usrSlctHdr"></span></b>Select User</h4>
+                    </div>
+                    <div class="modal-body" style="height:640px; overflow-y:auto">
+                        <div>
+                            <div class="row form-group">
+                                <div class="col-md-2">
+                                    <label class="control-label" for="pp_fn">First Name</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control" id="pp_fn" name="pp_fn" maxlength="60">
+                                </div>
+                                <div class="col-md-2">
+                                    <label class="control-label" for="pp_ln">Last Name</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control" id="pp_ln" name="pp_ln" maxlength="60">
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-md-2">
+                                    <label class="control-label" for="pp_adapId">ADAP ID</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control" id="pp_adapId" name="pp_adapId" maxlength="60">
+                                </div>
+                                <div class="col-md-2">
+                                    <label class="control-label" for="pp_dob">DOB</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group date">
+                                        <input type="text" id="pp_dob" class="form-control input-md" name="pp_dob" />
+                                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-md-2">
+                                    <label class="control-label" for="pp_ssn">SSN</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control ssn-candy-mask" id="pp_ssn" name="pp_ssn" maxlength="60">
+                                </div>
+                                <div class="col-md-2">
+                                    <label class="control-label" for="pp_es">ES #</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control" id="pp_es" name="pp_es" maxlength="60">
+                                </div>
+                            </div>
+
+                            <div class="row form-group">
+                                <div class="col-md-4">
+                                    <input type="button" id="pp_Search" class="btn btn-md btn-primary btn-block" value="Search">
+                                </div>
+                            </div>
+                        </div>
+                        <table id="DTUsers" class="table table-striped table-hover table-bordered responsive no-wraps small dataTable no-footer dtr-inline" cellpadding="0" cellspacing="0" border="0">
+                            <thead>
+                                <tr>
+                                    <th tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="User ID: activate to sort column ascending">&nbsp;</th>
+                                    <th tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="First Name: activate to sort column ascending">First Name</th>
+                                    <th tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Last Name: activate to sort column ascending">Last Name</th>
+                                    <th tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="DOB: activate to sort column ascending">DOB</th>
+                                    <th tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="ADAP ID: activate to sort column ascending">ADAP ID</th>
+                                    <th tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="ES: activate to sort column ascending">Enrollment Site</th>
+                                    <th tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="SSN: activate to sort column ascending">SSN</th>
+                                    <th tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="UAS ID: activate to sort column ascending">UAS ID</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+

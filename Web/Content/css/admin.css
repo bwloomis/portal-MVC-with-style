@@ -1,0 +1,128 @@
+﻿/* Move down content because we have a fixed navbar that is 50px tall */
+/* The 50px tall header is part of the body of it's page, which we don't want moved down. */
+/*body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}*/
+
+/* Wrapping element */
+/* Set some basic padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 20px;
+    padding-right: 20px;
+    width:auto;
+    
+    
+}
+
+/* Set widths on the form inputs since otherwise they're 100% wide */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+.long-text-area {
+    max-width: 500px;
+    width: 400px;
+    min-height: 300px;
+}
+/* Responsive: Portrait tablets and up */
+@media screen and (min-width: 768px) {
+    .jumbotron {
+        margin-top: 20px;
+    }
+
+    .body-content {
+        padding: 0;
+    }
+}
+
+.button-like-a-link {
+
+}
+
+.form-control{
+    margin: 4px;
+}
+
+.navbar-header img{
+    height: 46px;
+    width: auto;
+    margin-top: 2px;
+    margin-right: 9px;
+}
+.invisible{
+    display: none;
+}
+
+.grid
+{
+    width: 100%;
+    background-color: #ebebeb;
+    margin: 5px 0 10px 0;
+    border: solid 1px #fff;
+    border-collapse: collapse;
+}
+.grid td
+{
+    padding: 2px;
+    border: solid 1px #fff;
+    color: #717171;
+    padding: 6px;
+}
+
+.grid th a
+{
+    color: #fff;
+}
+
+.grid th
+{
+    padding: 4px 2px;
+    color: #fff;
+    background-color: #1b3863;
+    border-left: solid 1px #fff;
+    font-size: 0.9em;
+}
+.grid .alt
+{
+    background-color: #ebebeb;
+}
+.grid .pgr
+{
+    background-color: Gray;
+}
+.grid .pgr table
+{
+    margin: 5px 0;
+}
+.grid .pgr td
+{
+    border-width: 0;
+    padding: 0 6px;
+    border-left: solid 1px #fff;
+    font-weight: bold;
+    color: #fff;
+    line-height: 12px;
+}
+.grid .pgr a
+{
+    color: #666;
+    text-decoration: none;
+}
+
+.grid .pgr a:hover
+{
+    color: #000;
+    text-decoration: none;
+}
+
+input.return {
+    float:right;
+    margin-top:1em;
+    }
+
+.datatable thead th {
+    background-color: #BFDFFF;
+    }

@@ -1,0 +1,270 @@
+@model Assmnts.Models.GeneralForm
+@{
+    ViewBag.Title = "Interview Planning";
+    Layout = "~/Views/Shared/AssmntLayout.cshtml";
+    Validator.Required("The field is required.");
+}
+
+@section HeadContent {
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <style type="text/css">
+        #btnExpandResps {
+            height: 18px;
+            width: 184px;
+            font-family: Arial, Geneva, Verdana;
+        }
+
+        .class_wide_input {
+            width: 300px;
+        }
+    </style>
+
+    <link rel="stylesheet" type="text/css" href="/Content/css/jquery.datepick.css">
+    <link rel="stylesheet" type="text/css" href="/Content/css/jquery.timeentry.css">
+    <script src="/Content/js/jquery.plugin.js"></script>
+    <script src="/Content/js/jquery.datepick.js"></script>
+    <script src="/Content/js/jquery.maskedinput.min.js"></script>
+    <script src="/Content/js/jquery.timeentry.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () { 
+            $('#planning_date_request').datepicker({ constrainInput: false });
+        });
+    </script>
+}
+
+<table id="tblData" border="0" cellpadding="0" cellspacing="0" style="height: 100%">
+    <tr>
+        <td style="width: 189px; background-color: #ffffff" valign="top" align="center">@Html.Partial("AssmntLeftPane")</td>
+        <td>
+            <br />
+            <table border="0" cellpadding="0" cellspacing="0" width="625">
+                <tr>
+                    <td align="left">
+                        <!-- <asp:Label ID="lblErr" Visible="false" ForeColor="red" runat="server" />  -->
+                        <table border="0" cellpadding="5" cellspacing="0" class="tableborder" style="background-color: #ffffff; margin-left: 1.3em;"
+                               width="800">
+                            <tr>
+                                <td style="background-color: #d5d5d5">
+                                    <span class="titleblack">Interview Planning Information</span>
+                                </td>
+                            </tr>
+                        </table>
+                        <form action="/Results/Save" method="post" id="form-id">
+                            <table border="0" cellpadding="5" cellspacing="0" class="tableborder" style="background-color: #f4f4f4; margin-left: 1.3em"
+                                   width="800">
+                                <tr>
+                                    <td>
+                                        <table>
+                                            <tr><td>&nbsp;</td></tr>
+                                            <tr>
+                                                <td>
+                                                    @Helpers.LabelSpan(Model, "planning_date_request")
+                                                </td>
+                                                <td>
+                                                    @Helpers.TextInput(Model, "planning_date_request", new { id = "planning_date_request", style = "width:80px" })
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        <table style="width:100%">
+                                            <tr><td>&nbsp;</td></tr>
+                                            <tr>
+                                                <td>
+                                                    @Helpers.LabelSpan(Model, "planning_location")
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;<textarea class="" name="planning_location" style="width:95%" wrap="soft" rows="2">@Model.rspValues["planning_location"]</textarea><br>
+                                                </td>
+                                            </tr>
+                                            <tr><td>&nbsp;</td></tr>
+                                            <tr>
+                                                <td>
+                                                    @{
+                                                        String[] label = Model.items[1].label.Split('_');
+                                                    }
+                                                    <span>@label[0]<a href="#" onclick="openMap()">@label[1]</a></span>
+                                                    <script>
+                                                        function openMap() {
+                                                            var href = "https://www.google.com/maps/place/" + $('#planning_map_view').val();
+                                                            window.open(href);
+                                                        }
+                                                    </script>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;@Helpers.TextInput(Model, "planning_map_view", new { @id="planning_map_view", @style = "width:50%" })
+                                                </td>
+                                            </tr>
+                                            <tr><td>&nbsp;</td></tr>
+                                            <tr>
+                                                <td>
+                                                    @Helpers.LabelSpan(Model, "planning_instructions")
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;<textarea class="" name="planning_instructions" style="width:95%" wrap="soft" rows="4">@Model.rspValues["planning_instructions"]</textarea><br>
+                                                </td>
+                                            </tr>
+                                        </table>
+
+                                        <table>
+                                            <tr><td>&nbsp;</td></tr>
+                                            <tr>
+                                                <td>
+                                                    @Helpers.LabelSpan(Model, "planning_interpreter")
+                                                </td>
+                                                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                                <td>
+                                                    @{
+                                                        // passing data to the page tranlates a bit value to STRING true, rather than BOOLEAN true.
+                                                        if (Model.rspValues["planning_interpreter"] != null && Model.rspValues["planning_interpreter"].Equals("true")) {
+                                                            @Helpers.LabelSpan(Model, "planning_language", new { id = "planning_language_lbl", @class = "required" })
+                                                        } else {
+                                                            @Helpers.LabelSpan(Model, "planning_language", new { id = "planning_language_lbl"})
+                                                        }
+                                                    }
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        <table>
+                                            <tr>
+                                                <td>
+                                                    <input type="radio" id="planning_interpreter_y" class="interpreter" name="planning_interpreter" value="1" />
+                                                    <label for="planning_interpreter_y" style="margin-left:1.5em"><span data-target="planning_interpreter_y"></span>Yes</label>
+                                                    @*<span style="float:left">@Helpers.YesNoRadioButtons(Model, "planning_interpreter")</span>*@
+                                                </td>
+                                                <td>
+                                                    <input type="radio" id="planning_interpreter_n" class="interpreter" name="planning_interpreter" value="0" />
+                                                    <label for="planning_interpreter_n" style="margin-left:1.5em"><span data-target="planning_interpreter_n"></span>No</label>
+                                                    @*&nbsp;*@
+                                                    <script>
+                                                        $(document).ready(function () {
+                                                            // passing data to the page tranlates a bit value to STRING true, rather than BOOLEAN true.
+                                                            var target = '@Model.rspValues["planning_interpreter"]';
+                                                            var value = 0;
+                                                            if (target == 'true') {
+                                                                value = 1;
+                                                            }
+                                                            $(".interpreter").each(function () {
+                                                                if ($(this).prop("value") == value) {
+                                                                    $(this).attr("checked", "1");
+                                                                }
+                                                            });
+
+                                                            //update planning_language_lbl();
+                                                            $("#planning_interpreter_y").change( function () {
+                                                                $('#planning_language_lbl').addClass("required");
+                                                            });
+
+                                                            $("#planning_interpreter_n").change( function () {
+                                                                $('#planning_language_lbl').removeClass("required");
+                                                            });
+                                                        })
+                                                    </script>
+                                                </td>
+
+                                                <td>
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@Helpers.TextInput(Model, "planning_language")
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        <table style="width:100%">
+                                            <tr><td>&nbsp;</td></tr>
+                                            <tr>
+                                                <td>
+                                                    @Helpers.LabelSpan(Model, "planning_scheduling_log")
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;<textarea class="" name="planning_scheduling_log_display" id="planning_scheduling_log_display" style="background-color:#d5d5d5; width:95%" wrap="soft" rows="16" readonly="readonly">@Model.rspValues["planning_scheduling_log"]</textarea><br>
+                                                    <textarea class="" name="planning_scheduling_log" id="planning_scheduling_log" hidden="hidden">@Model.rspValues["planning_scheduling_log"]</textarea><br>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;<span>Add New Scheduling Log Notes:</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<textarea class="" id="planning_scheduling_notes" style="width:93%" wrap="soft" rows="8"></textarea><br>
+                                                    <script type="text/javascript">
+                                                        $(document).ready(function () {
+                                                            // planning_scheduling_log_display shows the scheduling log as it appeared in the database at the time of the page load.
+                                                            // planning_scheduling_log is the field which will actually be saved back to the database; the corresponding text area is hidden.
+                                                            // planning_scheduling_notes is where the user adds text which will be saved to the log.
+                                                            // This javascript function takes text in the scheduling_notes and appends it to the visible scheduling_log, then stores it in the hidden scheduling_log.
+                                                            //      If the user reloads the page, closes the window, or the system crashes, the changes will not be saved.
+                                                            //      If the user changes text in the notes, it will be appended to the original database record.  This allows editing the note before save.
+                                                            //      If the user clicks save, or navigates in a way that causes Sis to save data, the notes are effectively appended to the database record.
+                                                            $('#planning_scheduling_notes').change(function () {
+                                                                var text = $('#planning_scheduling_notes').val();
+                                                                var len = $('#planning_scheduling_log_display').val().length;
+
+                                                                var d = new Date();
+
+                                                                var month = d.getMonth() + 1;
+                                                                var day = d.getDate();
+                                                                var minutes = d.getMinutes();
+                                                                var seconds = d.getSeconds();
+
+                                                                var now = (month < 10 ? '0' : '') + month + '/' +
+                                                                    (day < 10 ? '0' : '') + day + '/' +
+                                                                    d.getFullYear() + ' ' +
+                                                                    d.getHours() + ':' +
+                                                                    (minutes < 10 ? '0' : '') + minutes + ':' +
+                                                                    (seconds < 10 ? '0' : '') + seconds;
+
+                                                                text = "Added by " + "@Model.currentUser" + " on " + now + ":\n" + text;
+                                                                if (len > 0) {
+                                                                    text = text + "\n\n...\n" + $('#planning_scheduling_log').val();
+                                                                }
+                                                                $('#planning_scheduling_log').val(text);
+                                                                text = '';
+                                                                //$('#planning_scheduling_notes').val(text);
+                                                            });
+                                                        });
+                                                    </script>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+
+                                        @Html.Partial("AssmntNavPrevNext")
+
+                                        @*<div id="sectIndivParticipation" visible="false">
+                                            <fieldset>
+                                                <legend></legend>
+                                            </fieldset>
+                                        </div>
+                                        <div id="sectIntSetting" style="margin-top: 12px;" visible="false">
+                                            &nbsp;
+                                        </div>*@
+                                    </td>
+                                </tr>
+                            </table>
+                            <br />
+                            <br />
+                            <input type="submit" value="Submit" id="btnSubmit" />
+                        </form>
+                    </td>
+                </tr>
+            </table>
+            <table border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td style="height: 5px">&nbsp;</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+<br />
+

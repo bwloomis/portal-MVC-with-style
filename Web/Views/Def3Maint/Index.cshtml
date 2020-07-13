@@ -1,0 +1,646 @@
+﻿@using Assmnts;
+@model dynamic
+@{
+
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+@*<script src="~/Scripts/bootstrap.min.js"></script>
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<link href="~/Content/bootstrap-theme.min.css" rel="stylesheet" />*@
+
+<script>
+    var editingMasters = false;
+    var editingDetails = false;
+    var editingTexts = false;
+
+    $(document).ready(function () {
+
+
+        showSelect();
+
+    });
+    function showSelect() {
+        $.ajax({
+            type: "POST",
+            url: "/Def3Maint/Select/",
+            async: false,
+            cache: false,
+            success: function (result) {
+                // alert("Success!");
+
+                $("#lookupSelect").html(result);
+            },
+            error: function () {
+                alert("Error!");
+
+            }
+        });
+    }
+
+    function DetailsInquiryRequest() {
+        this.masterId;
+        this.entId;
+        this.grpId;
+    }
+
+    function DetailsInquiry(id, title) {
+        var url = "/Def3Maint/Details";
+
+        var detailsInquiryRequest = new DetailsInquiryRequest();
+
+        detailsInquiryRequest.masterId = id;
+        detailsInquiryRequest.entId = $("#enterpriseID").val();
+        detailsInquiryRequest.grpId = $("#groupID").val();
+
+        $.post(url, detailsInquiryRequest, function (data, textStatus) {
+            DetailsInquiryComplete(data, title, id);
+        });
+    }
+
+    function DetailsInquiryComplete(data, title, id) {
+
+        $("#lookupDetailsContent").html(data);
+        $("#lookupMasters").hide();
+        $("#detailsHeading").html("<label>Lookup Details:</label> " + unescape(title));
+        $("#lookupDetails").data("masterId", id)
+        $("#lookupDetails").show();
+
+
+    }
+    function Select() {
+        $("#lookupSelect").hide();
+       
+        showMasters();
+ 
+    }
+
+    function showMasters() {
+        $.ajax({
+            type: "POST",
+            url: "/Def3Maint/Masters/",
+            async: false,
+            cache: false,
+            success: function (result) {
+               $("#lookupMasters").html(result);
+            },
+            error: function () {
+                alert("Error!");
+
+            }
+        });
+
+        $("#lookupMasters").show();
+
+    }
+
+
+    function createMaster() {
+        var lookupCode = $("#addCode").val();
+
+        if (lookupCode == "") {
+            alert("Please enter a lookup code.");
+            return;
+        }
+
+        var title = $("#addMasterTitle").val();
+
+        if (title == "") {
+            alert("Please enter a title.");
+            return;
+        }
+
+        var base = $("#addMasterBase").val();
+
+        if (base == "") {
+            alert("Please select a base type.");
+            return;
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "/Def3Maint/addMaster/",
+            data: { lookupCode: lookupCode, title: title, baseType: base },
+            async: false,
+            cache: false,
+            success: function (result) {
+                //alert("Success!");
+
+                $("#lookupMasters").html(result);
+            },
+            error: function () {
+                alert("Error!");
+
+            }
+        });
+    }
+
+    function editMaster(id)
+    {
+        if (editingMasters == false) {
+            editingMasters = true;
+            var lkpCd = $("#lkpCd\\[" + id + "\\]");
+            var ttl = $("#ttl\\[" + id + "\\]");
+            var bsTyp = $("#bsTyp\\[" + id + "\\]");
+            var bsTypSelDat = $("#bsTypSelDat\\[" + id + "\\]");
+            var bsTypSel = $("#bsTypSel\\[" + id + "\\]");
+
+            var editBtn = $("#editMaster\\[" + id + "\\]");
+            var deleteBtn = $("#deleteMaster\\[" + id + "\\]");
+            var detailsBtn = $("#detailsInquiry\\[" + id + "\\]");
+
+            var saveBtn = $("#saveMaster\\[" + id + "\\]");
+            var cancelBtn = $("#cancelMaster\\[" + id + "\\]");
+
+            var lkpCdText = lkpCd.text();
+            var ttlText = ttl.text();
+            var bsTypText = bsTyp.text();
+
+            lkpCd.html('<input type="text" name="editMasterLookup" class="form-control" id="editLookup[' + id + ']"  value="' + lkpCdText + '" />');
+            ttl.html('<input type="text" name="editMasterTitle" class="form-control" id="editTitle[' + id + ']"  value="' + ttlText + '" />');
+
+            //var options = $("#bsTypSelDat\\[" + id + "\\]").val("option");
+            //alert(options.text());
+            //for (i = 0; i < radios.size() ; i++) {
+            //    if (radios[i].checked) {
+            //        value = radios[i].value;
+            //    }
+            //}
+            //alert(bsTypSelDat.option());
+            bsTyp.hide();
+            bsTypSelDat.show();
+
+            editBtn.hide();
+            deleteBtn.hide();
+            detailsBtn.hide();
+
+            saveBtn.show();
+            cancelBtn.show();
+
+        }
+    }
+
+    function saveMaster(id) {
+        var lkpCd = $("#editLookup\\[" + id + "\\]");
+        var ttl = $("#editTitle\\[" + id + "\\]");
+        var bsTypSel = $("#bsTypSel\\[" + id + "\\]");
+
+
+        var lookupCode = lkpCd.val();
+        var title = ttl.val();
+        var base = bsTypSel.val();
+
+        if (lookupCode == "")
+        {
+            alert("Please enter a lookup code.");
+            return;
+        }
+
+        if (title == "")
+        {
+            alert("Please enter a title.");
+            return;
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "/Def3Maint/saveMaster/",
+            data: { lookupMasterId: id, lookupCode: lookupCode, title: title, baseType: base },
+            async: false,
+            cache: false,
+            success: function (result) {
+                //alert("Success!");
+
+                $("#lookupMasters").html(result);
+
+                editingMasters = false;
+            },
+            error: function () {
+                alert("Error!");
+
+            }
+        });
+
+    }
+
+    function cancelMaster(id) {
+        showMasters();
+        editingMasters = false;
+    }
+
+    function deleteMaster(id, code) {
+        var reallyDelete = confirm("Are you sure you want to delete this master with lookup code \"" + unescape(code) + "\" (and all associated details and texts)?");
+
+        if (reallyDelete == true) {
+            $.ajax({
+                type: "POST",
+                url: "/Def3Maint/deleteMaster/",
+                data: { masterId: id},
+                async: false,
+                cache: false,
+                success: function (result) {
+                    //alert("Success!");
+
+                    $("#lookupMasters").html(result);
+
+                    editingMasters = false;
+                },
+                error: function () {
+                    alert("Error!");
+
+                }
+            });
+        }
+    }
+
+    function showDetails(master) {
+        $.ajax({
+            type: "POST",
+            url: "/Def3Maint/Details/",
+            data: { masterId: master },
+            async: false,
+            cache: false,
+            success: function (result) {
+                // alert("Success!");
+
+                $("#lookupDetailsContent").html(result);
+            },
+            error: function () {
+                alert("Error!");
+
+            }
+        });
+    }
+
+    function createDetail() {
+        var dataVal = $("#addData").val();
+
+        if (dataVal == "")
+        {
+            alert("Please enter a data value.");
+            return;
+        }
+
+        var enterprise = $("#enterpriseID").val();
+
+        var group = $("#groupID").val();
+
+        var order = $("#displayOrder").val();
+
+        if (order == "") {
+            alert("Please enter an order number.");
+            return;
+        }
+
+        if (!isInteger(order)) {
+            alert("Please enter an integer value for the display order.");
+            return;
+        }
+
+        var master = $("#lookupDetails").data("masterId");
+
+        $.ajax({
+            type: "POST",
+            url: "/Def3Maint/addDetail/",
+            data: { lookupMasterId: master, dataValue: dataVal, enterprise: enterprise, group: group, displayOrder: order },
+            async: false,
+            cache: false,
+            success: function (result) {
+                //alert("Success!");
+
+                $("#lookupDetailsContent").html(result);
+
+                editingDetails = false;
+            },
+            error: function () {
+                alert("Error!");
+
+            }
+        });
+    }
+
+    function editDetail(id) {
+        if (editingDetails == false) {
+            editingDetails = true;
+
+            var dataValue = $("#dataValue\\[" + id + "\\]");
+
+            var order = $("#order\\[" + id + "\\]");
+
+            var editBtn = $("#editDetail\\[" + id + "\\]");
+            var textBtn = $("#textDetail\\[" + id + "\\]");
+            var delBtn = $("#deleteDetail\\[" + id + "\\]");
+
+            var saveBtn = $("#saveDetail\\[" + id + "\\]");
+            var cancelBtn = $("#cancelDetail\\[" + id + "\\]");
+
+            dataValueText = dataValue.text();
+            orderText = order.text();
+
+            dataValue.html('<input type="text" name="editDetailDataValue" class="form-control" id="editDetailDataValue[' + id + ']"  value="' + dataValueText + '" />');
+            order.html('<input type="text" name="editOrder" class="form-control" id="editOrder[' + id + ']"  value="' + orderText + '" />');
+
+            editBtn.hide();
+            textBtn.hide();
+            delBtn.hide();
+
+            saveBtn.show();
+            cancelBtn.show();
+
+        }
+    }
+
+    function saveDetail(id) {
+        var masterId = $("#lookupDetails").data("masterId");
+
+        var ent = $("#enterpriseID").val();
+        var grp = $("#groupID").val();
+        var dataVal = $("#editDetailDataValue\\[" + id + "\\]").val();
+        if (dataVal == "") {
+            alert("Please enter a data value.");
+            return;
+        }
+
+        var order = $("#editOrder\\[" + id + "\\]").val();
+
+        if (order == "") {
+            alert("Please enter an order number.");
+            return;
+        }
+
+        if (!isInteger(order)) {
+            alert("Please enter an integer value for the display order.");
+            return;
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "/Def3Maint/saveDetail/",
+            data: { lookupDetailId: id, lookupMasterId: masterId, dataValue: dataVal, enterprise: ent, group: grp, displayOrder: order  },
+            async: false,
+            cache: false,
+            success: function (result) {
+                //alert("Success!");
+
+                $("#lookupDetailsContent").html(result);
+
+                editingDetails = false;
+            },
+            error: function () {
+                alert("Error!");
+
+            }
+        });
+
+    }
+
+    function cancelDetail(id) {
+        showDetails($("#lookupDetails").data("masterId"));
+        editingDetails = false;
+    }
+
+    function deleteDetail(id, value) {
+        var reallyDelete = confirm("Are you sure you want to delete detail with data value \"" + unescape(value) + "\" (and all associated texts)?");
+
+        var masterId = $("#lookupDetails").data("masterId");
+
+        if (reallyDelete == true) {
+            $.ajax({
+                type: "POST",
+                url: "/Def3Maint/deleteDetail/",
+                data: { lookupDetailId: id, lookupMasterId: masterId },
+                async: false,
+                cache: false,
+                success: function (result) {
+                    //alert("Success!");
+
+                    $("#lookupDetailsContent").html(result);
+
+                    editingDetails = false;
+                },
+                error: function () {
+                    alert("Error!");
+
+                }
+            });
+        }
+    }
+
+
+
+    function showTexts() {
+        var id = $("#lookupTexts").data("detailId");
+
+        $.ajax({
+            type: "POST",
+            url: "/Def3Maint/Texts/",
+            data: { detailId: id },
+            async: false,
+            cache: false,
+            success: function (result) {
+                //alert("Success!");
+
+                $("#lookupTextsContent").html(result);
+
+            },
+            error: function () {
+                alert("Error!");
+
+            }
+        });
+    }
+
+    function textDetail(id, dataVal) {
+        $.ajax({
+            type: "POST",
+            url: "/Def3Maint/Texts/",
+            data: { detailId: id },
+            async: false,
+            cache: false,
+            success: function (result) {
+                //alert("Success!");
+
+                $("#lookupTextsContent").html(result);
+                $("#textsHeading").html("<label>Lookup Texts:</label> " + unescape(dataVal));
+                $("#lookupTexts").show();
+                $("#lookupDetailsContent").hide();
+                $("#lookupTexts").data("detailId", id);
+            },
+            error: function () {
+                alert("Error!");
+
+            }
+        });
+
+    }
+
+    function createText() {
+        var langId = $("#addLanguage").val();
+        var text = $("#addText").val();
+        if (text == "") {
+            alert("Please enter a display text.");
+            return;
+        }
+
+        var detailId = $("#lookupTexts").data("detailId");
+
+        $.ajax({
+            type: "POST",
+            url: "/Def3Maint/addText/",
+            data: { lookupDetailId: detailId, langId: langId, displayText: text },
+            async: false,
+            cache: false,
+            success: function (result) {
+                //alert("Success!");
+
+                $("#lookupTextsContent").html(result);
+                editingTexts = false;
+
+            },
+            error: function () {
+                alert("Error!");
+
+            }
+        });
+
+    }
+
+
+    function editText(id) {
+        if (editingTexts == false) {
+            editingTexts = true;
+
+            display = $("#displayText\\[" + id + "\\]");
+
+            language = $("#language\\[" + id + "\\]");
+
+            langTd = $("#languageSelectTd\\[" + id + "\\]");
+
+            editBtn = $("#editText\\[" + id + "\\]");
+            deleteBtn = $("#deleteText\\[" + id + "\\]");
+
+            saveBtn = $("#saveText\\[" + id + "\\]");
+            cancelBtn = $("#cancelText\\[" + id + "\\]");
+
+            displayText = display.text();
+
+            display.html('<input type="text" name="editDisplayText" class="form-control" id="editDisplayText[' + id + ']"  value="' + displayText + '" />');
+
+            language.hide();
+
+            editBtn.hide();
+            deleteBtn.hide();
+
+            saveBtn.show();
+            cancelBtn.show();
+            langTd.show();
+        }
+    }
+
+    function saveText(id) {
+        var detailId = $("#lookupTexts").data("detailId");
+
+        var langSelect = $("#selectLanguage\\[" + id + "\\]");
+
+        var language = langSelect.val();
+
+        var displayText = $("#editDisplayText\\[" + id + "\\]").val();
+
+        if (displayText == "") {
+            alert("Please enter a display text.");
+            return;
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "/Def3Maint/saveText/",
+            data: { lookupTextId: id, lookupDetailId: detailId, langId: language, displayText: displayText },
+            async: false,
+            cache: false,
+            success: function (result) {
+                //alert("Success!");
+
+                $("#lookupTextsContent").html(result);
+
+
+                editingTexts = false;
+            },
+            error: function () {
+                alert("Error!");
+
+            }
+        });
+    }
+
+    function cancelText(id) {
+        showTexts();
+        editingTexts = false;
+
+    }
+
+    function deleteText(id, text) {
+        var reallyDelete = confirm("Are you sure you want to delete text \"" + unescape(text) + "\"?");
+
+        var detailId = $("#lookupTexts").data("detailId");
+
+        if (reallyDelete == true) {
+            $.ajax({
+                type: "POST",
+                url: "/Def3Maint/deleteText/",
+                data: { lookupTextId: id, lookupDetailId: detailId },
+                async: false,
+                cache: false,
+                success: function (result) {
+                    //alert("Success!");
+
+                    $("#lookupTextsContent").html(result);
+
+
+                    editingTexts = false;
+                },
+                error: function () {
+                    alert("Error!");
+
+                }
+            });
+        }
+    }
+
+    function isInteger(x) {
+        return (x == parseInt(x, 10));
+    }
+
+
+</script>
+<input type="hidden" id="enterpriseID" value="0" />
+<input type="hidden" id="groupID" value="0" />
+
+<div><label id="entLabel">Enterprise:&nbsp;</label><span id="enterpriseName"></span><span id="groupName"></span></div>
+<div id="lookupSelect">
+
+</div>
+
+
+
+
+<div id="lookupMasters" hidden="hidden">
+    
+</div>
+
+<div id="lookupDetails" hidden="hidden">
+    <h3 id="detailsHeading"><label>Lookup Details</label></h3>
+
+    <div id="lookupDetailsContent">
+
+    </div>
+
+</div>
+
+<div id="lookupTexts" hidden="hidden">
+    <h3 id="textsHeading"><label>Lookup Texts</label></h3>
+    
+    <div id="lookupTextsContent">
+
+    </div>
+
+</div>

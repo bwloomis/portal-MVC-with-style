@@ -1,0 +1,82 @@
+@model Assmnts.Models.TemplateCsvOptions   
+@{
+    ViewBag.Title = "CSV Options";
+    Validator.Required("The field is required.");
+    
+    Layout = null;
+    
+}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script>
+    $('.BuildCsv').click(function () {
+        var i = this.href.indexOf('?');
+        if (i > 0)
+            this.href = this.href.substring(0, i);
+        this.href += '?formId=@Model.formId';
+        this.href += '&includeParts=';
+        @foreach( Assmnts.def_Parts prt in Model.parts ){
+            @:this.href += $('#part_@prt.partId').prop('checked') ? '1' : '0';
+        }
+    });
+
+    $("#returnSearch").click(function () {
+        window.location.href = "@(Url.Action("Index", "Search"))";
+    });
+
+</script>
+
+<div class="top">Select Parts to Include</div>
+<div class="content">
+
+    
+    @if (Model.formId == 0)
+    {
+        foreach (Assmnts.def_Forms frm in Model.forms)
+        {
+            <h4>@frm.identifier</h4>
+            for (int i = Model.formPartMap[frm.formId + " start"]; i < Model.formPartMap[frm.formId + " end"]; i++ )
+            {
+                //if (prt.identifier.Contains("Scores")) { continue; }
+                <div>
+                    <div>
+                        <input type="checkbox" id="part_@Model.parts[i].partId" checked />
+                        <label for="part_@Model.parts[i].partId">@Model.parts[i].identifier.Replace("Reports", "Scores")</label>
+                    </div>
+                </div>
+            }
+        }
+    }
+    else
+    {
+        foreach (Assmnts.def_Parts prt in Model.parts)
+        {
+            if (prt != null) { 
+                //if (prt.identifier.Contains("Scores")) { continue; }
+                <div>
+                    <div>
+                        <input type="checkbox" id="part_@prt.partId" checked />
+                        <label for="part_@prt.partId">@prt.identifier.Replace("Reports", "Scores")</label>
+                    </div>
+                </div>
+            }
+        }
+    }
+
+    <div id="BuildCSVLink">                
+        @*@Html.ActionLink(
+            linkText: "Build Generic CSV",
+            actionName: "GetFormResultsCSV",
+            controllerName: "Export",
+            routeValues: new { },
+            htmlAttributes: new { id = "id_BuildGenericCsv", @class = "BuildCsv btn btn-default", style = "font-size:14px; color:#333; font-weight:400;" }
+        )*@
+        @Html.ActionLink(
+            linkText: "Build CSV",
+            actionName: "GetSISExportCSV",
+            controllerName: "Export",
+            routeValues: new { },
+            htmlAttributes: new { id = "id_BuildSisCsv", @class = "BuildCsv btn btn-default", style = "font-size:14px; color:#333; font-weight:400;" }
+        )
+        <input type="button" id="returnSearch" value="Return to Search" class="btn btn-default" />
+	</div>

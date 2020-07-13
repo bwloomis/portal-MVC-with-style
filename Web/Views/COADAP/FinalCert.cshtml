@@ -1,0 +1,161 @@
+﻿@model Assmnts.Models.GeneralForm
+@{
+    Layout = "AdapAppLayout.cshtml";
+}
+
+@section AddToHead{
+    <link rel="stylesheet" type="text/css" href="/Content/adap/css/ADAPForms.css" />
+    <script>
+        $(document).ready(function () {
+
+            $('#alertModel').modal({ show: false })
+
+            @*uncommenting the line below will remove the "Previous Section" button*@
+            @*$('.class_prevscreen').hide();*@
+
+            //replace text in yes/no radiobutton labels
+            var yesLabel = $('#ADAP_cert_OptOutYN_YesOption').parent().children('label');
+            yesLabel.html = yesLabel.html(yesLabel.html().replace("@Resources.SimpleText.Yes", "Opt-in"));
+            yesLabel.parent().parent().removeClass('col-md-1').addClass('col-md-2');
+            var noLabel = $('#ADAP_cert_OptOutYN_NoOption').parent().children('label');
+            noLabel.html = noLabel.html(noLabel.html().replace("@Resources.SimpleText.No", "Opt-out"));
+            noLabel.parent().parent().removeClass('col-md-1').addClass('col-md-2');
+
+            $('.btn-primary').hide();
+
+            @*extend the default behavior of the "next section" button, to check simple validation before navigating*@
+            $('.class_nextscreen').off("click").click(function () {
+
+
+                if ($("#ADAP_cert_OptOutYN_YesOption").get(0).checked) {
+                    //no other responses are required if "No"/"Opt-Out" is checked
+                } else if ($("#ADAP_cert_OptOutYN_NoOption").get(0).checked) {
+                    var nameMissing = ($("input[name='ADAP_cert_CertName']").val().trim().length == 0);
+                    var dateMissing = ($("input[name='ADAP_cert_CertDate']").val().trim().length == 0);
+                    if (nameMissing && dateMissing) {
+                        alertUser('@Html.Raw(Resources.FinalCert.OptInSoNeedNameAndDate)');
+                        return;
+                    } else if (nameMissing) {
+                        alertUser('@Html.Raw(Resources.FinalCert.OptInSoNeedName)');
+                        return;
+                    } else if (dateMissing) {
+                        alertUser('@Html.Raw(Resources.FinalCert.OptInSoNeedDate)');
+                        return;
+                    }
+                } else {
+                    alertUser('@Html.Raw(Resources.FinalCert.MustOptInOrOut)');
+                    return;
+                }
+
+                //$('form').attr('action', '/COADAP/FinalSubmit');
+
+                @*normal behavior of "next section" button*@
+                SubmitForm('@Model.nextScreenPartId', '@Model.nextScreenSectionId');
+            });
+        });
+
+        function alertUser(msg) {
+            $('#alertMsg').text(msg);
+            $('#alertModel').modal('show')
+        }
+    </script>
+}
+
+
+
+<div class="modal fade" id="alertModel" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">
+                    <b><span id="Title">@Resources.FinalCert.CannotProceed</span></b>
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div id="alertMsg">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CmntModal"><span class="glyphicon glyphicon-remove"></span></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h3><span class="label label-danger">@Resources.FinalCert.InfoSharingHeader</span></h3>
+<div class="panel panel-default">
+    <div class="panel-heading" style="color:red; font-weight:bold;">
+        @Resources.FinalCert.RecertWithOneAndDone
+    </div>
+    <div class="panel-body" style="background-color:#f8f8f8">
+
+        @Html.Raw(Resources.FinalCert.InfoSharingText)
+        <br />
+
+        <div>
+            <div>
+                <div class="form-group">                    
+                    @Helpers.LabelSpan(Model, "ADAP_cert_OptOutYN_item", new { @class = "col-md-4 control-label" })
+
+                    @{
+                        //copied syntax from SIS supplemental questions for yes/no radios that support the "neither checked" default state
+                        //(normally yes/no radios default to "no")
+                        bool isTrue = (Model.rspValues["ADAP_cert_OptOutYN"] == "true");
+                        bool isFalse = (Model.rspValues["ADAP_cert_OptOutYN"] == "false");
+                    }
+                    <div class="col-md-2">
+                        <div class="radio radio-inline">
+                            <input type="radio" name="ADAP_cert_OptOutYN" id="ADAP_cert_OptOutYN_NoAnswer" value="unanswered" hidden @( !isTrue && !isFalse ? "checked" : "")>
+                            <input type="radio" id="ADAP_cert_OptOutYN_YesOption" value="1" name="ADAP_cert_OptOutYN" style="margin-left:1px" @(isTrue ? "checked" : "")>
+                            <label class="small"><span></span>Opt-in</label>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="radio radio-inline">
+                            <input type="radio" id="ADAP_cert_OptOutYN_NoOption" value="0" name="ADAP_cert_OptOutYN" style="margin-left:1px" @(isFalse ? "checked" : "")>
+                            <label class="small"><span></span>Opt-out</label>
+                        </div>
+                    </div>
+                </div>
+
+                <script>
+                    $(document).ready(function () {
+                        updateOptOut();
+                        $("#ADAP_cert_OptOutYN_YesOption").change(updateOptOut);
+                        $("#ADAP_cert_OptOutYN_NoOption").change(updateOptOut);
+                    });
+
+                    function updateOptOut() {
+                        $(".toggleOptOut").toggle($("#ADAP_cert_OptOutYN_NoOption").get(0).checked);
+                    };
+                </script>
+
+                <div class="toggleOptOut form-group">
+                    @Helpers.LabelSpan(Model, "ADAP_cert_CertName_item", new { @class = "col-md-12 control-label" })
+                    <div class="col-md-4">
+                        @Helpers.TextInput(Model, "ADAP_cert_CertName", new { @class = "col-md-4 form-control" })
+                    </div>
+                </div>
+                <div class="toggleOptOut form-group">
+                    @Helpers.LabelSpan(Model, "ADAP_cert_CertDate_item", new { @class = "col-md-12 control-label" })
+                    <div class="col-md-2">
+                        <div class="input-group date">
+                            @Helpers.TextInput(Model, "ADAP_cert_CertDate", new { @class = "form-control", placeholder = "mm/dd/yyyy" })
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                        </div>
+                    </div>
+                </div>
+
+                <p>
+                    @Resources.FinalCert.IfChangeMind
+                </p>
+            </div>
+        </div>
+
+
+        <hr class="hr-dark">
+
+
+    </div>
+</div>

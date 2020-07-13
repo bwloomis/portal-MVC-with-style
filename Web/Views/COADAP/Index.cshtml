@@ -1,0 +1,1831 @@
+﻿@{
+    Layout = null;
+}
+<head>
+    <title>Registration</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<link href="~/Content/css/jquery.datepick.css" rel="stylesheet" />
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/additional-methods.min.js"></script>
+<script src="/Content/js/jquery.plugin.js"></script>
+<script src="~/Content/js/jquery.datepick.js"></script>
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<script src="~/Scripts/bootstrap.min.js"></script>
+    <style>
+        .nav-tabs {
+            background-color: white;
+        }
+        
+        .nav-tabs > li {
+            background-color: white;
+        }
+
+        .error {
+            color: red;
+            font-size: 0.8em;
+        }
+
+        .box {
+            padding: 5px;
+            background-color:#eeeeee;
+            border:1px solid lightgray;
+            margin: 10px;
+        }
+
+        .btn-file {
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-file input[type=file] {
+            position: absolute;
+            top: 0;
+            right: 0;
+            min-width: 100%;
+            min-height: 100%;
+            font-size: 100px;
+            text-align: right;
+            filter: alpha(opacity=0);
+            opacity: 0;
+            outline: none;
+            background: white;
+            cursor: inherit;
+            display: block;
+        }
+
+        input[type=radio] {
+           display:none;
+        }
+        input[type=radio] + label {
+            display: block;
+            background-color: lightgray;
+            padding: 8px;
+            border: 3px solid white;
+            text-align:center;
+            font-weight: normal;
+            border: 1px solid black;
+            
+        }
+        input[type=radio]:checked + label {
+            display: block;
+            background-color: lightgreen;
+            border: 3px solid black;
+            font-weight:500;
+        }
+        #otherLang {
+            margin-top:5px;
+        }
+    </style>
+
+<script>
+    $(document).ready(function () {
+        var workers = 1;
+        var incomes = 1;
+        $("#birthDate").datepick();
+        $("#unemployedDate").datepick();
+
+        $("#otherLangRadio").click(function () {
+            $('#otherLang').prop('disabled', false);
+        });
+
+        $(".langNotOther").click(function () {
+            $("#otherLang").prop('disabled', true);
+        });
+
+        $("#otherRelRadio").click(function () {
+            $('#otherRel').prop('disabled', false);
+        });
+
+        $(".relNotOther").click(function () {
+            $("#otherRel").prop('disabled', true);
+        });
+
+        $(".notOtherDiff").click(function () {
+            $("#otherDiff").prop('disabled', true);
+            $("#cityOtherDiff").prop('disabled', true);
+        });
+
+        $("#whereDiffOther").click(function () {
+            $("#otherDiff").prop('disabled', false);
+            $("#cityOtherDiff").prop('disabled', false);
+        });
+
+        $(".notWhereDifferent").click(function () {
+            $(".whereDiff").prop('disabled', true);
+            $(".whereDiff").prop('checked', false);
+        });
+
+        $("#whereDifferent").click(function () {
+            $(".whereDiff").prop('disabled', false);
+
+        });
+        $("#docYes").click(function () {
+            $("#doctorName").prop('disabled', false);
+
+        });
+        $("#docNo").click(function () {
+            $("#doctorName").prop('disabled', true);
+
+        });
+
+        $("#addWorker").click(function () {
+            workers = workers + 1;
+            $("#workers").append('<br /><div class="box col-sm-10"><div class="col-sm-8"><label>Name of worker (you, spouse, dependent, etc.) <input type="text" name="worker' + workers + 'Name"></label></div><div class="col-sm-8"><label>Employer Name <input type="text" name="worker' + workers + 'EmployerName"></label></div><div class="col-sm-8"><label>Start Date (or continuing) <input type="text" name="worker' + workers + 'StartDate"></label></div><div class="col-sm-8"><label>Is this work temporary or seasonal? <label> <input type="radio" name="worker' + workers + 'TempSeason" value="yes" /> Yes</label> <label> <input type="radio" name="worker' + workers + 'TempSeason" value="no" /> No</label> </label></div><div class="col-sm-8"><label>Monthly Amount (average) <input type="text" name="worker' + workers + 'Amount" id="worker' + workers + 'Amount"></label></div></div>');
+        });
+
+
+        $("#addIncome").click(function () {
+            incomes = incomes + 1;
+            $("#otherIncomes").append('<br /><div class="box col-sm-10"><div class="col-sm-8"><label>This check comes to: (me, my spouse, my child, etc.) </label> <input type="text" name="otherIncome' + incomes + 'To" /></div><div class="col-sm-8"><label>Type of Benefit or Income from list above (for example, "SSI") </label> <input type="text" name="otherIncome' + incomes + 'Type" /></div><div class="col-sm-8"><label>Monthly Amount (Gross Amount) </label> <input type="text" name="otherIncome' + incomes + 'Gross" /></div></div>');
+        });
+
+        jQuery.validator.setDefaults({
+            debug: true,
+            success: "valid"
+        });
+
+        $('.btn-file :file').on('fileselect', function (event, numFiles, label) {
+
+            var input = $(this).parents('.input-group').find(':text'),
+                log = numFiles > 1 ? numFiles + ' files selected' : label;
+
+            if (input.length) {
+                input.val(log);
+            } else {
+                if (log) alert(log);
+            }
+
+        });
+        
+
+        $("#inputForm").validate({
+            rules: {
+                zip: {
+                    number: true
+                },
+                zipMail: {
+                    number: true
+                },
+                childrenWith: {
+                    number:true
+                },
+                children50: {
+                    number:true
+                },
+                hoursPerWeek: {
+                    number: true
+                },
+                premium: {
+                    number: true
+                },
+                medApplyMonth: {
+                    number: true,
+                    minlength: 2,
+                    maxlength: 2,
+                    range: [01, 12]
+                },
+                medApplyYear: {
+                    number:true,
+                    minlength: 4,
+                    maxlength: 4
+                },
+                monthPartA: {
+                    number: true,
+                    minlength: 2,
+                    maxlength: 2,
+                    range: [01, 12]
+                },
+                monthPartB: {
+                    number: true,
+                    minlength: 2,
+                    maxlength: 2,
+                    range: [01, 12]
+                },
+                monthPartD: {
+                    number: true,
+                    minlength: 2,
+                    maxlength: 2,
+                    range: [01, 12]
+                },
+                startMonth: {
+                    number: true,
+                    minlength: 2,
+                    maxlength: 2,
+                    range: [01, 12]
+                },
+                healthMonth: {
+                    number: true,
+                    minlength: 2,
+                    maxlength: 2,
+                    range: [01, 12]
+                },
+                diagMonth: {
+                    number: true,
+                    minlength: 2,
+                    maxlength: 2,
+                    range: [01, 12]
+                },
+                prevMonth: {
+                    number: true,
+                    minlength: 2,
+                    maxlength: 2,
+                    range: [01, 12]
+                },
+                dueDeliver: {
+                    number: true,
+                    minlength: 2,
+                    maxlength: 2,
+                    range: [01, 12]
+                },
+                yearPartA: {
+                    number: true,
+                    minlength: 4,
+                    maxlength: 4
+                },
+                yearPartB: {
+                    number: true,
+                    minlength: 4,
+                    maxlength: 4
+                },
+                yearPartD: {
+                    number: true,
+                    minlength: 4,
+                    maxlength: 4
+                },
+                startYear: {
+                    number: true,
+                    minlength: 4,
+                    maxlength: 4
+                },
+                healthYear: {
+                    number: true,
+                    minlength: 4,
+                    maxlength: 4
+                },
+                diagYear: {
+                    number: true,
+                    minlength: 4,
+                    maxlength: 4
+                },
+                prevYear: {
+                    number: true,
+                    minlength: 4,
+                    maxlength: 4
+                },
+                phone1: {
+                    phoneUS: true
+                },
+                phone2: {
+                    phoneUS: true
+                },
+                phoneReturn: {
+                    phoneUS: true
+                }
+
+            },
+            highlight: function (element, errorClass) {
+                $(element).closest('.form-group').addClass('has-error');
+            },
+            unhighlight: function (element, errorClass) {
+                $(element).closest('.form-group').removeClass('has-error');
+            }
+        });
+    });
+
+    $(document).on('change', '.btn-file :file', function () {
+        var input = $(this),
+            numFiles = input.get(0).files ? input.get(0).files.length : 1,
+            label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+        input.trigger('fileselect', [numFiles, label]);
+    });
+
+
+</script>
+</head>
+<body>
+    <div class="container">
+        <div id="content">
+            <div id="navigation" class="navbar-fixed-top">
+                <div class="container">
+                    <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
+                        <li class="active"><a href="#personal" data-toggle="tab">Personal</a></li>
+                        <li><a href="#medical" data-toggle="tab">Medical</a></li>
+                        <li><a href="#financial" data-toggle="tab">Financial</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="container" style="padding-top:60px;">
+                    <div id="my-tab-content" class="tab-content">
+
+                        <div class="tab-pane active" id="personal">
+                            <form id="form-id" action="/Results/Save" method="post">
+                                <input id="test" class="form-control" name="lastesttName" type="text" />
+                                <input type="submit" value="Submit" id="btnSubmit" />
+                            </form>
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4" for="lastName">Full Legal Name (Last)</label>
+                                        <div class="col-sm-7">
+                                            <input id="lastName" class="form-control" name="lastName" type="text" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4" for="firstName">First</label>
+                                        <div class="col-sm-7">
+                                            <input id="firstName" class="form-control col-sm-3" name="firstName" type="text" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4" for="middleInitial">Middle Initial</label>
+                                        <div class="col-sm-2">
+                                            <input id="middleInitial" class="form-control col-sm-1" name="middleInitial" type="text" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4" for="birthDate">Date of birth</label>
+                                        <div class="col-sm-5">
+                                            <input id="birthDate" class="form-control col-sm-1" name="birthDate" type="text" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <div>
+                                        <label class="control-label col-sm-4">  What is your ethnicity? </label>
+                                        <div class="col-sm-2">
+                                            <input id="hispanic" type="radio" name="EthnicityID" value="hispanic" />
+                                            <label for="hispanic">Hispalnic/Latino(a)</label>
+
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <input id="nonhispanic" type="radio" name="EthnicityID" value="nonhispanic" />
+                                            <label for="nonhispanic">Non-Hispanic</label>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <input id="ethunknown" type="radio" name="EthnicityID" value="unknown" />
+                                            <label for="ethunknown">Unknown</label>
+
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <input id="ethnoanswer" type="radio" name="EthnicityID" value="noAnswer" />
+                                            <label for="ethnoanswer">Prefer not to answer </label>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <br />
+                                    <div class="control-label col-sm-4">What is your race?</div>
+                                    <div><strong>Check all that apply</strong></div>
+
+                                    <div class="col-sm-offset-4">
+                                        <div class="col-sm-3">
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" name="RaceID" value="white" />
+                                                    White
+                                                </label>
+                                            </div>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" name="RaceID" value="native" />
+                                                    Native American/Pacific Islander
+                                                </label>
+                                            </div>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" name="RaceID" value="asian" />
+                                                    Asian
+                                                </label>
+                                            </div>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" name="RaceID" value="noAnswer" />
+                                                    Prefer not to answer
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" name="RaceID" value="black" />
+                                                    Black
+                                                </label>
+                                            </div>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" name="RaceID" value="indian" />
+                                                    American Indian or Alaska Native
+                                                </label>
+                                            </div>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" name="RaceID" value="unknown" />
+                                                    Unknown
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <br />
+                                    <label class="control-label col-sm-4">What is your preferered language?</label>
+                                    <div class="radio col-sm-2">
+
+                                        <input id="langEng" type="radio" class="langNotOther" name="language" value="english" />
+                                        <label for="langEng">English</label>
+
+                                    </div>
+                                    <div class="radio col-sm-2">
+
+                                        <input id="langSp" type="radio" class="langNotOther" name="language" value="spanish" />
+                                        <label for="langSp">Spanish</label>
+
+                                    </div>
+                                    <div class="radio col-sm-2">
+
+                                        <input id="langFr" type="radio" class="langNotOther" name="language" value="french" />
+                                        <label for="langFr">French</label>
+
+                                    </div>
+                                    <div class="radio col-sm-2">
+
+                                        <input type="radio" id="otherLangRadio" name="language" value="other" />
+                                        <label for="otherLangRadio">Other</label>
+
+                                        <input type="text" name="otherLang" id="otherLang" disabled="disabled" />
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <br />
+                                    <label class="control-label col-sm-4">What is your gender?</label>
+                                    <div class="radio col-sm-2">
+
+                                        <input id="genMale" type="radio" name="gender" value="male" />
+                                        <label for="genMale">Male</label>
+
+                                    </div>
+                                    <div class="radio col-sm-2">
+
+                                        <input id="genFemale" type="radio" name="gender" value="female" />
+                                        <label for="genFemale">Female</label>
+
+                                    </div>
+                                    <div class="radio col-sm-2">
+
+                                        <input id="transMtoF" type="radio" name="gender" value="transMtoF" />
+                                        <label for="transMtoF">
+                                            Transgender, male to female
+                                        </label>
+                                    </div>
+                                    <div class="radio col-sm-2">
+
+                                        <input id="transFtoM" type="radio" name="gender" value="transFtoM" />
+                                        <label for="transFtoM">
+                                            Transgender, female to male
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <br />
+                                    <label class="control-label col-sm-4">What is your housing status:</label>
+                                    <div class="col-sm-8">
+                                        <div class="radio">
+
+                                            <input id="housPerm" type="radio" name="housing" value="perm" />
+                                            <label for="housPerm">
+                                                Permanent: I rent, own, or share my current residence
+                                            </label>
+                                        </div>
+                                        <div class="radio">
+
+                                            <input id="housTemp" type="radio" name="housing" value="temp" />
+                                            <label for="housTemp">
+                                                Temporary: I am in a temporary housing situation (homeless, halfway house, shelter, staying with friends)
+                                            </label>
+                                        </div>
+                                        <div class="radio">
+
+                                            <input id="housInst" type="radio" name="housing" value="inst" />
+                                            <label for="housInst">
+                                                I am in an institution (hospice, nursing home, etc.)
+                                            </label>
+                                        </div>
+                                        <div class="radio">
+
+                                            <input id="housUnknown" type="radio" name="housing" value="unknown" />
+                                            <label for="housUnknown">
+                                                Unknown or refuse to answer
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 box">
+
+                                    <label class="control-label col-sm-4">What is your current <span style="font-weight:bold;">residential</span> address?</label>
+                                    <div class="form-group col-sm-12">
+                                        <label class="control-label col-sm-4" for="streetAddress">Street Address (PO Boxes will <span style="font-weight:bold;">NOT</span> be accepted)</label>
+                                        <div class="col-sm-7">
+                                            <input id="streetAddress" class="form-control" name="streetAddress" type="text" />
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="form-group col-sm-5">
+                                            <label class="control-label col-sm-4" for="city">City</label>
+                                            <div class="col-sm-7">
+                                                <input id="city" class="form-control" name="city" type="text" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-sm-3">
+                                            <label class="control-label col-sm-4" for="state">State</label>
+                                            <div class="col-sm-7">
+                                                <input id="state" class="form-control" name="state" type="text" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-sm-4">
+                                            <label class="control-label col-sm-4" for="zip">ZIP Code</label>
+                                            <div class="col-sm-7">
+                                                <input id="zip" class="form-control" name="zip" type="text" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-sm-7">
+                                        <label class="control-label col-sm-offset-4 col-sm-3" for="county">County</label>
+                                        <div class="col-sm-4">
+                                            <input id="county" class="form-control" name="county" type="text" />
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <label class="control-label col-sm-6">May we contact you at this address?</label>
+                                        <div class="radio col-sm-3">
+
+                                            <input id="contactResYes" type="radio" name="contact" value="yes" />
+                                            <label for="contactResYes">
+                                                Yes
+                                            </label>
+                                        </div>
+                                        <div class="radio col-sm-3">
+
+                                            <input id="contactResNo" type="radio" name="contact" value="no" />
+                                            <label for="contactResNo">
+                                                No
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-7 col-sm-offset-3">
+
+                                        <div class="form-group">
+                                            <label for="proofOfAddress" class="control-label">
+                                                You must attach proof that you live at this address. Please see the instructions for the kind of proof ADAP
+                                                will accept.
+                                            </label>
+                                            <div class="input-group">
+                                                <span class="input-group-btn">
+                                                    <span class="btn btn-primary btn-file">
+                                                        Browse
+                                                        <input type="file" id="proofOfAddress" class="form-control" name="proofOfAddress" />
+                                                    </span>
+                                                </span>
+                                                <input type="text" class="form-control" readonly />
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-12 box">
+
+                                    <label class="control-label col-sm-4">What is your current <span style="font-weight:bold;">mailing</span> address (if different than your residential)?</label>
+                                    <div class="form-group col-sm-12">
+                                        <label class="control-label col-sm-4" for="streetAddressMail">Street Address (PO Boxes <span style="font-weight:bold;">will</span> be accepted, but not outside Colorado)</label>
+                                        <div class="col-sm-7">
+                                            <input id="streetAddressMail" class="form-control" name="streetAddressMail" type="text" />
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="form-group col-sm-5">
+                                            <label class="control-label col-sm-4" for="cityMail">City</label>
+                                            <div class="col-sm-7">
+                                                <input id="cityMail" class="form-control" name="cityMail" type="text" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-sm-3">
+                                            <label class="control-label col-sm-4" for="stateMail">State</label>
+                                            <div class="col-sm-7">
+                                                <input id="stateMail" class="form-control" name="stateMail" type="text" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-sm-4">
+                                            <label class="control-label col-sm-4" for="zipMail">ZIP Code</label>
+                                            <div class="col-sm-7">
+                                                <input id="zipMail" class="form-control" name="zipMail" type="text" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-sm-7">
+                                        <label class="control-label col-sm-offset-4 col-sm-3" for="countyMail">County</label>
+                                        <div class="col-sm-4">
+                                            <input id="countyMail" class="form-control" name="countyMail" type="text" />
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <label class="control-label col-sm-6">May we contact you at this address?</label>
+                                        <div class="radio col-sm-3">
+
+                                            <input id="contactMailYes" type="radio" name="contactMail" value="yes" />
+                                            <label for="contactMailYes">
+                                                Yes
+                                            </label>
+                                        </div>
+                                        <div class="radio col-sm-3">
+
+                                            <input id="contactMailNo" type="radio" name="contactMail" value="no" />
+                                            <label for="contactMailNo">
+                                                No
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="control-label col-sm-4">At what phone numbers can we reach you during daytime hours?</label>
+                                    <div class="col-sm-12 box">
+                                        <div class="form-group col-sm-7">
+                                            <label for="phone1" class="control-label col-sm-offset-4 col-sm-3">Phone Number</label>
+                                            <div class="col-sm-4">
+                                                <input id="phone1" class="form-control" type="tel" name="phone1" />
+                                            </div>
+                                        </div>
+                                        <div class="checkbox col-sm-1">
+                                            <label>
+                                                <input type="checkbox" name="phone1type" value="home" />
+                                                Home
+                                            </label>
+                                        </div>
+                                        <div class="checkbox col-sm-1">
+                                            <label>
+                                                <input type="checkbox" name="phone1type" value="work" />
+                                                Work
+                                            </label>
+                                        </div>
+                                        <div class="checkbox col-sm-1">
+                                            <label>
+                                                <input type="checkbox" name="phone1type" value="cell" />
+                                                Cell phone
+                                            </label>
+                                        </div>
+                                        <br />
+                                        <div class="col-md-12">
+                                            <label class="control-label col-sm-4">May we leave a message on this phone?</label>
+                                            <div class="radio col-sm-3">
+
+                                                <input id="phone1msgYes" type="radio" name="phone1message" value="yes" />
+                                                <label for="phone1msgYes">
+                                                    Yes
+                                                </label>
+                                            </div>
+                                            <div class="radio col-sm-3">
+
+                                                <input id="phone1msgNo" type="radio" name="phone1message" value="no" />
+                                                <label for="phone1msgNo">
+                                                    No
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 box">
+                                        <div class="form-group col-sm-7">
+                                            <label for="phone2" class="control-label col-sm-offset-4 col-sm-3">Phone Number</label>
+                                            <div class="col-sm-4">
+                                                <input id="phone2" class="form-control" type="tel" name="phone1" />
+                                            </div>
+                                        </div>
+                                        <div class="checkbox col-sm-1">
+                                            <label>
+                                                <input type="checkbox" name="phone2type" value="home" />
+                                                Home
+                                            </label>
+                                        </div>
+                                        <div class="checkbox col-sm-1">
+                                            <label>
+                                                <input type="checkbox" name="phone2type" value="work" />
+                                                Work
+                                            </label>
+                                        </div>
+                                        <div class="checkbox col-sm-1">
+                                            <label>
+                                                <input type="checkbox" name="phone2type" value="cell" />
+                                                Cell phone
+                                            </label>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <br />
+                                            <label class="control-label col-sm-4">May we leave a message on this phone?</label>
+                                            <div class="radio col-sm-3">
+
+                                                <input id="phone2msgYes" type="radio" name="phone2message" value="yes" />
+                                                <label for="phone2msgYes">
+                                                    Yes
+                                                </label>
+                                            </div>
+                                            <div class="radio col-sm-3">
+
+                                                <input id="phone2msgNo" type="radio" name="phone2message" value="no" />
+                                                <label for="phone2msgNo">
+                                                    No
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <br />
+                                        <label class="control-label col-sm-4">Is there anyone that our staff may call if your mail is returned to us (or your phone number does not work)?</label>
+                                        <div class="radio col-sm-3">
+
+                                            <input id="returnPersonYes" type="radio" name="returnPerson" value="yes" />
+                                            <label for="returnPersonYes">
+                                                Yes
+                                            </label>
+                                        </div>
+                                        <div class="radio col-sm-3">
+
+                                            <input id="returnPersonNo" type="radio" name="returnPerson" value="no" />
+                                            <label for="returnPersonNo">
+                                                No
+                                            </label>
+                                        </div>
+                                        <div class="col-sm-8 col-sm-offset-3">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4" for="returnName">Name:</label>
+                                                <div class="col-sm-4">
+                                                    <input id="returnName" class="form-control" name="returnName" type="text" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="phoneReturn" class="control-label col-sm-4">Phone Number</label>
+                                                <div class="col-sm-4">
+                                                    <input id="phoneReturn" class="form-control" type="tel" name="phoneReturn" />
+                                                </div>
+                                            </div>
+
+
+                                            <label class="control-label col-sm-4">Does this person know you are HIV positive?</label>
+                                            <div class="radio col-sm-4">
+
+                                                <input id="knowHIVYes" type="radio" name="knowHIV" value="yes" />
+                                                <label for="knowHIVYes">
+                                                    Yes
+                                                </label>
+                                            </div>
+                                            <div class="radio col-sm-4">
+
+                                                <input id="knowHIVNo" type="radio" name="knowHIV" value="no" />
+                                                <label for="knowHIVNo">
+                                                    No
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <br />
+                                        <label class="control-label col-sm-4">Do you have a case manager/social worker at an AIDS Service Organization or Medical Clinic? If yes, list them below.</label>
+                                        <div class="radio col-sm-3">
+
+                                            <input id="caseManagerYes" type="radio" name="caseManager" value="yes" />
+                                            <label for="caseManagerYes">
+                                                Yes
+                                            </label>
+                                        </div>
+                                        <div class="radio col-sm-3">
+
+                                            <input id="caseManagerNo" type="radio" name="caseManager" value="no" />
+                                            <label for="caseManagerNo">
+                                                No
+                                            </label>
+                                        </div>
+                                        <div class="col-sm-8 col-sm-offset-3">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4" for="case1">Name</label>
+                                                <div class="col-sm-8">
+                                                    <input id="case1" class="form-control" name="case1" type="text" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4" for="agency1">Agency/Clinic</label>
+                                                <div class="col-sm-8">
+                                                    <input id="agency1" class="form-control" name="agency1" type="text" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-8 col-sm-offset-3">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4" for="case2">Name</label>
+                                                <div class="col-sm-8">
+                                                    <input id="case2" class="form-control" name="case2" type="text" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4" for="agency2">Agency/Clinic</label>
+                                                <div class="col-sm-8">
+                                                    <input id="agency2" class="form-control" name="agency2" type="text" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <label class="control-label col-sm-4">If you do not currently have one, would you like ADAP to make a referral to a case manager or social worker?</label>
+                                        <div class="radio col-sm-1">
+                                            <label>
+                                                <input type="radio" name="referral" value="yes" />
+                                                Yes
+                                            </label>
+                                        </div>
+                                        <div class="radio col-sm-1">
+                                            <label>
+                                                <input type="radio" name="referral" value="no" />
+                                                No
+                                            </label>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <br />
+
+                                            <label class="control-label col-sm-4">What is your current relationship status?</label>
+                                            <div class="col-sm-2">
+                                                <div class="radio">
+                                                    <label>
+                                                        <input type="radio" class="relNotOther" name="relationship" value="single" />
+                                                        Single
+                                                    </label>
+                                                </div>
+                                                <div class="radio">
+                                                    <label>
+                                                        <input type="radio" class="relNotOther" name="relationship" value="married" />
+                                                        Married
+                                                    </label>
+                                                </div>
+                                                <div class="radio">
+                                                    <label>
+                                                        <input type="radio" class="relNotOther" name="relationship" value="separated" />
+                                                        Legally separated
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="radio">
+                                                    <label>
+                                                        <input type="radio" class="relNotOther" name="relationship" value="divorced" />
+                                                        Divorced
+                                                    </label>
+                                                </div>
+                                                <div class="radio">
+                                                    <label>
+                                                        <input type="radio" class="relNotOther" name="relationship" value="civilUnion" />
+                                                        Colorado Civil Union
+                                                    </label>
+                                                </div>
+                                                <div class="radio">
+                                                    <label>
+                                                        <input type="radio" class="relNotOther" name="relationship" value="sameSexMarriage" />
+                                                        Married to a same-sex partner in a state where the marriage is recognized
+                                                    </label>
+                                                </div>
+                                                <div class="radio">
+                                                    <label>
+                                                        <input type="radio" id="otherRelRadio" name="relationship" value="other" />
+                                                        Other -- Describe:
+                                                    </label>
+                                                    <input type="text" name="otherRel" id="otherRel" disabled="disabled" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <br />
+                                            <label class="control-label col-sm-4">What is your current tax filing status?</label>
+                                            <div class="col-sm-2">
+                                                <div class="radio">
+                                                    <label>
+                                                        <input type="radio" name="tax" value="single" />
+                                                        Single
+                                                    </label>
+                                                </div>
+                                                <div class="radio">
+                                                    <label>
+                                                        <input type="radio" name="tax" value="joint" />
+                                                        Married, filing jointly
+                                                    </label>
+                                                </div>
+                                                <div class="radio">
+                                                    <label>
+                                                        <input type="radio" name="tax" value="separately" />
+                                                        Married, filing separately
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="radio">
+                                                    <label>
+                                                        <input type="radio" name="tax" value="notRequired" />
+                                                        Not required (or eligible) to file taxes
+                                                    </label>
+                                                </div>
+                                                <div class="radio">
+                                                    <label>
+                                                        <input type="radio" name="tax" value="haveNot" />
+                                                        I am required to file taxes, but have not
+                                                    </label>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col-sm-12">
+                                                <br />
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-4" for="childrenWith">How many children do you have living with you?</label>
+                                                    <div class="col-sm-1">
+                                                        <input type="text" class="form-control" id="childrenWith" name="childrenWith" />
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-4" for="children50">How many other children do you have that don't live with you but you provide 50% or more of their monthly support?</label>
+                                                    <div class="col-sm-1">
+                                                        <input type="text" class="form-control" id="children50" name="children50" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <br />
+                                                <label class="control-label col-sm-4">If you are female, are you pregnant?</label>
+                                                <div class="col-offset-4 col-sm-6">
+                                                    <div class="radio">
+                                                        <label>
+                                                            <input type="radio" name="pregnant" value="yes" />
+                                                            Yes
+                                                        </label>
+                                                    </div>
+                                                    <div class="radio">
+                                                        <label>
+                                                            <input type="radio" name="pregnant" value="no" />
+                                                            No
+                                                        </label>
+                                                    </div>
+                                                    <div class="radio">
+                                                        <label>
+                                                            <input type="radio" name="pregnant" value="na" />
+                                                            Not Applicable
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <br />
+                                                    <label class="control-label col-sm-4" for="dueDeliver">If yes, what month are you due to deliver? (mm)</label>
+                                                    <div class="col-sm-2">
+                                                        <input type="text" class="form-control" id="dueDeliver" name="dueDeliver" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <br />
+                                                <div class="form-group">
+                                                    <label for="soc" class="control-label col-sm-4">What is your Social Security Number (if you have one)?</label>
+                                                    <div class="col-sm-3">
+                                                        <input id="soc" name="soc" class="form-control" type="text" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+</div>
+
+                        <div class="tab-pane" id="medical">
+
+                            <label class="control-label col-sm-4">When were you first diagnosed as HIV positive? (estimate if necessary)</label>
+                            <div class="col-sm-12 form-group">
+                                <label class="control-label col-sm-4" for="diagMonth">Month (mm)</label>
+                                <div class="col-sm-2">
+                                    <input id="diagMonth" name="diagMonth" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="col-sm-12 form-group">
+                                <label class="control-label col-sm-4" for="diagYear">Year (yyyy)</label>
+                                <div class="col-sm-2">
+                                    <input id="diagYear" name="diagYear" class="form-control" />
+                                </div>
+                            </div>
+                            <label class="control-label col-sm-4">Where were you diagnosed?</label>
+                            <div class="col-sm-12 form-group">
+                                <label class="control-label col-sm-4" for="diagCity">City</label>
+                                <div class="col-sm-5">
+                                    <input id="diagCity" name="diagCity" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="col-sm-12 form-group">
+                                <label class="control-label col-sm-4" for="diagState">State</label>
+                                <div class="col-sm-2">
+                                    <input id="diagState" name="diagState" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="col-sm-12 form-group">
+                                <br />
+                                <label class="control-label col-sm-4">Have you ever been told by your doctor or a laboratory that you have AIDS?</label>
+                                <div class="col-sm-8">
+                                    <label>
+                                        <input type="radio" name="toldAIDS" value="yes" />
+                                        Yes
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="toldAIDS" value="no" />
+                                        No
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="toldAIDS" value="notSure" />
+                                        Not Sure
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 form-group">
+                                <br />
+                                <label class="control-label col-sm-4">Have you ever been told that you have Hepatitis C?</label>
+                                <div class="col-sm-8">
+                                    <label>
+                                        <input type="radio" name="toldHep" value="yes" />
+                                        Yes
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="toldHep" value="no" />
+                                        No
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="toldHep" value="notSure" />
+                                        Not Sure
+                                    </label>
+                                </div>
+                            </div>
+                            <br />
+                            <label class="control-label col-sm-4">Which of the following applies to your situation? (check all that apply)</label>
+                            <div class="col-sm-7 col-offset-4">
+                                <label>
+                                    <input type="checkbox" name="situation" value="needHelp" />
+                                    I am currently taking medications, and I need help paying for them through Colorado ADAP
+                                </label>
+                            </div>
+                            <div class="col-sm-8 col-sm-offset-4">
+                                <label>
+                                    <input type="checkbox" name="situation" value="beginMeds" />
+                                    I was recently told I need to begin medications
+                                </label>
+                            </div>
+                            <div class="col-sm-8 col-sm-offset-4">
+                                <label>
+                                    <input type="checkbox" name="situation" value="hadMeds" />
+                                    I <strong>had</strong> been on medications, but I stopped for a while
+                                </label>
+                            </div>
+                            <div class="col-sm-8 col-sm-offset-4">
+                                <label>
+                                    <input type="checkbox" name="situation" value="prepared" />
+                                    I have not been prescribed medications yet, but I want to be prepared
+                                </label>
+                            </div>
+                            <div class="col-sm-8 col-sm-offset-4">
+                                <label>
+                                    <input type="checkbox" name="situation" value="other" />
+                                    Other medication issue: (I lost insurance, Medicaid, etc.)
+                                </label>
+                            </div>
+                            <div class="col-sm-12 form-group">
+                                <br />
+                                <label class="control-label col-sm-4">Have you been on HIV medication assistance (ADAP) in any state <strong>other</strong> than Colorado?</label>
+                                <div class="col-sm-8">
+                                    <label>
+                                        <input type="radio" name="otherState" value="yes" />
+                                        Yes
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="otherState" value="no" />
+                                        No
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 form-group">
+                                <br />
+                                <label class="control-label col-sm-4">Have you been on a waitlist for ADAP in another state?</label>
+                                <div class="col-sm-8">
+                                    <label>
+                                        <input type="radio" name="otherStateWait" value="yes" />
+                                        Yes
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="otherStateWait" value="no" />
+                                        No
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 form-group">
+                                <br />
+                                <label class="control-label col-sm-4">If you answerd "yes" to the previous question</label>
+                                <div class="col-sm-12 form-group">
+                                    <label class="control-label col-sm-4" for="prevState">In which state (most recently)?</label>
+                                    <div class="col-sm-5">
+                                        <input id="prevState" name="prevState" class="form-control" />
+                                    </div>
+                                </div>
+                                <label class="control-label col-sm-4">How long ago?</label>
+                                <div class="col-sm-8 col-sm-offset-4 form-group">
+                                    <div class="col-sm-4 form-group">
+                                        <label class="control-label col-sm-4" for="prevMonth">Month (mm)</label>
+                                        <div class="col-sm-5">
+                                            <input id="prevMonth" name="prevMonth" class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4 form-group">
+                                        <label class="control-label col-sm-4" for="prevYear">Year (yyyy)</label>
+                                        <div class="col-sm-5">
+                                            <input id="prevYear" name="prevYear" class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label>
+                                            <input type="checkbox" name="prevTimeDontKnow" value="dontKnow" />
+                                            I don't know
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+                            <label class="control-label col-sm-4">Where would you like to pick up your medications?</label>
+                            <div class="col-sm-offset-4">
+                                <div class="col-sm-12">
+                                    <label>
+                                        <input type="radio" class="notWhereDifferent" name="where" value="denver" />
+                                        Denver Health
+                                    </label>
+                                </div>
+                                <div class="col-sm-12">
+                                    <label>
+                                        <input type="radio" class="notWhereDifferent" name="where" value="hospital" />
+                                        University Hospital
+                                    </label>
+                                </div>
+                                <div class="col-sm-12">
+                                    <label>
+                                        <input type="radio" class="notWhereDifferent" name="where" value="rose" />
+                                        Pick up or mail order through Walgreens at Rose Medical Center
+                                    </label>
+                                </div>
+                                <div class="col-sm-12">
+                                    <label>
+                                        <input type="radio" class="notWhereDifferent" name="where" value="needHelp" />
+                                        I need help deciding
+                                    </label>
+                                </div>
+                                <div class="col-sm-12">
+                                    <label>
+                                        <input type="radio" id="whereDifferent" name="where" value="different" />
+                                        A different pharmacy (for members with insurance or Medicare only):
+                                    </label>
+                                </div>
+                                <div class="col-sm-12">
+                                    <label>
+                                        <input type="radio" class="notOtherDiff whereDiff" name="whereDiff" value="soopers" disabled="disabled" />
+                                        King Soopers/City Market
+                                    </label>
+                                </div>
+                                <div class="col-sm-12">
+                                    <label>
+                                        <input type="radio" class="notOtherDiff whereDiff" name="whereDiff" value="walgreens" disabled="disabled" />
+                                        Walgreens
+                                    </label>
+                                </div>
+                                <div class="col-sm-12">
+                                    <label>
+                                        <input type="radio" class="whereDiff" name="whereDiff" id="whereDiffOther" value="other" disabled="disabled" />
+                                        <label class="control-label" for="otherDiff">Other:</label>
+                                        <input type="text" name="otherDiff" id="otherDiff" disabled="disabled" />
+                                        <label class="control-label" for="cityOtherDiff">City:</label>
+                                        <input type="text" name="cityOtherDiff" id="cityOtherDiff" disabled="disabled" />
+                                    </label>
+                                </div>
+                            </div>
+                            <label class="control-label col-sm-4">Do you currently have a doctor in Colorado that writes your HIV medication prescriptions?</label>
+                            <div class="col-sm-8">
+                                <label>
+                                    <input type="radio" name="doctor" id="docYes" value="yes" />
+                                    Yes
+                                </label>
+                                <label>
+                                    <input type="radio" name="doctor" id="docNo" value="no" />
+                                    No
+                                </label>
+                            </div>
+                            <div class="col-sm-12">
+                                <label for="doctorName" class="control-label col-sm-4">If yes, what is that doctor's name?</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" id="doctorName" name="doctorName" disabled="disabled" />
+                                </div>
+                            </div>
+                            <label class="control-label col-sm-4">If you answered no to the previous question, would you like a referral for HIV medical care?</label>
+                            <div class="col-sm-8">
+                                <label>
+                                    <input type="radio" name="refer" value="yes" />
+                                    Yes
+                                </label>
+                                <label>
+                                    <input type="radio" name="refer" value="no" />
+                                    No
+                                </label>
+                            </div>
+                            <div class="col-sm-12 form-group">
+                                <br />
+                                <label class="control-label col-sm-4">In the past twelve months, have you had labs drawn to check your CD4 count and / or viral load?</label>
+                                <div class="col-sm-8">
+                                    <label>
+                                        <input type="radio" name="labs" value="yes" />
+                                        Yes
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="labs" value="no" />
+                                        No
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="labs" value="notSure" />
+                                        Not Sure
+                                    </label>
+                                </div>
+                            </div>
+                            <br />
+                            <label class="control-label col-sm-4" for="whyNoLabs">If you answered no to the previous question, please explain why (couldn't afford, didn't think it was neccesary)</label>
+                            <div class="col-sm-8">
+                                <input class="form-control" id="whyNoLabs" name="whyNoLabs" />
+                            </div>
+                            <br />
+                            <div>
+                                <p class="col-sm-12">
+                                    Your CD4 counts and viral load results are reported directly to CDPHE by your laboratory. Federal legislation requires that these laboratory results be reported to the
+                                    US Health Resources and Services Administration (HRSA). However, these numbers will NOT be linked to your name in this report to HRSA. We will submit this information to HRSA using
+                                    a unique and anonymous ID number only. <strong>
+                                        If you are new to Colorado, or if an in-state lab has not reported your CD4 and Viral Load to CDPHE, we will contact you to request written
+                                        laboratory reports of these numbers.
+                                    </strong>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="financial">
+
+                            <label class="control-label col-sm-4">Have you aplied for Medicaid (including SSI) in Colorado? (Check any that apply)</label>
+                            <div class="col-sm-offset-4">
+                                <div class="col-sm-12">
+                                    <label>
+                                        <input type="checkbox" name="medicaid" value="dontKnow" />
+                                        I don't know
+                                    </label>
+                                </div>
+                                <div class="col-sm-12">
+                                    <label>
+                                        <input type="checkbox" name="medicaid" value="no" />
+                                        No, I've never applied
+                                    </label>
+                                </div>
+                                <div class="col-sm-12">
+                                    <label>
+                                        <input type="checkbox" name="medicaid" value="yesNotLastYear" />
+                                        Yes, but not in the last year
+                                    </label>
+                                </div>
+                                <div class="col-sm-12">
+                                    <div>
+                                        <label>
+                                            <input type="checkbox" name="medicaid" value="yes" />
+                                            Yes, I recently applied on
+
+
+                                            <input class="form-control" name="medApplyMonth" id="medApplyMonth" type="text" />(mm)
+                                            <input class="form-control" name="medApplyYear" id="medApplyYear" type="text" /> (yyyy)
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <label>
+                                        <input type="checkbox" name="medicaid" value="waiting" />
+                                        I am still awaiting a decision about my Medicaid eligibility
+                                    </label>
+
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12">
+                                <br />
+                                <label class="control-label col-sm-4">If you applied for Medicaid <strong>and were denied</strong>, what reason did they give you?</label>
+                                <div class="col-sm-offset-4">
+                                    <div class="col-sm-12">
+                                        <label>
+                                            <input type="radio" name="denied" value="money" />
+                                            They said I made too much money
+                                        </label>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <label>
+                                            <input type="radio" name="denied" value="work" />
+                                            They said I was still able to work
+                                        </label>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <label>
+                                            <input type="radio" name="denied" value="notKnow" />
+                                            I can't remember
+                                        </label>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <label>
+                                            <input type="radio" name="denied" value="other" />
+                                            Other reason:
+
+                                            <input name="otherRes" type="text" />
+
+                                        </label>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <br />
+                                <label class="control-label col-sm-4">Are you enrolled in insurance through the Affordable Care Act (Connect for Health, Colorado)?</label>
+                                <div class="col-sm-offset-4">
+                                    <div class="col-sm-12">
+                                        <label>
+                                            <input type="radio" name="affordable" value="yes" />
+                                            Yes
+                                        </label>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <label>
+                                            <input type="radio" name="affordable" value="no" />
+                                            No
+                                        </label>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <label>
+                                            <input type="radio" name="affordable" value="notKnow" />
+                                            I don't know
+                                            <label>
+                                                Please explain:
+                                                <input type="text" name="affordableNotKnowReason" />
+                                            </label>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <br />
+                                <label class="control-label col-sm-4">Are you eligible for Medicare?</label>
+                                <div class="col-sm-offset-4">
+                                    <div class="col-sm-4">
+                                        <label>
+                                            <input type="radio" name="medicare" value="yes" />
+                                            Yes
+                                        </label>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label>
+                                            <input type="radio" name="medicare" value="no" />
+                                            No
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <br />
+                                <label class="control-label col-sm-4">If yes, which Parts are you enrolled in?</label>
+                                <div class="col-sm-offset-4">
+                                    <div class="col-sm-12">
+
+                                        <label>
+                                            <input type="checkbox" name="parts" value="partA" />
+                                            PART A
+                                        </label>
+                                        <div>
+                                            <label>
+                                                Effective Date
+                                                <input class="form-control" type="text" id="monthPartA" name="monthPartA" />(mm)
+                                                <input class="form-control" type="text" id="yearPartA" name="yearPartA" />(yyyy)
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12">
+
+                                        <label>
+                                            <input type="checkbox" name="parts" value="partB" />
+                                            PART B
+                                        </label>
+                                        <div>
+                                            <label>
+                                                Effective Date
+                                                <input class="form-control" type="text" id="monthPartB" name="monthPartB" />(mm)
+                                                <input class="form-control" type="text" id="yearPartB" name="yearPartB" />(yyyy)
+                                            </label>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12">
+
+                                        <label>
+                                            <input type="checkbox" name="parts" value="partD" />
+                                            PART D
+                                        </label>
+                                        <div>
+                                            <label>
+                                                Effective Date
+                                                <input class="form-control" type="text" id="monthPartD" name="monthPartD" />(mm)
+                                                <input class="form-control" type="text" id="yearPartD" name="yearPartD" />(yyyy)
+                                            </label>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <strong>If you are, or become, Medicare-eligible, you must submit an additional "Bridging The Gap, Colorado" application.</strong> Call the ADAP HelpDesk at 303-692-2716
+                                to ask about this application.
+                            </div>
+                            <br />
+                            <div>
+                                <br />
+                                <label class="control-label col-sm-4">Which of the following best describes you employment status?</label>
+                                <div class="col-sm-8">
+                                    <label>
+                                        <input type="radio" name="employment" value="unMoreThan6" />
+                                        Unemployed for more than 6 months
+                                    </label>
+                                </div>
+                                <div class="col-sm-8">
+                                    <label>
+                                        <input type="radio" name="employment" value="recentUn" />
+                                        Recently unemployed as of
+                                        <input type="text" name="unemployedDate" id="unemployedDate" />
+                                    </label>
+                                </div>
+                                <div class="col-sm-8 col-sm-offset-4">
+                                    <label>
+                                        <input type="radio" name="employment" value="retiredDisabled" />
+                                        Retired/Disabled
+
+                                    </label>
+                                </div>
+                                <div class="col-sm-8 col-sm-offset-4">
+                                    <label>
+                                        <input type="radio" name="employment" value="applyDisability" />
+                                        Applying for disability
+
+                                    </label>
+                                </div>
+                                <div class="col-sm-8 col-sm-offset-4">
+                                    <label>
+                                        <input type="radio" name="employment" value="self" />
+                                        Self-employed
+
+                                    </label>
+                                </div>
+                                <div class="col-sm-8 col-sm-offset-4">
+                                    <div>
+                                        <label>
+                                            <input type="radio" name="employment" value="employed" />
+                                            Employed by
+                                            <input type="text" name="employer" />
+                                            and working
+                                            <input class="form-control" type="text" id="hoursPerWeek" name="hoursPerWeek" />
+                                            hours per week
+
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-8 col-sm-offset-4">
+                                    <label>
+                                        <input type="radio" name="employment" value="Other" />
+                                        Other:
+                                        <input type="text" name="otherEmployment" />
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <br />
+                                <label class="control-label col-sm-4"> If employed, when did you start this job?</label>
+                                <div class="col-sm-offset-4">
+
+                                    <div class="col-sm-4">
+                                        <input class="form-control" name="startMonth" id="startMonth" type="text" />(mm)
+                                        <input class="form-control" name="startYear" id="startYear" type="text" /> (yyyy)
+                                    </div>
+
+                                    <div class="col-sm-12">
+                                        <label>
+                                            <input type="checkbox" name="notEmployed" value="notEmployed" />
+                                            I am not employed
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <br />
+                                <label class="col-sm-4">Are you eligible for health insurance yourself, or through your employer, spouse, or some other individual?</label>
+                                <div class="col-sm-offset-4">
+                                    <div class="col-sm-12">
+                                        <label>
+                                            <input type="radio" name="health" value="yes" />
+                                            Yes
+                                        </label>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <label>
+                                            <input type="radio" name="health" value="no" />
+                                            No
+                                        </label>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <label>
+                                            <input type="radio" name="health" value="notKnow" />
+                                            I do not know
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <br />
+                                <label class="control-label col-sm-4">If yes, when did you become eligible?</label>
+                                <div class="col-sm-offset-4">
+                                    <div class="col-sm-12">
+                                        <div>
+                                            <label>
+                                                <input class="form-control" type="text" name="healthMonth" id="healthMonth" />(mm)
+                                                <input class="form-control" type="text" name="healthYear" id="healthYear" />(yyyy)
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <br />
+                                <label class="control-label col-sm-4">
+                                    If you are eligible for health insurance (through your employer, spouse, or other individual) are you enrolled in it? (This also includes
+                                    COBRA or Individual Private Insurance Plans).
+                                </label>
+                                <div class="col-sm-offset-4">
+                                    <div class="col-sm-8">
+                                        <label>
+                                            <input type="checkbox" name="enrolled" value="na" />
+                                            N/A - I am not eligible for health insurance
+                                        </label>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <label>
+                                            <input type="checkbox" name="enrolled" value="yes" />
+                                            Yes, I am enrolled
+                                        </label>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <label>
+                                            <input type="checkbox" name="enrolled" value="noServices" />
+                                            No, because it doesn't cover the services I need
+                                        </label>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <label>
+                                            <input type="checkbox" name="enrolled" value="noAfraid" />
+                                            No, because I'm afraid my employer would find out I'm HIV positive
+                                        </label>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <label>
+                                            <input type="checkbox" name="enrolled" value="noExpensive" />
+                                            No, because it's too expensive
+                                        </label>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <label>
+                                            <input type="checkbox" name="enrolled" value="noPre" />
+                                            No, because of a pre-existing condition limitation
+                                        </label>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <label>
+                                            <input type="checkbox" name="enrolled" value="noOther" />
+                                            No, for another reason (explain)
+                                            <input type="text" name="notEnrolledReason" />
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <br />
+                                <label class="control-label col-sm-4">
+                                    If you are enrolled in insurance through your employer, what is the monthly premium?
+                                </label>
+                                <label class="control-label col-sm-1">$</label>
+                                <div class="col-sm-3">
+                                    <input class="form-control" type="text" id="premium" name="premium" />
+                                </div>
+                            </div>
+                            <div class="col-sm-8">
+                                <br />
+                                <label>
+                                    If you or your spouse are employed, and you are NOT already receiving assistance from ADAP for the costs
+                                    of health insurance, you will need to have your employer complete the
+                                    “Employer Insurance Information Form” on page 6 and attach it to your application form.
+                                    A copy of this form must be filled out <em><span style="text-decoration:underline">for each family member who is currently employed.</span></em>
+                                    <br /> <br />
+                                    If you answered that you were worried your employer would find out about your HIV status, you will be
+                                    contacted by ADAP staff to discuss an alternative.
+                                </label>
+                            </div>
+                            <br />
+                            <div class="col-sm-8">
+                                Please use the tables below to describe the total monthly income for your household. Please <strong>
+                                    provide your gross income (before deductions) rather than your net income.
+                                </strong> You will need to attach proof of all income
+                                listed in this table, whether earned by you or another member of your household. See the instructions for the
+                                types of proof that ADAP will accept. <br /> <br />
+                                Only include household members who contribute income to your household. Include income from your legally
+                                married spouse and income earned by your children. Do NOT include other people
+                                living in your household unless you are <strong>under 18</strong>, in which case you need to list your parent or legal guardian’s
+                                income.
+                            </div>
+                            <br />
+                            <br />
+                            <div class="col-sm-8">
+                                <label>
+                                    <strong>Did you or your spouse work this month or expect to work next month?</strong>
+                                    <label>
+                                        <input type="radio" name="workMonth" value="yes" />
+                                        Yes
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="workMonth" value="no" />
+                                        No
+                                    </label>
+                                </label>
+                                Include temporary and seasonal work and income from self-employment. <strong>
+                                    If you have no household income ($0) from employment or from any other source, fill out
+                                    "Statement of Support".
+                                </strong>
+                            </div>
+                            <br />
+                            <div id="workers">
+                                <div class="box col-sm-10">
+                                    <div class="col-sm-8">
+                                        <label>
+                                            Name of worker (you, spouse, dependent, etc.)
+                                            <input type="text" name="worker1Name">
+                                        </label>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <label>
+                                            Employer Name
+                                            <input type="text" name="worker1EmployerName">
+                                        </label>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <label>
+                                            Start Date (or continuing)
+                                            <input type="text" name="worker1StartDate">
+                                        </label>
+                                    </div>
+
+                                    <div class="col-sm-8">
+                                        <label>
+                                            Is this work temporary or seasonal?
+                                            <label>
+                                                <input type="radio" name="worker1TempSeason" value="yes" />
+                                                Yes
+                                            </label>
+                                            <label>
+                                                <input type="radio" name="worker1TempSeason" value="no" />
+                                                No
+                                            </label>
+                                        </label>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <label>
+                                            Monthly Amount (average)
+                                            <input type="text" name="worker1Amount" id="worker1Amount">
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-8">
+                                <input type="button" class="btn btn-default" value="Add a worker" id="addWorker" />
+                            </div>
+                            <br />
+                            <div class="col-sm-8">
+                                <strong>Did you, your spouse, or any dependent receive income from any of these other sources?</strong>
+                                <label><input type="radio" name="incomeOther" value="yes" />Yes</label>
+                                <label><input type="radio" name="incomeOther" value="no" />No</label>
+                                <br />
+                                <strong>If yes, check all that apply and fill out below:</strong>
+                            </div>
+
+                            <div class="col-sm-8">
+                                <label>
+                                    <input type="checkbox" name="otherIncomeSource" value="unemployment" />
+                                    Unemployment Benefits
+                                </label>
+                            </div>
+                            <div class="col-sm-8">
+                                <label>
+                                    <input type="checkbox" name="otherIncomeSource" value="disability" />
+                                    Short/Long-term disability
+                                </label>
+                            </div>
+                            <div class="col-sm-8">
+                                <label>
+                                    <input type="checkbox" name="otherIncomeSource" value="ssi" />
+                                    SSI (Supplemental Security Income)
+                                </label>
+                            </div>
+                            <div class="col-sm-8">
+                                <label>
+                                    <input type="checkbox" name="otherIncomeSource" value="workersComp" />
+                                    Worker's compensation
+                                </label>
+                            </div>
+                            <div class="col-sm-8">
+                                <label>
+                                    <input type="checkbox" name="otherIncomeSource" value="ssdi" />
+                                    SSDI (Supplemental Security Disability Insurance)
+                                </label>
+                            </div>
+                            <div class="col-sm-8">
+                                <label>
+                                    <input type="checkbox" name="otherIncomeSource" value="and" />
+                                    AND (Aid to the Needy Disabled)
+                                </label>
+                            </div>
+                            <div class="col-sm-8">
+                                <label>
+                                    <input type="checkbox" name="otherIncomeSource" value="tanf" />
+                                    TANF (Temporary Aid to Needy Families)
+                                </label>
+                            </div>
+                            <div class="col-sm-8">
+                                <label>
+                                    <input type="checkbox" name="otherIncomeSource" value="investment" />
+                                    Interest/Investment Income
+                                </label>
+                            </div>
+                            <div class="col-sm-8">
+                                <label>
+                                    <input type="checkbox" name="otherIncomeSource" value="veterans" />
+                                    Veterans benefits
+                                </label>
+                            </div>
+                            <div class="col-sm-8">
+                                <label>
+                                    <input type="checkbox" name="otherIncomeSource" value="retirement" />
+                                    Retirement/Pension
+                                </label>
+                            </div>
+                            <div class="col-sm-8">
+                                <label>
+                                    <input type="checkbox" name="otherIncomeSource" value="trust" />
+                                    Taxable trust income
+                                </label>
+                            </div>
+                            <div class="col-sm-8">
+                                <label>
+                                    <input type="checkbox" name="otherIncomeSource" value="alimony" />
+                                    Alimony paid to you
+                                </label>
+                            </div>
+                            <div class="col-sm-8">
+                                <label>
+                                    <input type="checkbox" name="otherIncomeSource" value="other" />
+                                    Other
+                                </label>
+                                <input type="text" name="otherIncomeSourceOther" />
+                            </div>
+                            <br />
+                            <div id="otherIncomes">
+                                <div class="box col-sm-10">
+                                    <div class="col-sm-8">
+                                        <label>This check comes to: (me, my spouse, my child, etc.)</label>
+                                        <input type="text" name="otherIncome1To" />
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <label>Type of Benefit or Income from list above (for example, "SSI")</label>
+                                        <input type="text" name="otherIncome1Type" />
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <label>Monthly Amount (Gross Amount)</label>
+                                        <input type="text" name="otherIncome1Gross" />
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="col-sm-8">
+                                <input id="addIncome" type="button" class="btn btn-default" value="Add Income" />
+                            </div>
+                        </div>
+                    </div>
+</div>
+        </div>
+    </div>
+        
+</body>

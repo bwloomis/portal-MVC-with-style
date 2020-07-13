@@ -1,0 +1,3115 @@
+﻿[
+	{
+		"Title": "C1_MemberProofIDType",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_MemberLastName",
+		"Source": "UAS",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_MemberFirstName",
+		"Source": "UAS",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_MemberMaidenName",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_MemberAlsoKnownAs",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_MemberProofOfIdentification",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING",
+		"Document": "true"
+	},
+	{
+		"Title": "C1_MemberMiddleInitial",
+		"Source": "UAS",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_MemberSocSecNumber",
+		"Source": "DASHBOARD",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_MemberDateOfBirth",
+		"Source": "DASHBOARD",
+		"Type": "DATE"
+	},
+	{
+		"Title": "C1_MemberSocSecIneligible",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_MemberHasSSN",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_MemberHasITIN",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_MemberITINumber",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_AddressHomeless",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_ResidentialAddressLine2",
+		"Source": "UAS",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_ResAddrMailToEnrollmentSite",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_AddressHomelessDeliverTo",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_MailingAddressLine2",
+		"Source": "UAS",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_MailAddrMailToEnrollmentSite",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_MemberEmail",
+		"Source": "UAS",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_MemberPreferEmailDelivery",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_ResidentialAddressLine1",
+		"Source": "UAS",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_ResidentialAddressCity",
+		"Source": "UAS",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_ResidentialAddressState",
+		"Source": "UAS",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_ResidentialAddressZIP",
+		"Source": "UAS",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_ResidentialAddressCounty",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_ResidentialAddressMayContact",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_AddressProofOfResidencyType",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_AddressProofOfResidency",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING",
+		"Document": "true"
+	},
+	{
+		"Title": "C1_MailingAddressSameAsResidential",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_MailingAddressLine1",
+		"Source": "UAS",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_MailingAddressCity",
+		"Source": "UAS",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_MailingAddressState",
+		"Source": "UAS",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_MailingAddressZIP",
+		"Source": "UAS",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_MailingAddressCounty",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_MailingAddressMayContact",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_LegalContactMayMessage",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_LegalContactName",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_LegalContactPhoneNumber",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_LegalContactAddressLine1",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_LegalContactAddressCity",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_LegalContactAddressState",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_LegalContactAddressZip",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_LegalContactType",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_LegalContactDuration",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_LegalContactAwareHIV",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_LegalContactProofOfPOA",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING",
+		"Document": "true"
+	},
+	{
+		"Title": "C1_LegalContactApprovalDate",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "DATE"
+	},
+	{
+		"Title": "C1_LegalContactExpirationDate",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "DATE"
+	},
+	{
+		"Title": "C1_AltLegalContactMayMessage",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_AltLegalContactName",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_AltLegalContactPhoneNumber",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_AltLegalContactAddressLine1",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_AltLegalContactAddressCity",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_AltLegalContactAddressState",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_AltLegalContactAddressZip",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_AltLegalContactType",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_AltLegalContactDuration",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_AltLegalContactAwareHIV",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_AltLegalContactProofOfPOA",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING",
+		"Document": "true"
+	},
+	{
+		"Title": "C1_AltLegalContactApprovalDate",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "DATE"
+	},
+	{
+		"Title": "C1_AltLegalContactExpirationDate",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "DATE"
+	},
+	{
+		"Title": "C1_DaytimePhoneNumber",
+		"Source": "UAS",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_DaytimePhoneType",
+		"Source": "UAS",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_DaytimePhoneMayMessage",
+		"Source": "UAS",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_AltPhoneNumber",
+		"Source": "UAS",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_AltPhoneType",
+		"Source": "UAS",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_AltPhoneMayMessage",
+		"Source": "UAS",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_MemberPreferredLanguage",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_MemberPreferredLanguageOther",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_MemberSecondaryPrefLang",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_MemberSecondaryPrefLangOther",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_PreferredCommunicationMethod",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_MemberCaseManager",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_MemberNeedsReferralToCaseManager",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_MemberSelectedEnrollmentSite",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_MemberGUID",
+		"Source": "DASHBOARD",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_MemberIdentifier",
+		"Source": "DASHBOARD",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_MemberRaceIdentification",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_MemberRaceIdWhite",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_MemberRaceIdNative",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_MemberRaceIdAsian",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_MemberRaceIdAfrican",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_MemberRaceIdIndian",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_MemberRaceIdOther",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_MemberRaceIdAsianSub",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_MRaceIdAsianSubAsian",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_MRaceIdAsianSubFilipino",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_MRaceIdAsianSubKorean",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_MRaceIdAsianSubChinese",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_MRaceIdAsianSubJapanese",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_MRaceIdAsianSubVietnamese",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_MRaceIdAsianSubLaotian",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_MRaceIdAsianSubCambodian",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_MRaceIdAsianSubBangladeshi",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_MRaceIdAsianSubHmong",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_MRaceIdAsianSubIndonesian",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_MRaceIdAsianSubMalaysian",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_MRaceIdAsianSubPakistani",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_MRaceIdAsianSubSriLankan",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_MRaceIdAsianSubTaiwanese",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_MRaceIdAsianSubThai",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_MRaceIdAsianSubBurmese",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_MRaceIdAsianSubSingaporean",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_MRaceIdAsianSubOther",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_MemberRaceIdNativeAPI",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_MRaceIdAPINative",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_MRaceIdAPIGuam",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_MRaceIdAPISamoa",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_MRaceIdAPIFiji",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_MRaceIdAPITonga",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_MRaceIdAPIOther",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_MemberEthnicId",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_MemberEthnicIdSub",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_MemberEthSub1",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_MemberEthSub2",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_MemberEthSub3",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_MemberEthSub4",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_MemberEthSub5",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_MemberCurrentGender",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_MemberBirthGender",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_MemberIsPregnant",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_MemberDiagnosisYear",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_MDiagnosisNotificationType",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_MemberDiagnosisProof",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING",
+		"Document": "true"
+	},
+	{
+		"Title": "C1_HIVViralLoad",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_HIVViralLoadDate",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "DATE"
+	},
+	{
+		"Title": "C1_HIVViralLoadTestType",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_HIVViralLoadProof",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING",
+		"Document": "true"
+	},
+	{
+		"Title": "C1_MemberHIVStatus",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_MemberCD4Count",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_MemberCD4CountDate",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "DATE"
+	},
+	{
+		"Title": "C1_MemberCD4CountProof",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING",
+		"Document": "true"
+	},
+	{
+		"Title": "C1_MemberAdvisedHepatitisC",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_MemberReceivingHepCTreatment",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_MemberPhysicianName",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_MemberPhysicianNPI",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_MemberPhysicianLicense",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_MemberPhysicianPhoneNumber",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_MemberPhysicianAddrLine1",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_MemberPhysicianAddrCity",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_MemberPhysicianAddrState",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_MemberPhysicianAddrZip",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_MemberPhysicianNote",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_StateMAidDoc",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING",
+		"Document": "true"
+	},
+	{
+		"Title": "C1_StateMAidType",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_StateMAidSOC",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_StateMAidSOCAmount",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_StateMAidSOCBalance",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_StateMAidDenialDate",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "DATE"
+	},
+	{
+		"Title": "C1_StateMAidDenialDoc",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING",
+		"Document": "true"
+	},
+	{
+		"Title": "C1_StateMAidDenialType",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_StateMAidDenialReason",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_StateMAidDateSubmitted",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "DATE"
+	},
+	{
+		"Title": "C1_StateMAidPendingDoc",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_StateMAidNotEnrollRsnD",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_StateMAidNotEnrollRsn",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_StateMCEDenialType",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_StateMCEDenialReason",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_StateMCENotEnrollRsnD",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_StateMCENotEnrollRsn",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_StateMedicaidEnrolled",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_StateMedicaidMemberId",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_StateMAidEffDate",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "DATE"
+	},
+	{
+		"Title": "C1_StateMAidElig",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_StateMAidEligDate",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "DATE"
+	},
+	{
+		"Title": "C1_MediCALShareOfCost",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_MediCALShareOfCostAmt",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_MediCALShareOfCostAmtRemaining",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_MediCALDenialType",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_MediCALDenialMCEDoc",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_MediCALDisenrollDate",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "DATE"
+	},
+	{
+		"Title": "C1_MediCALDisenrollDoc",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING",
+		"Document": "true"
+	},
+	{
+		"Title": "C1_StateMCENotEnrollReasonOther",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_MediCALEligibilityVerificationDate",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "DATE"
+	},
+	{
+		"Title": "C1_MCDenialType2",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_MCDenialTypeOther2",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_MCEDenialType2",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_MCEDenialTypeOther2",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_MCNeverAppliedType2",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_MCENeverAppliedType2",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_MCENeverAppliedTypeOther2",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_MCDisenrollType2",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_MCDisenrollTypeOther2",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_MCEDisenrollType2",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_MCEDisenrollTypeOther2",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_MCNeverAppliedTypeOther2",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_MCDisenrollDate",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "DATE"
+	},
+	{
+		"Title": "C1_MedicareHICNumber",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_MedicarePartDPlanName",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_MedicarePartDNotEnrolledReason",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_MedicarePartDNotEnrollReasonOther",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_MedPartDWaiverStatus",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_MedPartDWaiverEndDate",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "DATE"
+	},
+	{
+		"Title": "C1_MedicarePartDHealthPlan",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_MedicarePartDName",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_MedicarePartDPlanDate",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "DATE"
+	},
+	{
+		"Title": "C1_MedicarePartDMemberID",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_MedicarePartDNotEnrollRsnD",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_MedicarePartDNotEnrollRsn",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_MedicarePartAEnrollDate",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "DATE"
+	},
+	{
+		"Title": "C1_MedicarePartBEnrollDate",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "DATE"
+	},
+	{
+		"Title": "C1_MedicarePartCEnrollDate",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "DATE"
+	},
+	{
+		"Title": "C1_MedicarePartDEnrollDate",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "DATE"
+	},
+	{
+		"Title": "C1_MedicarePartDIdNumber",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_MedicarePartDCardDoc",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING",
+		"Document": "true"
+	},
+	{
+		"Title": "C1_LowIncomeSubsidyEnroll",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_LowIncomeSubsidyPercent",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_LowIncomeDoc",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_MedicareEligible",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_MedicareParts",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_MedicarePartAEnroll",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_MedicarePartAEffDate",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "DATE"
+	},
+	{
+		"Title": "C1_MedicarePartBEnroll",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_MedicarePartBEffDate",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "DATE"
+	},
+	{
+		"Title": "C1_MedicarePartCEnroll",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_MedicarePartCEffDate",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "DATE"
+	},
+	{
+		"Title": "C1_MedicarePartDEnroll",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_MedicarePartDEffDate",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "DATE"
+	},
+	{
+		"Title": "C1_ACAStateExchgEnroll",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_ACAStateExchgCardDoc",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING",
+		"Document": "true"
+	},
+	{
+		"Title": "C1_OtherInsuranceEnroll",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_OtherInsuranceType",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_OtherInsuranceDescription",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_DrugCoveredByVA",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_DrugNotCoveredVARsn",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_OtherInsuranceProvider",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_OtherInsuranceGroupID",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_OtherInsuranceMemberID",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_OtherInsuranceRelationToMbr",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_OtherInsuranceEffDate",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "DATE"
+	},
+	{
+		"Title": "C1_OtherInsurancePlanID",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_OtherInsuranceEndDate",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "DATE"
+	},
+	{
+		"Title": "C1_InsuranceReserved1",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_InsuranceReserved2",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_OtherInsuranceEnrollRsn",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_OtherInsuranceGroupCode",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_OtherInsuranceMemberID2",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_RecommendedPBMPlan",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_OtherInsuranceStartDate",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "DATE"
+	},
+	{
+		"Title": "C1_NoInsurnaceDescription",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_TaxInfoDisclaimer",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_MemberEmployStart90",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_MemberIncomeLabel1",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_MemberFiledTaxesType",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_MTaxLine13",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_MemberMAGIFromTax",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_MemberRelationshipStatus",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_MemberEmploymentStatus",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_MemberTaxStatus",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_MemberTaxDoc",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING",
+		"Document": "true"
+	},
+	{
+		"Title": "C1_MemberTaxDocType",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_MemberTaxLineInstr",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_MTaxLine1",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_MTaxLine2",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_MTaxLine3",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_MTaxLine4",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_MTaxLine5",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_MTaxLine6",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_MTaxLine7",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_MTaxLine8",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_MTaxLine9",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_MTaxLine10",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_MTaxLine11",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_MTaxLine12",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_MemberTaxDependents",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_MemberNotFiledTaxes",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_MemberNotFiledTaxesReason",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_PartnerFiledTaxes",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_PartnerTaxDoc",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING",
+		"Document": "true"
+	},
+	{
+		"Title": "C1_PTaxDocType",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_PartnerTaxLineInstr",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_PTaxLine1",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_PTaxLine2",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_PTaxLine3",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_PTaxLine4",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_PTaxLine5",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_PTaxLine6",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_PTaxLine7",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_PTaxLine8",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_PTaxLine9",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_PTaxLine10",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_PTaxLine11",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_PTaxLine12",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_PartnerNotFiledTaxes",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_PartnerNotFiledTaxesReason",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_PartnerMAGIFromTax",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_OtherTaxReturnIncome",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_MTaxLine14",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_PTaxLine14",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_PartnerOtherTaxReturnIncome",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_PartnerFiledIRS2555EZ",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_PIRS2555Line1",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_PIRS2555Line2",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_PartnerFiledIRS2555Doc",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING",
+		"Document": "true"
+	},
+	{
+		"Title": "C1_MemberFiledIRS2555",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_MemberIRS2555Instr",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_MIRS2555Line1",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_MIRS2555Line2",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_MemberFiledIRS2555EZ",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_MemberIRS2555EZInstr",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_MIRS2555EZLine1",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_MemberFiledIRS2555Doc",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING",
+		"Document": "true"
+	},
+	{
+		"Title": "C1_MemberRequestsHIPP",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_MemberHIPPEnrollPgm",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_MemberHIPPEnrollPgm1",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_MemberHIPPEnrollPgm2",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_MemberHIPPEnrollPgm3",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_MemberHIPPEnrollPgm4",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_MemberRequestsHIPP3",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_MemberRequestsHIPP2",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_CoveredCAMedicalPlanDoc",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING",
+		"Document": "true"
+	},
+	{
+		"Title": "C1_CoveredCAAccountID",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_CoveredCAPremiumDue",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_MemberMedicalPolicyType",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_MemberMedicalDName",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_MemberMedicalPlanType",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_MemberMedicalPlanOther",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_MemberMedicalPlanCoverage",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_MemberMedicalPlanCoverageDoc",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING",
+		"Document": "true"
+	},
+	{
+		"Title": "C1_CoveredCAMedicalPlanType",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_CoveredCAMedicalPayee",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_MemberMedicalPlanSubscriberID",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_MemberMedicalPlanAccountID",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_MemberMedicalPlanPolicyID",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_CoveredCAAPTCAmount",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_CoveredCAAPTCAmountDoc",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING",
+		"Document": "true"
+	},
+	{
+		"Title": "C1_CoveredCAPremiumBeforeAPTC",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_CoveredCAPremiumAfterAPTC",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_MemberMedicalPremiumFreqDue",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_CoveredCAPlanStartDate",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "DATE"
+	},
+	{
+		"Title": "C1_CoveredCAPlanEndDate",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "DATE"
+	},
+	{
+		"Title": "C1_CoveredCABillingDoc",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING",
+		"Document": "true"
+	},
+	{
+		"Title": "C1_CoveredCAProjectedStartHIPPDate",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "DATE"
+	},
+	{
+		"Title": "C1_PrivateMedicalPayee",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_PrivateMedicalPlanStartDate",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "DATE"
+	},
+	{
+		"Title": "C1_PrivateMedicalPlanEndDate",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "DATE"
+	},
+	{
+		"Title": "C1_PrivateMedicalPremium",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_PrivateMedicalBillingDoc",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING",
+		"Document": "true"
+	},
+	{
+		"Title": "C1_MemberMedicalPlanAccountIDYesNo",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_NonCoveredCABillingDoc",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING",
+		"Document": "true"
+	},
+	{
+		"Title": "C1_MemberDentalPlanIncluded",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_MemberDentalPlanType",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_MemberDentalPlanTypeOther",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_DentalPayee",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_MemberDentalPlanSubscriberID",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_MemberDentalPlanAccountID",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_MemberDentalPlanPolicyID",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_DentalPlanStartDate",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "DATE"
+	},
+	{
+		"Title": "C1_DentalPlanEndDate",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "DATE"
+	},
+	{
+		"Title": "C1_DentalPremium",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_MemberDentalPremiumFreqDue",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_DentalBillingDoc",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING",
+		"Document": "true"
+	},
+	{
+		"Title": "C1_DentalProjectedStartHIPPDate",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "DATE"
+	},
+	{
+		"Title": "C1_DentalIncludedWithMedicalLabel",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_MemberIncludedDentalSubscriberID",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_MemberIncludedDentalAccountID",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_MemberIncludedDentalPolicyID",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_DentalIncludedPremium",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_DentalIncludedBillingDoc",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_DentalIncludedWithMedicalLabel2",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "DATE"
+	},
+	{
+		"Title": "C1_DentalProjectedStartHIPPStartDate",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "DATE"
+	},
+	{
+		"Title": "C1_DentalPlanAccountNumber",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_MemberIncludedDentalAccountSame",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_MemberIncludedDentalPolicySame",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_DentalPayeePhone",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_MemberVisionPlanIncluded",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_MemberVisionPremiumAmount",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_MemberVisionPlanIncludedLabel",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_MemberEnrolledWithEmployer",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_MemberEnrolledWithEmployerDoc",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_MedicareDPayee",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_MemberMedicareDSubscriberID",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_MemberMedicareDAccountID",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_MemberMedicareDPolicyID",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_MedicareDStartDate",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "DATE"
+	},
+	{
+		"Title": "C1_MedicareDEndDate",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "DATE"
+	},
+	{
+		"Title": "C1_MedicareDPremium",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_MedicareDPremiumFreqDue",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_MedicareDInsCard",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING",
+		"Document": "true"
+	},
+	{
+		"Title": "C1_MedicareDBillingDoc",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_MedicareDProjectedStartHIPPDate",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "DATE"
+	},
+	{
+		"Title": "C1_MedicareDHighPayments",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_MedicareDHighPaymentsDoc",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING",
+		"Document": "true"
+	},
+	{
+		"Title": "C1_MedDPlanPhoneNumber",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_MemberMedicalDAccountNumber",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_MemberMedicalPlanStartDate",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "DATE"
+	},
+	{
+		"Title": "C1_MemberMedicalNetPremium",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_MemberMedicareDAccountIDValue",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_MemberMedicareDPolicyIDYesNo",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_InsuranceAssistEnrollPerson",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_InsuranceAssistEnrollSiteFlag",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_InsuranceAssistEnrollSite",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_MIncome1SupportedElse",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_MIncome1SupportedElseDoc",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING",
+		"Document": "true"
+	},
+	{
+		"Title": "C1_MIncome1EmplMonthIncome",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_MIncome1EmplEstAGI",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_MIncome1EmplAgreeYN",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_MIncome1EmplSelfAGI",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_MIncome1EmplCertSelfAGI",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_MemberHasIncome",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_MemberSupportedOther",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_MemberSupportedOtherDoc",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING",
+		"Document": "true"
+	},
+	{
+		"Title": "C1_MIncome1SourceType",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_MIncome1SourceTypeOther",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_MIncome1EmploymentDoc",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING",
+		"Document": "true"
+	},
+	{
+		"Title": "C1_MIncome1SelfEmploymentDoc",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING",
+		"Document": "true"
+	},
+	{
+		"Title": "C1_MIncome1SelfEmpMonthly1",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_MIncome1SelfEmpMonthly2",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_MIncome1SelfEmpMonthly3",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_MIncome1SelfEmpAGIEstimate",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_MIncome1SelfEmpAGIAgree",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_MIncome1SelfEmpAGISelfEstimate",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_MIncome1SelfEmpAGICertify",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_MIncome1SSIDoc",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING",
+		"Document": "true"
+	},
+	{
+		"Title": "C1_MIncome1UnempInsDoc",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING",
+		"Document": "true"
+	},
+	{
+		"Title": "C1_MIncome1SourceMonthlyAmount",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_MIncome1SourceDoc",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING",
+		"Document": "true"
+	},
+	{
+		"Title": "C1_MIncome1SourceAnnualAmount",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_MIncome2HasIncome",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_MIncome2SourceType",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_MIncome2SourceTypeOther",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_MIncome2EmploymentDoc",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING",
+		"Document": "true"
+	},
+	{
+		"Title": "C1_MIncome2SelfEmploymentDoc",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING",
+		"Document": "true"
+	},
+	{
+		"Title": "C1_MIncome2SelfEmpMonthly1",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_MIncome2SelfEmpMonthly2",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_MIncome2SelfEmpMonthly3",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_MIncome2SelfEmpAGIEstimate",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_MIncome2SelfEmpAGIAgree",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_MIncome2SelfEmpAGISelfEstimate",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_MIncome2SelfEmpAGICertify",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_MIncome2SSIDoc",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING",
+		"Document": "true"
+	},
+	{
+		"Title": "C1_MIncome2UnempInsDoc",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING",
+		"Document": "true"
+	},
+	{
+		"Title": "C1_MIncome2SourceMonthlyAmount",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_MIncome2SourceDoc",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING",
+		"Document": "true"
+	},
+	{
+		"Title": "C1_MIncome2SourceAnnualAmount",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_MIncome2EmplMonthIncome",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_MIncome2EmplEstAGI",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_MIncome2EmplAgreeYN",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_MIncome2EmplSelfAGI",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_MIncome2EmplCertSelfAGI",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_MIncome3EmplMonthIncome",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_MIncome3EmplEstAGI",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_MIncome3EmplAgreeYN",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_MIncome3EmplSelfAGI",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_MIncome3EmplCertSelfAGI",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_MIncome3HasIncome",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_MIncome3SourceType",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_MIncome3SourceTypeOther",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_MIncome3EmploymentDoc",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING",
+		"Document": "true"
+	},
+	{
+		"Title": "C1_MIncome3SelfEmploymentDoc",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING",
+		"Document": "true"
+	},
+	{
+		"Title": "C1_MIncome3SelfEmpMonthly1",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_MIncome3SelfEmpMonthly2",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_MIncome3SelfEmpMonthly3",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_MIncome3SelfEmpAGIEstimate",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_MIncome3SelfEmpAGIAgree",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_MIncome3SelfEmpAGISelfEstimate",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_MIncome3SelfEmpAGICertify",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_MIncome3SSIDoc",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING",
+		"Document": "true"
+	},
+	{
+		"Title": "C1_MIncome3UnempInsDoc",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING",
+		"Document": "true"
+	},
+	{
+		"Title": "C1_MIncome3SourceMonthlyAmount",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_MIncome3SourceDoc",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING",
+		"Document": "true"
+	},
+	{
+		"Title": "C1_MIncome3SourceAnnualAmount",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_MIncome4HasIncome",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_MIncome4SourceType",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_MIncome4SourceTypeOther",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_MIncome4EmploymentDoc",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING",
+		"Document": "true"
+	},
+	{
+		"Title": "C1_MIncome4SelfEmploymentDoc",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING",
+		"Document": "true"
+	},
+	{
+		"Title": "C1_MIncome4SelfEmpMonthly1",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_MIncome4SelfEmpMonthly2",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_MIncome4SelfEmpMonthly3",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_MIncome4SelfEmpAGIEstimate",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_MIncome4SelfEmpAGIAgree",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_MIncome4SelfEmpAGISelfEstimate",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_MIncome4SelfEmpAGICertify",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_MIncome4SSIDoc",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING",
+		"Document": "true"
+	},
+	{
+		"Title": "C1_MIncome4UnempInsDoc",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING",
+		"Document": "true"
+	},
+	{
+		"Title": "C1_MIncome4SourceMonthlyAmount",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_MIncome4SourceDoc",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING",
+		"Document": "true"
+	},
+	{
+		"Title": "C1_MIncome4SourceAnnualAmount",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_MIncome4EmplMonthIncome",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_MIncome4EmplEstAGI",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_MIncome4EmplAgreeYN",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_MIncome4EmplSelfAGI",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_MIncome4EmplCertSelfAGI",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_PIncome1EmplMonthIncome",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_PIncome1EmplEstAGI",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_PIncome1EmplAgreeYN",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_PIncome1EmplSelfAGI",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_PIncome1EmplCertSelfAGI",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_PartnerHasIncome",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_PIncome1SourceType",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_PIncome1SourceTypeOther",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_PIncome1EmploymentDoc",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING",
+		"Document": "true"
+	},
+	{
+		"Title": "C1_PIncome1SelfEmploymentDoc",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING",
+		"Document": "true"
+	},
+	{
+		"Title": "C1_PIncome1SelfEmpMonthly1",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_PIncome1SelfEmpMonthly2",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_PIncome1SelfEmpMonthly3",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_PIncome1SelfEmpAGIEstimate",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_PIncome1SelfEmpAGIAgree",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_PIncome1SelfEmpAGISelfEstimate",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_PIncome1SelfEmpAGICertify",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_PIncome1SSIDoc",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING",
+		"Document": "true"
+	},
+	{
+		"Title": "C1_PIncome1UnempInsDoc",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING",
+		"Document": "true"
+	},
+	{
+		"Title": "C1_PIncome1SourceMonthlyAmount",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_PIncome1SourceDoc",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING",
+		"Document": "true"
+	},
+	{
+		"Title": "C1_PIncome1SourceAnnualAmount",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_PIncome1Recipient",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_PIncome2Recipient",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_PIncome2HasIncome",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_PIncome2SourceType",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_PIncome2SourceTypeOther",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_PIncome2EmploymentDoc",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING",
+		"Document": "true"
+	},
+	{
+		"Title": "C1_PIncome2SelfEmploymentDoc",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING",
+		"Document": "true"
+	},
+	{
+		"Title": "C1_PIncome2SelfEmpMonthly1",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_PIncome2SelfEmpMonthly2",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_PIncome2SelfEmpMonthly3",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_PIncome2SelfEmpAGIEstimate",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_PIncome2SelfEmpAGIAgree",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_PIncome2SelfEmpAGISelfEstimate",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_PIncome2SelfEmpAGICertify",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_PIncome2SSIDoc",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING",
+		"Document": "true"
+	},
+	{
+		"Title": "C1_PIncome2UnempInsDoc",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING",
+		"Document": "true"
+	},
+	{
+		"Title": "C1_PIncome2SourceMonthlyAmount",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_PIncome2SourceDoc",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING",
+		"Document": "true"
+	},
+	{
+		"Title": "C1_PIncome2SourceAnnualAmount",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_PIncome2EmplMonthIncome",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_PIncome2EmplEstAGI",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_PIncome2EmplAgreeYN",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_PIncome2EmplSelfAGI",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_PIncome2EmplCertSelfAGI",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_PIncome3EmplMonthIncome",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_PIncome3EmplEstAGI",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_PIncome3EmplAgreeYN",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_PIncome3EmplSelfAGI",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_PIncome3EmplCertSelfAGI",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_PIncome3HasIncome",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_PIncome3SourceType",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_PIncome3SourceTypeOther",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_PIncome3EmploymentDoc",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING",
+		"Document": "true"
+	},
+	{
+		"Title": "C1_PIncome3SelfEmploymentDoc",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING",
+		"Document": "true"
+	},
+	{
+		"Title": "C1_PIncome3SelfEmpMonthly1",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_PIncome3SelfEmpMonthly2",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_PIncome3SelfEmpMonthly3",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_PIncome3SelfEmpAGIEstimate",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_PIncome3SelfEmpAGIAgree",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_PIncome3SelfEmpAGISelfEstimate",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_PIncome3SelfEmpAGICertify",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_PIncome3SSIDoc",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING",
+		"Document": "true"
+	},
+	{
+		"Title": "C1_PIncome3UnempInsDoc",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING",
+		"Document": "true"
+	},
+	{
+		"Title": "C1_PIncome3SourceMonthlyAmount",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_PIncome3SourceDoc",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING",
+		"Document": "true"
+	},
+	{
+		"Title": "C1_PIncome3SourceAnnualAmount",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_PIncome3Recipient",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_PIncome4Recipient",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_PIncome4HasIncome",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_PIncome4SourceType",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_PIncome4SourceTypeOther",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_PIncome4EmploymentDoc",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING",
+		"Document": "true"
+	},
+	{
+		"Title": "C1_PIncome4SelfEmploymentDoc",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING",
+		"Document": "true"
+	},
+	{
+		"Title": "C1_PIncome4SelfEmpMonthly1",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_PIncome4SelfEmpMonthly2",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_PIncome4SelfEmpMonthly3",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_PIncome4SelfEmpAGIEstimate",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_PIncome4SelfEmpAGIAgree",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_PIncome4SelfEmpAGISelfEstimate",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_PIncome4SelfEmpAGICertify",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_PIncome4SSIDoc",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING",
+		"Document": "true"
+	},
+	{
+		"Title": "C1_PIncome4UnempInsDoc",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING",
+		"Document": "true"
+	},
+	{
+		"Title": "C1_PIncome4SourceMonthlyAmount",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_PIncome4SourceDoc",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING",
+		"Document": "true"
+	},
+	{
+		"Title": "C1_PIncome4SourceAnnualAmount",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_PIncome4EmplMonthIncome",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_PIncome4EmplEstAGI",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_PIncome4EmplAgreeYN",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_PIncome4EmplSelfAGI",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_PIncome4EmplCertSelfAGI",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_PartnerIncomeAnnualAllSources",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_PartnerIncomeDeductions",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_PartnerAGI",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_MemberIncomeAnnualAllSources",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_MemberIncomeDeductions",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_MemberAGI",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_DependentAGI",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_FPLPercentage",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_MemberCalcHouseholdIncome",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_MemberCalcPovertyLevel",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_MemberCalcPovertyLevelCopayDoc",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT",
+		"Document": "true"
+	},
+	{
+		"Title": "C1_MemberCalcPovertyLevelCopayAmountMonthly",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_MemberCalcHouseholdSize",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "INTEGER"
+	},
+	{
+		"Title": "C1_MedicalLastPaymentAmount",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_MedicalLastPaymentDate",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "DATE"
+	},
+	{
+		"Title": "C1_DentalLastPaymentAmount",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_DentalLastPaymentDate",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "DATE"
+	},
+	{
+		"Title": "C1_PartDLastPaymentAmount",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "FLOAT"
+	},
+	{
+		"Title": "C1_PartDLastPaymentDate",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "DATE"
+	},
+	{
+		"Title": "C1_ProgramEligibilityStatus",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_ProgramEligibleStartDate",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "DATE"
+	},
+	{
+		"Title": "C1_ProgramEligibleEndDate",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "DATE"
+	},
+	{
+		"Title": "C1_IsTemporaryInProgram",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_TemporaryInProgramEndDate",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "DATE"
+	},
+	{
+		"Title": "C1_Next6MonthRecertDate",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "DATE"
+	},
+	{
+		"Title": "C1_NextAnnualRecertDate",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "DATE"
+	},
+	{
+		"Title": "C1_RamsellEnrolledHIPP",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "BOOLEAN"
+	},
+	{
+		"Title": "C1_MagellanGroupCode",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_MedicalLastFromDate",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_DentalLastFromDate",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_PartDLastFromDate",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	},
+	{
+		"Title": "C1_PrivateMedicalPayeePhone",
+		"Source": "PREVIOUS_APPLICATION",
+		"Type": "STRING"
+	}
+]

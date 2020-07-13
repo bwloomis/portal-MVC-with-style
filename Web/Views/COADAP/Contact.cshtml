@@ -1,0 +1,556 @@
+@model Assmnts.Models.GeneralForm
+@{
+    Layout = "AdapAppLayout.cshtml";
+}
+
+@section AddtoHead{
+    <link rel="stylesheet" type="text/css" href="/Content/adap/css/ADAPForms.css" />
+    <script src="~/Content/js/ADAPLookupSelects.js"></script>
+    <script src="/Content/js/jquery.maskedinput.min.js"></script>
+
+    <script>
+    $(document).ready(function() {
+        cntyLookupCode = "ADAP_COUNTY";
+        populateLookupSelect(cntyLookupCode, 'ADAP_C1_County', '@Model.rspValues["ADAP_C1_County"]');
+        populateLookupSelect(cntyLookupCode, 'PREVIOUS_ADAP_C1_County', '@Model.rspValues["PREVIOUS_ADAP_C1_County"]');
+
+        $('.class_phone_input').mask("999-999-9999");
+
+        @foreach (string shortName in new string[] { "C3_Phone1_Type", "C3_Phone2_Type" })
+        {
+            string identifier = "ADAP_" + shortName;
+            @:populateLookupRadio('@identifier', '@identifier', '@Model.rspValues[identifier]', 1);
+            @:populateLookupRadio('@identifier', 'PREVIOUS_@identifier', '@Model.rspValues["PREVIOUS_" + identifier]', 1);
+            @:$('label[for=@(identifier)1]').parent().parent().removeClass('col-md-1').addClass('col-md-2');
+            @:$('label[for=PREVIOUS_@(identifier)1]').parent().parent().removeClass('col-md-1').addClass('col-md-2');
+        }
+
+        //CO is the default state value.
+        if ($('#ADAP_C1_State').val().trim() == '')
+            $('#ADAP_C1_State').val('CO');
+
+    });
+    </script>
+}
+
+<!-- C1 residential address -->
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="pull-right prevAppBtn"><button data-prevdiv="PreviousC1" class="btn" type="button"></button></div>
+        <div class="pull-right"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CmntModal" data-label="C1. @Model.sctTitles["ADAP_C1"]"><span class="glyphicon glyphicon-comment"></span></button></div>
+        <p><strong>C1. @Model.sctTitles["ADAP_C1"]</strong></p>
+        <div class="form-group">
+            @Helpers.LabelSpan(Model, "ADAP_C1_Address_item", new { @class = "col-md-3 control-label", @style = "color: black;" })
+            <div class="col-md-3">
+                @Helpers.TextInput(Model, "ADAP_C1_Address", new { @class = "form-control" })
+            </div>
+        </div>
+
+        <!-- residential address2 -->
+        <div class="form-group">
+            <div class="col-md-1">
+                @Helpers.LabelSpan(Model, "ADAP_C1_City_item", new { @class = "control-label", @style = "color: black;" })
+            </div>
+            <div class="col-md-3">
+                @Helpers.TextInput(Model, "ADAP_C1_City", new { @class = "form-control" })
+            </div>
+            <div class="col-md-1">
+                @Helpers.LabelSpan(Model, "ADAP_C1_State_item", new { @class = "control-label", @style = "color: black;" })
+            </div>
+            <div class="col-md-1">
+                @Helpers.TextInput(Model, "ADAP_C1_State", new { @class = "form-control" })
+            </div>
+            <div class="col-md-1">
+                @Helpers.LabelSpan(Model, "ADAP_C1_Zip_item", new { @class = "control-label", @style = "color: black;" })
+            </div>
+            <div class="col-md-2">
+                @Helpers.TextInput(Model, "ADAP_C1_Zip", new { @class = "form-control" })
+            </div>
+            <div class="col-md-1">
+                @Helpers.LabelSpan(Model, "ADAP_C1_County_item", new { @class = "control-label", @style = "color: black;" })
+            </div>
+            <div class="col-md-2">
+                <select class="form-control" id="ADAP_C1_County" name="ADAP_C1_County"></select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Helpers.LabelSpan(Model, "ADAP_C1_MayContactYN_item", new { @class = "col-md-4 control-label", @style = "color: black;" })
+            @Helpers.YesNoRadioButtons(Model, "ADAP_C1_MayContactYN")
+        </div>
+
+        <div class="form-group">
+            @Helpers.LabelSpan(Model, "ADAP_C1_AddressProof_item", new { @class = "col-md-4 control-label" })
+            @Helpers.FileUpload(Model, "ADAP_C1_AddressProof")
+        </div>
+
+    </div>
+</div>
+<!-- PREVIOUS C1 residential address -->
+<div class="panel panel-default previous-response" id="PreviousC1">
+    <div class="panel-body">
+        <div class="pull-right prevAppBtn"><a href="#" class="btn btn-success btn-xs active" id="hsName" role="button">&nbsp;</a></div>
+        <div class="pull-right"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CmntModal"><span class="glyphicon glyphicon-comment"></span></button></div>
+        <p><strong>C1. @Model.sctTitles["ADAP_C1"]</strong></p>
+        <div class="form-group">
+            @Helpers.LabelSpan(Model, "ADAP_C1_Address_item", new { @class = "col-md-3 control-label", @style = "color: black;" })
+            <div class="col-md-3">
+                @Helpers.TextInput(Model, "PREVIOUS_ADAP_C1_Address", new { @class = "form-control" })
+            </div>
+        </div>
+
+        <!-- residential address2 -->
+        <div class="form-group">
+            <div class="col-md-1">
+                @Helpers.LabelSpan(Model, "ADAP_C1_City_item", new { @class = "control-label", @style = "color: black;" })
+            </div>
+            <div class="col-md-3">
+                @Helpers.TextInput(Model, "PREVIOUS_ADAP_C1_City", new { @class = "form-control" })
+            </div>
+            <div class="col-md-1">
+                @Helpers.LabelSpan(Model, "ADAP_C1_State_item", new { @class = "control-label", @style = "color: black;" })
+            </div>
+            <div class="col-md-1">
+                @Helpers.TextInput(Model, "PREVIOUS_ADAP_C1_State", new { @class = "form-control" })
+            </div>
+            <div class="col-md-1">
+                @Helpers.LabelSpan(Model, "ADAP_C1_Zip_item", new { @class = "control-label", @style = "color: black;" })
+            </div>
+            <div class="col-md-2">
+                @Helpers.TextInput(Model, "PREVIOUS_ADAP_C1_Zip", new { @class = "form-control" })
+            </div>
+            <div class="col-md-1">
+                @Helpers.LabelSpan(Model, "ADAP_C1_County_item", new { @class = "control-label", @style = "color: black;" })
+            </div>
+            <div class="col-md-2">
+                <select class="form-control" id="PREVIOUS_ADAP_C1_County"></select>
+            </div>
+            </div>
+
+        <div class="form-group">
+            @Helpers.LabelSpan(Model, "ADAP_C1_MayContactYN_item", new { @class = "col-md-4 control-label", @style = "color: black;" })
+            @Helpers.YesNoRadioButtons(Model, "PREVIOUS_ADAP_C1_MayContactYN")
+        </div>
+
+        <div class="form-group">
+            @Helpers.LabelSpan(Model, "ADAP_C1_AddressProof_item", new { @class = "col-md-4 control-label" })
+            @Helpers.FileUpload(Model, "PREVIOUS_ADAP_C1_AddressProof")
+        </div>
+
+    </div>
+</div>
+
+
+<!-- C2 mailing address -->
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="pull-right prevAppBtn"><button data-prevdiv="PreviousC2" class="btn" type="button"></button></div>
+        <div class="pull-right"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CmntModal" data-label="C2. @Model.sctTitles["ADAP_C2"]"><span class="glyphicon glyphicon-comment"></span></button></div>
+        <p><strong>C2. @Model.sctTitles["ADAP_C2"]</strong></p>
+        <div class="form-group" style="margin-left:25px;">
+            @Helpers.LabeledCheckboxInput(Model, "ADAP_C2_SameAsMailing")
+        </div>
+
+        <div class="form-group toggleC2">
+            @Helpers.LabelSpan(Model, "ADAP_C2_Address_item", new { @class = "col-md-3 control-label" })
+            <div class="col-md-3">
+                @Helpers.TextInput(Model, "ADAP_C2_Address", new { @class = "form-control" })
+            </div>
+        </div>
+
+        <!-- mailing address2 -->
+        <div class="form-group toggleC2">
+            <div class="col-md-1">
+                @Helpers.LabelSpan(Model, "ADAP_C2_City_item", new { @class = "control-label" })
+            </div>
+            <div class="col-md-3">
+                @Helpers.TextInput(Model, "ADAP_C2_City", new { @class = "form-control" })
+            </div>
+            <div class="col-md-1">
+                @Helpers.LabelSpan(Model, "ADAP_C2_State_item", new { @class = "control-label" })
+            </div>
+            <div class="col-md-1">
+                @Helpers.TextInput(Model, "ADAP_C2_State", new { @class = "form-control" })
+            </div>
+            <div class="col-md-1">
+                @Helpers.LabelSpan(Model, "ADAP_C2_Zip_item", new { @class = "control-label" })
+            </div>
+            <div class="col-md-2">
+                @Helpers.TextInput(Model, "ADAP_C2_Zip", new { @class = "form-control" })
+            </div>
+            <div class="col-md-1">
+                @Helpers.LabelSpan(Model, "ADAP_C2_County_item", new { @class = "control-label" })
+            </div>
+            <div class="col-md-2">
+                @Helpers.TextInput(Model, "ADAP_C2_County", new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group toggleC2">
+            @Helpers.LabelSpan(Model, "ADAP_C2_MayContactYN_item", new { @class = "col-md-4 control-label" })
+            @Helpers.YesNoRadioButtons(Model, "ADAP_C2_MayContactYN")
+        </div>
+        <script>
+            $(document).ready(function () {
+                updateC2();
+                $("#ADAP_C2_SameAsMailing").change(updateC2);
+            });
+
+            function updateC2() {
+                $(".toggleC2").toggle(!$("#ADAP_C2_SameAsMailing").get(0).checked);
+            };
+        </script>
+    </div>
+</div>
+<!-- PREVIOUS C2 mailing address -->
+<div class="panel panel-default previous-response" id="PreviousC2">
+    <div class="panel-body">
+        <div class="pull-right prevAppBtn"><a href="#" class="btn btn-success btn-xs active" id="hsName" role="button">&nbsp;</a></div>
+        <div class="pull-right"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CmntModal"><span class="glyphicon glyphicon-comment"></span></button></div>
+        <p><strong>C2. @Model.sctTitles["ADAP_C2"]</strong></p>
+        <div class="form-group" style="margin-left:25px;">
+            @Helpers.LabeledCheckboxInput(Model, "PREVIOUS_ADAP_C2_SameAsMailing", Model.fldLabels["ADAP_C2_SameAsMailing_item"])
+        </div>
+
+        <div class="form-group PREVIOUS_toggleC2">
+            @Helpers.LabelSpan(Model, "ADAP_C2_Address_item", new { @class = "col-md-3 control-label" })
+            <div class="col-md-3">
+                @Helpers.TextInput(Model, "PREVIOUS_ADAP_C2_Address", new { @class = "form-control" })
+            </div>
+        </div>
+
+        <!-- mailing address2 -->
+        <div class="form-group PREVIOUS_toggleC2">
+            <div class="col-md-1">
+                @Helpers.LabelSpan(Model, "ADAP_C2_City_item", new { @class = "control-label" })
+            </div>
+            <div class="col-md-3">
+                @Helpers.TextInput(Model, "PREVIOUS_ADAP_C2_City", new { @class = "form-control" })
+            </div>
+            <div class="col-md-1">
+                @Helpers.LabelSpan(Model, "ADAP_C2_State_item", new { @class = "control-label" })
+            </div>
+            <div class="col-md-1">
+                @Helpers.TextInput(Model, "PREVIOUS_ADAP_C2_State", new { @class = "form-control" })
+            </div>
+            <div class="col-md-1">
+                @Helpers.LabelSpan(Model, "ADAP_C2_Zip_item", new { @class = "control-label" })
+            </div>
+            <div class="col-md-2">
+                @Helpers.TextInput(Model, "PREVIOUS_ADAP_C2_Zip", new { @class = "form-control" })
+            </div>
+            <div class="col-md-1">
+                @Helpers.LabelSpan(Model, "ADAP_C2_County_item", new { @class = "control-label" })
+            </div>
+            <div class="col-md-2">
+                @Helpers.TextInput(Model, "PREVIOUS_ADAP_C2_County", new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group PREVIOUS_toggleC2">
+            @Helpers.LabelSpan(Model, "ADAP_C2_MayContactYN_item", new { @class = "col-md-4 control-label" })
+            @Helpers.YesNoRadioButtons(Model, "PREVIOUS_ADAP_C2_MayContactYN")
+        </div>
+        <script>
+            $(document).ready(function () {
+                PREVIOUS_updateC2();
+                $("#PREVIOUS_ADAP_C2_SameAsMailing").change(PREVIOUS_updateC2);
+            });
+
+            function PREVIOUS_updateC2() {
+                $(".PREVIOUS_toggleC2").toggle(!$("#PREVIOUS_ADAP_C2_SameAsMailing").get(0).checked);
+            };
+        </script>
+    </div>
+</div>
+
+
+<!-- C3 phone contacts 1 and 2 -->
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="pull-right prevAppBtn"><button data-prevdiv="PreviousC3" class="btn" type="button"></button></div>
+        <div class="pull-right"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CmntModal" data-label="C3. @Model.sctTitles["ADAP_C3"]"><span class="glyphicon glyphicon-comment"></span></button></div>
+        <p><strong>C3. @Model.sctTitles["ADAP_C3"]</strong></p>
+
+        <div class="form-group">
+            @Helpers.LabelSpan(Model, "ADAP_C3_Phone1_Num_item", new { @class = "col-md-3 control-label", @style = "color: black;" })
+            <div class="col-md-3">
+                @Helpers.TextInput(Model, "ADAP_C3_Phone1_Num", new { @class = "form-control class_phone_input", @placeholder="___-___-____" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Helpers.LabelSpan(Model, "ADAP_C3_Phone1_Type_item", new { @class = "col-md-4 control-label", @style = "color: black;" })
+            <div id="ADAP_C3_Phone1_Type"></div>
+            @*@Helpers.RadioList(Model, Html, "ADAP_C3_Phone1_Type_item", "ADAP_C3_Phone1_Type", "class=small")*@
+        </div>
+
+        <div class="form-group">
+            @Helpers.LabelSpan(Model, "ADAP_C3_Phone1_MayMsgYN_item", new { @class = "col-md-4 control-label", @style = "color: black;" })
+            @Helpers.YesNoRadioButtons(Model, "ADAP_C3_Phone1_MayMsgYN")
+        </div>
+
+        <br />
+
+        <!-- phone contact #2 -->
+        <div class="form-group">
+            @Helpers.LabelSpan(Model, "ADAP_C3_Phone2_Num_item", new { @class = "col-md-3 control-label" })
+            <div class="col-md-3">
+                @Helpers.TextInput(Model, "ADAP_C3_Phone2_Num", new { @class = "form-control class_phone_input", @placeholder = "___-___-____" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Helpers.LabelSpan(Model, "ADAP_C3_Phone2_Type_item", new { @class = "col-md-4 control-label" })
+            <div id="ADAP_C3_Phone2_Type"></div>
+            @*@Helpers.RadioList(Model, Html, "ADAP_C3_Phone2_Type_item", "ADAP_C3_Phone2_Type", "class=small")*@
+        </div>
+
+        <div class="form-group">
+            @Helpers.LabelSpan(Model, "ADAP_C3_Phone2_MayMsgYN_item", new { @class = "col-md-4 control-label" })
+            @Helpers.YesNoRadioButtons(Model, "ADAP_C3_Phone2_MayMsgYN")
+        </div>
+    </div>
+</div>
+<!-- PREVIOUS C3 phone contacts 1 and 2 -->
+<div class="panel panel-default previous-response" id="PreviousC3">
+    <div class="panel-body">
+        <div class="pull-right prevAppBtn"><a href="#" class="btn btn-danger btn-xs active" id="hsName" role="button">&nbsp;</a></div>
+        <div class="pull-right"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CmntModal"><span class="glyphicon glyphicon-comment"></span></button></div>
+        <p><strong>C3. @Model.sctTitles["ADAP_C3"]</strong></p>
+
+        <div class="form-group">
+            @Helpers.LabelSpan(Model, "ADAP_C3_Phone1_Num_item", new { @class = "col-md-3 control-label", @style = "color: black;" })
+            <div class="col-md-3">
+                @Helpers.TextInput(Model, "PREVIOUS_ADAP_C3_Phone1_Num", new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Helpers.LabelSpan(Model, "ADAP_C3_Phone1_Type_item", new { @class = "col-md-4 control-label", @style = "color: black;" })
+            <div id="PREVIOUS_ADAP_C3_Phone1_Type"></div>
+            @*@Helpers.RadioList(Model, Html, "ADAP_C3_Phone1_Type_item", "PREVIOUS_ADAP_C3_Phone1_Type", "class=small")*@
+        </div>
+
+        <div class="form-group">
+            @Helpers.LabelSpan(Model, "ADAP_C3_Phone1_MayMsgYN_item", new { @class = "col-md-4 control-label", @style = "color: black;" })
+            @Helpers.YesNoRadioButtons(Model, "PREVIOUS_ADAP_C3_Phone1_MayMsgYN")
+        </div>
+
+        <br />
+
+        <!-- phone contact #2 -->
+        <div class="form-group">
+            @Helpers.LabelSpan(Model, "ADAP_C3_Phone2_Num_item", new { @class = "col-md-3 control-label" })
+            <div class="col-md-3">
+                @Helpers.TextInput(Model, "PREVIOUS_ADAP_C3_Phone2_Num", new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Helpers.LabelSpan(Model, "ADAP_C3_Phone2_Type_item", new { @class = "col-md-4 control-label" })
+            <div id="PREVIOUS_ADAP_C3_Phone2_Type"></div>
+            @*@Helpers.RadioList(Model, Html, "ADAP_C3_Phone2_Type_item", "PREVIOUS_ADAP_C3_Phone2_Type", "class=small")*@
+        </div>
+
+        <div class="form-group">
+            @Helpers.LabelSpan(Model, "ADAP_C3_Phone2_MayMsgYN_item", new { @class = "col-md-4 control-label" })
+            @Helpers.YesNoRadioButtons(Model, "PREVIOUS_ADAP_C3_Phone2_MayMsgYN")
+        </div>
+    </div>
+</div>
+
+
+<!-- secondary contact -->
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="pull-right prevAppBtn"><button data-prevdiv="PreviousC4" class="btn" type="button"></button></div>
+        <div class="pull-right"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CmntModal" data-label="C4. @Model.sctTitles["ADAP_C4"]"><span class="glyphicon glyphicon-comment"></span></button></div>
+        <div class="form-group">
+            <label class="col-md-7 control-label" for="" style="text-align:left">C4. @Model.sctTitles["ADAP_C4"]</label>
+            @Helpers.YesNoRadioButtons(Model, "ADAP_C4_MayCallYN")
+        </div>
+
+        <div class="form-group toggleC4">
+            @Helpers.LabelSpan(Model, "ADAP_C4_Name_item", new { @class = "col-md-1 control-label" })
+            <div class="col-md-3">
+                @Helpers.TextInput(Model, "ADAP_C4_Name", new { @class = "form-control" })
+            </div>
+
+            @Helpers.LabelSpan(Model, "ADAP_C4_Phone_item", new { @class = "col-md-1 control-label" })
+            <div class="col-md-3">
+                @Helpers.TextInput(Model, "ADAP_C4_Phone", new { @class = "form-control class_phone_input" })
+            </div>
+        </div>
+
+        <div class="form-group toggleC4">
+            @Helpers.LabelSpan(Model, "ADAP_C4_KnowHivYN_item", new { @class = "col-md-6 control-label" })
+            @Helpers.YesNoRadioButtons(Model, "ADAP_C4_KnowHivYN")
+        </div>
+        <script>
+            $(document).ready(function () {
+                updateC4();
+                $("#ADAP_C4_MayCallYN_YesOption").change(updateC4);
+                $("#ADAP_C4_MayCallYN_NoOption").change(updateC4);
+            });
+
+            function updateC4() {
+                $(".toggleC4").toggle($("#ADAP_C4_MayCallYN_YesOption").get(0).checked);
+                if ($("#ADAP_C4_MayCallYN_NoOption").get(0).checked) {
+                    $('[name=ADAP_C4_Name]').val('');
+                    $('[name=ADAP_C4_Phone]').val('');
+                }
+            };
+        </script>
+    </div>
+</div>
+<!-- PREVIOUS secondary contact -->
+<div class="panel panel-default previous-response" id="PreviousC4">
+    <div class="panel-body">
+        <div class="pull-right prevAppBtn"><a href="#" class="btn btn-success btn-xs active" id="hsName" role="button">&nbsp;</a></div>
+        <div class="pull-right"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CmntModal"><span class="glyphicon glyphicon-comment"></span></button></div>
+        <div class="form-group">
+            <label class="col-md-7 control-label" for="" style="text-align:left">C4. @Model.sctTitles["ADAP_C4"]</label>
+            @Helpers.YesNoRadioButtons(Model, "PREVIOUS_ADAP_C4_MayCallYN")
+        </div>
+
+        <div class="form-group PREVIOUS_toggleC4">            
+            
+            @Helpers.LabelSpan(Model, "ADAP_C4_Name_item", new { @class = "col-md-1 control-label" })
+            <div class="col-md-3">
+                @Helpers.TextInput(Model, "PREVIOUS_ADAP_C4_Name", new { @class = "form-control" })
+            </div>     
+
+            @Helpers.LabelSpan(Model, "ADAP_C4_Phone_item", new { @class = "col-md-1 control-label" })
+            <div class="col-md-3">
+                @Helpers.TextInput(Model, "PREVIOUS_ADAP_C4_Phone", new { @class = "form-control" })
+            </div>
+
+        </div>
+
+        <div class="form-group PREVIOUS_toggleC4">
+            @Helpers.LabelSpan(Model, "ADAP_C4_KnowHivYN_item", new { @class = "col-md-6 control-label" })
+            @Helpers.YesNoRadioButtons(Model, "PREVIOUS_ADAP_C4_KnowHivYN")
+        </div>
+        <script>
+            $(document).ready(function () {
+                PREVIOUS_updateC4();
+                $("#ADAP_C4_MayCallYN_YesOption").change(PREVIOUS_updateC4);
+                $("#ADAP_C4_MayCallYN_NoOption").change(PREVIOUS_updateC4);
+            });
+
+            function PREVIOUS_updateC4() {
+                $(".PREVIOUS_toggleC4").toggle($("#PREVIOUS_ADAP_C4_MayCallYN_YesOption").get(0).checked);
+            };
+        </script>
+    </div>
+</div>
+
+
+<!-- case manager -->
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="pull-right prevAppBtn"><button data-prevdiv="PreviousC5" class="btn" type="button"></button></div>
+        <div class="pull-right"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CmntModal" data-label="C5. @Model.sctTitles["ADAP_C5"]"><span class="glyphicon glyphicon-comment"></span></button></div>
+        <div class="form-group">
+            <label class="col-md-7 control-label" for="" style="text-align:left">C5. @Model.sctTitles["ADAP_C5"]</label>
+            @Helpers.YesNoRadioButtons(Model, "ADAP_C5_HasCaseMngrYN")
+        </div>
+
+        <div class="form-group toggleC5Yes">
+
+            @Helpers.LabelSpan(Model, "ADAP_C5_Mngr1_Name_item", new { @class = "col-md-2 control-label" })
+            <div class="col-md-3">
+                @Helpers.TextInput(Model, "ADAP_C5_Mngr1_Name", new { @class = "form-control" })
+            </div>
+
+            @Helpers.LabelSpan(Model, "ADAP_C5_Mngr1_Clinic_item", new { @class = "col-md-2 control-label" })
+            <div class="col-md-3">
+                @Helpers.TextInput(Model, "ADAP_C5_Mngr1_Clinic", new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group toggleC5Yes">
+
+            @Helpers.LabelSpan(Model, "ADAP_C5_Mngr2_Name_item", new { @class = "col-md-2 control-label" })
+            <div class="col-md-3">
+                @Helpers.TextInput(Model, "ADAP_C5_Mngr2_Name", new { @class = "form-control" })
+            </div>
+
+            @Helpers.LabelSpan(Model, "ADAP_C5_Mngr2_Clinic_item", new { @class = "col-md-2 control-label" })
+            <div class="col-md-3">
+                @Helpers.TextInput(Model, "ADAP_C5_Mngr2_Clinic", new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group toggleC5No">
+            @Helpers.LabelSpan(Model, "ADAP_C5_CanReferYN_item", new { @class = "col-md-7 control-label" })
+            @Helpers.YesNoRadioButtons(Model, "ADAP_C5_CanReferYN")
+        </div>
+        <script>
+            $(document).ready(function () {
+                updateC5();
+                $("#ADAP_C5_HasCaseMngrYN_YesOption").change(updateC5);
+                $("#ADAP_C5_HasCaseMngrYN_NoOption").change(updateC5);
+            });
+
+            function updateC5() {
+                $(".toggleC5Yes").toggle($("#ADAP_C5_HasCaseMngrYN_YesOption").get(0).checked);
+                $(".toggleC5No").toggle($("#ADAP_C5_HasCaseMngrYN_NoOption").get(0).checked);
+            };
+        </script>
+
+    </div>
+</div>	
+<!-- PREVIOUS case manager -->
+<div class="panel panel-default previous-response" id="PreviousC5">
+    <div class="panel-body">
+        <div class="pull-right prevAppBtn"><a href="#" class="btn btn-danger btn-xs active" id="hsName" role="button">&nbsp;</a></div>
+        <div class="pull-right"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CmntModal"><span class="glyphicon glyphicon-comment"></span></button></div>
+        <div class="form-group">
+            <label class="col-md-7 control-label" for="" style="text-align:left">C5. @Model.sctTitles["ADAP_C5"]</label>
+            @Helpers.YesNoRadioButtons(Model, "PREVIOUS_ADAP_C5_HasCaseMngrYN")
+        </div>
+
+        <div class="form-group PREVIOUS_toggleC5Yes">
+
+            @Helpers.LabelSpan(Model, "ADAP_C5_Mngr1_Name_item", new { @class = "col-md-2 control-label" })
+            <div class="col-md-3">
+                @Helpers.TextInput(Model, "PREVIOUS_ADAP_C5_Mngr1_Name", new { @class = "form-control" })
+            </div>
+
+            @Helpers.LabelSpan(Model, "ADAP_C5_Mngr1_Clinic_item", new { @class = "col-md-2 control-label" })
+            <div class="col-md-3">
+                @Helpers.TextInput(Model, "PREVIOUS_ADAP_C5_Mngr1_Clinic", new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group PREVIOUS_toggleC5Yes">
+
+            @Helpers.LabelSpan(Model, "ADAP_C5_Mngr2_Name_item", new { @class = "col-md-2 control-label" })
+            <div class="col-md-3">
+                @Helpers.TextInput(Model, "PREVIOUS_ADAP_C5_Mngr2_Name", new { @class = "form-control" })
+            </div>
+
+            @Helpers.LabelSpan(Model, "ADAP_C5_Mngr2_Clinic_item", new { @class = "col-md-2 control-label" })
+            <div class="col-md-3">
+                @Helpers.TextInput(Model, "PREVIOUS_ADAP_C5_Mngr2_Clinic", new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group PREVIOUS_toggleC5No">
+            @Helpers.LabelSpan(Model, "ADAP_C5_CanReferYN_item", new { @class = "col-md-7 control-label" })
+            @Helpers.YesNoRadioButtons(Model, "PREVIOUS_ADAP_C5_CanReferYN")
+        </div>
+        <script>
+            $(document).ready(function () {
+                PREVIOUS_updateC5();
+                $("#ADAP_C5_HasCaseMngrYN_YesOption").change(PREVIOUS_updateC5);
+                $("#ADAP_C5_HasCaseMngrYN_NoOption").change(PREVIOUS_updateC5);
+            });
+
+            function PREVIOUS_updateC5() {
+                $(".PREVIOUS_toggleC5Yes").toggle($("#PREVIOUS_ADAP_C5_HasCaseMngrYN_YesOption").get(0).checked);
+                $(".PREVIOUS_toggleC5No").toggle($("#PREVIOUS_ADAP_C5_HasCaseMngrYN_NoOption").get(0).checked);
+            };
+        </script>
+
+    </div>
+</div>		        
+
+<!-- Comments Modal -->
+@Html.Partial("_AdapCommentModal", Model)

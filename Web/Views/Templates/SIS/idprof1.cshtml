@@ -1,0 +1,949 @@
+@model Assmnts.Models.GeneralForm
+@using Assmnts
+@{
+    ViewBag.Title = "Interview and Profile";
+    Layout = "~/Views/Shared/AssmntLayout.cshtml";
+    //Validator.Required("The field is required.");
+}
+
+@section HeadContent {
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <style type="text/css">
+        #btnExpandResps {
+            height: 18px;
+            width: 184px;
+            font-family: Arial, Geneva, Verdana;
+        }
+
+        .class_wide_input {
+            width: 300px;
+        }
+
+        tr.spaceUnder > td {
+            padding-bottom: 1em;
+        }
+    
+        select {
+            min-height:18px;
+        }
+
+        #warning > td > div {
+            color: darkred;
+            font-size:medium;
+        }
+    </style>
+
+<!--    <link rel="stylesheet" type="text/css" href="/Content/css/jquery.datepick.css"> -->
+    <link rel="stylesheet" type="text/css" href="/Content/css/jquery.timeentry.css">
+    <script src="/Content/js/jquery.plugin.js" async></script>
+<!--    <script src="/Content/js/jquery.datepick.js"></script> -->
+   <script src="/Content/js/jquery.timeentry.min.js" async></script>
+    <script src="/Content/js/Misc.js" async></script>
+    <script src="/Content/js/PopulateSelects.js" async></script>
+    <script src="~/Scripts/jquery.validate.min.js" async></script>
+}
+
+
+<form action="/Results/Save" method="post" id="form-id">
+    <table id="tblData" cellpadding="0" cellspacing="0" style="height: 100%; ">
+        <tr>
+            <td style="width: 189px; background-color: #ffffff" valign="top" align="center">@Html.Partial("AssmntLeftPane")</td>
+            <td>
+                <br />
+                <table border="0" cellpadding="0" cellspacing="0" width="625">
+                    <tr>
+                        <td align="left">
+                            <!-- <asp:Label ID="lblErr" Visible="false" ForeColor="red" runat="server" />  -->
+                            <table border="0" cellpadding="5" cellspacing="0" style="background-color: #fff; margin-left: 1.3em;" width="625">
+                             @*<tr id="warning" hidden="hidden"> <td> <div>
+                               Warning: Until you start entering data on the supports ratings pages, the profile pages will continue to be
+                                 overwritten with the SISOnline data on the server, each time you start up Venture.
+                            </div></td>
+                                </tr>*@
+                                <tr>
+                                    <td>
+                                        <span style="color:#9d4d5a; font-weight:normal; font-size:x-large">Interview and Profile Form</span>
+                                    </td>
+                                    <!-- <td>@Helpers.LabeledCheckboxInput(Model, "sis_prof_training", "Training"))</td>  -->
+                                </tr>
+                            </table>
+
+                            <table cellpadding="5" cellspacing="0" style="background-color: #fff; margin-left: 1.3em" width="625">
+                                <tr>
+                                    <td>
+                                        @{int tabIndex = 100;}
+
+                                        <!-- This table contains only the top row on the form -->
+                                        <table>
+                                            <tr>
+                                                <td><span class="required">Name</span></td>
+                                                <td>@Helpers.TextInput(Model, "sis_cl_last_nm", new { style = "width:120px", tabindex = (tabIndex++) })</td>
+                                                <td>@Helpers.TextInput(Model, "sis_cl_first_nm", new { style = "width:120px", tabindex = (tabIndex++) })</td>
+                                                <td>@Helpers.TextInput(Model, "sis_cl_middle_nm", new { style = "width:120px", tabindex = (tabIndex++) })</td>
+                                                <td style="width:30px">&nbsp;</td>
+                                                <td>
+                                                    @{
+                                                        string dateLabel = Model.fldLabels["intvwDate"];
+                                                        int i = dateLabel.LastIndexOf(' ');
+                                                        string dateLabelFront = dateLabel.Substring(0, i);
+                                                        string dateLabelBack = dateLabel.Substring(i);
+                                                    }
+                                                    <span class="required">@dateLabelFront</span>
+                                                </td>
+                                                <td>&nbsp;</td>
+                                                <td>
+                                                    @Helpers.TextInput(Model, "sis_completed_dt", new { id = "IDsis_completed_dt", style = "width:80px", tabindex = (tabIndex++) })
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td></td>
+                                                <td>@Helpers.LabelSpan(Model,"itmNmeLst")</td>
+                                                <td>@Helpers.LabelSpan(Model,"nmeFrst")</td>
+                                                <td>@Helpers.LabelSpan(Model,"nmeMdl")</td>
+
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+
+                                                <td><span>@dateLabelBack</span></td>
+                                                <td>&nbsp;</td>
+                                                <td></td>
+                                                <td style="width: 20px">&nbsp;</td>
+                                            </tr>
+                                            <tr>
+                                                <td>&nbsp;</td>
+                                            </tr>
+                                        </table>
+
+                                        <!-- interview start/end/duration -->
+                                        <table>
+                                            <tr class="spaceUnder">
+                                                <td>
+                                                    @Helpers.LabelSpan(Model, "trkNum")
+                                                </td>
+                                                <td>
+                                                    @Helpers.TextInput(Model, "sis_track_num", new { style = "width:120px", tabindex = (tabIndex++) } )
+                                                </td>
+                                                <td>
+                                                    @Helpers.LabelSpan(Model,"sis_cl_clientId_item")
+                                                </td>
+                                                <td>
+                                                    @Helpers.TextInput(Model, "sis_cl_clientId", new { style = "width:120px", tabindex = (tabIndex++) })
+                                                </td>
+                                                <td style="width:40px;">&nbsp;</td>
+                                                <td>
+                                                    @Helpers.LabelSpan(Model,"sis_duration_item")
+                                                </td>
+                                                <td>
+                                                    @Helpers.TextInput(Model, "sis_duration", new { style = "width:60px", id = "duration", disabled="disabled" })
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    @Helpers.LabelSpan(Model,"sis_cl_medicaidNum1")
+                                                </td>
+                                                <td>
+                                                    @Helpers.TextInput(Model, "sis_cl_medicaidNum", new { style = "width:120px", tabindex = (tabIndex++) })
+                                                </td>
+
+                                                <td style="text-align:right;">
+                                                    @Helpers.LabelSpan(Model,"itmSsn")
+                                                </td>                                                                                                                                                                                                       
+                                                <td>
+                                                    @Helpers.TextInput(Model, "sis_cl_ssn", new { @class="class_ssn_input", style = "width:120px", tabindex = (tabIndex++) })
+                                                </td>
+                                                <td style="width:40px;">&nbsp;</td>
+                                                <td>
+                                                    <div style="white-space: nowrap">
+                                                        <span style="display:inline-block">
+                                                            @Helpers.TextInput(Model, "sis_startTime", new { @class = "time", tabindex = (tabIndex++) })
+                                                        </span>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div style="white-space: nowrap">
+                                                        <span style="display:inline-block">
+                                                            @Helpers.TextInput(Model, "sis_endTime", new { @class = "time", tabindex = (tabIndex++) })
+                                                        </span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td style="width:40px;">&nbsp;</td>
+                                                <td>
+                                                    @Helpers.LabelSpan(Model,"sis_startTime_item")
+                                                </td>
+                                                <td>
+                                                    @Helpers.LabelSpan(Model,"sis_endTime_item")
+                                                </td>
+                                            </tr>
+                                        </table>
+
+                                        <!-- client sex/dob/age-->
+                                        <table>
+                                            <tr class="spaceUnder">
+                                                <td>
+                                                    @Helpers.LabelSpan(Model,"itmGender")
+                                                </td>
+                                                <td>
+                                                    <input type="radio" class="class_sex" name="sis_cl_sex_cd" id="sis_cl_sex_cd_m" value="M">
+                                                    <label for="sis_cl_sex_cd_m"><span tabindex='@(tabIndex++)' data-target="sis_cl_sex_cd_m"></span>Male</label>
+                                                    <br>
+                                                </td>
+                                                <td>
+                                                    <input type="radio" class="class_sex" name="sis_cl_sex_cd" id="sis_cl_sex_cd_f" value="F">
+                                                    <label for="sis_cl_sex_cd_f"><span tabindex='@(tabIndex++)' data-target="sis_cl_sex_cd_f"></span>Female</label>
+                                                    <br>
+                                                </td>
+
+                                                <td style="width:150px">&nbsp;</td>
+                                                <td>
+                                                    @Helpers.LabelSpan(Model,"sis_cl_dob_dt1")
+                                                </td>
+                                                <td>
+                                                    @Helpers.TextInput(Model, "sis_cl_dob_dt", new { id = "IDsis_cl_dob_dt", tabindex = (tabIndex++) })
+                                                </td>
+
+                                                @*                                                <td>
+                                        <span>@Model.fldLabels["sis_cl_age1"]</span>
+                                    </td>
+                                    <td>
+                                        <input type="text" name="sis_cl_age" value='@Model.rspValues["sis_cl_age"]'>
+                                    </td>*@
+
+                                            </tr>
+
+                                        </table>
+
+                                        <!-- client street address-->
+                                        <table>
+                                            <tr class="spaceUnder">
+                                                <td>
+                                                    @Helpers.LabelSpan(Model,"adrlne")
+                                                </td>
+                                                <td>
+                                                    @Helpers.TextInput(Model, "sis_cl_addr_line1", new { @class="class_wide_input", tabindex = (tabIndex++) })
+                                                </td>
+                                                <td>
+                                                    @Helpers.LabelSpan(Model,"sis_cl_cou_item")
+                                                </td>
+                                                <td>
+                                                    <select id="sis_cl_cou" name="sis_cl_cou" style="width:150px" tabindex="@(tabIndex++)" ></select>
+                                                </td>
+                                            </tr>
+                                        </table>
+
+                                        <!-- client city/state/zip-->
+                                        <table>
+                                            <tr class="spaceUnder">
+                                                <td>
+                                                    @Helpers.LabelSpan(Model,"adrcty")
+                                                </td>
+                                                <td>
+                                                    @Helpers.TextInput_SetNameOnChange(Model, "sis_cl_city", new { tabindex = (tabIndex++) })
+                                                </td>
+
+                                                <td>
+                                                    @Helpers.LabelSpan(Model,"sis_cl_st1")
+                                                </td>
+                                                <td>
+                                                    <select id="sis_cl_st" name="sis_cl_st" style="width:50px" class="class_state_input" tabindex="@(tabIndex++)" ></select>
+                                                </td>
+
+                                                <td>
+                                                    @Helpers.LabelSpan(Model,"sis_cl_zip1")
+                                                </td>
+                                                <td>
+                                                    @Helpers.TextInput_SetNameOnChange(Model, "sis_cl_zip", new { tabindex = (tabIndex++) })
+                                                </td>
+
+                                            </tr>
+                                        </table>
+
+                                        <!-- phone/ext/language -->
+                                        <table>
+                                            <tr class="spaceUnder">
+                                                <td>
+                                                    @Helpers.LabelSpan(Model,"sis_cl_lang_item")
+                                                </td>
+                                                <td>
+                                                    @Helpers.TextInput_SetNameOnChange(Model, "sis_cl_lang", new { tabindex = (tabIndex++) })
+                                                </td>
+                                                <td style="width:100px">&nbsp;</td>
+                                                <td>
+                                                    @Helpers.LabelSpan(Model,"sis_cl_phone_item")
+                                                </td>
+                                                <td>
+                                                    @Helpers.TextInput_SetNameOnChange(Model, "sis_cl_phone", new { style = "width:90px", @class = "class_phone_input", tabindex = (tabIndex++) } )
+                                                </td>
+
+                                                <td>
+                                                    @Helpers.LabelSpan(Model,"sis_cl_ext_item")
+                                                </td>
+                                                <td>    
+                                                    @Helpers.TextInput_SetNameOnChange(Model, "sis_cl_ext", new { style = "width:35px", @class = "class_ext_input", tabindex = (tabIndex++) })
+                                                </td>
+                                            </tr>
+                                        </table>
+
+                                        <!-- why -->
+                                        <table>
+                                            <tr class="spaceUnder">
+                                                <td>
+                                                    @Helpers.LabelSpan(Model,"sis_why_item")
+
+                                                </td>
+                                                <td>
+                                                    <select id="sis_why" name="sis_why" style="width:120px" tabindex="@(tabIndex++)"></select>
+                                                </td> 
+
+                                                <td style="width:80px">&nbsp;</td>
+                                                <td>
+                                                    @Helpers.LabelSpan(Model,"sis_cl_set_item")
+                                                </td>
+                                                <td>
+                                                    <select id="sis_cl_set" name="sis_cl_set" tabindex="@(tabIndex++)"></select>
+                                                </td>
+                                            </tr>
+                                            <tr class="sis_why_other">
+                                                <td colspan="2">
+                                                    <textarea cols="40" wrap="soft" rows="4" name="sis_why_other">@Model.rspValues["sis_why_other"]</textarea>
+                                                </td>
+                                            </tr>
+                                        </table>
+
+                                        <!-- attend -->
+                                        <table>
+                                            <tr class="spaceUnder">
+                                                <td>
+                                                    @Helpers.LabelSpan(Model,"sis_cl_attend_item")
+                                                </td>
+                                                <td>
+                                                    <input type="radio" class="class_attend" name="sis_cl_attend" id="sis_cl_attend_1" value="1">
+                                                    <label for="sis_cl_attend_1"><span tabindex="@(tabIndex++)" data-target="sis_cl_attend_1"></span>All Of</label>
+                                                    <br>
+                                                </td>
+                                                <td>
+                                                    <input type="radio" class="class_attend" name="sis_cl_attend" id="sis_cl_attend_2" value="2">
+                                                    <label for="sis_cl_attend_2"><span tabindex="@(tabIndex++)" data-target="sis_cl_attend_2"></span>Part Of</label>
+                                                    <br>
+                                                </td>
+                                                <td>
+                                                    <input type="radio" class="class_attend" name="sis_cl_attend" id="sis_cl_attend_3" value="3">
+                                                    <label for="sis_cl_attend_3"><span tabindex="@(tabIndex++)" data-target="sis_cl_attend_3"></span>Did Not</label>
+                                                    <br>
+                                                </td>
+                                                <td style="width:50px;">&nbsp;</td>
+                                                <td>
+                                                    @Helpers.LabelSpan(Model, "isp_begin_date_item")
+                                                </td>
+                                                <td>
+                                                    @Helpers.TextInput(Model, "isp_begin_date", new { id = "isp_begin_date", style = "width:80px", tabindex = (tabIndex++) })
+                                                </td>
+                                            </tr>
+                                        </table>
+
+                                        <hr />
+                                        
+                                        <table>
+                                            <tr style="height:10px">
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="100" style="text-align: left; font-weight: bold">Individuals or Organizations Providing Essential Supports </td>
+                                            </tr>
+                                        </table>
+                                        <table border="0" cellpadding="5" cellspacing="2" style="width:600px;">
+
+                                            <!-- supporters -->
+                                            <tr>
+                                                <th style="width: 30%">
+                                                    @Helpers.LabelSpan(Model,"sis_sup1_name_item", new { style = "font-weight: normal;" })
+                                                </th>
+                                                <th style="width: 10%">
+                                                </th>
+                                                <th style="width: 25%">
+                                                    @Helpers.LabelSpan(Model, "sis_sup1_reln_item", new { style = "font-weight: normal;" } )
+                                                </th>
+                                                <th style="width: 90px">
+                                                    @Helpers.LabelSpan(Model,"sis_sup1_phone_item", new { style = "font-weight: normal;" })
+                                                </th>
+                                                <th style="width: 35px">
+                                                    @Helpers.LabelSpan(Model,"sis_sup1_ext_item", new { style = "font-weight: normal;" })
+                                                </th>
+                                            </tr>
+                                            @for (int supIndex = 1; supIndex <= 3; supIndex++)
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        @Helpers.TextInput_SetNameOnChange(Model, "sis_sup" + supIndex + "_name", new { style = "display:table-cell; width:100%;", tabindex = (tabIndex++) })
+                                                    </td>
+                                                    <td></td>
+                                                    <td>
+                                                        @Helpers.TextInput_SetNameOnChange(Model, "sis_sup" + supIndex + "_reln", new { style = "display:table-cell; width:100%;", tabindex = (tabIndex++) })
+                                                    </td>
+                                                    <td>
+                                                        @Helpers.TextInput_SetNameOnChange(Model, "sis_sup" + supIndex + "_phone", new { style = "display:table-cell; width:100%;", tabindex = (tabIndex++), @class="class_phone_input" })
+                                                    </td>
+                                                    <td>
+                                                        @Helpers.TextInput_SetNameOnChange(Model, "sis_sup" + supIndex + "_ext", new { style = "display:table-cell; width:100%;", tabindex = (tabIndex++) })
+                                                    </td>
+                                                </tr>
+                                            }
+                                            <tr>
+                                                <td bgcolor="#ffffff" colspan="100">
+                                                    <input type="button" onclick="toggleRows('hiddenSup')" value="show/hide more supports" style="cursor: hand; cursor: pointer" tabindex="@(tabIndex++)" />
+                                                </td>
+                                            </tr>
+                                            @for (int supIndex = 4; supIndex <= 6; supIndex++)
+                                            {
+                                                <tr class="hiddenSup" style="display:none">
+                                                    <td>
+                                                        @Helpers.TextInput_SetNameOnChange(Model, "sis_sup" + supIndex + "_name", new { style = "display:table-cell; width:100%;", tabindex = (tabIndex++) })
+                                                    </td>
+                                                    <td></td>
+                                                    <td>
+                                                        @Helpers.TextInput_SetNameOnChange(Model, "sis_sup" + supIndex + "_reln", new { style = "display:table-cell; width:100%;", tabindex = (tabIndex++) })
+                                                    </td>
+                                                    <td>
+                                                        @Helpers.TextInput_SetNameOnChange(Model, "sis_sup" + supIndex + "_phone", new { style = "display:table-cell; width:100%;", tabindex = (tabIndex++), @class = "class_phone_input" })
+                                                    </td>
+                                                    <td>
+                                                        @Helpers.TextInput_SetNameOnChange(Model, "sis_sup" + supIndex + "_ext", new { style = "display:table-cell; width:100%;", tabindex = (tabIndex++) })
+                                                    </td>
+                                                </tr>
+                                            }
+                                            <tr>
+                                                <td>&nbsp;</td>
+                                            </tr>
+
+
+                                        </table>
+
+                                        <hr />
+
+                                        <table>
+                                            <tr style="height:10px">
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="100" style="text-align: left; font-weight: bold">Respondents </td>
+                                            </tr>
+                                        </table>
+                                        <table border="0" cellpadding="5" cellspacing="2">
+                                            @*                                            <tr>
+                                    <td colspan="100" style="text-align: center; font-weight: bold">Respondents </td>
+                                </tr>*@
+                                            <tr>
+                                                <th style="width: 5px"></th>
+                                                <th>
+                                                    @Helpers.LabelSpan(Model,"sis_res1_firstn_item", new { style = "font-weight: normal;" })
+                                                </th>
+                                                <th>
+                                                    @Helpers.LabelSpan(Model,"sis_res1_lastn_item", new { style = "font-weight: normal;" })
+                                                </th>
+                                                <th>
+                                                    @Helpers.LabelSpan(Model, "sis_res1_reln_item", new { style = "font-weight: normal;" })
+                                                </th>
+                                                <th>
+                                                    @Helpers.LabelSpan(Model, "sis_res1_agen_item", new { style = "font-weight: normal;" })
+                                                </th>
+                                                <th>
+                                                    @Helpers.LabelSpan(Model,"sis_res1_email_item", new { style = "font-weight: normal;" })
+                                                </th>
+                                                <th>
+                                                    @Helpers.LabelSpan(Model,"sis_res1_lang_item", new { style = "font-weight: normal;" })
+                                                </th>
+                                                <th>
+                                                    @Helpers.LabelSpan(Model,"sis_res1_phone_item", new { style = "font-weight: normal;" })
+                                                </th>
+                                            </tr>
+                                            @for (int resIndex = 1; resIndex <= 3; resIndex++)
+                                            {
+                                                <tr>
+                                                    <td>@resIndex.</td>
+                                                    <td>
+                                                        @Helpers.TextInput_SetNameOnChange(Model, "sis_res" + resIndex + "_firstn", new { style = "display:table-cell; width:100%;", tabindex = (tabIndex++) })
+                                                    </td>
+                                                    <td>
+                                                        @Helpers.TextInput_SetNameOnChange(Model, "sis_res" + resIndex + "_lastn", new { style = "display:table-cell; width:100%;", tabindex = (tabIndex++) })
+                                                    </td>
+                                                    <th>
+                                                        <select id="sis_res@(resIndex)_reln" class="sis_reln" name="sis_res@(resIndex)_reln" style="width:120px" tabindex="@(tabIndex++)"></select>
+                                                        <span id="sis_res@(resIndex)_reln_data" data="@Model.rspValues["sis_res" + resIndex + "_reln"]" hidden="hidden"/>
+                                                    </th>
+                                                    <td>
+                                                        @Helpers.TextInput_SetNameOnChange(Model, "sis_res" + resIndex + "_agen", new { style = "display:table-cell; width:100%;", tabindex = (tabIndex++) })
+                                                    </td>
+                                                    <td>
+                                                        @Helpers.TextInput_SetNameOnChange(Model, "sis_res" + resIndex + "_email", new { style = "display:table-cell; width:100%;", tabindex = (tabIndex++) })
+                                                    </td>
+                                                    <td>
+                                                        @Helpers.TextInput_SetNameOnChange(Model, "sis_res" + resIndex + "_lang", new { style = "display:table-cell; width:100%;", tabindex = (tabIndex++) })
+                                                    </td>
+                                                    <td>
+                                                        @Helpers.TextInput_SetNameOnChange(Model, "sis_res" + resIndex + "_phone", new { style = "display:table-cell; width:100%;", tabindex = (tabIndex++) })
+                                                    </td>
+                                                </tr>
+                                            }
+                                            <tr>
+                                                <td bgcolor="#ffffff" colspan="100">
+                                                    <input type="button" onclick="toggleRows('hiddenRep')" value="show/hide more respondents" style="cursor: hand; cursor: pointer" tabindex="@(tabIndex++)" />
+                                                </td>
+                                            </tr>
+                                            @for (int resIndex = 4; resIndex <= 10; resIndex++)
+                                            {
+                                                <tr class="hiddenRep" style="display:none">
+                                                    <td>@resIndex.</td>
+                                                    <td>
+                                                        @Helpers.TextInput_SetNameOnChange(Model, "sis_res" + resIndex + "_firstn", new { style = "display:table-cell; width:100%;", tabindex = (tabIndex++) })
+                                                    </td>
+                                                    <td>
+                                                        @Helpers.TextInput_SetNameOnChange(Model, "sis_res" + resIndex + "_lastn", new { style = "display:table-cell; width:100%;", tabindex = (tabIndex++) })
+                                                    </td>
+                                                    <th>
+                                                        <select id="sis_res@(resIndex)_reln" class="sis_reln" name="sis_res@(resIndex)_reln" style="width:120px" tabindex="@(tabIndex++)"></select>
+                                                        <span id="sis_res@(resIndex)_reln_data" data="@Model.rspValues["sis_res" + resIndex + "_reln"]" hidden="hidden" />
+                                                    </th>
+                                                    <td>
+                                                        @Helpers.TextInput_SetNameOnChange(Model, "sis_res" + resIndex + "_agen", new { style = "display:table-cell; width:100%;", tabindex = (tabIndex++) })
+                                                    </td>
+                                                    <td>
+                                                        @Helpers.TextInput_SetNameOnChange(Model, "sis_res" + resIndex + "_email", new { style = "display:table-cell; width:100%;", tabindex = (tabIndex++) })
+                                                    </td>
+                                                    <td>
+                                                        @Helpers.TextInput_SetNameOnChange(Model, "sis_res" + resIndex + "_lang", new { style = "display:table-cell; width:100%;", tabindex = (tabIndex++) })
+                                                    </td>
+                                                    <td>
+                                                        @Helpers.TextInput_SetNameOnChange(Model, "sis_res" + resIndex + "_phone", new { style = "display:table-cell; width:100%;", tabindex = (tabIndex++) })
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>&nbsp;</td>
+                                </tr>
+                            </table>
+
+                            <hr />
+                            <table border="0" cellpadding="0" cellspacing="0">
+                                <tr style="height:20px">
+                                    <td></td>
+                                </tr>
+                                <tr class="spaceUnder">
+                                    <td style="text-align: left; font-weight: bold">Interviewer </td>
+                                    <td style="width:40px;">&nbsp;</td>
+                                </tr>
+                            </table>
+
+                            
+                            <!--Interviewer User ID-->
+                            <table>
+                                <tr class="spaceUnder">
+                                    <td>
+                                        @Helpers.LabelSpan(Model, "Interviewer_login_id_item")
+                                    </td>
+                                    <td>
+                                        <select id="sis_int_id_item" name="sis_int_id" class='class_wide_input' tabindex="@(tabIndex++)" ></select>                                        
+                                        @Helpers.TextInput(Model, "Interviewer_login_id", new { id = "Interviewer_login_id", style = "width:90px;display:none", tabindex = (tabIndex++) })
+                                    </td>
+                                    <td>
+                                        <label for="sis_int_group_item">Group</label>
+                                    </td>
+                                    <td>
+                                        <select id="sis_int_group_item" name="sis_int_group" tabindex="@(tabIndex++)"></select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4">
+                                        Only select this UserId when the interview has been scheduled, as selecting it will cause this page to be downloaded to the Interviewer’s Venture.
+                                    </td>
+                                </tr>
+                            </table>
+                            
+                            <!-- Interviewer Name/position-->
+                            <table>
+                                <tr class="spaceUnder">
+                                    <td>
+                                        @Helpers.LabelSpan(Model,"sis_int_full_nm1")
+                                    </td>
+                                    <td>
+                                        @Helpers.TextInput(Model, "sis_int_full_nm", new { id="sis_int_full_nm", @class="class_wide_input", tabindex = (tabIndex++) })
+                                    </td>   
+
+                                    <td>@Helpers.LabelSpan(Model,"sis_int_position_cd1")</td>
+                                    <td>@Helpers.TextInput(Model, "sis_int_position_cd", new { id="sis_int_position_cd", tabindex = (tabIndex++) })</td>
+                                </tr>
+                            </table>
+
+                            <!-- Interviewer agaency/phone number-->
+                            <table>
+                                <tr class="spaceUnder">
+                                    <td>
+                                        @Helpers.LabelSpan(Model,"sis_int_agency_nm1")
+                                    </td>
+                                    <td>
+                                        @Helpers.TextInput(Model, "sis_int_agency_nm", new { id="sis_int_agency_nm", style="width:190px", tabindex = (tabIndex++) })
+                                    </td>
+                                    <td>
+                                        @Helpers.LabelSpan(Model,"sis_int_phone_num1")
+                                    </td>
+                                    <td>                                                        
+                                        @Helpers.TextInput(Model, "sis_int_phone_num", new { id = "sis_int_phone_num", style = "width:90px", tabindex = (tabIndex++), @class = "class_phone_input" })
+                                    </td>
+
+                                    <td>
+                                        @Helpers.LabelSpan(Model,"sis_int_phone_num_ext1")
+                                    </td>
+                                    <td>
+                                        @Helpers.TextInput(Model, "sis_int_phone_num_ext", new { id="sis_int_phone_num_ext", style="width:35px", tabindex = (tabIndex++), @class="class_ext_input"} )
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <!-- Interviewer email Street Address-->
+                            <table>
+                                <tr class="spaceUnder">
+                                    <td>@Helpers.LabelSpan(Model,"sis_int_addr_line11")</td>
+                                    <td>@Helpers.TextInput(Model, "sis_int_addr_line1", new { id="sis_int_addr_line1", style="width:240px", tabindex = (tabIndex++) })</td>
+                                    <td style="width:25px;">&nbsp;</td>
+                                    <td>@Helpers.LabelSpan(Model,"sis_int_email1")</td>
+                                    <td>@Helpers.TextInput(Model, "sis_int_email", new { id="sis_int_email", style="width:120px", tabindex = (tabIndex++) } )</td>
+                                </tr>
+                            </table>
+
+                            <!-- Interviewer city/state/zip-->
+                            <table>
+                                <tr class="spaceUnder">
+                                    <td>@Helpers.LabelSpan(Model,"sis_int_city1")</td>
+                                    <td>@Helpers.TextInput(Model, "sis_int_city", new { id="sis_int_city", tabindex= tabIndex++ })</td>
+
+                                    <td>@Helpers.LabelSpan(Model,"sis_int_st1")</td>
+                                    <td>@Helpers.TextInput(Model, "sis_int_st", new { id="sis_int_st", @class="class_state_input", tabindex = (tabIndex++) })</td>
+
+                                    <td>@Helpers.LabelSpan(Model,"sis_int_zip")</td>
+                                    <td>@Helpers.TextInput(Model,"sis_int_zip", new { id="sis_int_zip", tabindex = (tabIndex++) })</td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+                <hr />
+                <table>
+                    <tr style="height:20px">
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td colspan="100" style="text-align: left; font-weight: bold">Name of Person Who Entered This Data </td>
+                    </tr>
+                    <tr>
+                        <td>@Helpers.LabelSpan(Model,"sis_entry_firstn_item")</td>
+                        <td>@Helpers.TextInput(Model,"sis_entry_firstn", new { tabIndex = (tabIndex++) } )</td>
+
+                        <td>@Helpers.LabelSpan(Model,"sis_entry_lastn_item")</td>
+                        <td>@Helpers.TextInput(Model,"sis_entry_lastn", new { tabIndex = (tabIndex++) } )</td>
+                    </tr>
+                </table>                
+                @Html.Partial("AssmntPageNotes")
+            </td>
+        </tr>
+    </table>
+    <input type="submit" value="Save" id="btnSubmit" style="display:none" />
+    <table border="0" cellpadding="0" cellspacing="0">
+        <tr>
+            <td style="height: 5px">&nbsp;</td>
+        </tr>
+    </table>
+
+                    @Html.Partial("AssmntNavPrevNext")
+</form>
+
+                    <div id="sectIndivParticipation" visible="false">
+                        <fieldset>
+                            <legend></legend>
+                        </fieldset>
+                    </div>
+                    <div id="sectIntSetting" style="margin-top: 12px;" visible="false">&nbsp;</div>
+
+
+
+<script>
+
+    $(document).ready(function () {
+        
+        //mask some input fields
+        $('.class_phone_input').mask("(999)999-9999");
+        $('.class_ssn_input').mask("999-99-9999");
+
+        @*remove 'required' attribute from all fields (validation in $('form').validate below)*@
+        $('input[required]').removeAttr('required');
+
+        $(".time").timeEntry({ spinnerImage: '/Content/images/spinnerDefault.png' }).change(updateDurationField());
+        updateDurationField();
+
+
+        // Populate the drop down boxes
+        populateLookupSelect("assmtReason", 'sis_why', '@Model.rspValues["sis_why"]');
+        populateLookupSelect('intvrSetting', 'sis_cl_set', '@Model.rspValues["sis_cl_set"]');
+        populateLookupSelect('state', 'sis_cl_st', '@Model.rspValues["sis_cl_st"]');
+        populateLookupSelect('county', 'sis_cl_cou', '@Model.rspValues["sis_cl_cou"]');
+        populateUsersSelect('sis_int_id_item', '@Model.rspValues["sis_int_id"]');
+        populateGroupsSelect('sis_int_group_item', '@Model.rspValues["sis_int_group"]');
+
+        //Populate Respondant Relationship dropdowns.  Necessary for faster loading.
+        $.ajax({
+            type: "GET",
+            url: "/Defws/GetLookup",
+            data: param = { lkpCd: 'RESPONDENT_RELATIONSHIP' },
+            async: false,
+            cache: false,
+            success: function (result) {
+
+                var obj = JSON.parse(result);
+
+                var mySelect = $('.sis_reln');
+                mySelect.append('<option selected="selected"></option>');
+                for (var i = 0; i < obj.def_LookupDetail.length; i++) {
+                    if (typeof obj.def_LookupDetail[i]["def_LookupText"][0] !== 'undefined') {
+                        mySelect.append('<option value="' + obj.def_LookupDetail[i]["dataValue"] + '">' + obj.def_LookupDetail[i]["def_LookupText"][0]["displayText"] + '</option>');
+                    }
+                }
+
+                for(var i = 1; i < 11; i++) {
+                    var myDDL = $('#sis_res' + i + '_reln');
+                    var myDDLdata = $('#sis_res' + i + '_reln_data')
+                    myDDL.val(myDDLdata.attr('data'));
+                }
+            },
+            error: function (xhr, status, err) {
+                alert("Error loading drop down for " + lookupCode + ".  Status: " + xhr.status + "  Message: " + err);
+            }
+        });
+
+        var target = '@Model.rspValues["sis_cl_sex_cd"]';
+        $(".class_sex").each(function () {
+            if ($(this).prop("value") == target) {
+                $(this).attr("checked", "1");
+            }
+        });
+
+        update_sis_why_other();
+        $("#sis_why").change(update_sis_why_other);
+        function update_sis_why_other() {
+            if ($('#sis_why').find(":selected").text() === "Change in situation (explain in notes box below)" )
+                $(".sis_why_other").show();
+            else
+                $(".sis_why_other").hide();
+
+        }
+
+        var target = '@Model.rspValues["sis_cl_attend"]';
+        $(".class_attend").each(function () {
+            if ($(this).prop("value") == target) {
+                $(this).attr("checked", "1");
+            }
+        });
+
+        $("#form-id").submit(saveInterviewerId);
+
+        // onUserChange($('#sis_int_full_nm').val());
+
+        //make the page notes at the bottom always-visible
+        $("#S1aPageNotes").css("display", "table-row");
+        $("#label_S1aPageNotes").replaceWith('<div>Other Pertinent Information</div>');
+
+        @*@if (Model.ventureMode && Model.formResultId >= 0 && @Model.newAssmnt ) {
+            @:$("#warning").show();
+        }*@
+
+        $('#IDsis_completed_dt').datepicker({ constrainInput: false });
+        $('#IDsis_cl_dob_dt').datepicker({ constrainInput: false });
+        $('#isp_begin_date').datepicker({ constrainInput: false });
+
+        hasBeenValidated = false;
+
+        jQuery.validator.addMethod("oldEnough", function (value, element) {
+            hasBeenValidated = true;
+            return getClientAge() >= 5;
+        }, "Interviewee must be at least 5 years old");
+        jQuery.validator.addMethod("youngEnough", function (value, element) {
+            hasBeenValidated = true;
+            return getClientAge() <= 16;
+        }, "Interviewee must be 16 or younger");
+        jQuery.validator.addMethod("validDate", function(value,element){
+            var text = value;
+            var comp = text.split('/');
+            if( comp.length != 3 )
+                return false;
+            var m = parseInt(comp[0], 10);
+            var d = parseInt(comp[1], 10);
+            var y = parseInt(comp[2], 10);
+            var date = new Date(y, m - 1, d);
+            return (date.getFullYear() == y && date.getMonth() + 1 == m && date.getDate() == d)
+        }, "Must be a valid date" );
+
+        $('form').validate({
+            rules : {
+
+                @*validate required fields*@
+                @*@foreach (Assmnts.def_Items itm in Model.items)
+                {
+                    if (Model.fldRequired[itm.identifier]) //itm.isRequired
+                    {
+                        foreach (Assmnts.def_ItemVariables iv in itm.def_ItemVariables)
+                        {
+                            @:@(iv.identifier): {required: true},
+                        }
+                    }
+                }*@
+
+                @*validate certain fields*@
+                @foreach (string ivIdent in "sis_cl_first_nm,sis_cl_last_nm,sis_cl_dob_dt".Split(','))
+                {
+                    @:@(ivIdent): {required: true},
+                                                                }
+
+                sis_cl_dob_dt: { validDate: true },
+                sis_completed_dt: { validDate: true },
+
+                @*if this is a SIS-C assessment, validate age on submit*@
+                @*@if (Model.formId == 2)
+                {
+                    @:sis_cl_dob_dt: { oldEnough: true, youngEnough: true, required: true },
+                    @:sis_completed_dt: { oldEnough: true, youngEnough: true, required: true },
+                }*@
+            },
+            invalidHandler: function(event, validator) {
+                spinner.stop();
+            }
+        });
+
+    });
+
+    function expandcontent(id) {
+        s = document.getElementById(id).style;
+        showState = document.getElementById("showstate_" + id);
+        if (s.display == "table-row") {
+            s.display = "none";
+            if (showState != null)
+                showState.src = "../Content/images/redPlus.gif";
+        } else {
+            s.display = "table-row";
+            if (showState != null)
+                showState.src = "../Content/images/redminus.gif";
+        }
+    }
+
+    function toggleRows(className) {
+        $('.' + className).each(function () {
+            if ($(this).css('display') == 'none')
+                $(this).css('display', 'table-row');
+            else
+                $(this).css('display', 'none');
+        });
+    }
+    function GetInterviewDuration(intStartTime, intEndTime) {
+        var duration = "0.00";
+
+        if (intEndTime != null && intEndTime.value != ""
+            && intStartTime != null && intStartTime.value != "") {
+            var tmpDuration = 0.00;
+            tmpDuration = intEndTime.timeEntry('getTime') - intStartTime.timeEntry('getTime');
+            tmpDuration = (tmpDuration / (1000 * 60 * 60)).toFixed(2);
+
+            // have a valid duration?
+            if (tmpDuration >= 0) {
+                duration = tmpDuration + " hrs";
+            }
+            else {
+                duration = "N/A";
+            }
+        }
+        else {
+            duration += " hrs";
+        }
+
+        return duration;
+    }
+
+    function saveInterviewerId() {
+        var intId = $('#sis_int_id_item').val();
+
+        if(intId != "")
+        {
+            $.ajax({
+                type: "POST",
+                url: "/SisTemplates/saveInterviewer",
+                data: param = { intId: intId },
+                async: false,
+                cache: false,
+                success: function (result) {
+
+                    //     alert(result);
+                },
+                error: function () {
+                    alert("Error saving interviewer.");
+
+                }
+            });
+        }
+
+    }
+
+    function getClientAge()
+    {
+        var dob = getDayMonthYear($('#IDsis_cl_dob_dt').val());
+        var int = getDayMonthYear($('#IDsis_completed_dt').val());
+        var age = int[2] - dob[2];
+        if (int[1] < dob[1]) age--;
+        if (int[1] == dob[1] && int[0] < dob[0]) age--;
+        return age;
+    }
+
+    function getDayMonthYear( dateString )
+    {
+        var parts = dateString.split('/');
+        return [
+            parseInt(parts[1], 10),
+            parseInt(parts[0], 10),
+            parseInt(parts[2], 10)
+        ];
+    }
+
+    function updateDurationField() {
+        try{
+            $("#duration").attr('value', GetInterviewDuration($("input[name=sis_startTime]"), $("input[name=sis_endTime]")));
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
+    $(document).on('change', '#sis_int_id_item', function () {
+
+        if ( !($("#sis_int_id_item").val() === "" ) ) {
+            onUserChange($('#sis_int_id_item').val());
+        }
+        else {
+            restoreValues("sis_int_full_nm", '@Model.rspValues["sis_int_full_nm"]',
+            "sis_int_phone_num", '@Model.rspValues["sis_int_phone_num"]',
+            "sis_int_phone_num_ext", '@Model.rspValues["sis_int_phone_num_ext"]',
+            "sis_int_addr_line1", '@Model.rspValues["sis_int_addr_line1"]',
+            "sis_int_city", '@Model.rspValues["sis_int_city"]',
+            "sis_int_st", '@Model.rspValues["sis_int_st"]',
+            "sis_int_zip", '@Model.rspValues["sis_int_zip"]',
+            "sis_int_email", '@Model.rspValues["sis_int_email"]',
+            "sis_int_position_cd", '@Model.rspValues["sis_int_position_cd"]',
+            "sis_int_agency_nm", '@Model.rspValues["sis_int_agency_nm"]',
+            "Interviewer_login_id", '@Model.rspValues["Interviewer_login_id"]');
+        }
+
+    });
+
+</script>

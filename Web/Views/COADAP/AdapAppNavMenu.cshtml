@@ -1,0 +1,193 @@
+@model Assmnts.Models.TemplateAdapNavMenu
+
+
+<script>
+    $(document).ready(function () {
+        $('.class_submit').click(function () {
+            SubmitForm('@Model.adapPartId', '@Model.sctId');
+        });
+
+        $('.class_cert').click(function () {
+            $('form').attr('action', '/COADAP/Validate');
+            SubmitForm('@Model.adapPartId', '@Model.sectionIds["ADAP_cert"]');
+        });
+
+        $('.class_check').click(function () {
+            $('form').attr('action', '/COADAP/Validate');
+            SubmitForm('@Model.adapPartId', '@Model.sctId');
+        });
+
+        //highlight the current section in navigation
+        $('#navLi_@Model.sctId').addClass("active");
+
+        //add padding between save buttons on mobile
+        $('.btn.pull-right').css('margin-top', '2px');
+
+        //set buttons in reviewer "reports" dropdown to trigger form submission
+        $('a[data-href]').click(function () {
+            var href = $(this).attr('data-href');
+            $('#redirectUrl').val(href);
+            $('form').attr('action', "/Results/SaveThenRedirect");
+            SubmitForm('@Model.adapPartId', '@Model.sctId');
+        });
+    });
+</script>
+
+<!-- Fixed navbar -->
+<nav id="custom-bootstrap-menu" class="navbar navbar-default navbar-static-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="/" class="logo pull-left"><img src="~/Content/adap/images/co_graphic_2.png" class="img-responsive" /></a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <!--
+                <li>
+                    <a href="http://localhost:49166/Account/Login" target="_blank"><i class="glyphicon glyphicon-envelope"></i> Secure Email </a>
+                </li>
+                  -->
+                @{int sid;}
+
+                @{sid = @Model.sectionIds["ADAP_demographic"]; }
+                <li id="navLi_@sid"><a href="#" onclick="SubmitForm('@Model.adapPartId','@sid')">@Resources.AdapAppNavMenu.DemographicInfo</a></li>
+
+                @{sid = @Model.sectionIds["ADAP_contact"]; }
+                <li id="navLi_@sid"><a href="#" onclick="SubmitForm('@Model.adapPartId','@sid')">@Resources.AdapAppNavMenu.ContactInfo</a></li>
+
+                @{sid = @Model.sectionIds["ADAP_medical"]; }
+                <li id="navLi_@sid"><a href="#" onclick="SubmitForm('@Model.adapPartId','@sid')">@Resources.AdapAppNavMenu.MedicalInfo</a></li>
+
+                @{sid = @Model.sectionIds["ADAP_health"]; }
+                <li id="navLi_@sid"><a href="#" onclick="SubmitForm('@Model.adapPartId','@sid')">@Resources.AdapAppNavMenu.Insurance</a></li>
+
+                @{sid = @Model.sectionIds["ADAP_household"]; }
+                <li id="navLi_@sid"><a href="#" onclick="SubmitForm('@Model.adapPartId','@sid')">@Resources.AdapAppNavMenu.Household</a></li>
+
+                @{sid = @Model.sectionIds["ADAP_income"]; }
+                <li id="navLi_@sid"><a href="#" onclick="SubmitForm('@Model.adapPartId','@sid')">@Resources.AdapAppNavMenu.Income</a></li>                
+                
+                @if (@Model.access)
+                {
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-list"></i> Reports <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#" data-href="../COADAP/BuildPDFReport"><i class="glyphicon glyphicon-save-file"></i> Build PDF Report</a></li>
+                            <li><a href="#" data-href="../Adap/UpdateStatus?formResultId=@Model.adapFormId"><i class="glyphicon glyphicon-save-file"></i> Update Status</a></li>
+                            <li class="divider"></li>
+
+                            <li><b>&nbsp;Applicants</b></li>
+                            <li><a href="#" data-href="/Adap/Report1">Applicant Reports</a></li>
+                            <li><a href="#" data-href="/Adap/ApplicationsPending">Applications Pending</a></li>
+                            <li><a href="#" data-href="/Adap/ReCertsDue">Re-Certifications Due</a></li>
+                            <li class="divider"></li>
+
+                            <li><b>&nbsp;Dashboards</b></li>
+                            <li><a href="#" data-href="/Adap/AppOverview">Overview of All Applicant Records</a></li>
+                            <li><a href="#" data-href="/Adap/AppsPending">New Applications Pending</a></li>
+                            <li><a href="#" data-href="/Adap/CurrentNewApps">Current New Applicants</a></li>
+                            <li><a href="#" data-href="/Adap/DashboardReCerts">Re-certifications Due</a></li>
+                            <li><a href="#" data-href="/Adap/ProcessSummary">Process Summary</a></li>
+                        </ul>
+                    </li>
+                }
+                
+                <li>
+                    <a href="/Account/SsoLogout">@Resources.AdapAppNavMenu.ExitToPortalMenu</a>
+                </li>
+
+  <!--              
+                <li>
+                    <a href="/Account/SsoLogout"><i class="glyphicon glyphicon-off"></i> @Resources.AdapAppNavMenu.ExitToPortalMenu</a>
+                </li>
+                <li>
+                    <a href="#" class="nohover"><i class="glyphicon glyphicon-user"></i> @Model.ActiveUserName</a>
+                </li>
+-->
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</nav>
+
+<div class="container" style="padding-top:0">
+    <div id="ADAPHeader">
+        @{
+            //define subheader text (or lack therof) based on first and last name of applicant
+            string fn = Model.firstName, ln = Model.lastName;
+            string subheader = "";
+            if (!String.IsNullOrWhiteSpace(fn) || !String.IsNullOrWhiteSpace(ln))
+            {
+                subheader = @Resources.AdapAppNavMenu.For + " " + (String.IsNullOrWhiteSpace(fn) ? "" : System.Net.WebUtility.HtmlDecode(fn)) + (String.IsNullOrWhiteSpace(ln) ? "" : " " + System.Net.WebUtility.HtmlDecode(ln));
+            }
+}
+        <div id="ADAPHeaderText"><h3>@Model.currentSectionTitle</h3> @subheader</div>
+
+        <hr class="hr-dark" />
+
+        @*
+            <div class="col-md-12">
+                <!-- -->
+                <button type="button" class="btn @(Model.sctId == Model.sectionIds["ADAP_demographic"] ? "btn-success" : "btn-default") btn-s"
+                        onclick="SubmitForm('@Model.adapPartId','@Model.sectionIds["ADAP_demographic"]')">
+                    Demographic Information
+                </button>
+
+                <button type="button" class="btn @(Model.sctId == Model.sectionIds["ADAP_contact"]      ? "btn-success" : "btn-default") btn-s"
+                        onclick="SubmitForm('@Model.adapPartId', '@Model.sectionIds["ADAP_contact"]')">
+                    Contact Information
+                </button>
+
+                <button type="button" class="btn @(Model.sctId == Model.sectionIds["ADAP_medical"]      ? "btn-success" : "btn-default") btn-s"
+                        onclick="SubmitForm('@Model.adapPartId', '@Model.sectionIds["ADAP_medical"]')">
+                    Medical Information
+                </button>
+
+                <button type="button" class="btn @(Model.sctId == Model.sectionIds["ADAP_health"]       ? "btn-success" : "btn-default") btn-s"
+                        onclick="SubmitForm('@Model.adapPartId', '@Model.sectionIds["ADAP_health"]')">
+                    Health Insurance
+                </button>
+
+                <button type="button" class="btn @(Model.sctId == Model.sectionIds["ADAP_household"]    ? "btn-success" : "btn-default") btn-s"
+                        onclick="SubmitForm('@Model.adapPartId', '@Model.sectionIds["ADAP_household"]')">
+                    Household
+                </button>
+
+                <button type="button" class="btn @(Model.sctId == Model.sectionIds["ADAP_income"]       ? "btn-success" : "btn-default") btn-s"
+                        onclick="SubmitForm('@Model.adapPartId', '@Model.sectionIds["ADAP_income"]')">
+                    Household Income
+                </button>
+                <!-- <button type="button" class="btn btn-primary btn-s pull-right" style="vertical-align:middle">
+                <span class="glyphicon glyphicon-floppy-saved"></span> Save Application Data
+                </button> -->
+            </div>
+        *@
+
+        <div class="col-md-12">
+
+            @*@{ string disabledAttr = (@Model.readOnly) ? "disabled" : ""; }
+                <button type="button" class="btn btn-primary btn-s pull-right class_cert" style="margin-right:5px" @disabledAttr><span class="glyphicon glyphicon-check"></span> Certify and Submit</button>
+                <button type="button" class="btn btn-primary btn-s pull-right class_check" style="margin-right:5px"><span class="glyphicon glyphicon-question-sign"></span> Check for Errors</button>
+                <button type="button" class="btn btn-primary btn-s pull-right class_submit" style="margin-right:5px" @disabledAttr><span class="glyphicon glyphicon-floppy-open"></span> Save Application</button>*@
+
+
+            <button type="button" class="btn btn-danger btn-s class_prevornextscreen class_prevscreen">
+                <span class="glyphicon glyphicon-arrow-left"></span> @Resources.AdapAppNavMenu.PrevSection
+            </button>
+
+        <!--    <a href="#" data-href="../COADAP/BuildPDFReport"><i class="glyphicon glyphicon-save-file"></i> Build PDF Report</a> -->
+
+            <button type="button" class="btn btn-danger btn-s pull-right class_prevornextscreen class_nextscreen">
+                @Resources.AdapAppNavMenu.NextSection <span class="glyphicon glyphicon-arrow-right"></span>
+            </button>
+
+            <button type="button" onclick="window.location.href = '/COADAP/BuildPDFReport'" style="margin-right:5px" class="btn btn-primary btn-s pull-right print_pdf">
+                <span class="glyphicon glyphicon-save-file"></span> Build PDF Report
+            </button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,753 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="formsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Address">
+          <Key>
+            <PropertyRef Name="AddressID" />
+          </Key>
+          <Property Name="ent_id" Type="int" />
+          <Property Name="AddressID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ContactID" Type="bigint" />
+          <Property Name="ProviderIntID" Type="int" />
+          <Property Name="AddressType" Type="nvarchar" MaxLength="50" />
+          <Property Name="Address1" Type="nvarchar" MaxLength="128" />
+          <Property Name="Address2" Type="nvarchar" MaxLength="128" />
+          <Property Name="City" Type="nvarchar" MaxLength="128" />
+          <Property Name="State" Type="nvarchar" MaxLength="50" />
+          <Property Name="StateCode" Type="nvarchar" MaxLength="4" />
+          <Property Name="StateRegion" Type="nvarchar" MaxLength="20" />
+          <Property Name="Zip" Type="nvarchar" MaxLength="12" />
+          <Property Name="ZipExt" Type="nvarchar" MaxLength="12" />
+          <Property Name="County" Type="nvarchar" MaxLength="128" />
+          <Property Name="CtyCode" Type="nvarchar" MaxLength="3" />
+          <Property Name="Directions" Type="nvarchar" MaxLength="256" />
+          <Property Name="Created" Type="datetime" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="128" />
+          <Property Name="Updated" Type="datetime" />
+          <Property Name="UpdatedBy" Type="nvarchar" MaxLength="128" />
+          <Property Name="Sts" Type="nvarchar" MaxLength="12" />
+        </EntityType>
+        <EntityType Name="Contact">
+          <Key>
+            <PropertyRef Name="ContactID" />
+          </Key>
+          <Property Name="ent_id" Type="int" />
+          <Property Name="ContactID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ContactTypeID" Type="int" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="128" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="128" />
+          <Property Name="MiddleName" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="128" />
+          <Property Name="Suffix" Type="nvarchar" MaxLength="4" />
+          <Property Name="Created" Type="datetime" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="128" />
+          <Property Name="Updated" Type="datetime" />
+          <Property Name="UpdatedBy" Type="nvarchar" MaxLength="128" />
+          <Property Name="Sts" Type="nvarchar" MaxLength="12" />
+        </EntityType>
+        <EntityType Name="def_FormResults">
+          <Key>
+            <PropertyRef Name="formResultId" />
+          </Key>
+          <Property Name="formResultId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="formId" Type="int" Nullable="false" />
+          <Property Name="formStatus" Type="tinyint" Nullable="false" />
+          <Property Name="sessionStatus" Type="tinyint" Nullable="false" />
+          <Property Name="dateUpdated" Type="smalldatetime" Nullable="false" />
+          <Property Name="deleted" Type="bit" Nullable="false" />
+          <Property Name="locked" Type="bit" Nullable="false" />
+          <Property Name="archived" Type="bit" Nullable="false" />
+          <Property Name="EnterpriseID" Type="int" />
+          <Property Name="GroupID" Type="int" />
+          <Property Name="subject" Type="int" />
+          <Property Name="interviewer" Type="int" />
+          <Property Name="assigned" Type="int" />
+          <Property Name="training" Type="bit" Nullable="false" />
+          <Property Name="reviewStatus" Type="tinyint" Nullable="false" />
+          <Property Name="statusChangeDate" Type="smalldatetime" />
+          <Property Name="LastModifiedByUserId" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'forms.dbo.PatternCheck' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="PatternCheck">
+          <Key>
+            <PropertyRef Name="PatternId" />
+          </Key>
+          <Property Name="formResultId" Type="int" />
+          <Property Name="PatternId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PatternCheckItems">
+          <Key>
+            <PropertyRef Name="FormResultId" />
+          </Key>
+          <Property Name="FormResultId" Type="int" Nullable="false" />
+          <Property Name="PatternCheckITEMS" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Recipient">
+          <Key>
+            <PropertyRef Name="Recipient_ContactID" />
+          </Key>
+          <Property Name="ent_id" Type="int" Nullable="false" />
+          <Property Name="Recipient_ContactID" Type="bigint" Nullable="false" />
+          <Property Name="ClientID" Type="int" />
+          <Property Name="MedExtNum" Type="nvarchar" MaxLength="128" />
+          <Property Name="ID" Type="nvarchar" MaxLength="256" />
+          <Property Name="Lst4" Type="nvarchar" MaxLength="4" />
+          <Property Name="DOB" Type="datetime" />
+          <Property Name="Gender" Type="nvarchar" MaxLength="2" />
+          <Property Name="HasGuardian" Type="bit" />
+          <Property Name="OtherName" Type="nvarchar" MaxLength="128" />
+          <Property Name="NativeLang" Type="nvarchar" MaxLength="128" />
+          <Property Name="InterpreterNeeded" Type="bit" />
+          <Property Name="sub_id" Type="int" />
+          <Property Name="RecordType" Type="nvarchar" MaxLength="50" />
+          <Property Name="Created" Type="datetime" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="128" />
+          <Property Name="Updated" Type="datetime" />
+          <Property Name="UpdatedBy" Type="nvarchar" MaxLength="128" />
+          <Property Name="RecipientStatusId" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'forms.dbo.vSearchGrid' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vSearchGrid">
+          <Key>
+            <PropertyRef Name="formResultId" />
+            <PropertyRef Name="formId" />
+            <PropertyRef Name="deleted" />
+            <PropertyRef Name="locked" />
+            <PropertyRef Name="archived" />
+            <PropertyRef Name="Rank" />
+          </Key>
+          <Property Name="ent_id" Type="int" />
+          <Property Name="sub_id" Type="int" />
+          <Property Name="Recipient_ContactID" Type="bigint" />
+          <Property Name="formResultId" Type="int" Nullable="false" />
+          <Property Name="formId" Type="int" Nullable="false" />
+          <Property Name="assigned" Type="int" />
+          <Property Name="deleted" Type="bit" Nullable="false" />
+          <Property Name="locked" Type="bit" Nullable="false" />
+          <Property Name="archived" Type="bit" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="128" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="128" />
+          <Property Name="MedicaidNumber" Type="varchar" MaxLength="8000" />
+          <Property Name="TrackingNumber" Type="varchar" MaxLength="8000" />
+          <Property Name="Lst4" Type="varchar" MaxLength="4" />
+          <Property Name="InterviewDate" Type="datetime" />
+          <Property Name="InterviewerLoginID" Type="varchar" MaxLength="100" />
+          <Property Name="Status" Type="varchar" MaxLength="11" />
+          <Property Name="reviewStatus" Type="varchar" MaxLength="3" />
+          <Property Name="CheckedOutTo" Type="varchar" MaxLength="8000" />
+          <Property Name="Rank" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'forms.dbo.vSISAssessmentsForSearch' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vSISAssessmentsForSearch">
+          <Key>
+            <PropertyRef Name="formResultID" />
+            <PropertyRef Name="GroupID" />
+            <PropertyRef Name="EnterpriseID" />
+          </Key>
+          <Property Name="formResultID" Type="int" Nullable="false" />
+          <Property Name="formId" Type="int" />
+          <Property Name="GroupID" Type="int" Nullable="false" />
+          <Property Name="EnterpriseID" Type="int" Nullable="false" />
+          <Property Name="StatusText" Type="varchar" MaxLength="11" />
+          <Property Name="deleted" Type="bit" />
+          <Property Name="locked" Type="bit" />
+          <Property Name="archived" Type="bit" />
+          <Property Name="subject" Type="int" />
+          <Property Name="interviewer" Type="int" />
+          <Property Name="assigned" Type="int" />
+          <Property Name="sis_cl_last_nm" Type="varchar" MaxLength="8000" />
+          <Property Name="sis_cl_first_nm" Type="varchar" MaxLength="8000" />
+          <Property Name="sis_cl_middle_nm" Type="varchar" MaxLength="8000" />
+          <Property Name="sis_cl_ssn" Type="varchar" MaxLength="8000" />
+          <Property Name="sis_track_num" Type="varchar" MaxLength="8000" />
+          <Property Name="sis_cl_medicaidNum" Type="varchar" MaxLength="8000" />
+          <Property Name="sis_completed_dt" Type="varchar" MaxLength="8000" />
+          <Property Name="reviewStatus" Type="tinyint" />
+          <Property Name="sis_checked_out_to_LoginID" Type="varchar" MaxLength="8000" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'forms.dbo.vSisDefRaw' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vSisDefRaw">
+          <Key>
+            <PropertyRef Name="formResultId" />
+          </Key>
+          <Property Name="formResultId" Type="int" Nullable="false" />
+          <Property Name="identifier" Type="varchar" MaxLength="256" />
+          <Property Name="rspInt" Type="int" />
+          <Property Name="rspFloat" Type="float" />
+          <Property Name="rspDate" Type="smalldatetime" />
+          <Property Name="rspValue" Type="varchar" MaxLength="8000" />
+        </EntityType>
+        <Association Name="FK_Recipient_Contact">
+          <End Role="Contact" Type="Self.Contact" Multiplicity="1" />
+          <End Role="Recipient" Type="Self.Recipient" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Contact">
+              <PropertyRef Name="ContactID" />
+            </Principal>
+            <Dependent Role="Recipient">
+              <PropertyRef Name="Recipient_ContactID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="spSearchGrid" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="getAllRecords" Type="bit" Mode="In" />
+          <Parameter Name="getAllAssessments" Type="bit" Mode="In" />
+          <Parameter Name="detailSearch" Type="bit" Mode="In" />
+          <Parameter Name="ids" Type="xml" Mode="In" />
+          <Parameter Name="ent_id" Type="int" Mode="In" />
+          <Parameter Name="sub_id" Type="int" Mode="In" />
+          <Parameter Name="searchWords" Type="varchar" Mode="In" />
+          <Parameter Name="searchNumbers" Type="xml" Mode="In" />
+          <Parameter Name="searchDates" Type="xml" Mode="In" />
+        </Function>
+        <EntityContainer Name="formsModelStoreContainer">
+          <EntitySet Name="Address" EntityType="Self.Address" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Contact" EntityType="Self.Contact" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="def_FormResults" EntityType="Self.def_FormResults" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PatternCheckItems" EntityType="Self.PatternCheckItems" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Recipient" EntityType="Self.Recipient" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PatternCheck" EntityType="Self.PatternCheck" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [PatternCheck].[formResultId] AS [formResultId], 
+    [PatternCheck].[PatternId] AS [PatternId]
+    FROM [dbo].[PatternCheck] AS [PatternCheck]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vSearchGrid" EntityType="Self.vSearchGrid" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vSearchGrid].[ent_id] AS [ent_id], 
+    [vSearchGrid].[sub_id] AS [sub_id], 
+    [vSearchGrid].[Recipient_ContactID] AS [Recipient_ContactID], 
+    [vSearchGrid].[formResultId] AS [formResultId], 
+    [vSearchGrid].[formId] AS [formId], 
+    [vSearchGrid].[assigned] AS [assigned], 
+    [vSearchGrid].[deleted] AS [deleted], 
+    [vSearchGrid].[locked] AS [locked], 
+    [vSearchGrid].[archived] AS [archived], 
+    [vSearchGrid].[FirstName] AS [FirstName], 
+    [vSearchGrid].[LastName] AS [LastName], 
+    [vSearchGrid].[MedicaidNumber] AS [MedicaidNumber], 
+    [vSearchGrid].[TrackingNumber] AS [TrackingNumber], 
+    [vSearchGrid].[Lst4] AS [Lst4], 
+    [vSearchGrid].[InterviewDate] AS [InterviewDate], 
+    [vSearchGrid].[InterviewerLoginID] AS [InterviewerLoginID], 
+    [vSearchGrid].[Status] AS [Status], 
+    [vSearchGrid].[reviewStatus] AS [reviewStatus], 
+    [vSearchGrid].[CheckedOutTo] AS [CheckedOutTo], 
+    [vSearchGrid].[Rank] AS [Rank]
+    FROM [dbo].[vSearchGrid] AS [vSearchGrid]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vSISAssessmentsForSearch" EntityType="Self.vSISAssessmentsForSearch" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vSISAssessmentsForSearch].[formResultID] AS [formResultID], 
+    [vSISAssessmentsForSearch].[formId] AS [formId], 
+    [vSISAssessmentsForSearch].[GroupID] AS [GroupID], 
+    [vSISAssessmentsForSearch].[EnterpriseID] AS [EnterpriseID], 
+    [vSISAssessmentsForSearch].[StatusText] AS [StatusText], 
+    [vSISAssessmentsForSearch].[deleted] AS [deleted], 
+    [vSISAssessmentsForSearch].[locked] AS [locked], 
+    [vSISAssessmentsForSearch].[archived] AS [archived], 
+    [vSISAssessmentsForSearch].[subject] AS [subject], 
+    [vSISAssessmentsForSearch].[interviewer] AS [interviewer], 
+    [vSISAssessmentsForSearch].[assigned] AS [assigned], 
+    [vSISAssessmentsForSearch].[sis_cl_last_nm] AS [sis_cl_last_nm], 
+    [vSISAssessmentsForSearch].[sis_cl_first_nm] AS [sis_cl_first_nm], 
+    [vSISAssessmentsForSearch].[sis_cl_middle_nm] AS [sis_cl_middle_nm], 
+    [vSISAssessmentsForSearch].[sis_cl_ssn] AS [sis_cl_ssn], 
+    [vSISAssessmentsForSearch].[sis_track_num] AS [sis_track_num], 
+    [vSISAssessmentsForSearch].[sis_cl_medicaidNum] AS [sis_cl_medicaidNum], 
+    [vSISAssessmentsForSearch].[sis_completed_dt] AS [sis_completed_dt], 
+    [vSISAssessmentsForSearch].[reviewStatus] AS [reviewStatus], 
+    [vSISAssessmentsForSearch].[sis_checked_out_to_LoginID] AS [sis_checked_out_to_LoginID]
+    FROM [dbo].[vSISAssessmentsForSearch] AS [vSISAssessmentsForSearch]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vSisDefRaw" EntityType="Self.vSisDefRaw" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vSisDefRaw].[formResultId] AS [formResultId], 
+    [vSisDefRaw].[identifier] AS [identifier], 
+    [vSisDefRaw].[rspInt] AS [rspInt], 
+    [vSisDefRaw].[rspFloat] AS [rspFloat], 
+    [vSisDefRaw].[rspDate] AS [rspDate], 
+    [vSisDefRaw].[rspValue] AS [rspValue]
+    FROM [dbo].[vSisDefRaw] AS [vSisDefRaw]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_Recipient_Contact" Association="Self.FK_Recipient_Contact">
+            <End Role="Contact" EntitySet="Contact" />
+            <End Role="Recipient" EntitySet="Recipient" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="formsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Address">
+          <Key>
+            <PropertyRef Name="AddressID" />
+          </Key>
+          <Property Name="ent_id" Type="Int32" />
+          <Property Name="AddressID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ContactID" Type="Int64" />
+          <Property Name="ProviderIntID" Type="Int32" />
+          <Property Name="AddressType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Address1" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Address2" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="City" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="State" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="StateCode" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
+          <Property Name="StateRegion" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Zip" Type="String" MaxLength="12" FixedLength="false" Unicode="true" />
+          <Property Name="ZipExt" Type="String" MaxLength="12" FixedLength="false" Unicode="true" />
+          <Property Name="County" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="CtyCode" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
+          <Property Name="Directions" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="Created" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Updated" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Sts" Type="String" MaxLength="12" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Contact">
+          <Key>
+            <PropertyRef Name="ContactID" />
+          </Key>
+          <Property Name="ent_id" Type="Int32" />
+          <Property Name="ContactID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ContactTypeID" Type="Int32" />
+          <Property Name="FirstName" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="MiddleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserName" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Suffix" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
+          <Property Name="Created" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Updated" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Sts" Type="String" MaxLength="12" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Recipient" Relationship="Self.FK_Recipient_Contact" FromRole="Contact" ToRole="Recipient" />
+        </EntityType>
+        <EntityType Name="Recipient">
+          <Key>
+            <PropertyRef Name="Recipient_ContactID" />
+          </Key>
+          <Property Name="ent_id" Type="Int32" Nullable="false" />
+          <Property Name="Recipient_ContactID" Type="Int64" Nullable="false" />
+          <Property Name="ClientID" Type="Int32" />
+          <Property Name="MedExtNum" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ID" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="Lst4" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
+          <Property Name="DOB" Type="DateTime" Precision="3" />
+          <Property Name="Gender" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="HasGuardian" Type="Boolean" />
+          <Property Name="OtherName" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="NativeLang" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="InterpreterNeeded" Type="Boolean" />
+          <Property Name="sub_id" Type="Int32" />
+          <Property Name="RecordType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Created" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Updated" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="RecipientStatusId" Type="Int32" />
+          <NavigationProperty Name="Contact" Relationship="Self.FK_Recipient_Contact" FromRole="Recipient" ToRole="Contact" />
+        </EntityType>
+        <Association Name="FK_Recipient_Contact">
+          <End Role="Contact" Type="Self.Contact" Multiplicity="1" />
+          <End Role="Recipient" Type="Self.Recipient" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Contact">
+              <PropertyRef Name="ContactID" />
+            </Principal>
+            <Dependent Role="Recipient">
+              <PropertyRef Name="Recipient_ContactID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SISEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Addresses" EntityType="Self.Address" />
+          <EntitySet Name="Contacts" EntityType="Self.Contact" />
+          <EntitySet Name="Recipients" EntityType="Self.Recipient" />
+          <AssociationSet Name="FK_Recipient_Contact" Association="Self.FK_Recipient_Contact">
+            <End Role="Contact" EntitySet="Contacts" />
+            <End Role="Recipient" EntitySet="Recipients" />
+          </AssociationSet>
+          <EntitySet Name="vSisDefRaws" EntityType="formsModel.vSisDefRaw" />
+          <FunctionImport Name="spSearchGrid" ReturnType="Collection(formsModel.spSearchGrid_Result)">
+            <Parameter Name="getAllRecords" Mode="In" Type="Boolean" />
+            <Parameter Name="getAllAssessments" Mode="In" Type="Boolean" />
+            <Parameter Name="detailSearch" Mode="In" Type="Boolean" />
+            <Parameter Name="ids" Mode="In" Type="String" />
+            <Parameter Name="ent_id" Mode="In" Type="Int32" />
+            <Parameter Name="sub_id" Mode="In" Type="Int32" />
+            <Parameter Name="searchWords" Mode="In" Type="String" />
+            <Parameter Name="searchNumbers" Mode="In" Type="String" />
+            <Parameter Name="searchDates" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="vSISAssessmentsForSearches" EntityType="formsModel.vSISAssessmentsForSearch" />
+          <EntitySet Name="vSearchGrids" EntityType="formsModel.vSearchGrid" />
+          <EntitySet Name="PatternChecks" EntityType="formsModel.PatternCheck" />
+          <EntitySet Name="PatternCheckItems" EntityType="formsModel.PatternCheckItem" />
+          <EntitySet Name="def_FormResults" EntityType="formsModel.def_FormResults" />
+        </EntityContainer>
+        <EntityType Name="vSisDefRaw">
+          <Key>
+            <PropertyRef Name="formResultId" />
+          </Key>
+          <Property Name="formResultId" Type="Int32" Nullable="false" />
+          <Property Name="identifier" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="rspInt" Type="Int32" />
+          <Property Name="rspFloat" Type="Double" />
+          <Property Name="rspDate" Type="DateTime" Precision="0" />
+          <Property Name="rspValue" Type="String" MaxLength="8000" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <ComplexType Name="spSearchGrid_Result">
+          <Property Type="Int32" Name="ent_id" Nullable="true" />
+          <Property Type="Int32" Name="sub_id" Nullable="true" />
+          <Property Type="Int64" Name="Recipient_ContactID" Nullable="true" />
+          <Property Type="Int32" Name="formResultId" Nullable="true" />
+          <Property Type="Int32" Name="formId" Nullable="true" />
+          <Property Type="Int32" Name="assigned" Nullable="true" />
+          <Property Type="Boolean" Name="deleted" Nullable="false" />
+          <Property Type="Boolean" Name="locked" Nullable="false" />
+          <Property Type="Boolean" Name="archived" Nullable="false" />
+          <Property Type="String" Name="FirstName" Nullable="true" MaxLength="128" />
+          <Property Type="String" Name="LastName" Nullable="true" MaxLength="128" />
+          <Property Type="String" Name="MedicaidNumber" Nullable="true" MaxLength="128" />
+          <Property Type="String" Name="TrackingNumber" Nullable="true" MaxLength="128" />
+          <Property Type="String" Name="Lst4" Nullable="true" MaxLength="4" />
+          <Property Type="DateTime" Name="InterviewDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="InterviewerLoginID" Nullable="true" MaxLength="32" />
+          <Property Type="String" Name="Status" Nullable="true" MaxLength="50" />
+          <Property Type="Int64" Name="Rank" Nullable="true" />
+          <Property Type="String" Name="ReviewStatus" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="CheckedOutTo" Nullable="true" MaxLength="32" />
+        </ComplexType>
+        <EntityType Name="vSISAssessmentsForSearch">
+          <Key>
+            <PropertyRef Name="formResultID" />
+            <PropertyRef Name="GroupID" />
+            <PropertyRef Name="EnterpriseID" />
+          </Key>
+          <Property Name="formResultID" Type="Int32" Nullable="false" />
+          <Property Name="formId" Type="Int32" />
+          <Property Name="GroupID" Type="Int32" Nullable="false" />
+          <Property Name="EnterpriseID" Type="Int32" Nullable="false" />
+          <Property Name="StatusText" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
+          <Property Name="deleted" Type="Boolean" />
+          <Property Name="locked" Type="Boolean" />
+          <Property Name="archived" Type="Boolean" />
+          <Property Name="subject" Type="Int32" />
+          <Property Name="interviewer" Type="Int32" />
+          <Property Name="assigned" Type="Int32" />
+          <Property Name="sis_cl_last_nm" Type="String" MaxLength="8000" FixedLength="false" Unicode="false" />
+          <Property Name="sis_cl_first_nm" Type="String" MaxLength="8000" FixedLength="false" Unicode="false" />
+          <Property Name="sis_cl_middle_nm" Type="String" MaxLength="8000" FixedLength="false" Unicode="false" />
+          <Property Name="sis_cl_ssn" Type="String" MaxLength="8000" FixedLength="false" Unicode="false" />
+          <Property Name="sis_track_num" Type="String" MaxLength="8000" FixedLength="false" Unicode="false" />
+          <Property Name="sis_cl_medicaidNum" Type="String" MaxLength="8000" FixedLength="false" Unicode="false" />
+          <Property Name="sis_completed_dt" Type="String" MaxLength="8000" FixedLength="false" Unicode="false" />
+          <Property Name="reviewStatus" Type="Byte" />
+          <Property Name="sis_checked_out_to_LoginID" Type="String" MaxLength="8000" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="vSearchGrid">
+          <Key>
+            <PropertyRef Name="formResultId" />
+            <PropertyRef Name="formId" />
+            <PropertyRef Name="deleted" />
+            <PropertyRef Name="locked" />
+            <PropertyRef Name="archived" />
+            <PropertyRef Name="Rank" />
+          </Key>
+          <Property Name="ent_id" Type="Int32" />
+          <Property Name="sub_id" Type="Int32" />
+          <Property Name="Recipient_ContactID" Type="Int64" />
+          <Property Name="formResultId" Type="Int32" Nullable="false" />
+          <Property Name="formId" Type="Int32" Nullable="false" />
+          <Property Name="assigned" Type="Int32" />
+          <Property Name="deleted" Type="Boolean" Nullable="false" />
+          <Property Name="locked" Type="Boolean" Nullable="false" />
+          <Property Name="archived" Type="Boolean" Nullable="false" />
+          <Property Name="FirstName" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="MedicaidNumber" Type="String" MaxLength="8000" FixedLength="false" Unicode="false" />
+          <Property Name="TrackingNumber" Type="String" MaxLength="8000" FixedLength="false" Unicode="false" />
+          <Property Name="Lst4" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="InterviewDate" Type="DateTime" Precision="3" />
+          <Property Name="InterviewerLoginID" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
+          <Property Name="reviewStatus" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="CheckedOutTo" Type="String" MaxLength="8000" FixedLength="false" Unicode="false" />
+          <Property Name="Rank" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PatternCheck">
+          <Key>
+            <PropertyRef Name="PatternId" />
+          </Key>
+          <Property Name="formResultId" Type="Int32" />
+          <Property Name="PatternId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PatternCheckItem">
+          <Key>
+            <PropertyRef Name="FormResultId" />
+          </Key>
+          <Property Name="FormResultId" Type="Int32" Nullable="false" />
+          <Property Name="PatternCheckITEMS" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="def_FormResults">
+          <Key>
+            <PropertyRef Name="formResultId" />
+          </Key>
+          <Property Name="formResultId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="formId" Type="Int32" Nullable="false" />
+          <Property Name="formStatus" Type="Byte" Nullable="false" />
+          <Property Name="sessionStatus" Type="Byte" Nullable="false" />
+          <Property Name="dateUpdated" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="deleted" Type="Boolean" Nullable="false" />
+          <Property Name="locked" Type="Boolean" Nullable="false" />
+          <Property Name="archived" Type="Boolean" Nullable="false" />
+          <Property Name="EnterpriseID" Type="Int32" />
+          <Property Name="GroupID" Type="Int32" />
+          <Property Name="subject" Type="Int32" />
+          <Property Name="interviewer" Type="Int32" />
+          <Property Name="assigned" Type="Int32" />
+          <Property Name="training" Type="Boolean" Nullable="false" />
+          <Property Name="reviewStatus" Type="Byte" Nullable="false" />
+          <Property Name="statusChangeDate" Type="DateTime" Precision="0" />
+          <Property Name="LastModifiedByUserId" Type="Int32" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="formsModelStoreContainer" CdmEntityContainer="SISEntities">
+          <EntitySetMapping Name="Addresses">
+            <EntityTypeMapping TypeName="formsModel.Address">
+              <MappingFragment StoreEntitySet="Address">
+                <ScalarProperty Name="ent_id" ColumnName="ent_id" />
+                <ScalarProperty Name="AddressID" ColumnName="AddressID" />
+                <ScalarProperty Name="ContactID" ColumnName="ContactID" />
+                <ScalarProperty Name="ProviderIntID" ColumnName="ProviderIntID" />
+                <ScalarProperty Name="AddressType" ColumnName="AddressType" />
+                <ScalarProperty Name="Address1" ColumnName="Address1" />
+                <ScalarProperty Name="Address2" ColumnName="Address2" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="StateCode" ColumnName="StateCode" />
+                <ScalarProperty Name="StateRegion" ColumnName="StateRegion" />
+                <ScalarProperty Name="Zip" ColumnName="Zip" />
+                <ScalarProperty Name="ZipExt" ColumnName="ZipExt" />
+                <ScalarProperty Name="County" ColumnName="County" />
+                <ScalarProperty Name="CtyCode" ColumnName="CtyCode" />
+                <ScalarProperty Name="Directions" ColumnName="Directions" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Updated" ColumnName="Updated" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="Sts" ColumnName="Sts" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Contacts">
+            <EntityTypeMapping TypeName="formsModel.Contact">
+              <MappingFragment StoreEntitySet="Contact">
+                <ScalarProperty Name="ent_id" ColumnName="ent_id" />
+                <ScalarProperty Name="ContactID" ColumnName="ContactID" />
+                <ScalarProperty Name="ContactTypeID" ColumnName="ContactTypeID" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Suffix" ColumnName="Suffix" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Updated" ColumnName="Updated" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="Sts" ColumnName="Sts" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Recipients">
+            <EntityTypeMapping TypeName="formsModel.Recipient">
+              <MappingFragment StoreEntitySet="Recipient">
+                <ScalarProperty Name="ent_id" ColumnName="ent_id" />
+                <ScalarProperty Name="Recipient_ContactID" ColumnName="Recipient_ContactID" />
+                <ScalarProperty Name="ClientID" ColumnName="ClientID" />
+                <ScalarProperty Name="MedExtNum" ColumnName="MedExtNum" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Lst4" ColumnName="Lst4" />
+                <ScalarProperty Name="DOB" ColumnName="DOB" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="HasGuardian" ColumnName="HasGuardian" />
+                <ScalarProperty Name="OtherName" ColumnName="OtherName" />
+                <ScalarProperty Name="NativeLang" ColumnName="NativeLang" />
+                <ScalarProperty Name="InterpreterNeeded" ColumnName="InterpreterNeeded" />
+                <ScalarProperty Name="sub_id" ColumnName="sub_id" />
+                <ScalarProperty Name="RecordType" ColumnName="RecordType" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Updated" ColumnName="Updated" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="RecipientStatusId" ColumnName="RecipientStatusId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vSisDefRaws">
+            <EntityTypeMapping TypeName="formsModel.vSisDefRaw">
+              <MappingFragment StoreEntitySet="vSisDefRaw">
+                <ScalarProperty Name="rspValue" ColumnName="rspValue" />
+                <ScalarProperty Name="rspDate" ColumnName="rspDate" />
+                <ScalarProperty Name="rspFloat" ColumnName="rspFloat" />
+                <ScalarProperty Name="rspInt" ColumnName="rspInt" />
+                <ScalarProperty Name="identifier" ColumnName="identifier" />
+                <ScalarProperty Name="formResultId" ColumnName="formResultId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="spSearchGrid" FunctionName="formsModel.Store.spSearchGrid">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="formsModel.spSearchGrid_Result">
+                <ScalarProperty Name="ent_id" ColumnName="ent_id" />
+                <ScalarProperty Name="sub_id" ColumnName="sub_id" />
+                <ScalarProperty Name="Recipient_ContactID" ColumnName="Recipient_ContactID" />
+                <ScalarProperty Name="formResultId" ColumnName="formResultId" />
+                <ScalarProperty Name="formId" ColumnName="formId" />
+                <ScalarProperty Name="assigned" ColumnName="assigned" />
+                <ScalarProperty Name="deleted" ColumnName="deleted" />
+                <ScalarProperty Name="locked" ColumnName="locked" />
+                <ScalarProperty Name="archived" ColumnName="archived" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="MedicaidNumber" ColumnName="MedicaidNumber" />
+                <ScalarProperty Name="TrackingNumber" ColumnName="TrackingNumber" />
+                <ScalarProperty Name="Lst4" ColumnName="Lst4" />
+                <ScalarProperty Name="InterviewDate" ColumnName="InterviewDate" />
+                <ScalarProperty Name="InterviewerLoginID" ColumnName="InterviewerLoginID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Rank" ColumnName="Rank" />
+                <ScalarProperty Name="ReviewStatus" ColumnName="ReviewStatus" />
+                <ScalarProperty Name="CheckedOutTo" ColumnName="CheckedOutTo" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="vSISAssessmentsForSearches">
+            <EntityTypeMapping TypeName="formsModel.vSISAssessmentsForSearch">
+              <MappingFragment StoreEntitySet="vSISAssessmentsForSearch">
+                <ScalarProperty Name="sis_checked_out_to_LoginID" ColumnName="sis_checked_out_to_LoginID" />
+                <ScalarProperty Name="reviewStatus" ColumnName="reviewStatus" />
+                <ScalarProperty Name="sis_completed_dt" ColumnName="sis_completed_dt" />
+                <ScalarProperty Name="sis_cl_medicaidNum" ColumnName="sis_cl_medicaidNum" />
+                <ScalarProperty Name="sis_track_num" ColumnName="sis_track_num" />
+                <ScalarProperty Name="sis_cl_ssn" ColumnName="sis_cl_ssn" />
+                <ScalarProperty Name="sis_cl_middle_nm" ColumnName="sis_cl_middle_nm" />
+                <ScalarProperty Name="sis_cl_first_nm" ColumnName="sis_cl_first_nm" />
+                <ScalarProperty Name="sis_cl_last_nm" ColumnName="sis_cl_last_nm" />
+                <ScalarProperty Name="assigned" ColumnName="assigned" />
+                <ScalarProperty Name="interviewer" ColumnName="interviewer" />
+                <ScalarProperty Name="subject" ColumnName="subject" />
+                <ScalarProperty Name="archived" ColumnName="archived" />
+                <ScalarProperty Name="locked" ColumnName="locked" />
+                <ScalarProperty Name="deleted" ColumnName="deleted" />
+                <ScalarProperty Name="StatusText" ColumnName="StatusText" />
+                <ScalarProperty Name="EnterpriseID" ColumnName="EnterpriseID" />
+                <ScalarProperty Name="GroupID" ColumnName="GroupID" />
+                <ScalarProperty Name="formId" ColumnName="formId" />
+                <ScalarProperty Name="formResultID" ColumnName="formResultID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vSearchGrids">
+            <EntityTypeMapping TypeName="formsModel.vSearchGrid">
+              <MappingFragment StoreEntitySet="vSearchGrid">
+                <ScalarProperty Name="Rank" ColumnName="Rank" />
+                <ScalarProperty Name="CheckedOutTo" ColumnName="CheckedOutTo" />
+                <ScalarProperty Name="reviewStatus" ColumnName="reviewStatus" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="InterviewerLoginID" ColumnName="InterviewerLoginID" />
+                <ScalarProperty Name="InterviewDate" ColumnName="InterviewDate" />
+                <ScalarProperty Name="Lst4" ColumnName="Lst4" />
+                <ScalarProperty Name="TrackingNumber" ColumnName="TrackingNumber" />
+                <ScalarProperty Name="MedicaidNumber" ColumnName="MedicaidNumber" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="archived" ColumnName="archived" />
+                <ScalarProperty Name="locked" ColumnName="locked" />
+                <ScalarProperty Name="deleted" ColumnName="deleted" />
+                <ScalarProperty Name="assigned" ColumnName="assigned" />
+                <ScalarProperty Name="formId" ColumnName="formId" />
+                <ScalarProperty Name="formResultId" ColumnName="formResultId" />
+                <ScalarProperty Name="Recipient_ContactID" ColumnName="Recipient_ContactID" />
+                <ScalarProperty Name="sub_id" ColumnName="sub_id" />
+                <ScalarProperty Name="ent_id" ColumnName="ent_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PatternChecks">
+            <EntityTypeMapping TypeName="formsModel.PatternCheck">
+              <MappingFragment StoreEntitySet="PatternCheck">
+                <ScalarProperty Name="PatternId" ColumnName="PatternId" />
+                <ScalarProperty Name="formResultId" ColumnName="formResultId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PatternCheckItems">
+            <EntityTypeMapping TypeName="formsModel.PatternCheckItem">
+              <MappingFragment StoreEntitySet="PatternCheckItems">
+                <ScalarProperty Name="PatternCheckITEMS" ColumnName="PatternCheckITEMS" />
+                <ScalarProperty Name="FormResultId" ColumnName="FormResultId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="def_FormResults">
+            <EntityTypeMapping TypeName="formsModel.def_FormResults">
+              <MappingFragment StoreEntitySet="def_FormResults">
+                <ScalarProperty Name="LastModifiedByUserId" ColumnName="LastModifiedByUserId" />
+                <ScalarProperty Name="statusChangeDate" ColumnName="statusChangeDate" />
+                <ScalarProperty Name="reviewStatus" ColumnName="reviewStatus" />
+                <ScalarProperty Name="training" ColumnName="training" />
+                <ScalarProperty Name="assigned" ColumnName="assigned" />
+                <ScalarProperty Name="interviewer" ColumnName="interviewer" />
+                <ScalarProperty Name="subject" ColumnName="subject" />
+                <ScalarProperty Name="GroupID" ColumnName="GroupID" />
+                <ScalarProperty Name="EnterpriseID" ColumnName="EnterpriseID" />
+                <ScalarProperty Name="archived" ColumnName="archived" />
+                <ScalarProperty Name="locked" ColumnName="locked" />
+                <ScalarProperty Name="deleted" ColumnName="deleted" />
+                <ScalarProperty Name="dateUpdated" ColumnName="dateUpdated" />
+                <ScalarProperty Name="sessionStatus" ColumnName="sessionStatus" />
+                <ScalarProperty Name="formStatus" ColumnName="formStatus" />
+                <ScalarProperty Name="formId" ColumnName="formId" />
+                <ScalarProperty Name="formResultId" ColumnName="formResultId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="False" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,163 @@
+﻿@model Assmnts.Models.GeneralForm
+@using Assmnts.Models;
+@{
+    Layout = "LA_AdapAppLayout.cshtml";
+}
+
+
+@{ 
+    int nMembers = Convert.ToInt32(Model.rspValues["LA_ADAP_Household_MembersCount"]);
+}
+
+@section AddtoHead{
+    <link rel="stylesheet" type="text/css" href="/Content/adap/css/ADAPForms.css" />
+    <script src="~/Content/js/ADAPLookupSelects.js"></script>
+
+    <script>
+    $(document).ready(function () {
+
+        var prevScreenIdentifier;
+        @*console.log('(@Model.rspValues["LA_ADAP_TaxStatus_IsMinor"])');*@
+        var isNonFiler = ('@Model.rspValues["LA_ADAP_Household_IsNonFiler"]' == "true");
+        var isMinor = ('@Model.rspValues["LA_ADAP_TaxStatus_IsMinor"]' == "3");
+        var isDependent = ('@Model.rspValues["LA_ADAP_TaxStatus_IsDependent"]' == "1");
+
+        if (isNonFiler)
+            prevScreenIdentifier = '@(((TemplateAdapNavMenu)Model.navMenuModel).sectionIds["LA_ADAP_HouseholdTaxNonFiler"])';
+        else if (isMinor && isDependent)
+            prevScreenIdentifier = '@(((TemplateAdapNavMenu)Model.navMenuModel).sectionIds["LA_ADAP_HouseholdTaxDependent"])';
+        else
+            prevScreenIdentifier = '@(((TemplateAdapNavMenu)Model.navMenuModel).sectionIds["LA_ADAP_HouseholdTaxFiler"])';
+
+
+        $('.class_prevscreen').click(function () {
+            SubmitForm('@(((TemplateAdapNavMenu)Model.navMenuModel).adapPartId)', prevScreenIdentifier);
+        });
+
+        setApplicationProgressIndicator(3);
+
+        @for( int i = 1 ; i <= nMembers ; i++ )
+            {
+                string identifier = "LA_ADAP_Household_Members" + i + "_Reln";
+                @:populateLookupSelect('@identifier', '@identifier', '@Model.rspValues[identifier]');
+                            }
+
+        updateConclusion();
+        $('select').change(updateConclusion);
+    });
+
+    @{
+            int applicantAge = -1;
+            bool isNonFiler = Model.rspValues["LA_ADAP_Household_IsNonFiler"] == "true";
+            if (isNonFiler)
+            {
+                try
+                {
+                    //http://stackoverflow.com/a/4127396
+                    DateTime dob = DateTime.Parse(Model.rspValues["ADAP_D2_DOB"]);
+                    DateTime zeroTime = new DateTime(1, 1, 1);
+                    TimeSpan span = DateTime.Now - dob;
+                    applicantAge = (zeroTime + span).AddDays(-1).Year - 1;
+                }
+                catch (Exception) { }
+            }
+          }
+
+    function updateConclusion() {
+        var True = true;
+        var False = false;
+
+        //if member count was "1" upon reaching this page...
+        if (@(Model.rspValues["LA_ADAP_Household_MembersCount"] == "1"))
+        {
+            $('#conclusionText').html("You will need to enter income information for YOURSELF ONLY.");
+    }
+    else if( @isNonFiler )
+    {
+        var member1reln = $('#LA_ADAP_Household_Members1_Reln').val();
+
+        if( @(applicantAge >= 19))
+        {
+            //if Household member 1 relationship to you: (Spouse, Child/Step-child 18 or younger)
+            if( member1reln == 2 || member1reln == 3 )
+        {
+            $('#conclusionText').html("You may need to enter income information for the household members above.");
+        }
+        else
+        {
+            $('#LA_ADAP_Household_MembersCount').val(1);
+            $('#conclusionText').html("You will need to enter income information for YOURSELF ONLY.");
+        }
+
+    }else{
+
+    //if Household member 1 relationship to you: (Spouse, Child/Step-child 18 or younger, Sibling/step-sibling 18 or younger, parent)
+                    if( member1reln == 2 || member1reln == 3 || member1reln == 4 || member1reln == 5 )
+    {
+        $('#conclusionText').html("You may need to enter income information for the household members above.");
+    }
+    else
+    {
+                        $('#LA_ADAP_Household_MembersCount').val(1);
+    $('#conclusionText').html("You will need to enter income information for YOURSELF ONLY.");
+    }
+    }
+    }
+    else
+    {
+        $('#conclusionText').html("You may need to enter income information for the household members above.");
+    }
+    }
+    </script>
+}
+
+<input hidden name="LA_ADAP_Household_MembersCount" id="LA_ADAP_Household_MembersCount" value="@Model.rspValues["LA_ADAP_Household_MembersCount"]" />
+
+<div id="example_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+    <div class="row"><div class="col-sm-6"></div><div class="col-sm-6"></div></div><div class="row">
+        <div class="col-sm-12">
+            <table id="example" class="table table-striped table-hover table-bordered responsive no-wraps small dataTable no-footer dtr-inline" cellspacing="0" width="100%" role="grid" style="width: 100%;">
+                <thead style="background-color:#d9edf7">
+                    <tr role="row">
+                        <th class="sorting" tabindex="0" aria-controls="example" rowspan="1" colspan="1" style="width: 617.333px;" >What is the person's relationship to you?</th>
+                        <th class="sorting" tabindex="0" aria-controls="example" rowspan="1" colspan="1" style="width: 231.333px;" >Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr role="row" class="even">
+                        <td>
+                            <select class="form-control" disabled>
+                                <option selected>Yourself</option>
+                            </select>
+                        </td>
+                        <td>
+                           <input type="text" value="@(((TemplateAdapNavMenu)Model.navMenuModel).firstName) @(((TemplateAdapNavMenu)Model.navMenuModel).lastName)" disabled class="form-control" />
+                        </td>
+                    </tr>
+
+                    @for( int i = 1 ; i < nMembers ; i++ )
+                    {
+                        <tr role="row" class="@(i%2==0?"even":"odd")">
+                            <td>                                
+                                @Helpers.DropDownList(Model, "LA_ADAP_Household_Members" + i + "_Reln_item", "LA_ADAP_Household_Members" + i + "_Reln")
+                            </td>
+                            <td>
+                                @Helpers.TextInput(Model, "LA_ADAP_Household_Members" + i + "_Name", new { @class = "form-control" })
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div><div class="row"><div class="col-sm-5"></div><div class="col-sm-7"></div></div>
+</div>
+
+<div class="panel panel-default conclusionToggle">
+    <div class="panel-body" style="background-color:#f8f8f8">
+        <div class="form-group">
+            <span id="conclusionText" class="col-md-12 control-label" style="font-weight: bold; text-align: left;">
+                You will need to enter income information for all of the household members above.
+            </span>
+        </div>
+    </div>
+</div>

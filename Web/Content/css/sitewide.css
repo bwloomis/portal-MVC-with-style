@@ -1,0 +1,791 @@
+body, td, textarea
+{
+	color: #000000;
+	font-family: verdana, Helvetica,sans-serif;
+	font-size: 10px;
+	margin: 0px 0px 0px 0px;
+}
+
+.logoText {
+    font-size: 12px;
+}
+
+button{
+    font-size: 10px;
+}
+
+a
+{
+	text-align: left;
+    font-size: 10px;
+}
+a:link
+{
+	color: #314778;
+	font-family: verdana, Helvetica,sans-serif;
+	font-size: 10px;
+	text-decoration: none;
+	font-weight: bold;
+}
+a:visited
+{
+	color: #314778;
+	font-family: verdana, Helvetica,sans-serif;
+	font-size: 10px;
+	text-decoration: none;
+	font-weight: bold;
+}
+a:hover
+{
+	color: #314778;
+	font-family: verdana, Helvetica,sans-serif;
+	font-size: 10px;
+	text-decoration: underline;
+}
+
+a.number:link
+{
+	color: #be411e;
+	font-family: verdana, Helvetica,sans-serif;
+	font-size: 10px;
+	text-decoration: none;
+}
+a.number:visited
+{
+	color: #be411e;
+	font-family: verdana, Helvetica,sans-serif;
+	font-size: 10px;
+	text-decoration: none;
+}
+a.number:alink
+{
+	color: #be411e;
+	font-family: verdana, Helvetica,sans-serif;
+	font-size: 10px;
+	text-decoration: none;
+}
+a.number:hover
+{
+	color: #be411e;
+	font-family: verdana, Helvetica,sans-serif;
+	font-size: 10px;
+	text-decoration: none;
+}
+
+.stdFont
+{
+	color: #000000;
+	font-family: verdana, Helvetica,sans-serif;
+	font-size: 10px;
+	margin: 0px 0px 0px 0px;
+	text-decoration: none;
+}
+.titleorange
+{
+	color: #be411e;
+	font-family: verdana, Helvetica,sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+}
+.titleblack
+{
+	color: #000000;
+	font-family: verdana, Helvetica,sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+}
+.titlewhite
+{
+	color: #ffffff;
+	font-family: verdana, Helvetica,sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	margin-left: 1em;
+}
+
+.thtitlewhite
+{
+	color: #ffffff;
+	font-family: verdana, Helvetica,sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+}
+
+.whitelarge
+{
+	color: #ffffff;
+	font-family: Verdana, Arial,Helvetica,sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+}
+
+.tdleft
+{
+	border-left: solid #000000 2px;
+	background-repeat: no-repeat;
+	background-position: center center;
+	vertical-align:middle;
+	text-align:center;
+}
+
+.tableborder
+{
+	border-left: solid #999999 1px;
+	border-right: solid #999999 1px;
+	border-bottom: solid #999999 1px;
+	border-top: solid #999999 1px;
+}
+.tableborderg
+{
+	border-left: solid #d5d5d5 1px;
+	border-right: solid #d5d5d5 1px;
+	border-bottom: solid #d5d5d5 1px;
+	border-top: solid #d5d5d5 1px;
+}
+
+.questionTD
+{
+	background-repeat: no-repeat;
+	background-position: center center;
+}
+.tdques
+{
+	background-repeat: no-repeat;
+	background-position: center center;
+	vertical-align:middle;
+	text-align:center;
+}
+
+/* the width may need to be changed to accomodate a larger text box, if people want absurd session timeout limits */
+.timerTextBox
+{
+	background-color: #f4f4f4;
+	color: red;
+	width: 30px;
+	border-style: none;
+	font-family: verdana, Helvetica,sans-serif;
+	font-size: 10px;
+}
+.sectionTextBox
+{
+	font-family: Arial,Geneva,Verdana;
+	font-size: 11px;
+	width: 18px;
+	border-color: #7b7b7b;
+	border-width: 1px;
+	border-style: solid;
+}
+.sectionTextBoxOther
+{
+	font-family: Arial,Geneva,Verdana;
+	font-size: 11px;
+	width: 70px;
+	border-color: #7b7b7b;
+	border-width: 1px;
+	border-style: solid;
+}
+.questionOther
+{
+	font-family: Arial,Geneva,Verdana;
+	font-size: 11px;
+	margin-left: 20px;
+	width: 395px;
+	border-color: #7b7b7b;
+	border-width: 1px;
+}
+.3CharTextBox
+{
+	font-family: Arial,Geneva,Verdana;
+	font-size: 10px;
+	width: 22px;
+	border-color: #7b7b7b;
+	border-width: 1px;
+	border-style: solid;
+}
+.passwordIndicator
+{
+	font-family: Arial,Geneva,Verdana;
+	font-size: 10px;
+	color: #FFFFFF;
+	background-color: #be411e;
+	vertical-align: middle;
+	padding-bottom: 2px;
+	padding-left: 2px;
+	padding-right: 2px;
+	padding-top: 2px;
+}
+.control
+{
+	font-family: Arial,Geneva,Verdana;
+	font-size: 10px;
+	border-color: #7b7d7b;
+	border-width: 1px;
+	border-style: solid;
+}
+
+.tdborderblack_topbottom
+{
+	border-bottom: solid #999999 1px;
+	border-top: solid #999999 1px;
+}
+.tdborderblack_top
+{
+	border-top: solid #999999 1px;
+}
+
+/* Lines below are for the tool tip, don't remove them unless you want a preview of the end of the world */
+#dhtmlpointer
+{
+	position: absolute;
+	left: -300px;
+	z-index: 101;
+	visibility: hidden;
+}
+#dhtmltooltip
+{
+	position: absolute;
+	left: -300px;
+	width: 150px;
+	border: 1px solid black;
+	padding: 2px;
+	background-color: #FFFFE1;
+	visibility: hidden;
+	z-index: 100;
+}
+/*Line below is for shadowing, add to #dhtmltooptip
+	filter: progid:DXImageTransform.Microsoft.Shadow(color=gray,direction=135);*/
+a.media
+{
+}
+div.media
+{
+	text-align: center;
+}
+div.questionHeader
+{
+	background-color: #d5d5d5;
+	padding: 5px 0px 0px 15px;
+	border: solid 1px Black;
+}
+div.question
+{
+	border: solid 1px Black;
+	padding-bottom: 10px;
+}
+div.questionContent
+{
+	margin-left: 15px;
+}
+div.subQuestions
+{
+	margin-left: 32px;
+}
+div.notes
+{
+	display: inline;
+	background-color: #ffffe0;
+}
+div.questInstruct
+{
+	margin-right: 50px;
+}
+div.questSubInstruct
+{
+	margin-left: 32px;
+}
+div.topQuestion
+{
+	text-align: right;
+	margin-right: 1.0em;
+}
+.questionText
+{
+	width: 350px;
+}
+.questionDesc
+{
+	width: 460px;
+}
+.questionSubDesc
+{
+	width: 150px;
+}
+.topQuestionDesc
+{
+	font-family: Arial,Geneva,Verdana;
+	font-size: 12px;
+	margin-left: 0.25em;
+	text-align: left;
+}
+div.border
+{
+	border: solid 1px Black;
+}
+div.section
+{
+	padding-bottom: 5px;
+}
+.sectionHeaderDesc
+{
+	color: #ffffff;
+	font-family: verdana, Helvetica,sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	margin-left: 0.25em;
+}
+div.sectionHeader
+{
+	border: solid 1px Black;
+	padding: 5px;
+	background-color: #be411c;
+}
+ol.subQuestionsL1
+{
+	list-style-type: lower-alpha;
+}
+ol.subQuestionsL2
+{
+	list-style-type: lower-roman;
+}
+.spellChecker
+{
+}
+.time
+{
+	width: 70px;
+}
+input[type=text]
+{
+	border: 1px solid #7b7d7b;
+    font-family: Arial,Geneva,Verdana;
+	font-size: 11px;
+	margin-left: 0px;
+}
+/*label
+{
+	font-family: Arial,Geneva,Verdana;
+	font-size: 11px;
+}*/
+.calPopUp
+{
+	vertical-align: top;
+}
+.toolTip
+{
+	cursor: hand;
+	cursor: pointer;
+	/*display: block;*/
+}
+.subQuestions li
+{
+	vertical-align: top;
+}
+.required
+{
+	color: red;
+}
+select.combo
+{
+	font-family: Arial,Geneva,Verdana;
+	font-size: 11px;
+	width: 190px;
+	border-color: #7b7d7b;
+	border-width: 1px;
+	border-style: solid;
+}
+
+select.comboSupName
+{
+	font-family: Arial,Geneva,Verdana;
+	font-size: 11px;
+	width: 166px;
+	border-color: #7b7d7b;
+	border-width: 1px;
+	border-style: solid;
+}
+
+select.comboSupCode
+{
+	font-family: Arial,Geneva,Verdana;
+	font-size: 11px;
+	width: 50px;
+	border-color: #7b7d7b;
+	border-width: 1px;
+	border-style: solid;
+}
+
+select.comboResAgency
+{
+	font-family: Arial,Geneva,Verdana;
+	font-size: 11px;
+	width: auto;
+	border-width: 0px;
+	border: 0px; 
+	margin:-1px;
+}
+
+div.comboResAgencyDiv
+{
+	overflow:hidden; 
+	height:16px; 
+	width:60px; 
+	margin:0; 
+	padding:0;
+	border: 1px solid #7B7D7B;
+}
+
+.error
+{
+	color: Red;
+	font-weight: bold;
+}
+label.required, span.required
+{
+	color: Red;
+}
+.fieldError
+{
+	background-color: #FC7474;
+}
+input.dateInput
+{
+	font-family: Arial,Geneva,Verdana;
+	font-size: 8pt;
+	width: 65px;
+	border-color: #7b7d7b;
+	border-width: 1px;
+	border-style: solid;
+	color: Black;
+	display: block;
+}
+label.date
+{
+	font-family: Arial,Geneva,Verdana;
+	font-size: 11px;
+	margin-right: 15px;
+	color: Black;
+}
+.bold
+{
+	font-weight: bold;
+}
+.important
+{
+	color: Red;
+	font-weight: bold;
+}
+input.textCounter
+{
+	font-family: Arial,Geneva,Verdana;
+	font-size: 11px;
+	width: 30px;
+	border-color: #7b7b7b;
+	border-width: 1px;
+	border-style: solid;
+}
+div.content
+{
+	/*width: auto;*/
+	/*margin: 1ex 40px;*/
+    
+    width:800px;	
+	display:block;
+	padding-left:25px;
+	padding-right:25px;
+}
+.hidden
+{
+	position: absolute;
+	left: -10000px;
+	top: auto;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+}
+.noScriptToolTip
+{
+	font-size: 1.0em;
+}
+.clickable
+{
+	cursor: hand;
+	cursor: pointer;
+}
+.showstate
+{
+	display: inherit;
+}
+.questionLabel
+{
+}
+.hideAll
+{
+	display: none;
+	visibility: hidden;
+}
+.switchcontent
+{
+	display: none;
+	clear: both;
+}
+div.footer
+{
+	background-color: #F4F4F4;
+	height: 2.5ex;
+}
+div.footerTrim
+{
+	background-color: #be411e;
+	height: 3ex;
+}
+div.footer a
+{
+	margin-left: 40px;
+}
+label.date.required
+{
+	color: Red;
+}
+.numeric
+{
+	width: 7.0em;
+}
+.left
+{
+	float: left;
+}
+.right
+{
+	float: right;
+}
+.bottomNav
+{
+	margin-top: 1.0ex;
+	overflow: hidden;
+}
+.bottomNav input
+{
+	vertical-align: middle;
+}
+.dQuestion
+{
+}
+
+a.navLink
+{
+	vertical-align: top;
+	border: none;
+}
+a > img
+{
+	border: none;
+}
+div.wide
+{
+	width: 778px;
+}
+.TFNTextBox
+{
+	background-color: #ffffff;
+	color: red;
+	width: 10px;
+	border-style: none;
+	font-family: verdana, Helvetica,sans-serif;
+	font-size: 10px;
+}
+.fieldContainer
+{
+	background-color: #f4f4f4;
+}
+a > img
+{
+	color: White;
+}
+.ctl00_mnuMain_mnuToolbar_5
+{
+	float: left;
+}
+.ctl00_ctl00_mnuMain_mnuToolbar_5
+{
+	float: left;
+}
+td a
+{
+	text-align: left;
+}
+div.toolTip td
+{
+	text-align: left;
+}
+.searchHeader
+{
+	height: 26px;
+	border: solid 1px #999999;
+	border-bottom-style: none;
+	background-color: #d5d5d5;
+	text-align: left;
+}
+.searchHeaderTitle
+{
+	float: left;
+	font-size: 11px;
+	font-weight: bold;
+	line-height: 26px;
+	margin: 0px;
+	margin-left: 0.5em;
+}
+.searchHeaderIcon
+{
+	width: 16px;
+	line-height: 26px;
+	margin-left: 0.5em;
+	margin-right: 0.5em;
+}
+.grid
+{
+	border: solid 1px #999999;
+}
+.gridrow_alternate
+{
+	background-color: #f4f4f4;
+}
+.grid thead
+{
+	background-color: #ffffe0;
+}
+th.sort_asc
+{
+	background: url(/images/SortUp.gif) no-repeat right center;
+	padding: 4px;
+}
+th.sort_desc
+{
+	background: url(/images/SortDown.gif) no-repeat right center;
+	padding: 4px;
+}
+.grid
+{
+	width: 100%;
+}
+.grid td
+{
+	text-align: center;
+}
+.validation-summary-errors
+{
+	color: Red;
+}
+.validation-summary-valid
+{
+	display: none;
+}
+.input-validation-error
+{
+	background-color: #fc7474;
+}
+td.calendar-selected_day a
+{
+	background-color: Yellow;
+}
+
+span.number
+{
+	color: #BE411E;
+	font-size: 10px;
+	font-family: verdana,Helvetica,sans-serif;
+	cursor:pointer;
+	font-weight:bold;
+}
+
+label.searchLabel, span.searchLabel
+{
+    font-weight:bold;
+    color:black;
+}
+/* Navigator */
+
+.navigator_silver_main 
+{
+	border-left: 1px solid #A0A0A0;
+	border-right: 1px solid #A0A0A0;
+	border-bottom: 1px solid #A0A0A0;
+    background-color: white;
+    color: #000000;
+}
+
+.navigator_silver_month {
+    font-family: Tahoma;
+    font-size: 8pt;
+}
+.navigator_silver_day {
+    color: black;
+}
+.navigator_silver_dayheader {
+    color: black;
+}
+
+.navigator_silver_line 
+{
+	border-bottom: 1px solid #A0A0A0;
+}
+
+.navigator_silver_dayother {
+    color: gray;
+}
+.navigator_silver_todaybox
+{
+	border: 1px solid red;
+}
+
+.navigator_silver_select 
+{
+    background-color: #FFE794;
+}
+.navigator_silver_title, .navigator_silver_titleleft, .navigator_silver_titleright {
+    background-color: #ECE9D8;
+    border-top: 1px solid #A0A0A0;
+	background-image: url(Media/navigator_silver_top21.gif);
+	background-repeat: repeat-x;
+}
+.navigator_silver_busy {
+	font-weight: bold;
+}
+
+/* Calendar */
+
+/* calendar silver theme */
+.calendar_silver_colheader
+{
+	background-image: url(Media/calendar_silver_top21.gif);
+	background-repeat: repeat-x;
+	background-color: #EAEAEA;
+}
+.calendar_silver_corner 
+{
+	background-image: url(Media/calendar_silver_corner20.gif);
+	background-repeat: repeat-x;
+	background-color: #EAEAEA;
+}
+.calendar_silver_rowheader 
+{
+	background-image: url(Media/calendar_silver_left45.gif);
+	background-repeat: repeat-y;
+	background-color: #CFCFCF;
+}
+.calendar_silver_cornerright 
+{
+	background-image: url(Media/calendar_silver_right17.gif);
+	background-repeat: repeat-y;
+	background-color: #CFCFCF;
+}
+.calendar_silver_alldayheader 
+{
+	background-color: #EAEAEA;
+}
+
+.calendar_silver_alldayevent 
+{
+	background-image: url(Media/calendar_silver_top21.gif);
+	background-repeat: repeat-x;
+	background-color: #CFCFCF;
+}

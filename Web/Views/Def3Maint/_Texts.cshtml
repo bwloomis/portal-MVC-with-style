@@ -1,0 +1,149 @@
+﻿@using Assmnts;
+@model dynamic
+
+<script>
+    $(document).ready(function () {
+        $("#hideAddTextForm").hide();
+        $("#showAddTextForm").click(function () {
+            $("#showAddTextForm").hide();
+            $("#hideAddTextForm").show();
+            $("#addTexts").show();
+        });
+        $("#hideAddTextForm").click(function () {
+            $("#hideAddTextForm").hide();
+            $("#showAddTextForm").show();
+            $("#addTexts").hide();
+        });
+
+        $("#backToDetails").click(function () {
+            $("#lookupTexts").hide();
+            $("#lookupDetailsContent").show();
+            editingDetails = false;
+            editingTexts = false;
+        });
+        postData = {
+            "detailId": '@Model.detailId'
+        };
+        $('#dtText').dataTable({
+            "processing": true,
+            "serverSide": true,
+            "ajax": {
+                url: "/Def3Maint/DataTableTexts",
+                data: postData,
+                type: "POST"
+            },
+            "ordering": false,
+            "dom": 'lriptip'
+        });
+    });
+</script>
+
+<input type="button" id="showAddTextForm" class="btn btn-success" value="Add a Lookup Text" />
+<input type="button" id="hideAddTextForm" class="btn btn-danger" value="Cancel Lookup Text" />
+<input type="button" id="backToDetails" class="btn btn-success" value="Return to Lookup Details" />
+
+@*<table class="table grid">
+    <tr>
+        <th>Language</th>
+        <th>Display Text</th>
+        <th></th>
+        <th></th>
+    </tr>
+    <tr id="addTexts" hidden="hidden">
+
+        <td>
+            <select name="addLanguage" class="form-control" id="addLanguage">
+                @foreach (def_Languages lang in Model.languages)
+                {
+                    <option value="@lang.langId">@lang.title</option>
+                }
+
+            </select>
+        </td>
+        <td><input type="text" class="form-control" name="addText" id="addText" /></td>
+        <td><input type="button" class="createButton btn btn-default" value="Create" onclick="createText()" /></td>
+
+
+    </tr>
+    @{int itmCnt = 0;}
+
+    @foreach (Assmnts.Controllers.Def3MaintController.ExpLookupText text in Model.LookupTexts)
+    {
+         itmCnt++;
+         string bgColor = (itmCnt % 2) == 0 ? "#d5d5d5" : "#ffffff";
+
+         <tr bgcolor="@{@bgColor}">
+
+           
+            <td id="language[@text.lookupTextId]">
+                @text.lang
+            </td>
+
+            <td hidden="hidden" id="languageSelectTd[@text.lookupTextId]">
+                <select name="selectdLanguage" class="form-control" id="selectLanguage[@text.lookupTextId]">
+                    @foreach (def_Languages lang in Model.languages)
+                    {
+                        if (lang.title == text.lang)
+                        {
+                            <option selected="selected" value="@lang.langId">@lang.title</option>
+                        }
+                        else
+                        {
+                            <option value="@lang.langId">@lang.title</option>
+                        }
+                    }
+
+                </select>
+            </td>
+
+            <td id="displayText[@text.lookupTextId]">@text.displayText</td>
+
+            <td id="editText[@text.lookupTextId]">
+                <a href="#" onclick="editText(@text.lookupTextId)">Edit</a>
+            </td>
+
+            <td id="deleteText[@text.lookupTextId]">
+                <a href="#" onclick="deleteText(@text.lookupTextId,'@HttpUtility.JavaScriptStringEncode(text.displayText)')">Delete</a>
+            </td>
+
+            <td hidden="hidden" id="saveText[@text.lookupTextId]">
+                <a href="#" onclick="saveText(@text.lookupTextId)">Save</a>
+            </td>
+
+            <td hidden="hidden" id="cancelText[@text.lookupTextId]">
+                <a href="#" onclick="cancelText(@text.lookupTextId)">Cancel</a>
+            </td>
+        </tr>
+    }
+</table>*@
+<br /><br />
+<div id="addTexts" hidden="hidden">
+
+    <form class="form-inline">
+        <span>
+            <label for="addLanguage">Language</label>
+            <select name="addLanguage" class="form-control" id="addLanguage">
+                @foreach (def_Languages lang in Model.languages)
+                {
+                    <option value="@lang.langId">@lang.title</option>
+                }
+
+            </select>
+        </span>
+        <span><label for="addText">Display Text</label><input type="text" class="form-control" name="addText" id="addText" /></span>
+        <span><input type="button" class="createButton btn btn-success" value="Create" onclick="createText()" /></span>
+    </form>
+
+
+</div>
+
+<table id="dtText" class="table table-bordered table-striped" cellpadding="0" cellspacing="0" border="0">
+    <thead>
+        <tr>
+            <th>Language</th>
+            <th>Display Text</th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+</table>

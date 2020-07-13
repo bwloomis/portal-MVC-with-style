@@ -1,0 +1,57 @@
+﻿.right-buffer-15px {
+    padding-right: 15px !important;
+}
+
+.right-buffer-7p9x {
+    padding-right: 7.9% !important;
+}
+
+.row {
+    margin-left: 0px;
+}
+
+.cinfo-callout {
+    padding-top: 5px;
+    margin-top: 0px;
+    background-color: #fcf8e3;
+    border: 0px;
+}
+
+.cinfo-name {
+    padding-top: 0px !important;
+    color: #000000 !important;
+    text-transform: Uppercase;
+}
+
+.cinfo-other {
+    padding-top: 5px;
+}
+
+.serviceinfo-upload > div.col-md-5 {
+
+    width : 100% !important;
+    padding-left: 0px;
+    padding-right: 0px;
+
+}
+.disablelement{
+
+    pointer-events:none;
+    
+    
+
+}
+
+#C1_ClaimAttachDoc_group > button.btn{
+        width: 179px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+[contentEditable=true]:empty:not(:focus):before{
+    content:attr(data-placeholder);
+    color : #808080; 
+
+}
+

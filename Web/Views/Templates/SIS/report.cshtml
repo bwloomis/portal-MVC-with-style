@@ -1,0 +1,62 @@
+@model String      
+@{
+    ViewBag.Title = "Report";
+    Validator.Required("The field is required.");
+}
+
+<table id="tblData" border="0" cellpadding="0" cellspacing="0" style="height: 100%">
+    <tr>
+        <td>
+            <br />
+            <table border="0" cellpadding="0" cellspacing="0" width="625">
+                <tr>
+                    <td align="left">
+                        <!-- <asp:Label ID="lblErr" Visible="false" ForeColor="red" runat="server" />  -->
+                        <table border="0" cellpadding="5" cellspacing="0" class="tableborder" style="background-color: #ffffff; margin-left: 1.3em;"
+                            width="800">
+                            <tr>
+                                <td style="background-color: #d5d5d5">
+                                    <span class="titleblack">Report</span>
+                                </td>
+                            </tr>
+                        </table>
+                        <form action="/Results/Save" method="post" id="form-id">
+                            <table border="0" cellpadding="5" cellspacing="0" class="tableborder" style="background-color: #f4f4f4; margin-left: 1.3em"
+                                width="800">
+                                <tr>
+                                    <td>
+                                        <embed width="100%" height="800px" name="plugin" 
+                                            src="@Model" type="application/pdf"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div id="sectIndivParticipation" visible="false">
+                                            <fieldset>
+                                                <legend></legend>
+                                            </fieldset>
+                                        </div>
+                                        <div id="sectIntSetting" style="margin-top: 12px;" visible="false">
+                                            &nbsp;
+                                        </div>
+                                    </td>
+								</tr>
+							</table>
+							<br />
+							<br />
+							<input type="submit" value="Submit" id="btnSubmit" />
+						</form>
+					</td>
+				</tr>
+			</table>
+<table border="0" cellpadding="0" cellspacing="0">
+    <tr>
+        <td style="height: 5px">&nbsp;</td>
+    </tr>
+</table>
+</td>
+    </tr>
+</table>
+<br />
+
+		

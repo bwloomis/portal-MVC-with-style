@@ -1,0 +1,96 @@
+﻿@model Assmnts.Models.PreferenceModel
+@{
+    Layout = null;
+}
+
+@{string styleSheetName = "sisa.css";}
+<link rel="stylesheet" type="text/css" href="/Content/css/@styleSheetName" />	
+<link rel="stylesheet" type="text/css" href="~/Content/css/pref.css" />
+<script>
+    $(document).ready(function() {
+        if ("@Model.passWrong" == "True") {
+            alert("Wrong password entered.")
+        }
+
+        $("#cancel").click(function () {
+            close();
+        });
+    });
+    
+    function checkOldPassword() {
+        var opw = document.forms["frmChgPw"]["Password"].value;
+        
+        var values =
+        {
+            "Password": opw
+        }
+
+        $.post("@Url.Action("checkOldPass", "Preferences")",values,function(result)
+        {
+            checkPwSubmit(result);
+        });
+
+    }
+
+    function checkPwSubmit(result) {
+        if (result == "fail")
+        {
+            alert("Current password entered incorrectly.");
+            return false;
+        }
+
+        var npw1 = document.forms["frmChgPw"]["NewPasswordOne"].value;
+        var npw2 = document.forms["frmChgPw"]["NewPasswordTwo"].value;
+
+        var values =
+        {
+            "NewPasswordOne": npw1
+        }
+		if (npw1 == npw2) {
+		    $.post("@Url.Action("ChangePassword", "Preferences")",values,function(result)
+		    {
+		        if (result != "success") {
+		            alert("Error changing password: " + result);
+		            return false;
+		        }
+		        alert("Password changed successfully.");
+		        close();
+		    });
+		}
+		else {
+		    alert("New passwords do not match.")
+		    return false;
+		}
+	}
+	
+    function close() {
+        window.location.href = '/Search/Index';
+    }
+</script>
+<div class="top">Change password</div>
+<div class="content">
+    <div id="prefDialog3" class="prefDialog" title="User Preferences">
+
+        @using (Html.BeginForm("ChangePassword", "Preferences", FormMethod.Post, new { id = "frmChgPw" }))
+        {
+            <div class="form-group">
+                @Html.LabelFor(m => m.Password)
+                @Html.PasswordFor(m => m.Password)
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.NewPasswordOne)
+                @Html.PasswordFor(m => m.NewPasswordOne)
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.NewPasswordTwo)
+                @Html.PasswordFor(m => m.NewPasswordTwo)
+            </div>
+            <input type="button" value="Change Password" onclick="checkOldPassword()" />
+            <input type="reset" value="Clear" />
+            
+            if (Model.ChangePass != true) { 
+                <input type="button" id="cancel" value="Cancel" />
+            }
+        }
+    </div>
+</div>

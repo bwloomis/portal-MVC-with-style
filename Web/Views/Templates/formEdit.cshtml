@@ -1,0 +1,55 @@
+@model Assmnts.Models.TemplateForms
+@{
+    ViewBag.Title = "Form Edit";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+@section HeadContent {
+
+	@*<link rel="stylesheet" type="text/css" href="/Content/css/sitewide.css" />*@
+	
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <link href="/Content/css/sis-red/jquery-ui-1.7.sisred.css" rel="stylesheet" type="text/css" />
+	
+}
+	
+<style>
+    table, th, td {
+        padding: 5px;
+    }
+
+    .pageEdit {
+        padding-top: .6em;
+        font-size: small;
+    }
+</style>
+<h3>Form Edit</h3>
+<div class="form-group ">
+    <form action="/Templates/PostForm" method="post">
+        @Html.HiddenFor(model => model.forms[0].formId)
+        @Html.HiddenFor(model => model.forms[0].EnterpriseID)
+        <div class="row">
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.forms[0].identifier, @"Identifier", new { @class = "control-label pageEdit" })
+            </div>
+            <div class="col-md-2">
+                @Html.TextBoxFor(model => model.forms[0].identifier, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.forms[0].title, @"Title", new { @class = "control-label pageEdit" })
+            </div>
+            <div class="col-md-4">
+                @Html.TextBoxFor(model => model.forms[0].title, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <input type="submit" class="btn btn-success" value="Submit">
+                <input type="button" class="btn btn-danger" value="Cancel" onclick="window.location='Index'">
+            </div>
+        </div>
+    </form>
+</div>
+	<!-- End of Form -->

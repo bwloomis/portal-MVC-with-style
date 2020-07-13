@@ -1,0 +1,460 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2016 (x64) (http://www.altova.com) by Matt Marshall (Ramsell Technologies) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="Patient">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Patient_ID" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="11"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="EHARS_ID" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="13"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="Last_Name">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="20"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="First_Name">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="15"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="MI" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="DOB" type="xs:date"/>
+				<xs:element name="Language" type="xs:integer" minOccurs="0"/>
+				<xs:element name="Ethnicity" type="xs:integer"/>
+				<xs:element name="Hispanic_Subgroup" type="xs:integer" minOccurs="0" maxOccurs="4"/>
+				<xs:element name="Race" type="xs:unsignedByte" minOccurs="1" maxOccurs="5"/>
+				<xs:element name="Asian_Subgroup" type="xs:integer" minOccurs="0" maxOccurs="7"/>
+				<xs:element name="NHPI_Subgroup" type="xs:integer" minOccurs="0" maxOccurs="4"/>
+				<xs:element name="Gender" type="xs:unsignedByte"/>
+				<xs:element name="Transgender" type="xs:unsignedByte" minOccurs="0"/>
+				<xs:element name="Sex_at_Birth" type="xs:integer"/>
+				<xs:element name="Receive_Mail_At_Residential_Address" type="xs:unsignedByte" minOccurs="0"/>
+				<xs:element name="Address" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="35"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="City" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="25"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="State" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="2"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="Zip">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="10"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="Contact" type="xs:unsignedByte" minOccurs="0"/>
+				<xs:element name="Mailing_Address" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="35"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="Mailing_City" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="25"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="Mailing_State" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="2"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="Mailing_Zip" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="10"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="Homeless" type="xs:unsignedByte" minOccurs="0"/>
+				<xs:element name="Work_Phone" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="20"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="Phone" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="12"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="Cell_Phone" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="12"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="Region" type="xs:unsignedByte"/>
+				<xs:element name="Email" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="50"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="Contact_Notes" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="256"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="Aware_of_HIV_Status" type="xs:unsignedByte" minOccurs="0"/>
+				<xs:element name="Patient_Access_Last_Name" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="20"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="Patient_Access_First_Name" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="15"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="Patient_Access_Phone" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="12"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="County_of_Residence" type="xs:unsignedByte" minOccurs="0"/>
+				<xs:element name="Permanent_Housing" type="xs:unsignedByte" minOccurs="0"/>
+				<xs:element name="Temporary_Housing" type="xs:unsignedByte" minOccurs="0"/>
+				<xs:element name="Unstable_Housing_arrangements" type="xs:unsignedByte" minOccurs="0"/>
+				<xs:element name="Unknown_Living_Situation" type="xs:unsignedByte" minOccurs="0"/>
+				<xs:element name="Patient_Transmission_Risk_ID" minOccurs="0" maxOccurs="9"/>
+				<xs:element name="Eligibility_Worker_Item" minOccurs="0" maxOccurs="2">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="EW_Code" type="xs:string"/>
+							<xs:element name="Case_Manager_Social_Worker" type="xs:unsignedByte" minOccurs="0"/>
+							<xs:element name="Other" type="xs:unsignedByte" minOccurs="0"/>
+							<xs:element name="Eligibility_Worker_Last_Name" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:maxLength value="25"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="Eligibility_Worker_First_Name" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:maxLength value="20"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="Eligibility_Worker_Agency" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:maxLength value="100"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="Eligibility_Worker_Address" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:maxLength value="30"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="Eligibility_Worker_City" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:maxLength value="25"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="Eligibility_Worker_State" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:maxLength value="2"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="Eligibility_Worker_Zip" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:maxLength value="10"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Residency_Proof" type="xs:integer" minOccurs="0"/>
+				<xs:element name="Residency_Other" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="20"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="Marital_Status" type="xs:unsignedByte" minOccurs="0"/>
+				<xs:element name="Pregnancy" type="xs:unsignedByte" minOccurs="0"/>
+				<xs:element name="Estimated_Delivery_Date" type="xs:date" minOccurs="0"/>
+				<xs:element name="Pregnancy_Outcome" type="xs:unsignedByte" minOccurs="0"/>
+				<xs:element name="Live_Birth_On_Date" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="10"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="SSN" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="11"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="Household_Members_No_Adults" type="xs:unsignedByte" minOccurs="0"/>
+				<xs:element name="Number_Children" type="xs:unsignedByte" minOccurs="0"/>
+				<!-- exel line 81 -->
+				<xs:element name="Method_Enrollment_Docs_Received" type="xs:unsignedByte" minOccurs="0"/>
+				<xs:element name="HIV_Diagnosis_Date" type="xs:date" minOccurs="0"/>
+				<xs:element name="AIDS_Dx" type="xs:unsignedByte" minOccurs="0"/>
+				<xs:element name="Hep_C_Test_Status" type="xs:unsignedByte" minOccurs="0"/>
+				<xs:element name="Test_Administered_By" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="40"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="Test_City_State" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="40"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="Dispensing_Pharmacy" type="xs:unsignedByte" minOccurs="0"/>
+				<xs:element name="Dispensing_Method" type="xs:unsignedByte" minOccurs="0"/>
+				<xs:element name="Most_Recent_CD4" type="xs:integer" minOccurs="0"/>
+				<xs:element name="CD4_Date" type="xs:date" minOccurs="0"/>
+				<xs:element name="Most_Recent_VLoad" type="xs:integer" minOccurs="0"/>
+				<xs:element name="Vload_Date" type="xs:date" minOccurs="0"/>
+				<xs:element name="Prescribing_Doctor" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="30"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<!-- Excel line 95 -->
+				<xs:element name="Telephone_Number" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="18"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="Beneficiary_Status" type="xs:unsignedByte" minOccurs="0"/>
+				<xs:element name="Medicare_Part_A" type="xs:unsignedByte" minOccurs="0"/>
+				<xs:element name="Medicare_Part_B" type="xs:unsignedByte" minOccurs="0"/>
+				<xs:element name="Creditable_Coverage" type="xs:unsignedByte" minOccurs="0"/>
+				<xs:element name="Medicare_Part_D" type="xs:unsignedByte" minOccurs="0"/>
+				<xs:element name="S-CHIP" type="xs:boolean" minOccurs="0"/>
+				<xs:element name="VA" type="xs:boolean" minOccurs="0"/>
+				<xs:element name="Indian_Health" type="xs:boolean" minOccurs="0"/>
+				<xs:element name="Cover_CoLorado" type="xs:boolean" minOccurs="0"/>
+				<xs:element name="GUSC" type="xs:boolean" minOccurs="0"/>
+				<xs:element name="Insurance_Status" type="xs:unsignedByte" minOccurs="0"/>
+				<xs:element name="Employer_Plan" type="xs:unsignedByte" minOccurs="0"/>
+				<xs:element name="Retirement_Plan" type="xs:unsignedByte" minOccurs="0"/>
+				<xs:element name="Individual_Plan" type="xs:unsignedByte" minOccurs="0"/>
+				<xs:element name="Another_Persons_Plan" type="xs:unsignedByte" minOccurs="0"/>
+				<xs:element name="COBRA_Coverage" type="xs:unsignedByte" minOccurs="0"/>
+				<xs:element name="COBRA_Expiration" type="xs:date" minOccurs="0"/>
+				<xs:element name="Employment_Status" type="xs:unsignedByte"/>
+				<xs:element name="Employer_Name" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="40"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="Employer_Size" type="xs:unsignedByte" minOccurs="0"/>
+				<xs:element name="Income_Item" minOccurs="0" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:sequence minOccurs="0">
+							<xs:element name="Tax_Return_Filed" type="xs:unsignedByte" minOccurs="0"/>
+							<xs:element name="Income_Earner_Name" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:maxLength value="40"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="Relation_Type" type="xs:unsignedByte" minOccurs="0"/>
+							<xs:element name="Salary_Wages" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:decimal">
+										<xs:fractionDigits value="2"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="Investments_Trust" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:decimal">
+										<xs:fractionDigits value="2"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="SSDI" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:decimal">
+										<xs:fractionDigits value="2"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="SSI" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:decimal">
+										<xs:fractionDigits value="2"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="AND" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:decimal">
+										<xs:fractionDigits value="2"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="Workers_Comp" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:decimal">
+										<xs:fractionDigits value="2"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="Child_Support_Alimony" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:decimal">
+										<xs:fractionDigits value="2"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="Retirement" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:decimal">
+										<xs:fractionDigits value="2"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="VA_Income" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:decimal">
+										<xs:fractionDigits value="2"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="Unemployment" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:decimal">
+										<xs:fractionDigits value="2"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="Other" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:decimal">
+										<xs:fractionDigits value="2"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="Other_Description" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:maxLength value="40"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="Tax_Return" type="xs:unsignedByte" minOccurs="0"/>
+							<xs:element name="Award_Letters" type="xs:unsignedByte" minOccurs="0"/>
+							<xs:element name="Bank_Statements" type="xs:unsignedByte" minOccurs="0"/>
+							<xs:element name="Pay_Stubs" type="xs:unsignedByte" minOccurs="0"/>
+							<xs:element name="Other_Documentation" type="xs:unsignedByte" minOccurs="0"/>
+							<xs:element name="Other_Document_Description" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:maxLength value="128"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Total_Income" type="xs:integer" minOccurs="0"/>
+				<xs:element name="Most_Recent_Application_Date" type="xs:date" minOccurs="0"/>
+				<xs:element name="Date_Application_Deemed_Complete" type="xs:dateTime" minOccurs="0"/>
+				<xs:element name="Outcome_of_Eligibility_Review" type="xs:unsignedByte" minOccurs="0"/>
+				<xs:element name="Date_that_Eligibility_was_Determined" type="xs:dateTime"/>
+				<xs:element name="Start_of_Current_Eligibility_Period" type="xs:dateTime"/>
+				<xs:element name="End_of_Current_Eligibility_Period" type="xs:dateTime"/>
+				<xs:element name="Group">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="5"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="Plan_Start" type="xs:date"/>
+				<xs:element name="Plan_End" type="xs:date"/>
+				<xs:element name="Plan_Enrollment_Status" type="xs:unsignedByte"/>
+				<!-- Conditional, if Plan_Enrollment_Status = 6 -->
+				<xs:element name="Reason_for_Disenrollment" type="xs:unsignedByte" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

@@ -1,0 +1,505 @@
+@model Assmnts.Models.QuestionListForm
+@using Assmnts
+@{
+    ViewBag.Title = @Model.thisScreenCaption;
+    // ViewBag.Title = @Model.thisScreenTitle;
+    Layout = "~/Views/Shared/AssmntLayout.cshtml";
+}
+
+@section HeadContent {
+    <link rel="stylesheet" href="/Content/themes/base/jquery-ui.css" />
+
+    <script src="/Content/js/Misc.js" type="text/javascript"></script>
+    <script src="/Content/js/textchanger.js" type="text/javascript"></script>
+    <script src="/Content/js/SelectionControl.js" type="text/javascript"></script>
+    <script src="/Content/js/SetupSection.js" type="text/javascript"></script>
+
+
+    <script type="text/javascript">
+
+        /*  Sets character count for 'textarea' boxes. */
+        function TextCounterOnLoad() {
+            var theForm = document.forms[0];
+            for (i = 0; i < theForm.elements.length; i++) {
+                if (theForm.elements[i].type == "textarea" && theForm.elements[i].className != "noCount") {
+                    var notesTextArea = theForm.elements[i];
+                    var counterDisplay = theForm.elements[i + 1];
+                    var limit = theForm.elements[i + 1].value;
+                    textCounter(notesTextArea, counterDisplay, limit)
+                }
+            }
+
+        }
+
+        function expandcontent(id) {
+            s = document.getElementById(id).style;
+            showState = document.getElementById("showstate_" + id);
+            if (s.display == "table-row") {
+                s.display = "none";
+                if (showState != null)
+                    showState.src = "../Content/images/redPlus.gif";
+            } else {
+                s.display = "table-row";
+                if (showState != null)
+                    showState.src = "../Content/images/redminus.gif";
+            }
+        }
+
+        // This function does not appear to be used at this time.
+        // Commenting out to eliminate the need for Model.items.Count() replace the '3' below
+        /*
+        function validateForm() {
+            var validationPassed = true;
+            for( var i = 1 ; i <= 3; i++ ) {
+                if( $("#td2_" + i).css('background-image') != 'none' && $("#txtS1aItemOneNotes"+i).val().trim().length == 0 ){
+                    alert( 'you must enter notes for item "' + $('#prompt'+i).html() + '" because you indicated that extensive support is needed' );
+                    validationPassed = false;
+                    break;
+                }
+            }
+    if( validationPassed )
+        alert('form validation passed');
+    }
+        */
+
+        // Execute this code after the DOM has loaded.
+        $(document).ready(function () {
+            TextCounterOnLoad();
+
+            if ('@Model.ventureMode' == 'True' && '@(Model.nextScreenTitle.Contains("Report"))' == 'True') {
+                $('.class_nextscreen').hide();
+            }
+            // SetupSection(null, 500);
+            //  Load circles for question values
+            $("input.sectionTextBox").each(function (index, item) {
+                SetCircleChange(0, 2, $(this).attr("id"), '/Content/images/', '');
+            });
+
+            $("input.sectionTextBox").change(function (e) {
+                var i = parseInt($(this).val());
+                if (!(i >= 0 && i <= 2))
+                    $(this).val("");
+            });
+
+            $(document).tooltip({
+                track: true,
+                content: function () {
+                    return $(this).prop('title');
+                }
+            });
+        });
+
+    </script>
+}
+
+<table id="tblData" border="0" cellpadding="0" cellspacing="0" style="height: 100%">
+    <tr>
+        <td style="width: 189px; background-color: #ffffff" valign="top" align="center">@Html.Partial("AssmntLeftPane")</td>
+        <td>
+            <br />
+            <table border="0" cellpadding="0" cellspacing="0" width="625">
+                <tr>
+                    <td align="left">
+                        <form id="form-id" action="/Results/Save" method="post">
+                            <table border="0" width="741">
+                                @*<tr>
+                                        <td align="left">
+                                            <!--
+                                            <asp:Label ID="lblCheck" EnableViewState="False" ForeColor="red" Font-Bold="True"
+                                                runat="Server" /><br />
+                                            <asp:Label ID="lblError" EnableViewState="False" ForeColor="red" Font-Bold="True"
+                                                runat="Server" /><br />
+                                              -->
+                                            <br />
+                                            <!-- start error table -->
+                                            <table id="tblErrors" bgcolor="#000000" width="100%" border="0" visible="false" style="display:none"
+                                                cellspacing="1" cellpadding="2">
+                                                <tr id="trHeader">
+                                                    <td id="Td1" width="18" bgcolor="#d5d5d5">
+                                                        &nbsp;
+                                                    </td>
+                                                    <td id="Td2" width="70" bgcolor="#d5d5d5" align="center">
+                                                        <b>Item Errors</b>
+                                                    </td>
+                                                    <td id="Td3" bgcolor="#d5d5d5" align="center">
+                                                        <b>Error Description</b>
+                                                    </td>
+                                                </tr>
+                                                <tr id="trItem1">
+                                                    <td id="Td4" width="18" bgcolor="#ffffff">
+                                                        <img alt="Error" src="/Content/images/error.gif" />
+                                                    </td>
+                                                    <td id="Td5" width="70" bgcolor="#ffffff" align="center">
+                                                        Item One
+                                                    </td>
+                                                    <td id="Td6" bgcolor="#ffffff">
+                                                        <!--
+                                                        <asp:Label ID="lblItemOneZeros" EnableViewState="False" ForeColor="red" runat="Server" />
+                                                        <asp:Label ID="lblItemOneFQYRange" EnableViewState="False" ForeColor="red" runat="server" />
+                                                        <asp:Label ID="lblItemOneDSTRange" EnableViewState="False" ForeColor="red" runat="server" />
+                                                        <asp:Label ID="lblItemOneTOSRange" EnableViewState="False" ForeColor="red" runat="server" />
+                                                          -->
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                            <br />
+                                            <!-- end error table -->
+                                        </td>
+                                    </tr>*@
+                                <tr>
+                                    <td valign="top">
+                                        <!-- start survey -->
+                                        <table>
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        @if (Model.formId == 2) { 
+                                                            <span>Instructions for @Model.thisScreenTitle: Circle the appropriate number to indicate how much support is needed in regard to each of the items below. If the child does not engage in the challenging behavior referenced, then the item should be rated “0.” If the child engages in a challenging behavior, rate according to the following rating key:</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            if (Model.thisSection.title.StartsWith("Section 1A"))
+                                                            { 
+                                                                <span>Instructions for @Model.thisScreenTitle: Circle the appropriate number to indicate how much support is needed in regard to each of the items below. If the person does not have the medical condition referenced, then the item should be rated “0.” Complete ALL items.</span>
+                                                            }
+                                                            else
+                                                            { 
+                                                                <span>Instructions for @Model.thisScreenTitle: Circle the appropriate number to indicate how much support is needed in regard to each of the items below. If the person does not engage in the challenging behaviors referenced, then the item should be rated “0.” Complete ALL items.</span>
+                                                            }
+                                                        }
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <table border="0" cellpadding="2" cellspacing="0" class="tableborderg" style="width:741px">
+                                                            <tr style="height: 21px;background-color:#444947">
+                                                                <td width="40%">
+                                                                    <span class="titlewhite"><b>Rating Key</b></span>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td valign="top">
+                                                                    0 = no support needed<br />
+                                                                    1 = some support needed (i.e., providing monitoring and/or occasional assistance)<br />
+                                                                    2 = extensive support needed (i.e., providing regular assistance to manage the medical condition or behavior)
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                        <br />
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <span>Complete all items. Subtotal the circled 1s and 2s. Total the subtotals.</span>
+                                                    </td>
+                                                </tr>
+                                        </table>
+                                        <table id="Table1" border="0" rules="rows" cellpadding="0" cellspacing="1" bgcolor="#000000">
+                                            @*<caption>@Model.thisScreenCaption</caption>*@
+                                            <tbody>
+                                                <tr style="height: 21px; background-color:white;">
+                                                    <td style="border:none" colspan="99"></td>
+                                                </tr>
+                                                <tr style="height: 21px; background-color:white;">
+                                                    <td style="border:none">
+                                                        <span class="titleblack">@Html.Raw(Model.thisScreenTitle.Replace(":", ":<br/>"))</span>
+                                                    </td>
+                                                    <td width="120" style="background-color:#444947; border:none" valign="middle" align="center" colspan="5">
+                                                        <span class="titlewhite">NO SUPPORT NEEDED</span>
+                                                    </td>
+                                                    <td width="120" style="background-color:#444947; border:none" valign="middle" align="center" colspan="5">
+                                                        <span class="titlewhite">SOME SUPPORT NEEDED</span>
+                                                    </td>
+                                                    <td width="120" style="background-color:#444947; border:none" valign="middle" align="center" colspan="5">
+                                                        <span class="titlewhite">EXTENSIVE SUPPORT NEEDED</span>
+                                                    </td>
+                                                    <td colspan="3" style="background-color:#444947">&nbsp;</td>
+                                                    <td width="12" style="background-color:#444947">&nbsp;</td>
+                                                </tr>
+                                                @{
+                                                    int itmCnt = 0, rowCnt = 0;
+                                                    List<def_Sections> sectionList = Model.subSections.ToList();
+                                                }
+
+                                                @for (int sectionIndex = 0; sectionIndex < sectionList.Count(); sectionIndex++)
+                                                {
+                                                    def_Sections sctn = sectionList[sectionIndex];
+                                                    if (!sctn.multipleItemsPerPage)     // Only process sections with multiple common items per screen
+                                                    {
+                                                        continue;
+                                                    }
+                                                    string bgColor = (rowCnt % 2) == 0 ? "#fdfdfd" : "#fbf9db";
+                                                    <tr style="height: 28px; background-color: @bgColor">
+                                                        <td colspan="20" style="color: #000000;"><b>@sctn.title</b></td>
+                                                    </tr>
+                                                    rowCnt++;
+                                                    int subSectionItmCnt = 0;
+                                                    List<def_SectionItems> siList = sctn.def_SectionItems.ToList();
+                                                    for (int siIndex = 0; siIndex < siList.Count(); siIndex++)
+                                                    {
+                                                        def_SectionItems si = siList[siIndex];
+                                                        var itm = si.def_Items;
+                                                        List<def_ItemVariables> lstIv = new List<def_ItemVariables>();//itm.def_ItemVariables.ToList();
+                                                        foreach (string suffix in "support,importantto,importantfor,notes".Split(','))
+                                                        {
+                                                            lstIv.Add(itm.def_ItemVariables.Where(iv => iv.identifier.ToLower().EndsWith(suffix)).First());
+                                                        }
+                                                        itmCnt++;
+                                                        subSectionItmCnt++;
+                                                        bgColor = (rowCnt % 2) == 0 ? "#FFFFFF" : "rgb(252,248,223)";
+                                                        <tr style="height: 28px; background-color:@bgColor" id="trs1a_@{@itmCnt}">
+                                                            <td width="265">
+                                                                <table border="0">
+                                                                    <tr>
+                                                                        <td>
+                                                                            <div>
+                                                                                <table border="0" cellpadding="0" cellspacing="0" width="260">
+                                                                                    <tr>
+                                                                                        <td onclick="expandcontent('s1aItem@{@itmCnt}')" class="toolTip" title="Hidden Content Available, Click to View" style="cursor: hand; cursor: pointer" width="11" valign="top">
+                                                                                            &nbsp;<font color="#be411e"><img src="~/Content/images/redPlus.gif" id="showstate_s1aItem@{@itmCnt}" class="showstate"></img></font>
+                                                                                        </td>
+                                                                                        <td width="7"></td>
+                                                                                        <td width="12" valign="top">@itmCnt.</td>
+                                                                                        <td width="7"></td>
+
+                                                                                        <td class="questionLabel">
+                                                                                            <span class="toolTip" id="prompt@{@itmCnt}" title="@itm.prompt" style="color: #000000">@itm.label</span>
+
+                                                                                            @*if this is an "other" item, add a text area*@
+                                                                                            @*@if (sectionIndex == sectionList.Count() - 1 && siIndex == siList.Count() - 1)*@
+                                                                                            @if (itm.label.StartsWith("Other"))
+                                                                                            {
+                                                                                                string ivIdent;
+                                                                                                if (Model.formId == 1)
+                                                                                                { ivIdent = "Q" + itm.identifier.Replace("i_", "") + "_Other"; }
+                                                                                                else
+                                                                                                { ivIdent = "SIS-C_Q" + itm.identifier.Replace("SIS-C_i_", "") + "_Other"; }
+                                                                                                def_ItemVariables otherIV = Model.notesItem.def_ItemVariables.Where(iv=>iv.identifier.Equals(ivIdent)).First();
+                                                                                                <textarea cols="10" wrap="soft" rows="3"
+                                                                                                          style="font-family: Arial,Geneva,Verdana; font-size: 11px; width: 300px; border-color: #7b7b7b;
+                                                                        border-width: 1px; border-style: solid" class="noCount"
+                                                                                                          name="@otherIV.identifier" id="@otherIV.identifier" title="@(Model.showItemVariableIdentifiersAsTooltips ? otherIV.identifier : "")">
+                                                                                            @Model.rspValues[otherIV.identifier]
+                                                                                                </textarea>
+                                                                                            }
+                                                                                        </td>
+                                                                                        <!--
+                                                                                        <td class="questionLabel">
+                                                                                            <a href="#pS1a_1_ttip" id="s1a_1_ttip" class="toolTip">@itm.label</a>
+                                                                                            <noscript>
+                                                                                                <p id="pS1a_1_ttip" class="noScriptToolTip">
+                                                                                                    @itm.prompt
+                                                                                                </p>
+                                                                                            </noscript>
+                                                                                        </td>
+                                                                                            -->
+                                                                                    </tr>
+                                                                                </table>
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                            </td>
+
+                                                            @*
+                                                                item Medical Support field
+                                                            *@
+                                                            @{ var cls = "tdques";}
+                                                            @for (int msCnt = 0; msCnt < 3; msCnt++)
+                                                            {
+                                                                //if (msCnt == 1) {cls = "tdques";}
+                                                                <td style="border-left:1px solid gray;" valign="middle" align="center" colspan="5" class="@cls" id="td@{@msCnt}_@{@itmCnt}"
+                                                                    onclick="SetCircleClick('td@{@msCnt}_@{@itmCnt}',0,2,'txts1a_@{@itmCnt}','/Content/images/','')"
+                                                                    style="cursor:pointer">
+                                                                    <span class="number">
+                                                                        @{@msCnt}
+                                                                    </span>
+                                                                </td>
+                                                            }
+
+                                                            <td style="border-left:1px solid gray;" valign="middle" align="center" colspan="3" width="25" id="tds1a_@{@itmCnt}">
+                                                                <input title="@(Model.showItemVariableIdentifiersAsTooltips ? lstIv[0].identifier : "")" name="@lstIv[0].identifier" maxlength="1" tabindex="@itmCnt" id="txts1a_@{@itmCnt}" value='@Model.rspValues[@lstIv[0].identifier]'
+                                                                       onchange="SetCircleChange(0,2,'txts1a_@{@itmCnt}','/Content/images/','')"
+                                                                       class="toolTip sectionTextBox" align="center" />
+                                                            </td>
+
+                                                            @*
+                                                                Additional Content indicator (checkboxes, Notes, etc.)
+                                                            *@
+                                                            <td valign="middle" align="center">
+                                                                <noscript>
+                                                                    <a href="#s1aItemOne">Hidden Content Available, Click to View</a>
+                                                                </noscript>
+                                                                <div onclick="expandcontent('s1aItem@{@itmCnt}')" class="toolTip" title="Hidden Content Available, Click to View">
+                                                                    <table border="0" cellpadding="0" cellspacing="0">
+                                                                        @{ string lbls = "TFN"; }
+                                                                        @for (int ivIndex = 1; ivIndex <= 3; ivIndex++)
+                                                                        {
+                                                                            <tr>
+                                                                                @{
+                                                                            var val = @Model.rspValues[@lstIv[ivIndex].identifier];
+                                                                            bool vis = !(String.IsNullOrEmpty(val) || (ivIndex <= 2 && (val.Equals("0") || val.Equals("false"))));
+                                                                                }
+                                                                                <td style="visibility:@(vis ? "visible" : "hidden")">
+                                                                                    <p style="margin-top:-2px; margin-bottom:-2px; font-size:10px;">@lbls[ivIndex - 1]</p>
+                                                                                </td>
+                                                                            </tr>
+                                                                        }
+                                                                    </table>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr id="s1aItem@{@itmCnt}" class="switchcontent">
+                                                            <td style="background-color:@bgColor" colspan="20">
+                                                                <table border="0">
+                                                                    <tr>
+                                                                        <td valign="middle" align="center">
+                                                                            <table border="0">
+                                                                                <tr>
+                                                                                    @{
+                                                                        var chkdTo = String.Empty;
+                                                                        var rspVal = @Model.rspValues[@lstIv[1].identifier];
+                                                                        if (String.IsNullOrEmpty(rspVal)) rspVal = "0";
+                                                                        if (rspVal.Equals("true")) chkdTo = "checked";
+                                                                                    }
+                                                                                    <td class="toolTip" title="@(Model.showItemVariableIdentifiersAsTooltips ? lstIv[1].identifier : "")">
+                                                                                        <input type="checkbox" name="@lstIv[1].identifier" id="@lstIv[1].identifier" value="1" @chkdTo />
+                                                                                        <label for="@lstIv[1].identifier"><span></span>Item is Important To the individual</label>
+                                                                                    </td>
+                                                                                    <td width="5">&nbsp;</td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    @{
+                                                                        var chkdFor = String.Empty;
+                                                                        rspVal = @Model.rspValues[@lstIv[2].identifier];
+                                                                        if (String.IsNullOrEmpty(rspVal)) rspVal = "0";
+                                                                        if (rspVal.Equals("true")) chkdFor = "checked";
+                                                                                    }
+                                                                                    <td class="toolTip" title="@(Model.showItemVariableIdentifiersAsTooltips ? lstIv[2].identifier : "")">
+                                                                                        <input type="checkbox" name="@lstIv[2].identifier" id="@lstIv[2].identifier" value="1" @chkdFor />
+                                                                                        <label for="@lstIv[2].identifier"><span></span>Item is Important For the individual</label>
+                                                                                    </td>
+                                                                                    <td width="5">&nbsp;</td>
+                                                                                </tr>
+                                                                            </table>
+                                                                        </td>
+                                                                        <td valign="top" align="right">
+                                                                            <b>Notes</b>
+                                                                        </td>
+                                                                        <td align="right">
+                                                                            <table border="0">
+                                                                                <tr>
+                                                                                    <td align="right">
+                                                                                        @{ var ntsName = "txtS1aItemOneNotes" + @itmCnt.ToString();}
+                                                                                        @{ var notesRspVal = Model.rspValues[@lstIv[3].identifier];}
+                                                                                        <textarea class="toolTip"
+                                                                                                  name="@lstIv[3].identifier"
+                                                                                                  title="@(Model.showItemVariableIdentifiersAsTooltips ? lstIv[3].identifier : "")"
+                                                                                                  id="txtS1aItemOneNotes@{@itmCnt}" wrap="soft" rows="4" cols="38"
+                                                                                                  onkeyup="textCounter(this.form.txtS1aItemOneNotes@{@itmCnt},this.form.txtS1aItemOneNotesCount@{@itmCnt},2400);"
+                                                                                                  >@(notesRspVal == null ? "" : notesRspVal.Trim())</textarea>
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td align="right">
+                                                                                            <label for="txtS1aItemOneNotesCount@{@itmCnt}">
+                                                                                                <span class="important">2400</span> characters maximum allowed for notes field.
+                                                                                            </label>
+                                                                                            <input readonly="readonly" type="text" name="txtS1aItemOneNotesCount@{@itmCnt}" id="txtS1aItemOneNotesCount@{@itmCnt}"
+                                                                                                   maxlength="4" value="2400" class="textCounter" />
+                                                                                            remain.
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                </table>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </td>
+                                                            </tr>
+                                                                                         rowCnt++;
+                                                    }
+                                                }
+                                            </tbody>
+                                        </table>
+                                        <table id="Table2" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff" width="100%">
+                                            <tr>
+                                                <td>&nbsp;</td>
+                                            </tr>
+                                        </table>
+                                        @Html.Partial("AssmntPageNotes")
+                                        <input type="submit" value="Submit" id="btnSubmit" />
+                                        <!-- end survey -->
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align="right">
+                                        @Html.Partial("AssmntNavPrevNext")
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td height="10"> </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <table border="0">
+                                            <tr>
+                                                <td>
+                                                    <table border="0" cellpadding="2" cellspacing="0" class="tableborderg" style="height: 50px">
+                                                        <tr>
+                                                            <td valign="top" width="740">
+                                                                <table border="0">
+                                                                    <tr>
+                                                                        <td>
+                                                                            <img src="~/Content/images/redPlus.gif" alt="+" />
+                                                                            &nbsp;
+                                                                            <img src="~/Content/images/redminus.gif" alt="-" />
+                                                                        </td>
+                                                                        <td>&nbsp;</td>
+                                                                        <td>
+                                                                            Hidden content indicator - Click (<img src="~/Content/images/redPlus.gif" alt="+" />) to view or
+                                                                            (<img src="~/Content/images/redminus.gif" alt="-" />) to hide
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td align="right">
+                                                                            <font color="#FF0000">T &nbsp; F</font>
+                                                                        </td>
+                                                                        <td>&nbsp;</td>
+                                                                        <td>
+                                                                            Indicates item is important <b>To</b> (<font color="#ff0000">T</font>) or <b>For</b>
+                                                                            (<font color="#ff0000">F</font>) the individual
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td align="right">
+                                                                            <font color="#ff0000">N</font>
+                                                                        </td>
+                                                                        <td>&nbsp;</td>
+                                                                        <td>
+                                                                            Indicates that notes pertaining to the individual exist for a given item in the hidden content area
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </form>
+                        <!-- End of Form -->
+                    </td>
+                </tr>
+            </table>
+            <table border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td style="height: 5px">&nbsp;</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+<br />

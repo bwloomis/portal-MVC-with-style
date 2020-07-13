@@ -1,0 +1,511 @@
+﻿@{
+    Layout = null;
+}
+<div id="magiPartial">
+    <p><strong>Select any income sources that apply and provide frequency and proof</strong></p>
+    <table id="table1" class="table table-bordered no-wraps small" cellspacing="0" cellpadding="0" width="100%">
+        <thead style="background-color:#d9edf7">
+            <tr>
+                <th class="text-center">Income</th>
+                <th>How Often?</th>
+                <th>Proof Attached?</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@Helpers.LabeledCheckboxInput(Model, "LA_ADAP_MAGI_NoIncome_ChkBx")</td>
+                <td>
+                    <select id="freq0" name="LA_ADAP_MAGI_NoIncome_Freq" class="form-control input-sm freq">
+                        <option selected value="">Select Frequency</option>
+                    </select>
+                    <span id="freq0_data" data="@Model.rspValues["LA_ADAP_MAGI_NoIncome_Freq"]" hidden="hidden" />
+                </td>
+                <td>
+                    <select id="proof0" name="LA_ADAP_MAGI_NoIncome_Proof" class="form-control input-sm proof">
+                        <option selected value="">Select Proof</option>
+                    </select>
+                    <span id="proof0_data" data="@Model.rspValues["LA_ADAP_MAGI_NoIncome_Proof"]" hidden="hidden" />
+                </td>
+            </tr>
+            <tr id="attach0">
+                <td bgcolor="#f8f8f8"></td>
+                <td colspan="2">
+                    @Helpers.LabelSpan(Model, "LA_ADAP_MAGI_NoIncome_Attach_item", new { @class = "col-md-3 control-label" })
+                    @Helpers.FileUpload(Model, "LA_ADAP_MAGI_NoIncome_Attach")
+                </td>
+            </tr>
+            <tr>
+                <td>@Helpers.LabeledCheckboxInput(Model, "LA_ADAP_MAGI_Salary_ChkBx")</td>
+                <td>
+                    <select id="freq1" name="LA_ADAP_MAGI_Salary_Freq" class="form-control input-sm freq">
+                        <option selected value="">Select Frequency</option>
+                    </select>
+                    <span id="freq1_data" data="@Model.rspValues["LA_ADAP_MAGI_Salary_Freq"]" hidden="hidden" />
+                </td>
+                <td>
+                    <select id="proof1" name="LA_ADAP_MAGI_Salary_Proof" class="form-control input-sm proof">
+                        <option selected value="">Select Proof</option>
+                    </select>
+                    <span id="proof1_data" data="@Model.rspValues["LA_ADAP_MAGI_Salary_Proof"]" hidden="hidden" />
+                </td>
+            </tr>
+            <tr id="attach1">
+                <td bgcolor="#f8f8f8"></td>
+                <td colspan="2">
+                    @Helpers.LabelSpan(Model, "LA_ADAP_MAGI_Salary_Attach_item", new { @class = "col-md-3 control-label" })
+                    @Helpers.FileUpload(Model, "LA_ADAP_MAGI_Salary_Attach")
+                </td>
+            </tr>
+            <tr>
+                <td>@Helpers.LabeledCheckboxInput(Model, "LA_ADAP_MAGI_SelfEmploy_ChkBx")</td>
+                <td>
+                    <select id="freq2" name="LA_ADAP_MAGI_SelfEmploy_Freq" class="form-control input-sm freq">
+                        <option selected value="">Select Frequency</option>
+                    </select>
+                    <span id="freq2_data" data="@Model.rspValues["LA_ADAP_MAGI_SelfEmploy_Freq"]" hidden="hidden" />
+                </td>
+                <td>
+                    <select id="proof2" name="LA_ADAP_MAGI_SelfEmploy_Proof" class="form-control input-sm proof">
+                        <option selected value="">Select Proof</option>
+                    </select>
+                    <span id="proof2_data" data="@Model.rspValues["LA_ADAP_MAGI_SelfEmploy_Proof"]" hidden="hidden" />
+                </td>
+            </tr>
+            <tr id="attach2">
+                <td bgcolor="#f8f8f8"></td>
+                <td colspan="2">
+                    @Helpers.LabelSpan(Model, "LA_ADAP_MAGI_SelfEmploy_Attach_item", new { @class = "col-md-3 control-label" })
+                    @Helpers.FileUpload(Model, "LA_ADAP_MAGI_SelfEmploy_Attach")
+                </td>
+            </tr>
+            <tr>
+                <td>@Helpers.LabeledCheckboxInput(Model, "LA_ADAP_MAGI_Foreign_ChkBx")</td>
+                <td>
+                    <select id="freq3" name="LA_ADAP_MAGI_Foreign_Freq" class="form-control input-sm freq">
+                        <option selected value="">Select Frequency</option>
+                    </select>
+                    <span id="freq3_data" data="@Model.rspValues["LA_ADAP_MAGI_Foreign_Freq"]" hidden="hidden" />
+                </td>
+                <td>
+                    <select id="proof3" name="LA_ADAP_MAGI_Foreign_Proof" class="form-control input-sm proof">
+                        <option selected value="">Select Proof</option>
+                    </select>
+                    <span id="proof3_data" data="@Model.rspValues["LA_ADAP_MAGI_Foreign_Proof"]" hidden="hidden" />
+                </td>
+            </tr>
+            <tr id="attach3">
+                <td bgcolor="#f8f8f8"></td>
+                <td colspan="2">
+                    @Helpers.LabelSpan(Model, "LA_ADAP_MAGI_Foreign_Attach_item", new { @class = "col-md-3 control-label" })
+                    @Helpers.FileUpload(Model, "LA_ADAP_MAGI_Foreign_Attach")
+                </td>
+            </tr>
+            <tr>
+                <td>@Helpers.LabeledCheckboxInput(Model, "LA_ADAP_MAGI_NonTax_ChkBx")</td>
+                <td>
+                    <select id="freq4" name="LA_ADAP_MAGI_NonTax_Freq" class="form-control input-sm freq">
+                        <option selected value="">Select Frequency</option>
+                    </select>
+                    <span id="freq4_data" data="@Model.rspValues["LA_ADAP_MAGI_NonTax_Freq"]" hidden="hidden" />
+                </td>
+                <td>
+                    <select id="proof4" name="LA_ADAP_MAGI_NonTax_Proof" class="form-control input-sm proof">
+                        <option selected value="">Select Proof</option>
+                    </select>
+                    <span id="proof4_data" data="@Model.rspValues["LA_ADAP_MAGI_NonTax_Proof"]" hidden="hidden" />
+                </td>
+            </tr>
+            <tr id="attach4">
+                <td bgcolor="#f8f8f8"></td>
+                <td colspan="2">
+                    @Helpers.LabelSpan(Model, "LA_ADAP_MAGI_NonTax_Attach_item", new { @class = "col-md-3 control-label" })
+                    @Helpers.FileUpload(Model, "LA_ADAP_MAGI_NonTax_Attach")
+                </td>
+            </tr>
+            <tr>
+                <td>@Helpers.LabeledCheckboxInput(Model, "LA_ADAP_MAGI_Unemployment_ChkBx")</td>
+                <td>
+                    <select id="freq5" name="LA_ADAP_MAGI_Unemployment_Freq" class="form-control input-sm freq">
+                        <option selected value="">Select Frequency</option>
+                    </select>
+                    <span id="freq5_data" data="@Model.rspValues["LA_ADAP_MAGI_Unemployment_Freq"]" hidden="hidden" />
+                </td>
+                <td>
+                    <select id="proof5" name="LA_ADAP_MAGI_Unemployment_Proof" class="form-control input-sm proof">
+                        <option selected value="">Select Proof</option>
+                    </select>
+                    <span id="proof5_data" data="@Model.rspValues["LA_ADAP_MAGI_Unemployment_Proof"]" hidden="hidden" />
+                </td>
+            </tr>
+            <tr id="attach5">
+                <td bgcolor="#f8f8f8"></td>
+                <td colspan="2">
+                    @Helpers.LabelSpan(Model, "LA_ADAP_MAGI_Unemployment_Attach_item", new { @class = "col-md-3 control-label" })
+                    @Helpers.FileUpload(Model, "LA_ADAP_MAGI_Unemployment_Attach")
+                </td>
+            </tr>
+            <tr>
+                <td>@Helpers.LabeledCheckboxInput(Model, "LA_ADAP_MAGI_Pensions_ChkBx")</td>
+                <td>
+                    <select id="freq6" name="LA_ADAP_MAGI_Pensions_Freq" class="form-control input-sm freq">
+                        <option selected value="">Select Frequency</option>
+                    </select>
+                    <span id="freq6_data" data="@Model.rspValues["LA_ADAP_MAGI_Pensions_Freq"]" hidden="hidden" />
+                </td>
+                <td>
+                    <select id="proof6" name="LA_ADAP_MAGI_Pensions_Proof" class="form-control input-sm proof">
+                        <option selected value="">Select Proof</option>
+                    </select>
+                    <span id="proof6_data" data="@Model.rspValues["LA_ADAP_MAGI_Pensions_Proof"]" hidden="hidden" />
+                </td>
+            </tr>
+            <tr id="attach6">
+                <td bgcolor="#f8f8f8"></td>
+                <td colspan="2">
+                    @Helpers.LabelSpan(Model, "LA_ADAP_MAGI_Pensions_Attach_item", new { @class = "col-md-3 control-label" })
+                    @Helpers.FileUpload(Model, "LA_ADAP_MAGI_Pensions_Attach")
+                </td>
+            </tr>
+            <tr>
+                <td>@Helpers.LabeledCheckboxInput(Model, "LA_ADAP_MAGI_SocSec_ChkBx")</td>
+                <td>
+                    <select id="freq7" name="LA_ADAP_MAGI_SocSec_Freq" class="form-control input-sm freq">
+                        <option selected value="">Select Frequency</option>
+                    </select>
+                    <span id="freq7_data" data="@Model.rspValues["LA_ADAP_MAGI_SocSec_Freq"]" hidden="hidden" />
+                </td>
+                <td>
+                    <select id="proof7" name="LA_ADAP_MAGI_SocSec_Proof" class="form-control input-sm proof">
+                        <option selected value="">Select Proof</option>
+                    </select>
+                    <span id="proof7_data" data="@Model.rspValues["LA_ADAP_MAGI_SocSec_Proof"]" hidden="hidden" />
+                </td>
+            </tr>
+            <tr id="attach7">
+                <td bgcolor="#f8f8f8"></td>
+                <td colspan="2">
+                    @Helpers.LabelSpan(Model, "LA_ADAP_MAGI_SocSec_Attach_item", new { @class = "col-md-3 control-label" })
+                    @Helpers.FileUpload(Model, "LA_ADAP_MAGI_SocSec_Attach")
+                </td>
+            </tr>
+            <tr>
+                <td>@Helpers.LabeledCheckboxInput(Model, "LA_ADAP_MAGI_Retirement_ChkBx")</td>
+                <td>
+                    <select id="freq8" name="LA_ADAP_MAGI_Retirement_Freq" class="form-control input-sm freq">
+                        <option selected value="">Select Frequency</option>
+                    </select>
+                    <span id="freq8_data" data="@Model.rspValues["LA_ADAP_MAGI_Retirement_Freq"]" hidden="hidden" />
+                </td>
+                <td>
+                    <select id="proof8" name="LA_ADAP_MAGI_Retirement_Proof" class="form-control input-sm proof">
+                        <option selected value="">Select Proof</option>
+                    </select>
+                    <span id="proof8_data" data="@Model.rspValues["LA_ADAP_MAGI_Retirement_Proof"]" hidden="hidden" />
+                </td>
+            </tr>
+            <tr id="attach8">
+                <td bgcolor="#f8f8f8"></td>
+                <td colspan="2">
+                    @Helpers.LabelSpan(Model, "LA_ADAP_MAGI_Retirement_Attach_item", new { @class = "col-md-3 control-label" })
+                    @Helpers.FileUpload(Model, "LA_ADAP_MAGI_Retirement_Attach")
+                </td>
+            </tr>
+            <tr>
+                <td>@Helpers.LabeledCheckboxInput(Model, "LA_ADAP_MAGI_Alimony_ChkBx")</td>
+                <td>
+                    <select id="freq9" name="LA_ADAP_MAGI_Alimony_Freq" class="form-control input-sm freq">
+                        <option selected value="">Select Frequency</option>
+                    </select>
+                    <span id="freq9_data" data="@Model.rspValues["LA_ADAP_MAGI_Alimony_Freq"]" hidden="hidden" />
+                </td>
+                <td>
+                    <select id="proof9" name="LA_ADAP_MAGI_Alimony_Proof" class="form-control input-sm proof">
+                        <option selected value="">Select Proof</option>
+                    </select>
+                    <span id="proof9_data" data="@Model.rspValues["LA_ADAP_MAGI_Alimony_Proof"]" hidden="hidden" />
+                </td>
+            </tr>
+            <tr id="attach9">
+                <td bgcolor="#f8f8f8"></td>
+                <td colspan="2">
+                    @Helpers.LabelSpan(Model, "LA_ADAP_MAGI_Alimony_Attach_item", new { @class = "col-md-3 control-label" })
+                    @Helpers.FileUpload(Model, "LA_ADAP_MAGI_Alimony_Attach")
+                </td>
+            </tr>
+            <tr>
+                <td>@Helpers.LabeledCheckboxInput(Model, "LA_ADAP_MAGI_Farming_ChkBx")</td>
+                <td>
+                    <select id="freq10" name="LA_ADAP_MAGI_Farming_Freq" class="form-control input-sm freq">
+                        <option selected value="">Select Frequency</option>
+                    </select>
+                    <span id="freq10_data" data="@Model.rspValues["LA_ADAP_MAGI_Farming_Freq"]" hidden="hidden" />
+                </td>
+                <td>
+                    <select id="proof10" name="LA_ADAP_MAGI_Farming_Proof" class="form-control input-sm proof">
+                        <option selected value="">Select Proof</option>
+                    </select>
+                    <span id="proof10_data" data="@Model.rspValues["LA_ADAP_MAGI_Farming_Proof"]" hidden="hidden" />
+                </td>
+            </tr>
+            <tr id="attach10">
+                <td bgcolor="#f8f8f8"></td>
+                <td colspan="2">
+                    @Helpers.LabelSpan(Model, "LA_ADAP_MAGI_Farming_Attach_item", new { @class = "col-md-3 control-label" })
+                    @Helpers.FileUpload(Model, "LA_ADAP_MAGI_Farming_Attach")
+                </td>
+            </tr>
+            <tr>
+                <td>@Helpers.LabeledCheckboxInput(Model, "LA_ADAP_MAGI_Rental_ChkBx")</td>
+                <td>
+                    <select id="freq11" name="LA_ADAP_MAGI_Rental_Freq" class="form-control input-sm freq">
+                        <option selected value="">Select Frequency</option>
+                    </select>
+                    <span id="freq11_data" data="@Model.rspValues["LA_ADAP_MAGI_Rental_Freq"]" hidden="hidden" />
+                </td>
+                <td>
+                    <select id="proof11" name="LA_ADAP_MAGI_Rental_Proof" class="form-control input-sm proof">
+                        <option selected value="">Select Proof</option>
+                    </select>
+                    <span id="proof11_data" data="@Model.rspValues["LA_ADAP_MAGI_Rental_Proof"]" hidden="hidden" />
+                </td>
+            </tr>
+            <tr id="attach11">
+                <td bgcolor="#f8f8f8"></td>
+                <td colspan="2">
+                    @Helpers.LabelSpan(Model, "LA_ADAP_MAGI_Rental_Attach_item", new { @class = "col-md-3 control-label" })
+                    @Helpers.FileUpload(Model, "LA_ADAP_MAGI_Rental_Attach")
+                </td>
+            </tr>
+            <tr>
+                <td>@Helpers.LabeledCheckboxInput(Model, "LA_ADAP_MAGI_CapitalGain_ChkBx")</td>
+                <td>
+                    <select id="freq12" name="LA_ADAP_MAGI_CapitalGain_Freq" class="form-control input-sm freq">
+                        <option selected value="">Select Frequency</option>
+                    </select>
+                    <span id="freq12_data" data="@Model.rspValues["LA_ADAP_MAGI_CapitalGain_Freq"]" hidden="hidden" />
+                </td>
+                <td>
+                    <select id="proof12" name="LA_ADAP_MAGI_CapitalGain_Proof" class="form-control input-sm proof">
+                        <option selected value="">Select Proof</option>
+                    </select>
+                    <span id="proof12_data" data="@Model.rspValues["LA_ADAP_MAGI_CapitalGain_Proof"]" hidden="hidden" />
+                </td>
+            </tr>
+            <tr id="attach12">
+                <td bgcolor="#f8f8f8"></td>
+                <td colspan="2">
+                    @Helpers.LabelSpan(Model, "LA_ADAP_MAGI_CapitalGain_Attach_item", new { @class = "col-md-3 control-label" })
+                    @Helpers.FileUpload(Model, "LA_ADAP_MAGI_CapitalGain_Attach")
+                </td>
+            </tr>
+            <tr>
+                <td>@Helpers.LabeledCheckboxInput(Model, "LA_ADAP_MAGI_Scholorship_ChkBx")</td>
+                <td>
+                    <select id="freq13" name="LA_ADAP_MAGI_Scholorship_Freq" class="form-control input-sm freq">
+                        <option selected value="">Select Frequency</option>
+                    </select>
+                    <span id="freq13_data" data="@Model.rspValues["LA_ADAP_MAGI_Scholorship_Freq"]" hidden="hidden" />
+                </td>
+                <td>
+                    <select id="proof13" name="LA_ADAP_MAGI_Scholorship_Proof" class="form-control input-sm proof">
+                        <option selected value="">Select Proof</option>
+                    </select>
+                    <span id="proof13_data" data="@Model.rspValues["LA_ADAP_MAGI_Scholorship_Proof"]" hidden="hidden" />
+                </td>
+            </tr>
+            <tr id="attach13">
+                <td bgcolor="#f8f8f8"></td>
+                <td colspan="2">
+                    @Helpers.LabelSpan(Model, "LA_ADAP_MAGI_Scholorship_Attach_item", new { @class = "col-md-3 control-label" })
+                    @Helpers.FileUpload(Model, "LA_ADAP_MAGI_Scholorship_Attach")
+                </td>
+            </tr>
+            <tr>
+                <td>@Helpers.LabeledCheckboxInput(Model, "LA_ADAP_MAGI_SSI_ChkBx")</td>
+                <td>
+                    <select id="freq14" name="LA_ADAP_MAGI_SSI_Freq" class="form-control input-sm freq">
+                        <option selected value="">Select Frequency</option>
+                    </select>
+                    <span id="freq14_data" data="@Model.rspValues["LA_ADAP_MAGI_SSI_Freq"]" hidden="hidden" />
+                </td>
+                <td style="background-color:#f4f4f4">
+                    <span class="mute"><i>Proof not required</i></span>
+                </td>
+            </tr>
+            <tr>
+                <td>@Helpers.LabeledCheckboxInput(Model, "LA_ADAP_MAGI_ChildSupport_ChkBx")</td>
+                <td>
+                    <select id="freq15" name="LA_ADAP_MAGI_ChildSupport_Freq" class="form-control input-sm freq">
+                        <option selected value="">Select Frequency</option>
+                    </select>
+                    <span id="freq15_data" data="@Model.rspValues["LA_ADAP_MAGI_ChildSupport_Freq"]" hidden="hidden" />
+                </td>
+                <td style="background-color:#f4f4f4">
+                    <span class="mute"><i>Proof not required</i></span>
+                </td>
+            </tr>
+            <tr>
+                <td>@Helpers.LabeledCheckboxInput(Model, "LA_ADAP_MAGI_VetPay_ChkBx")</td>
+                <td>
+                    <select id="freq16" name="LA_ADAP_MAGI_VetPay_Freq" class="form-control input-sm freq">
+                        <option selected value="">Select Frequency</option>
+                    </select>
+                    <span id="freq16_data" data="@Model.rspValues["LA_ADAP_MAGI_VetPay_Freq"]" hidden="hidden" />
+                </td>
+                <td style="background-color:#f4f4f4">
+                    <span class="mute"><i>Proof not required</i></span>
+                </td>
+            </tr>
+            <tr>
+                <td>@Helpers.LabeledCheckboxInput(Model, "LA_ADAP_MAGI_TempAssist_ChkBx")</td>
+                <td>
+                    <select id="freq17" name="LA_ADAP_MAGI_TempAssist_Freq" class="form-control input-sm freq">
+                        <option selected value="">Select Frequency</option>
+                    </select>
+                    <span id="freq17_data" data="@Model.rspValues["LA_ADAP_MAGI_TempAssist_Freq"]" hidden="hidden" />
+                </td>
+                <td style="background-color:#f4f4f4">
+                    <span class="mute"><i>Proof not required</i></span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Helpers.LabeledCheckboxInput(Model, "LA_ADAP_MAGI_OtherInc_ChkBx", "Other", new { onchange = "updateOtherIncComment()" })
+                    <!-- if selected, show below -->
+                    <br>
+                    <div class="form-group toggleOtherInc toggle">
+                        @Helpers.TextInput(Model, "LA_ADAP_MAGI_OtherInc_Other", new { @class = "form-control", @style = "width:90%;position:relative;left:5%" })
+                    </div>
+                    <!-- end dependency -->
+                </td>
+                <td>
+                    <select id="freq18" name="LA_ADAP_MAGI_OtherInc_Freq" class="form-control input-sm freq">
+                        <option selected value="">Select Frequency</option>
+                    </select>
+                    <span id="freq18_data" data="@Model.rspValues["LA_ADAP_MAGI_OtherInc_Freq"]" hidden="hidden" />
+                </td>
+                <td>
+                    <select id="proof14" name="LA_ADAP_MAGI_OtherInc_Proof" class="form-control input-sm proof">
+                        <option selected value="">Select Proof</option>
+                    </select>
+                    <span id="proof14_data" data="@Model.rspValues["LA_ADAP_MAGI_OtherInc_Proof"]" hidden="hidden" />
+                </td>
+            </tr>
+            <tr id="attach14">
+                <td bgcolor="#f8f8f8"></td>
+                <td colspan="2">
+                    @Helpers.LabelSpan(Model, "LA_ADAP_MAGI_OtherInc_Attach_item", new { @class = "col-md-3 control-label" })
+                    @Helpers.FileUpload(Model, "LA_ADAP_MAGI_OtherInc_Attach")
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <br><p><strong>Check any type of DEDUCTION that you and others in your household can claim on a tax return</strong></p><br>
+    <table id="table2" class="table table-bordered no-wraps small" cellspacing="0" cellpadding="0" width="100%">
+        <thead style="background-color:#d9edf7">
+            <tr>
+                <th class="text-center">Income</th>
+                <th>How Often?</th>
+                <th>Proof Attached?</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>@Helpers.LabeledCheckboxInput(Model, "LA_ADAP_MAGI_NoDeduc_ChkBx")</strong></td>
+                <td>
+                    <select id="freq19" name="LA_ADAP_MAGI_NoDeduc_Freq" class="form-control input-sm freq">
+                        <option selected value="">Select Frequency</option>
+                    </select>
+                    <span id="freq19_data" data="@Model.rspValues["LA_ADAP_MAGI_NoDeduc_Freq"]" hidden="hidden" />
+                </td>
+                <td>
+                    <select id="proof15" name="LA_ADAP_MAGI_NoDeduc_Proof" class="form-control input-sm proof">
+                        <option selected value="">Select Proof</option>
+                    </select>
+                    <span id="proof15_data" data="@Model.rspValues["LA_ADAP_MAGI_NoDeduc_Proof"]" hidden="hidden" />
+                </td>
+            </tr>
+            <tr id="attach15">
+                <td bgcolor="#f8f8f8"></td>
+                <td colspan="2">
+                    @Helpers.LabelSpan(Model, "LA_ADAP_MAGI_NoDeduc_Attach_item", new { @class = "col-md-3 control-label" })
+                    @Helpers.FileUpload(Model, "LA_ADAP_MAGI_NoDeduc_Attach")
+                </td>
+            </tr>
+            <tr>
+                <td>@Helpers.LabeledCheckboxInput(Model, "LA_ADAP_MAGI_StudentLoans_ChkBx")</td>
+                <td>
+                    <select id="freq20" name="LA_ADAP_MAGI_StudentLoans_Freq" class="form-control input-sm freq">
+                        <option selected value="">Select Frequency</option>
+                    </select>
+                    <span id="freq20_data" data="@Model.rspValues["LA_ADAP_MAGI_StudentLoans_Freq"]" hidden="hidden" />
+                </td>
+                <td>
+                    <select id="proof16" name="LA_ADAP_MAGI_StudentLoans_Proof" class="form-control input-sm proof">
+                        <option selected value="">Select Proof</option>
+                    </select>
+                    <span id="proof16_data" data="@Model.rspValues["LA_ADAP_MAGI_StudentLoans_Proof"]" hidden="hidden" />
+                </td>
+            </tr>
+            <tr id="attach16">
+                <td bgcolor="#f8f8f8"></td>
+                <td colspan="2">
+                    @Helpers.LabelSpan(Model, "LA_ADAP_MAGI_StudentLoans_Attach_item", new { @class = "col-md-3 control-label" })
+                    @Helpers.FileUpload(Model, "LA_ADAP_MAGI_StudentLoans_Attach")
+                </td>
+            </tr>
+            <tr>
+                <td>@Helpers.LabeledCheckboxInput(Model, "LA_ADAP_MAGI_AlimonyPay_ChkBx")</td>
+                <td>
+                    <select id="freq21" name="LA_ADAP_MAGI_AlimonyPay_Freq" class="form-control input-sm freq">
+                        <option selected value="">Select Frequency</option>
+                    </select>
+                    <span id="freq21_data" data="@Model.rspValues["LA_ADAP_MAGI_AlimonyPay_Freq"]" hidden="hidden" />
+                </td>
+                <td>
+                    <select id="proof17" name="LA_ADAP_MAGI_AlimonyPay_Proof" class="form-control input-sm proof">
+                        <option selected value="">Select Proof</option>
+                    </select>
+                    <span id="proof17_data" data="@Model.rspValues["LA_ADAP_MAGI_AlimonyPay_Proof"]" hidden="hidden" />
+                </td>
+            </tr>
+            <tr id="attach17">
+                <td bgcolor="#f8f8f8"></td>
+                <td colspan="2">
+                    @Helpers.LabelSpan(Model, "LA_ADAP_MAGI_AlimonyPay_Attach_item", new { @class = "col-md-3 control-label" })
+                    @Helpers.FileUpload(Model, "LA_ADAP_MAGI_AlimonyPay_Attach")
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Helpers.LabeledCheckboxInput(Model, "LA_ADAP_MAGI_OtherDeduc_ChkBx", "Other", new { onchange = "updateOtherDeducComment()" })
+                    <!-- if selected, show below -->
+                    <br>
+                    <div class="form-group toggleOtherDeduc toggle">
+                        @Helpers.TextInput(Model, "LA_ADAP_MAGI_OtherDeduc_Other", new { @class = "form-control", @style = "width:90%;position:relative;left:5%" })
+                    </div>
+                    <!-- end dependency -->
+                </td>
+                <td>
+                    <select id="freq22" name="LA_ADAP_MAGI_OtherDeduc_Freq" class="form-control input-sm freq">
+                        <option selected value="">Select Frequency</option>
+                    </select>
+                    <span id="freq22_data" data="@Model.rspValues["LA_ADAP_MAGI_OtherDeduc_Freq"]" hidden="hidden" />
+                </td>
+                <td>
+                    <select id="proof18" name="LA_ADAP_MAGI_OtherDeduc_Proof" class="form-control input-sm proof">
+                        <option selected value="">Select Proof</option>
+                    </select>
+                    <span id="proof18_data" data="@Model.rspValues["LA_ADAP_MAGI_OtherDeduc_Proof"]" hidden="hidden" />
+                </td>
+            </tr>
+            <tr id="attach18">
+                <td bgcolor="#f8f8f8"></td>
+                <td colspan="2">
+                    @Helpers.LabelSpan(Model, "LA_ADAP_MAGI_OtherDeduc_Attach_item", new { @class = "col-md-3 control-label" })
+                    @Helpers.FileUpload(Model, "LA_ADAP_MAGI_OtherDeduc_Attach")
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,471 @@
+﻿@model Assmnts.Models.GeneralForm
+@{
+    Layout = "AdapAppLayout.cshtml";
+}
+
+@section AddToHead{
+    <link rel="stylesheet" type="text/css" href="/Content/adap/css/ADAPForms.css" />
+
+    <script src="~/Content/js/ADAPLookupSelects.js"></script>
+    <link href="~/stylesheets/jquery.growl.css" rel="stylesheet" />
+    <script src="~/javascripts/jquery.growl.js"></script>
+    <script>
+
+        $(document).ready(function () {
+
+            $(".navbar-nav").find("li").each(function () {
+                $(this).click(function () {
+                    $.ajax({
+                        url: '@Url.Action("PageLoadEvents","Results")',
+                    });
+                });
+            });
+
+            $("button").click(function () {
+                $.ajax({
+                    url: '@Url.Action("PageLoadClickEvents", "Results")',
+                });
+            });
+
+            var Notify = '@ViewBag.Notify';
+            var NotifyMessage = '@ViewBag.NotifyMessage';
+            if (Notify == "Saved") {
+                console.log("notify start");
+                if (NotifyMessage != '')
+                    $.growl.notice({ title: "Save", message: NotifyMessage });
+                else
+                    $.growl.notice({ title: "Save", message: "Application Save successfully" });
+
+            }
+            else if (Notify == "Cancel") {
+                if (NotifyMessage != '')
+                    $.growl.error({ title: "Error", message: NotifyMessage });
+                else
+                    $.growl.error({ title: "Error", message: "Internal server error:Review the logs" });
+            }
+
+
+            @*@foreach (string shortName in new string[] { "MDiagnosisNotificationType", "HIVViralLoadTestType", "MemberHIVStatus", "MemberAdvisedHepatitisC" })
+            {
+                string identifier = "C1_" + shortName;
+                @:populateLookupSelect('@identifier', '@identifier', '@Model.rspValues[identifier]');
+                            @:populateLookupSelect('@identifier', 'PREVIOUS_@identifier', '@Model.rspValues["PREVIOUS_" + identifier]');
+                        }*@
+        });
+    </script>
+}
+<!-- MEER 1 -->
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="pull-right prevAppBtn"><button data-prevdiv="PreviousMEER1" class="btn" type="button"></button></div>
+        <div class="pull-right"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CmntModal" data-label="M1. @Model.sctTitles["CA-ADAP-Medical-1_sub"]"><span class="glyphicon glyphicon-comment"></span></button></div>
+        <p><strong>@Model.sctTitles["CA-ADAP-Medical-1_sub"]</strong></p>
+        <div class="form-group">
+            <div class="col-md-4">
+                @Helpers.LabelSpan(Model, "C1_BIC_item", new { @class = "control-label" })
+            </div>
+            <div class="col-md-4">
+                @Helpers.TextInput(Model, "C1_BIC", new { @class = "form-control" })
+            </div>
+        </div>
+        <hr />
+        <div class="form-group">
+            <div class="col-md-4">
+                @Helpers.LabelSpan(Model, "C1_BIC_item", new { @class = "control-label" })
+            </div>
+            <div class="col-md-4">
+                @Helpers.TextInput(Model, "C1_BIC", new { @class = "form-control" })
+            </div>
+        </div>
+        <hr />
+        <div class="form-group">
+            <div class="col-md-4">
+                @Helpers.LabelSpan(Model, "C1_BIC_item", new { @class = "control-label" })
+            </div>
+            <div class="col-md-4">
+                @Helpers.TextInput(Model, "C1_BIC", new { @class = "form-control" })
+            </div>
+        </div>
+        <hr />
+        <div class="form-group">
+            <div class="col-md-4">
+                @Helpers.LabelSpan(Model, "C1_BIC_item", new { @class = "control-label" })
+            </div>
+            <div class="col-md-4">
+                @Helpers.TextInput(Model, "C1_BIC", new { @class = "form-control" })
+            </div>
+        </div>
+        <hr />
+        <div class="form-group">
+            <div class="col-md-4">
+                @Helpers.LabelSpan(Model, "C1_BIC_item", new { @class = "control-label" })
+            </div>
+            <div class="col-md-4">
+                @Helpers.TextInput(Model, "C1_BIC", new { @class = "form-control" })
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- PREVIOUS MEER 1  -->
+<div class="panel panel-default previous-response" id="PreviousMEER1">
+    <div class="panel-body">
+        <div class="pull-right prevAppBtn"><a href="#" class="btn btn-success btn-xs active" id="hsName" role="button">&nbsp;</a></div>
+        <div class="pull-right"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CmntModal"><span class="glyphicon glyphicon-comment"></span></button></div>
+        <p><strong>@Model.sctTitles["CA-ADAP-Medical-1_sub"]</strong></p>
+        <div class="form-group">
+            <div class="col-md-4">
+                @Helpers.LabelSpan(Model, "C1_BIC_item", new { @class = "control-label" })
+            </div>
+            <div class="col-md-4">
+                @Helpers.TextInput(Model, "C1_BIC", new { @class = "form-control" })
+            </div>
+        </div>
+        <hr />
+        <div class="form-group">
+            <div class="col-md-4">
+                @Helpers.LabelSpan(Model, "C1_BIC_item", new { @class = "control-label" })
+            </div>
+            <div class="col-md-4">
+                @Helpers.TextInput(Model, "C1_BIC", new { @class = "form-control" })
+            </div>
+        </div>
+        <hr />
+        <div class="form-group">
+            <div class="col-md-4">
+                @Helpers.LabelSpan(Model, "C1_BIC_item", new { @class = "control-label" })
+            </div>
+            <div class="col-md-4">
+                @Helpers.TextInput(Model, "C1_BIC", new { @class = "form-control" })
+            </div>
+        </div>
+        <hr />
+        <div class="form-group">
+            <div class="col-md-4">
+                @Helpers.LabelSpan(Model, "C1_BIC_item", new { @class = "control-label" })
+            </div>
+            <div class="col-md-4">
+                @Helpers.TextInput(Model, "C1_BIC", new { @class = "form-control" })
+            </div>
+        </div>
+        <hr />
+        <div class="form-group">
+            <div class="col-md-4">
+                @Helpers.LabelSpan(Model, "C1_BIC_item", new { @class = "control-label" })
+            </div>
+            <div class="col-md-4">
+                @Helpers.TextInput(Model, "C1_BIC", new { @class = "form-control" })
+            </div>
+        </div>
+
+
+
+    </div>
+</div>
+
+<!-- MEER 2 -->
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="pull-right prevAppBtn"><button data-prevdiv="PreviousMEER2" class="btn" type="button"></button></div>
+        <div class="pull-right"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CmntModal" data-label="M1. @Model.sctTitles["CA-ADAP-Medical-1_sub"]"><span class="glyphicon glyphicon-comment"></span></button></div>
+        <p><strong>@Model.sctTitles["CA-ADAP-Medical-1_sub"]</strong></p>
+
+        <div class="form-group">
+            <div class="col-md-4">
+                @Helpers.LabelSpan(Model, "C1_BIC_item", new { @class = "control-label" })
+            </div>
+            <div class="col-md-4">
+                @Helpers.TextInput(Model, "C1_BIC", new { @class = "form-control" })
+            </div>
+        </div>
+        <hr />
+        <div class="form-group">
+            <div class="col-md-4">
+                @Helpers.LabelSpan(Model, "C1_BIC_item", new { @class = "control-label" })
+            </div>
+            <div class="col-md-4">
+                @Helpers.TextInput(Model, "C1_BIC", new { @class = "form-control" })
+            </div>
+        </div>
+        <hr />
+        <div class="form-group">
+            <div class="col-md-4">
+                @Helpers.LabelSpan(Model, "C1_BIC_item", new { @class = "control-label" })
+            </div>
+            <div class="col-md-4">
+                @Helpers.TextInput(Model, "C1_BIC", new { @class = "form-control" })
+            </div>
+            <div class="col-md-4">
+                @Helpers.LabelSpan(Model, "C1_MEDICALEFFDATE", new { @class = "control-label" })
+            </div>
+            <div class="col-md-4">
+                <div class="input-group date">
+                    @Helpers.TextInput(Model, "C1_MEDICALEFFDATE", new { @class = "form-control", placeholder = "mm/dd/yyyy" })
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                </div>
+            </div>
+        </div>
+        <hr />
+        <div class="form-group">
+            <div class="col-md-4">
+                @Helpers.LabelSpan(Model, "C1_HIVViralLoadTestType_item", new { @class = "control-label" })
+            </div>
+            <div class="col-md-4">
+                @Helpers.DropDownList(Model, "C1_HIVViralLoadTestType", "C1_HIVViralLoadTestType")
+            </div>
+        </div>
+        <hr />
+        <div class="form-group">
+            <div class="col-md-4">
+                @Helpers.LabelSpan(Model, "C1_BIC_item", new { @class = "control-label" })
+            </div>
+            <div class="col-md-4">
+                @Helpers.TextInput(Model, "C1_BIC", new { @class = "form-control" })
+            </div>
+        </div>
+        <hr />
+
+        <div class="form-group">
+            <div class="col-md-4">
+                @Helpers.LabelSpan(Model, "C1_HIVViralLoadProof_item", new { @class = "control-label" })
+            </div>
+
+            @Helpers.FileUpload(Model, "C1_HIVViralLoadProof")
+
+        </div>
+    </div>
+</div>
+
+<!-- PREVIOUS MEER 2  -->
+<div class="panel panel-default previous-response" id="PreviousMEER2">
+    <div class="panel-body">
+        <div class="pull-right prevAppBtn"><a href="#" class="btn btn-success btn-xs active" id="hsName" role="button">&nbsp;</a></div>
+        <div class="pull-right"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CmntModal"><span class="glyphicon glyphicon-comment"></span></button></div>
+        <p><strong>@Model.sctTitles["CA-ADAP-Medical-1_sub"]</strong></p>
+
+        <div class="form-group">
+            <div class="col-md-4">
+                @Helpers.LabelSpan(Model, "C1_BIC_item", new { @class = "control-label" })
+            </div>
+            <div class="col-md-4">
+                @Helpers.TextInput(Model, "C1_BIC", new { @class = "form-control" })
+            </div>
+        </div>
+        <hr />
+        <div class="form-group">
+            <div class="col-md-4">
+                @Helpers.LabelSpan(Model, "C1_BIC_item", new { @class = "control-label" })
+            </div>
+            <div class="col-md-4">
+                @Helpers.TextInput(Model, "C1_BIC", new { @class = "form-control" })
+            </div>
+        </div>
+        <hr />
+        <div class="form-group">
+            <div class="col-md-4">
+                @Helpers.LabelSpan(Model, "C1_BIC_item", new { @class = "control-label" })
+            </div>
+            <div class="col-md-4">
+                @Helpers.TextInput(Model, "C1_BIC", new { @class = "form-control" })
+            </div>
+            <div class="col-md-4">
+                @Helpers.LabelSpan(Model, "C1_MEDICALEFFDATE", new { @class = "control-label" })
+            </div>
+            <div class="col-md-4">
+                <div class="input-group date">
+                    @Helpers.TextInput(Model, "C1_MEDICALEFFDATE", new { @class = "form-control", placeholder = "mm/dd/yyyy" })
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                </div>
+            </div>
+        </div>
+        <hr />
+        <div class="form-group">
+            <div class="col-md-4">
+                @Helpers.LabelSpan(Model, "C1_HIVViralLoadTestType_item", new { @class = "control-label" })
+            </div>
+            <div class="col-md-4">
+                @Helpers.DropDownList(Model, "C1_HIVViralLoadTestType", "C1_HIVViralLoadTestType")
+            </div>
+        </div>
+        <hr />
+        <div class="form-group">
+            <div class="col-md-4">
+                @Helpers.LabelSpan(Model, "C1_BIC_item", new { @class = "control-label" })
+            </div>
+            <div class="col-md-4">
+                @Helpers.TextInput(Model, "C1_BIC", new { @class = "form-control" })
+            </div>
+        </div>
+        <hr />
+
+        <div class="form-group">
+            <div class="col-md-4">
+                @Helpers.LabelSpan(Model, "C1_HIVViralLoadProof_item", new { @class = "control-label" })
+            </div>
+
+            @Helpers.FileUpload(Model, "C1_HIVViralLoadProof")
+
+        </div>
+
+    </div>
+</div>
+
+<!-- MEER 3 -->
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="pull-right prevAppBtn"><button data-prevdiv="PreviousMEER3" class="btn" type="button"></button></div>
+        <div class="pull-right"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CmntModal" data-label="M1. @Model.sctTitles["CA-ADAP-Medical-1_sub"]"><span class="glyphicon glyphicon-comment"></span></button></div>
+        <p><strong>@Model.sctTitles["CA-ADAP-Medical-1_sub"]</strong></p>
+        <div class="form-group">
+            <div class="col-md-4">
+                @Helpers.LabelSpan(Model, "C1_MemberReceivingHepCTreatment_item", new { @class = "control-label" })
+            </div>
+
+            @Helpers.YesNoRadioButtons(Model, "C1_MemberReceivingHepCTreatment")
+
+        </div>
+        <hr />
+        <div class="form-group">
+            <div class="col-md-4">
+                @Helpers.LabelSpan(Model, "C1_MEDICALEFFDATE", new { @class = "control-label" })
+            </div>
+            <div class="col-md-4">
+                <div class="input-group date">
+                    @Helpers.TextInput(Model, "C1_MEDICALEFFDATE", new { @class = "form-control", placeholder = "mm/dd/yyyy" })
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                </div>
+            </div>
+        </div>
+        <hr />
+        <div class="form-group">
+            <div class="col-md-4">
+                @Helpers.LabelSpan(Model, "C1_BIC_item", new { @class = "control-label" })
+            </div>
+            <div class="col-md-4">
+                @Helpers.TextInput(Model, "C1_BIC", new { @class = "form-control" })
+            </div>
+        </div><hr />
+        <div class="form-group">
+            <div class="col-md-4">
+                @Helpers.LabelSpan(Model, "C1_HIVViralLoadProof_item", new { @class = "control-label" })
+            </div>
+        </div>
+        <div class="form-group" style="margin-left:25px">
+            <div class="col-md-4">
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "C1_MemberRaceIdWhite")
+                </div>
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "C1_MemberRaceIdAfrican")
+                </div>
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "C1_MemberRaceIdAsian")
+                </div>
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "C1_MemberRaceIdWhite")
+                </div>
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "C1_MemberRaceIdAfrican")
+                </div>
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "C1_MemberRaceIdAsian")
+                </div>
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "C1_MemberRaceIdAsian")
+                </div>
+            </div> 
+        </div>
+        <hr />
+        <div class="form-group">
+            <div class="col-md-4">
+                @Helpers.LabelSpan(Model, "C1_BIC_item", new { @class = "control-label" })
+            </div>
+            <div class="col-md-4">
+                @Helpers.TextInput(Model, "C1_BIC", new { @class = "form-control" })
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- PREVIOUS MEER 3  -->
+<div class="panel panel-default previous-response" id="PreviousMEER3">
+    <div class="panel-body">
+        <div class="pull-right prevAppBtn"><a href="#" class="btn btn-success btn-xs active" id="hsName" role="button">&nbsp;</a></div>
+        <div class="pull-right"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CmntModal"><span class="glyphicon glyphicon-comment"></span></button></div>
+        <p><strong>@Model.sctTitles["CA-ADAP-Medical-1_sub"]</strong></p>
+        <div class="form-group">
+            <div class="col-md-4">
+                @Helpers.LabelSpan(Model, "C1_MemberReceivingHepCTreatment_item", new { @class = "control-label" })
+            </div>
+
+            @Helpers.YesNoRadioButtons(Model, "C1_MemberReceivingHepCTreatment")
+
+        </div>
+        <hr />
+        <div class="form-group">
+            <div class="col-md-4">
+                @Helpers.LabelSpan(Model, "C1_MEDICALEFFDATE", new { @class = "control-label" })
+            </div>
+            <div class="col-md-4">
+                <div class="input-group date">
+                    @Helpers.TextInput(Model, "C1_MEDICALEFFDATE", new { @class = "form-control", placeholder = "mm/dd/yyyy" })
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                </div>
+            </div>
+        </div>
+        <hr />
+        <div class="form-group">
+            <div class="col-md-4">
+                @Helpers.LabelSpan(Model, "C1_BIC_item", new { @class = "control-label" })
+            </div>
+            <div class="col-md-4">
+                @Helpers.TextInput(Model, "C1_BIC", new { @class = "form-control" })
+            </div>
+        </div><hr />
+        <div class="form-group">
+            <div class="col-md-4">
+                @Helpers.LabelSpan(Model, "C1_HIVViralLoadProof_item", new { @class = "control-label" })
+            </div>
+        </div>
+        <div class="form-group" style="margin-left:25px">
+            <div class="col-md-4">
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "C1_MemberRaceIdWhite")
+                </div>
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "C1_MemberRaceIdAfrican")
+                </div>
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "C1_MemberRaceIdAsian")
+                </div>
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "C1_MemberRaceIdWhite")
+                </div>
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "C1_MemberRaceIdAfrican")
+                </div>
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "C1_MemberRaceIdAsian")
+                </div>
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "C1_MemberRaceIdAsian")
+                </div>
+            </div>
+        </div>
+        <hr />
+        <div class="form-group">
+            <div class="col-md-4">
+                @Helpers.LabelSpan(Model, "C1_BIC_item", new { @class = "control-label" })
+            </div>
+            <div class="col-md-4">
+                @Helpers.TextInput(Model, "C1_BIC", new { @class = "form-control" })
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Comments Modal -->
+@Html.Partial("_AdapCommentModal", Model)

@@ -1,0 +1,309 @@
+﻿@model Assmnts.Models.GeneralForm
+@{
+    Layout = "LA_AdapAppLayout.cshtml";
+}
+@section AddtoHead{
+    <link rel="stylesheet" type="text/css" href="/Content/adap/css/ADAPForms.css" />
+    <script src="~/Content/js/ADAPLookupSelects.js"></script>
+    <script src="~/Scripts/jquery.inputmask/inputmask.js"></script>
+    <script src="~/Scripts/jquery.inputmask/jquery.inputmask.js"></script>
+    <script src="~/Scripts/Validate.js"></script>
+    <link href="~/stylesheets/Validate.css" rel="stylesheet" />
+    <script>
+        $(document).ready(function () {
+            @foreach (string identifier in new string[] {  })
+            {
+                @:populateLookupSelect('@identifier', '@identifier', '@Model.rspValues[identifier]');
+                                    }
+
+            //Set the placeholder text for all dropdowns, except the "Jump to Application Section" dropdown
+            $('select[name!=jumpSection] option[value=""]').html("Choose One");
+
+            setApplicationProgressIndicator(5);
+            $('.class_dob_input').inputmask("99/99/9999");
+        });
+    </script>
+}
+@{int i = 1;}
+<div class="panel panel-default">
+    <div class="panel-body">
+        <p><strong>@(i++). @Model.sctTitles["LA_ADAP_Income_Sources"]</strong></p>
+        @{string
+              group1class = "col-md-9",
+              group2class = "col-md-3",
+              col1class = "col-md-6 control-label",
+              col2class = "col-md-1 control-label",
+              col3class = "col-md-1 control-label",
+              col4class = "col-md-4 control-label";
+        }
+
+        @*income sources header*@
+        <div class="form-group">
+            <div class="col-md-2 col-md-offset-1">
+                Income Source
+            </div>
+            <div class="col-md-2">
+                I recieve this.
+            </div>
+            <div class="col-md-2">
+                Someone in my household recieves this.
+            </div>
+            <div class="col-md-2">
+                Annual Gross Amount <b>(LA HAP staff use only)</b>
+            </div>
+
+
+            <div class="col-md-3">
+                Acceptable Forms of Income Documentation
+            </div>
+        </div>
+        <hr />
+        @*income source A*@
+        <div class="form-group">
+            <div class="col-md-2 col-md-offset-1">
+                <b> A.</b>@Model.fldLabels["LA_ADAP_IncomeA_Self_item"]
+            </div>
+            <div class="col-md-2">
+                @Helpers.LabeledCheckboxInput(Model, "LA_ADAP_IncomeA_Self", "")
+            </div>
+            <div class="col-md-2">
+                @Helpers.LabeledCheckboxInput(Model, "LA_ADAP_IncomeA_Other", "")
+            </div>
+            <div class="col-md-2">
+                @Helpers.TextInput(Model, "LA_ADAP_IncomeA_Amt", new { @class = "form-control", datavalidate = "true", datavalidationmessage = "Enter Valid Annual Gross Amount", datadv = "Allow0to9Numbers", onblur = "currencyTextBoxOnBlur(this);", onkeyup = "javascript:this.value=Comma(this.value);" })
+                <span class="icon"></span><label class="lbl-error error"></label>
+            </div>
+
+            <div class="col-md-3">
+                Pay stub indicating time period covered and gross income amount; Current tax year document; or Legal affidavit stating income.
+            </div>
+        </div>
+        <hr />
+        <div class="form-group">
+
+            @*income source B*@
+            <div class="form-group">
+                <div class="col-md-2 col-md-offset-1">
+                    <b>B.</b> @Model.fldLabels["LA_ADAP_IncomeB_Self_item"]
+            <div class="@group1class">
+                @*income source B*@
+                <div class="form-group">
+                <div class="col-md-2 col-md-offset-1">
+                    <b>B.</b> @Model.fldLabels["LA_ADAP_IncomeB_Self_item"]
+                    </div>
+                <div class="col-md-2">
+                        @Helpers.LabeledCheckboxInput(Model, "LA_ADAP_IncomeB_Self", "")
+                    </div>
+                <div class="col-md-2">
+                        @Helpers.LabeledCheckboxInput(Model, "LA_ADAP_IncomeB_Other", "")
+                    </div>
+                <div class="col-md-2">
+                    @Helpers.TextInput(Model, "LA_ADAP_IncomeB_Amt", new { @class = "form-control", datavalidate = "true", datavalidationmessage = "Enter Valid Annual Gross Amount", datadv = "Allow0to9Numbers", onblur = "currencyTextBoxOnBlur(this);", onkeyup = "javascript:this.value=Comma(this.value);" })
+                    <span class="icon"></span><label class="lbl-error error"></label>
+                </div>
+                <div class="col-md-3">
+                    Benefit award letter from current award year; legal affidavit from past 6 months; or bank statement showing gross monthly deposit.
+                    </div>
+
+                </div>
+                <div class="col-md-2">
+                    @Helpers.LabeledCheckboxInput(Model, "LA_ADAP_IncomeB_Self", "")
+                </div>
+                <div class="col-md-2">
+                    @Helpers.LabeledCheckboxInput(Model, "LA_ADAP_IncomeB_Other", "")
+                </div>
+                <div class="col-md-2">
+                    @Helpers.TextInput(Model, "LA_ADAP_IncomeB_Amt", new { @class = "form-control", datavalidate = "true", datavalidationmessage = "Enter Valid Annual Gross Amount", datadv = "Allow0to9Numbers", onblur = "currencyTextBoxOnBlur(this);", onkeyup = "javascript:this.value=Comma(this.value);" })
+                    <span class="icon"></span><label class="lbl-error error"></label>
+                </div>
+                <div class="col-md-3">
+                    Benefit award letter from current award year; legal affidavit from past 6 months; or bank statement showing gross monthly deposit.
+                </div>
+            </div>
+
+
+            @*income source C*@
+            <div class="form-group">
+
+
+                <div class="col-md-2 col-md-offset-1">
+                    <b>C.</b> @Model.fldLabels["LA_ADAP_IncomeC_Self_item"]<br />
+                    @Model.fldLabels["LA_ADAP_IncomeC_StartDt_item"]<br />
+
+                    <div class="input-group date">
+                        @Helpers.TextInput(Model, "LA_ADAP_IncomeC_StartDt", new { @class = "form-control class_dob_input", placeholder = "mm/dd/yyyy" })
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                        @Helpers.LabeledCheckboxInput(Model, "LA_ADAP_IncomeC_Self", "")
+                    </div>
+                <div class="col-md-2">
+                        @Helpers.LabeledCheckboxInput(Model, "LA_ADAP_IncomeC_Other", "")
+                    </div>
+                <div class="col-md-2">
+                    @Helpers.TextInput(Model, "LA_ADAP_IncomeC_Amt", new { @class = "form-control", datavalidate = "true", datavalidationmessage = "Enter Valid Annual Gross Amount", datadv = "Allow0to9Numbers", onblur = "currencyTextBoxOnBlur(this);", onkeyup = "javascript:this.value=Comma(this.value);" })
+                    <span class="icon"></span><label class="lbl-error error"></label>
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    @Helpers.LabeledCheckboxInput(Model, "LA_ADAP_IncomeC_Self", "")
+                </div>
+                <div class="col-md-2">
+                    @Helpers.LabeledCheckboxInput(Model, "LA_ADAP_IncomeC_Other", "")
+                </div>
+                <div class="col-md-2">
+                    @Helpers.TextInput(Model, "LA_ADAP_IncomeC_Amt", new { @class = "form-control", datavalidate = "true", datavalidationmessage = "Enter Valid Annual Gross Amount", datadv = "Allow0to9Numbers", onblur = "currencyTextBoxOnBlur(this);", onkeyup = "javascript:this.value=Comma(this.value);" })
+                    <span class="icon"></span><label class="lbl-error error"></label>
+                </div>
+            </div>
+
+            @*income source D*@
+            <div class="form-group">
+                <div class="col-md-2 col-md-offset-1">
+                    <b>D.</b>@Model.fldLabels["LA_ADAP_IncomeD_Self_item"]
+                </div>
+                <div class="col-md-2">
+                    @Helpers.LabeledCheckboxInput(Model, "LA_ADAP_IncomeD_Self", "")
+                </div>
+                <div class="col-md-2">
+                    @Helpers.LabeledCheckboxInput(Model, "LA_ADAP_IncomeD_Other", "")
+                </div>
+                <div class="col-md-2">
+                    @Helpers.TextInput(Model, "LA_ADAP_IncomeD_Amt", new { @class = "form-control", datavalidate = "true", datavalidationmessage = "Enter Valid Annual Gross Amount", datadv = "Allow0to9Numbers", onblur = "currencyTextBoxOnBlur(this);", onkeyup = "javascript:this.value=Comma(this.value);" })
+                    <span class="icon"></span><label class="lbl-error error"></label>
+                </div>
+            </div>
+
+            @*income source E*@
+            <div class="form-group">
+                <div class="col-md-2 col-md-offset-1">
+                    <b>E.</b> @Model.fldLabels["LA_ADAP_IncomeE_Self_item"]
+                </div>
+                <div class="col-md-2">
+                    @Helpers.LabeledCheckboxInput(Model, "LA_ADAP_IncomeE_Self", "")
+                </div>
+                <div class="col-md-2">
+                    @Helpers.LabeledCheckboxInput(Model, "LA_ADAP_IncomeE_Other", "")
+                </div>
+                <div class="col-md-2">
+                    @Helpers.TextInput(Model, "LA_ADAP_IncomeE_Amt", new { @class = "form-control", datavalidate = "true", datavalidationmessage = "Enter Valid Annual Gross Amount", datadv = "Allow0to9Numbers", onblur = "currencyTextBoxOnBlur(this);", onkeyup = "javascript:this.value=Comma(this.value);" })
+                    <span class="icon"></span><label class="lbl-error error"></label>
+                </div>
+            </div>
+
+
+            @*income source F*@
+            <div class="form-group">
+                <div class="col-md-2 col-md-offset-1">
+                    <b>F.</b> @Model.fldLabels["LA_ADAP_IncomeF_Self_item"]
+                </div>
+                <div class="col-md-2">
+                    @Helpers.LabeledCheckboxInput(Model, "LA_ADAP_IncomeF_Self", "")
+
+                
+                <div class="col-md-2">
+                    @Helpers.TextInput(Model, "LA_ADAP_IncomeE_Amt", new { @class = "form-control", datavalidate = "true", datavalidationmessage = "Enter Valid Annual Gross Amount", datadv = "Allow0to9Numbers", onblur = "currencyTextBoxOnBlur(this);", onkeyup = "javascript:this.value=Comma(this.value);" })
+                    <span class="icon"></span><label class="lbl-error error"></label>
+                    </div>
+
+                </div>
+                <div class="col-md-2">
+                    @Helpers.LabeledCheckboxInput(Model, "LA_ADAP_IncomeF_Other", "")
+                </div>
+                <div class="col-md-2">
+                    @Helpers.TextInput(Model, "LA_ADAP_IncomeF_Amt", new { @class = "form-control", datavalidate = "true", datavalidationmessage = "Enter Valid Annual Gross Amount", datadv = "Allow0to9Numbers", onblur = "currencyTextBoxOnBlur(this);", onkeyup = "javascript:this.value=Comma(this.value);" })
+                    <span class="icon"></span><label class="lbl-error error"></label>
+                </div>
+            </div>
+
+
+
+        </div>
+        <hr />
+        <div class="form-group">
+
+            @*income source G*@
+            <div class="form-group">
+                <div class="col-md-2 col-md-offset-1">
+                    <b>G.</b>@Model.fldLabels["LA_ADAP_IncomeG_Self_item"]
+                    <br />
+                    @Helpers.TextInput(Model, "LA_ADAP_IncomeG_Source", new { @class = "form-control", datavalidate = "true", datavalidationmessage = "Enter Valid Income", datadv = "Allow0to9Numbers", onblur = "currencyTextBoxOnBlur(this);", onkeyup = "javascript:this.value=Comma(this.value);" })
+                    <span class="icon"></span><label class="lbl-error error"></label>
+                </div>
+                <div class="col-md-2">
+                    @Helpers.LabeledCheckboxInput(Model, "LA_ADAP_IncomeG_Self", "")
+                </div>
+                <div class="col-md-2">
+                    @Helpers.LabeledCheckboxInput(Model, "LA_ADAP_IncomeG_Other", "")
+                </div>
+                <div class="col-md-2">
+                    @Helpers.TextInput(Model, "LA_ADAP_IncomeG_Amt", new { @class = "form-control", datavalidate = "true", datavalidationmessage = "Enter Valid Annual Gross Amount", datadv = "Allow0to9Numbers", onblur = "currencyTextBoxOnBlur(this);", onkeyup = "javascript:this.value=Comma(this.value);" })
+                    <span class="icon"></span><label class="lbl-error error"></label>
+                </div>
+                <div class="col-md-3">
+                    If other, must specify source and provide documentation for each source.
+                </div>
+            </div>
+
+            @*income source H*@
+            <div class="form-group">
+                <div class="col-md-2 col-md-offset-1">
+                    <b>H.</b> @Model.fldLabels["LA_ADAP_IncomeH_Self_item"]
+                    <br />
+                    @Helpers.TextInput(Model, "LA_ADAP_IncomeH_Source", new { @class = "form-control", datavalidate = "true", datavalidationmessage = "Enter Valid Other Income", datadv = "Allow0to9Numbers", onblur = "currencyTextBoxOnBlur(this);", onkeyup = "javascript:this.value=Comma(this.value);" })
+                    <span class="icon"></span><label class="lbl-error error"></label>
+                </div>
+                <div class="col-md-2">
+                    @Helpers.LabeledCheckboxInput(Model, "LA_ADAP_IncomeH_Self", "")
+                </div>
+                <div class="col-md-2">
+                    @Helpers.LabeledCheckboxInput(Model, "LA_ADAP_IncomeH_Other", "")
+                </div>
+                <div class="col-md-2">
+                    @Helpers.TextInput(Model, "LA_ADAP_IncomeH_Amt", new { @class = "form-control", datavalidate = "true", datavalidationmessage = "Enter Valid Annual Gross Amount", datadv = "Allow0to9Numbers", onblur = "currencyTextBoxOnBlur(this);", onkeyup = "javascript:this.value=Comma(this.value);" })
+                    <span class="icon"></span><label class="lbl-error error"></label>
+                </div>
+
+               
+            </div>
+
+
+        </div>
+        <hr />
+        <div class="form-group">
+
+
+            @*income source I*@
+
+            <div class="col-md-2 col-md-offset-1">
+                <b>I.</b> @Model.fldLabels["LA_ADAP_IncomeI_Self_item"]
+
+            </div>
+            <div class="col-md-2">
+                @Helpers.LabeledCheckboxInput(Model, "LA_ADAP_IncomeI_Self", "")
+            </div>
+            <div class="col-md-2">
+                @Helpers.LabeledCheckboxInput(Model, "LA_ADAP_IncomeI_Other", "")
+            </div>
+
+
+            <div class="col-md-3 col-md-offset-2">
+                Legal affidavit stating lack of income; Certification of No Income; or Statement from unemployment office verifying no record of employment
+            </div>
+        </div>
+    </div>
+</div>
+<div class="panel panel-default">
+    <div class="panel-body">
+        <p><strong>@(i++). @Model.sctTitles["LA_ADAP_Income_Other"]</strong></p>
+        @Helpers.ToolTipFromItemPrompt(Model, "LA_ADAP_Income_Other_item", new { @class = "pointer fa fa-question-circle text-primary fa-1x" })
+        <div class="form-group">
+            <div class="col-md-12 control-label">
+                <textarea name="LA_ADAP_Income_Other" rows="5" class="form-control">@Model.rspValues["LA_ADAP_Income_Other"]</textarea>
+            </div>
+        </div>
+    </div>
+</div>

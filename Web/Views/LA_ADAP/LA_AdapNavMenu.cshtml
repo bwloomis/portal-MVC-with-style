@@ -1,0 +1,143 @@
+@using Assmnts.Infrastructure;
+
+
+<script>
+    $(document).ready(function () {
+
+        @*$('.class_cert').click(function () {
+            $('form').attr('action', '/COADAP/Validate');
+            SubmitForm('@Model.adapPartId', '@Model.sectionIds["ADAP_cert"]');
+        });*@
+
+        //add padding between save buttons on mobile
+        $('.btn.pull-right').css('margin-top', '2px');
+
+
+        $('#createStubAppWithRamsellId').click(function () {
+            window.location.href = "/LAADAP/CreateStubApplication?ramsellId=" + $('#inputRamsellId').val();
+        });
+    }); 
+    function DisableBackButton() {
+        window.history.forward()
+    }
+    DisableBackButton();
+    window.onload = DisableBackButton;
+</script>
+
+<!-- Fixed navbar -->
+<nav id="custom-bootstrap-menu" class="navbar navbar-default navbar-static-top" style="margin:0; border-bottom: 1px solid #d5d5d5">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="" class="logo pull-left"><img src="~/Content/adap/images/la_small.png" class="img-responsive" /></a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li class="dropdown">
+                    <a href="" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-copy"></i> Applications<b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li class="disabled"><a href="#">Application Summary</a></li>
+                        <li class="divider"></li>
+                        <li class="disabled"><a href="#">Create Application</a></li>                        
+                        @if (!Model.GetType().Name.Equals("TemplateAdapNavMenu"))
+                        {
+                            <li class="divider"></li>
+                            <li><a href="#" data-toggle="modal" data-target="#ramsellModal">Create Stub Application</a></li>
+                        }
+                    </ul>
+                </li>
+                @if (!Model.GetType().Name.Equals("TemplateAdapNavMenu"))
+                {
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-list"></i> Reports <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            @if (Model.GetType().Name.Equals("TemplateAdapNavMenu")) 
+                            {
+                                <li><a href="/LAADAP/BuildPDFReport"><i class="glyphicon glyphicon-save-file"></i> Build PDF Report</a></li>
+                                <li><a href="/Adap/UpdateStatus?formResultId=@Model.adapFormId"><i class="glyphicon glyphicon-save-file"></i> Update Status</a></li>
+                                <li class="divider"></li>
+                            }
+                            <li><b>&nbsp;Applicants</b></li>
+                            <li><a href="/Adap/Report1">Applicant Reports</a></li>
+                            <li class="divider"></li>
+                            <li><a href="/Adap/ApplicationsPending">Applications Pending</a></li>
+                            <li class="divider"></li>
+                            <li><a href="/Adap/ReCertsDue">Re-Certifications Due</a></li>
+                            <li class="divider"></li>
+                            <li><b>&nbsp;Dashboards</b></li>
+                            <li><a href="/Adap/AppOverview">Overview of All Applicant Records</a></li>
+                            <li class="divider"></li>
+                            <li><a href="/Adap/AppsPending">New Applications Pending</a></li>
+                            <li class="divider"></li>
+                            <li><a href="/Adap/CurrentNewApps">Current New Applicants</a></li>
+                            <li class="divider"></li>
+                            <li><a href="/Adap/DashboardReCerts">Re-certifications Due</a></li>
+                            <li class="divider"></li>
+                            <li><a href="/Adap/ProcessSummary">Process Summary</a></li>
+                        </ul>
+                    </li>
+                }
+                <li>
+                    <a href="/LAADAP/AppsHistory"><i class="glyphicon glyphicon-book"></i> History</a>
+                </li>              
+                <li>
+                    <a href="/LAADAP/StartNewFormResult?formIdentifier=LA-ADAP-PreIns"><i class="glyphicon glyphicon-credit-card"></i> Insurance</a>
+                </li>
+                <li>
+                    <a href="/LAADAP/RedirectToSecureEmail" target="_blank"><i class="glyphicon glyphicon-comment"></i> Secure Email</a>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-user"></i> @SessionHelper.LoginStatus.FirstName @SessionHelper.LoginStatus.LastName<b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/LAADAP/RedirectToUserProfile">Profile Information</a></li>
+                        <li class="divider"></li>
+                        <li id="exitToPortalMenuButton">
+                            <a href="/Account/SsoLogout"> @Resources.AdapAppNavMenu.ExitToPortalMenu</a>
+                        </li>
+                        <li><a href="/LAADAP/RedirectToUasLogout">Logout</a></li>
+                    </ul>
+                </li>
+                @if (!Model.GetType().Name.Equals("TemplateAdapNavMenu"))
+                {
+                    <li>
+                        <a href="/LAADAP/RedirectToUserAdmin"  style="color:#eaa002"><i class="glyphicon glyphicon-cog"></i> Administration</a>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+<!-- Ramsell ID input Modal -->
+<div class="modal fade" id="ramsellModal" tabindex="-1" role="dialog" aria-labelledby="ramsellModalLabel">
+    <div class="modal-dialog" role="document" style="width:700px">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #337ab7; color:white;">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="ramsellModalLabel">Enter Ramsell ID for Stub Application</span></h4>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <input class="form-control" type="text" id="inputRamsellId" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary pull-left" id="createStubAppWithRamsellId">Create Stub Application</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>    

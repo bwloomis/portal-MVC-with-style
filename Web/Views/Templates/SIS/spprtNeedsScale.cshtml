@@ -1,0 +1,727 @@
+﻿@model Assmnts.Models.QuestionListForm
+@using Assmnts
+@{
+    ViewBag.Title = @Model.thisScreenCaption;
+    Layout = "~/Views/Shared/AssmntLayout.cshtml";
+}
+
+@section HeadContent {
+    @*<link href="/Content/css/sis-red/jquery-ui-1.7.sisred.css" rel="stylesheet" type="text/css" />*@
+
+    <script src="/Content/js/Misc.js" type="text/javascript"></script>
+    <script src="/Content/js/textchanger.js" type="text/javascript"></script>
+    <script src="/Content/js/SelectionControl.js" type="text/javascript"></script>
+    <script src="/Content/js/SetupSection.js" type="text/javascript"></script>
+
+
+    <script type="text/javascript">
+
+        /*  Sets character count for 'textarea' boxes. */
+        function TextCounterOnLoad() {
+            var theForm = document.forms[0];
+            for (i = 0; i < theForm.elements.length; i++) {
+                if (theForm.elements[i].type == "textarea") {
+                    var notesTextArea = theForm.elements[i];
+                    var counterDisplay = theForm.elements[i + 1];
+                    var limit = theForm.elements[i + 1].value;
+                    textCounter(notesTextArea, counterDisplay, limit)
+                }
+            }
+        }
+
+        function expandcontent(id) {
+            s = document.getElementById(id).style;
+            showState = document.getElementById("showstate_" + id);
+            if (s.display == "table-row") {
+                s.display = "none";
+                if (showState != null)
+                    showState.src = "../Content/images/redPlus.gif";
+            } else {
+                s.display = "table-row";
+                if (showState != null)
+                    showState.src = "../Content/images/redminus.gif";
+            }
+        }
+
+        function validateForm() {
+            var validationPassed = true;
+            for( var i = 1 ; i <= @Model.items.Count() ; i++ ){
+                var label = $('#prompt'+i).html();
+                if ($('#txtS1aItemOneNotes' + i).val().trim().length == 0){
+                    if( $('#importantTo' + i)[0].checked ){
+                        alert('you must enter notes for the item "' + label + '", because "Item is Important To the individual" is checked');
+                        validationPassed = false;
+                        break;
+                    }
+                    if( $('#importantFor' + i)[0].checked ){
+                        alert('you must enter notes for the item "' + label + '", because "Item is Important For the individual" is checked');
+                        validationPassed = false;
+                        break;
+                    }
+                }
+            }
+            if( validationPassed )
+                alert('form validation passed');
+        }
+
+        // Execute this code after the DOM has loaded.
+        $( document ).ready(function() {
+            // Handler for .ready() called.
+            // $("href[title]").tooltip();
+            TextCounterOnLoad();
+
+            if ('@Model.ventureMode' == 'True' && '@(Model.nextScreenTitle.Contains("Report"))' == 'True') {
+                $('.class_nextscreen').hide();
+            }
+            // SetupSection(null, 500);
+            //  Load circles for question values
+            $("input.sectionTextBox").each(function (index, item) {
+                SetCircleChange(0, 4, $(this).attr("id"), '/Content/images/', '');
+            });
+
+            $(document).tooltip({
+                track: true,
+                content: function () {
+                    return $(this).prop('title');
+                },
+                open: function( event, ui ) {
+                    $('.large-tooltip-content').parent().parent().css({
+                        "width" : "700px",
+                        "max-width": "700px"
+                    });
+                }
+            });
+
+            //depending on the item identifiers, remove some score options
+            //(any identifiers not included here will be given default maximums 4,4,4)
+            var maxScores = [
+                //['identifier', maxType, maxFreq, maxTime],
+                [ 'i_2A2',   4,3,4 ],
+                [ 'i_2A5',   4,3,4 ],
+                [ 'i_2A8',   4,4,2 ],
+                [ 'i_2B1',   4,3,4 ],
+                [ 'i_2B2',   4,3,4 ],
+                [ 'i_2B3',   4,3,4 ],
+                [ 'i_2B5',   4,3,4 ],
+                [ 'i_2B8',   4,3,4 ],
+                [ 'i_2C5',   4,3,4 ],
+                [ 'i_2C6',   4,3,3 ],
+                [ 'i_2C8',   4,3,4 ],
+                [ 'i_2D1',   4,3,4 ],
+                [ 'i_2D2',   4,3,4 ],
+                [ 'i_2D3',   4,3,4 ],
+                [ 'i_2D4',   4,3,4 ],
+                [ 'i_2D5',   4,3,4 ],
+                [ 'i_2D6',   4,3,4 ],
+                [ 'i_2D7',   4,2,4 ],
+                [ 'i_2D8',   4,3,4 ],
+                [ 'i_2E4',   4,4,2 ],
+                [ 'i_2F2',   4,3,4 ],
+                [ 'i_2F4',   4,3,4 ],
+                [ 'i_2F6',   4,3,4 ],
+                [ 'i_3A1',   4,3,4 ],
+                [ 'i_3A8',   4,3,4 ],
+            ];
+            for( var itmCnt = 1 ; itmCnt <= @Model.items.Count() ; itmCnt++ ){
+
+                $("input[data-itmcnt='" + itmCnt + "'][data-col='tos']").change( function(e){
+                    var identifier = $('#trs1a_'+$(this).attr("data-itmcnt")).attr('identifier');
+                    var maxType = 4;
+                    for( var i = 0 ; i < maxScores.length ; i++ ){
+                        if( maxScores[i][0] == identifier){
+                            maxType = maxScores[i][1];
+                            break;
+                        }
+                    }
+                    var i = parseInt( $(this).val() );
+                    if(!( i >= 0 && i <= maxType )){
+                        $(this).val("");
+                        var selector = "td[data-itmcnt='" + $(this).attr("data-itmcnt") + "'][data-col='tos']";
+                        console.log("clearSelector: " + selector);
+                        console.log("selection count: " + $(selector).length)
+                        $(selector).css("backgroundImage","");
+                    }else
+                        SetCircleChange(0,4,'txts1a_'+$(this).attr("data-itmcnt")+'_tos','/Content/images/','')
+                })
+
+                $("input[data-itmcnt='" + itmCnt + "'][data-col='dst']").change( function(e){
+                    var identifier = $('#trs1a_'+$(this).attr("data-itmcnt")).attr('identifier');
+                    var maxTime = 4;
+                    for( var i = 0 ; i < maxScores.length ; i++ ){
+                        if( maxScores[i][0] == identifier){
+                            maxTime = maxScores[i][3];
+                            break;
+                        }
+                    }
+                    var i = parseInt( $(this).val() );
+                    if(!( i >= 0 && i <= maxTime )){
+                        $(this).val("");
+                        $("td[data-itmcnt='" + $(this).attr("data-itmcnt") + "'][data-col='dst']").css("backgroundImage","");
+                    }else
+                        SetCircleChange(0,4,'txts1a_'+$(this).attr("data-itmcnt")+'_dst','/Content/images/','')
+                })
+
+                $("input[data-itmcnt='" + itmCnt + "'][data-col='fqy']").change( function(e){
+                    var identifier = $('#trs1a_'+$(this).attr("data-itmcnt")).attr('identifier');
+                    var maxFreq = 4;
+                    for( var i = 0 ; i < maxScores.length ; i++ ){
+                        if( maxScores[i][0] == identifier){
+                            maxFreq = maxScores[i][2];
+                            break;
+                        }
+                    }
+                    var i = parseInt( $(this).val() );
+                    if(!( i >= 0 && i <= maxFreq )){
+                        $(this).val("");
+                        $("td[data-itmcnt='" + $(this).attr("data-itmcnt") + "'][data-col='fqy']").css("backgroundImage","");
+                    }else
+                        SetCircleChange(0,4,'txts1a_'+$(this).attr("data-itmcnt")+'_fqy','/Content/images/','')
+                })
+
+                var identifier = $('#trs1a_'+itmCnt).attr('identifier');
+                var maxType = 4;
+                var maxTime = 4;
+                var maxFreq = 4;
+                for( var i = 0 ; i < maxScores.length ; i++ ){
+                    if( maxScores[i][0] == identifier){
+                        maxType = maxScores[i][1];
+                        maxFreq = maxScores[i][2];
+                        maxTime = maxScores[i][3];
+                        break;
+                    }
+                }
+
+                for( var i = 4 ; i > maxType ; i-- )
+                    crossOut( 'td' + i + '_'+itmCnt+'_tos');
+                for( var i = 4 ; i > maxTime ; i-- )
+                    crossOut( 'td' + i + '_'+itmCnt+'_dst');
+                for( var i = 4 ; i > maxFreq ; i-- )
+                    crossOut( 'td' + i + '_'+itmCnt+'_fqy');
+            }
+        });
+
+        function crossOut( id ){
+            $('#'+id).attr('onclick','');
+            $('#'+id).css('cursor','default');
+            $('#'+id).children().css('cursor','default');
+            $('#'+id).html('■');
+            $('#'+id).css('font-size',20);
+        }
+    </script>
+}
+
+<table id="tblData" border="0" cellpadding="0" cellspacing="0" style="height: 100%">
+    <tr>
+        <td style="width: 189px; background-color: #ffffff" valign="top" align="center">@Html.Partial("AssmntLeftPane")</td>
+        <td>
+            <br />
+            <table border="0" cellpadding="0" cellspacing="0" width="625">
+                <tr>
+                    <td align="left">
+                        <form id="form-id" action="/Results/Save" method="post">
+                            <table border="0" width="741">
+                                @*<tr>
+                                        <td align="left">
+                                            <!--
+                                            <asp:Label ID="lblCheck" EnableViewState="False" ForeColor="red" Font-Bold="True"
+                                                runat="Server" /><br />
+                                            <asp:Label ID="lblError" EnableViewState="False" ForeColor="red" Font-Bold="True"
+                                                runat="Server" /><br />
+                                              -->
+                                            <br />
+                                            <!-- start error table -->
+                                            <table id="tblErrors" bgcolor="#000000" width="100%" border="0" visible="false" style="display:none"
+                                                cellspacing="1" cellpadding="2">
+                                                <tr id="trHeader">
+                                                    <td id="Td1" width="18" bgcolor="#d5d5d5">
+                                                        &nbsp;
+                                                    </td>
+                                                    <td id="Td2" width="70" bgcolor="#d5d5d5" align="center">
+                                                        <b>Item Errors</b>
+                                                    </td>
+                                                    <td id="Td3" bgcolor="#d5d5d5" align="center">
+                                                        <b>Error Description</b>
+                                                    </td>
+                                                </tr>
+                                                <tr id="trItem1">
+                                                    <td id="Td4" width="18" bgcolor="#ffffff">
+                                                        <img alt="Error" src="/Content/images/error.gif" />
+                                                    </td>
+                                                    <td id="Td5" width="70" bgcolor="#ffffff" align="center">
+                                                        Item One
+                                                    </td>
+                                                    <td id="Td6" bgcolor="#ffffff">
+                                                        <!--
+                                                        <asp:Label ID="lblItemOneZeros" EnableViewState="False" ForeColor="red" runat="Server" />
+                                                        <asp:Label ID="lblItemOneFQYRange" EnableViewState="False" ForeColor="red" runat="server" />
+                                                        <asp:Label ID="lblItemOneDSTRange" EnableViewState="False" ForeColor="red" runat="server" />
+                                                        <asp:Label ID="lblItemOneTOSRange" EnableViewState="False" ForeColor="red" runat="server" />
+                                                          -->
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                            <br />
+                                            <!-- end error table -->
+                                        </td>
+                                    </tr>*@
+                                <tr>
+                                    <td valign="top">
+
+                                        <!-- start survey -->
+                                        @if (@Model.thisScreenTitle.Equals("A. Home Living"))
+                                        {
+
+                                            <p>
+                                                <b>INSTRUCTIONS:</b> Identify the Type of Support, Frequency, and Daily Support Time that is reported necessary for the person to be successful in the six activity domains (Parts A–F).
+                                                <b>Click on the appropriate number (0–4) or enter the rating in the text box for each measurement</b> (i.e., Type of Support, Frequency, Daily Support Time). (See rating key below.).
+                                                <ol>
+                                                    <li>This scale should be completed without regard to the services or supports currently provided or available.</li>
+                                                    <li>Scores should reflect the supports that would be necessary for this person to be successful in each activity.</li>
+                                                    <li>If an individual uses assistive technology, the person should be rated with said technology in place.</li>
+                                                    <li>Complete ALL items, even if the person is not currently performing a listed activity.</li>
+                                                </ol>
+                                            </p>
+                                        }
+                                        else
+                                        {
+                                            <p>Complete ALL items, even if the person is not currently performing a listed activity.</p>
+                                        }
+                                        <table id="Table1" style="border:none;border-spacing:0px">
+                                            <caption class="titleblack" style="text-align:left">
+                                                @Model.thisScreenTitle
+                                            </caption>
+                                            <thead>
+                                                <tr style="height: 21px;background-color:#444947">
+                                                    <td width="265" valign="middle" align="left" colspan="1">
+                                                        <a href="#pS1a_title_ttip" id="s1a_title_ttip" class="toolTip"></a>
+                                                    </td>
+                                                    <td width="150" valign="middle" align="center" colspan="6">
+                                                        <span class="titlewhite">Type of Support</span>
+                                                    </td>
+                                                    <td width="150" valign="middle" align="center" colspan="6">
+                                                        <span class="titlewhite">Frequency</span>
+                                                    </td>
+                                                    <td width="150" valign="middle" align="center" colspan="6">
+                                                        <span class="titlewhite">Daily Support Time</span>
+                                                    </td>
+                                                    <td width="12">&nbsp;</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @{
+                                                    int itmCnt = 0;
+                                                    List<def_Items> mainItemsList = new List<def_Items>();
+                                                    mainItemsList.AddRange(Model.items);
+                                                    mainItemsList.Remove(Model.notesItem);
+                                                }
+                                                @foreach (var itm in mainItemsList)
+                                                {
+                                                    List<def_ItemVariables> lstIv = new List<def_ItemVariables>();
+                                                    foreach (string suffix in "TOS,Fqy,DST,ImportantTo,ImportantFor,Notes".Split(','))
+                                                    {
+                                                        try
+                                                        {
+                                                            lstIv.Add(itm.def_ItemVariables.Where(iv => 
+                                                                iv.identifier.ToLower().EndsWith(suffix.ToLower())).First());
+                                                        }
+                                                        catch (Exception e)
+                                                        {
+                                                            throw new Exception("could not find item variable with suffix \"" + 
+                                                                suffix + "\" under item \"" + itm.identifier + "\" (" + itm.itemId + ")");
+                                                        }
+                                                    }
+                                                    itmCnt++;
+
+                                                    string bgColor;
+                                                    if (Model.thisScreenTitle.Equals("Protection and Advocacy Activities"))
+                                                    {
+                                                        bgColor = (itmCnt % 2) == 0 ? "#fdfdfd" : "#f7dfe0";
+                                                    }
+                                                    else
+                                                    {
+                                                        bgColor = (itmCnt % 2) == 0 ? "#f4f8f7" : "#e4ebfc";
+                                                    }
+                                                    <tr style="height: 28px; background:@{@bgColor};" id="trs1a_@{@itmCnt}" class="toolTip" identifier="@itm.identifier" title="@(Model.showItemVariableIdentifiersAsTooltips ? itm.identifier : "")">
+                                                        <td width="265" style="border-right:2px solid rgb(128,128,128);border-bottom:2px solid rgb(128,128,128);">
+                                                            <table border="0">
+                                                                <tr>
+                                                                    <th>
+                                                                        <div onclick="expandcontent('s1aItem@{@itmCnt}')" class="clickable">
+                                                                            <table border="0" cellpadding="0" cellspacing="0" width="260">
+                                                                                <tr>
+                                                                                    <td width="11" valign="top">
+                                                                                        &nbsp;<font color="#be411e"><img src="~/Content/images/redPlus.gif" id="showstate_s1aItem@{@itmCnt}" class="showstate"></font>
+                                                                                    </td>
+                                                                                    <td width="7"></td>
+                                                                                    <td width="12" valign="top" style="font-weight:normal">@itmCnt.</td>
+                                                                                    <td width="7"></td>
+
+                                                                                    <td class="questionLabel">
+                                                                                        <span class="toolTip" title="@itm.prompt" id="prompt@{@itmCnt}" style="text-align:left; font-weight:normal; display:block">@itm.label</span>
+                                                                                    </td>
+                                                                                    <!--
+                                                                                    <td class="questionLabel">
+                                                                                        <a href="#pS1a_1_ttip" id="s1a_1_ttip" class="toolTip">@itm.label</a>
+                                                                                        <noscript>
+                                                                                            <p id="pS1a_1_ttip" class="noScriptToolTip">
+                                                                                                @itm.prompt
+                                                                                            </p>
+                                                                                        </noscript>
+                                                                                    </td>
+                                                                                        -->
+                                                                                </tr>
+                                                                            </table>
+                                                                        </div>
+                                                                    </th>
+                                                                </tr>
+                                                            </table>
+                                                        </td>
+
+                                                        @*
+                                                            item Type of Support field
+                                                        *@
+                                                        @for (int tosCnt = 0; tosCnt < 5; tosCnt++)
+                                                        {
+                                                            <td valign="middle" align="center" width="25" id="td@{@tosCnt}_@{@itmCnt}_tos"
+                                                                onclick="SetCircleClick('td@{@tosCnt}_@{@itmCnt}_tos',0,4,'txts1a_@{@itmCnt}_tos','/Content/images/','')"
+                                                                style="cursor:pointer; background-position:center; background-repeat:no-repeat; border-bottom:2px solid rgb(128,128,128)"
+                                                                data-itmcnt="@itmCnt" data-col="tos">
+                                                                <span class="number">
+                                                                    @{@tosCnt}
+                                                                </span>
+                                                            </td>
+                                                        }
+                                                        <td valign="middle" align="center" width="25" id="tds1a_1_tos" style="border-right:2px solid rgb(128,128,128); border-bottom:2px solid rgb(128,128,128)">
+                                                            <!--
+                                                            <asp:Label ID="lblS1a1Tos" Text="1a Item 1 Type of Support" CssClass="hidden" AssociatedControlID="txts1a_1_tos"
+                                                                runat="server" />
+                                                              -->
+                                                            <input name="@lstIv[0].identifier" title="@(Model.showItemVariableIdentifiersAsTooltips ? lstIv[0].identifier : "")" maxlength="1" tabindex="1" id="txts1a_@{@itmCnt}_tos" value='@Model.rspValues[@lstIv[0].identifier]'
+                                                                   class="toolTip sectionTextBox" data-itmcnt="@itmCnt" data-col="tos" />
+                                                        </td>
+
+                                                        @*
+                                                            item Frequency field
+                                                        *@
+                                                        @for (int fqyCnt = 0; fqyCnt <= 4; fqyCnt++)
+                                                        {
+                                                            <td valign="middle" align="center" width="25" id="td@{@fqyCnt}_@{@itmCnt}_fqy"
+                                                                onclick="SetCircleClick('td@{@fqyCnt}_@{@itmCnt}_fqy',0,4,'txts1a_@{@itmCnt}_fqy','/Content/images/','')"
+                                                                style="cursor:pointer; background-position:center; background-repeat:no-repeat; border-bottom:2px solid rgb(128,128,128)"
+                                                                data-itmcnt="@itmCnt" data-col="fqy">
+                                                                <span class="number">
+                                                                    @{@fqyCnt}
+                                                                </span>
+                                                            </td>
+                                                        }
+
+                                                        <td valign="middle" align="center" width="25" id="tds1a_1_fqy" style="border-right:2px solid rgb(128,128,128); border-bottom:2px solid rgb(128,128,128)">
+                                                            <!--
+                                                            <asp:Label ID="lblS1a1Fgy" Text="1a Item 1 Frequency" CssClass="hidden" AssociatedControlID="txts1a_1_fqy"
+                                                                runat="server" />
+                                                              -->
+                                                            <input name="@lstIv[1].identifier" title="@(Model.showItemVariableIdentifiersAsTooltips ? lstIv[1].identifier : "")" maxlength="1" tabindex="1" id="txts1a_@{@itmCnt}_fqy" value='@Model.rspValues[@lstIv[1].identifier]'
+                                                                   class="toolTip sectionTextBox" data-itmcnt="@itmCnt" data-col="fqy" />
+                                                        </td>
+
+                                                        @*
+                                                            item Daily Support Time field
+                                                        *@
+                                                        @for (int dstCnt = 0; dstCnt < 5; dstCnt++)
+                                                        {
+                                                            <td valign="middle" align="center" width="25" id="td@{@dstCnt}_@{@itmCnt}_dst"
+                                                                onclick="SetCircleClick('td@{@dstCnt}_@{@itmCnt}_dst',0,4,'txts1a_@{@itmCnt}_dst','/Content/images/','')"
+                                                                style="cursor:pointer; background-position:center; background-repeat:no-repeat; border-bottom:2px solid rgb(128,128,128)"
+                                                                data-itmcnt="@itmCnt" data-col="dst">
+                                                                <span class="number">
+                                                                    @{@dstCnt}
+                                                                </span>
+                                                            </td>
+                                                        }
+                                                        <td valign="middle" align="center" width="25" id="tds1a_@{@itmCnt}_dst" style="border-right:2px solid rgb(128,128,128); border-bottom:2px solid rgb(128,128,128)">
+                                                            <!--
+                                                            <asp:Label ID="lblS1a1Dst" Text="1a Item 1 Daily Support Time" CssClass="hidden"
+                                                                AssociatedControlID="txts1a_1_dst"  />
+                                                              -->
+                                                            <input name="@lstIv[2].identifier" title="@(Model.showItemVariableIdentifiersAsTooltips ? lstIv[2].identifier : "")" maxlength="1" tabindex="1" id="txts1a_@{@itmCnt}_dst" value='@Model.rspValues[@lstIv[2].identifier]'
+                                                                   class="toolTip sectionTextBox" data-itmcnt="@itmCnt" data-col="dst" />
+                                                        </td>
+
+                                                        @*
+                                                            Additional Content indicator (checkboxes, Notes, etc.)
+                                                        *@
+                                                        <td style="border-bottom:2px solid rgb(128,128,128); padding:0px;">
+                                                            <noscript>
+                                                                <a href="#s1aItemOne">Hidden Content Available, Click to View</a>
+                                                            </noscript>
+                                                            <div onclick="expandcontent('s1aItem@{@itmCnt}')" class="toolTip" title="Hidden Content Available, Click to View" style="background:@{@bgColor}">
+                                                                <table border="0" cellpadding="0" cellspacing="0" style="background:@{@bgColor}">
+                                                                    <tr>
+                                                                        @{
+                                                        var vis = "hidden";
+                                                        var val = @Model.rspValues[@lstIv[3].identifier];
+                                                        if (String.IsNullOrEmpty(val)) val = "0";
+                                                        if (val.Equals("1") || val.Equals("true")) vis = "visible";
+                                                                        }
+                                                                        <td style="visibility:@vis">
+                                                                            T
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        @{
+                                                        vis = "hidden";
+                                                        val = @Model.rspValues[@lstIv[4].identifier];
+                                                        if (String.IsNullOrEmpty(val)) val = "0";
+                                                        if (val.Equals("1") || val.Equals("true")) vis = "visible";
+                                                                        }
+                                                                        <td style="visibility:@vis">
+                                                                            F
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        @{
+                                                        vis = "hidden";
+                                                        val = @Model.rspValues[@lstIv[5].identifier];
+                                                        if (!String.IsNullOrEmpty(val)) vis = "visible";
+                                                                        }
+                                                                        <td style="visibility:@vis">
+                                                                            N
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr id="s1aItem@{@itmCnt}" class="switchcontent">
+                                                        <td style="background:@{@bgColor}; border-bottom:2px solid rgb(128,128,128)" colspan="20">
+                                                            <div>
+                                                                <div align="center">
+                                                                    <table border="0" style="background:@{@bgColor}">
+                                                                        <tr>
+                                                                            <td valign="middle" align="center">
+                                                                                <table border="0">
+                                                                                    @{
+                                                        var chkdTo = String.Empty;
+                                                        val = @Model.rspValues[@lstIv[3].identifier];
+                                                        if (String.IsNullOrEmpty(val)) val = "0";
+                                                        if (val.Equals("1") || val.Equals("true") ) chkdTo = "checked";
+                                                                                    }
+                                                                                    <tr class="toolTip" title="@(Model.showItemVariableIdentifiersAsTooltips ? lstIv[3].identifier : "")">
+                                                                                        <td>
+                                                                                            <input type="checkbox" id="importantTo@{@itmCnt}" name="@lstIv[3].identifier" value="1" @chkdTo />
+                                                                                            <label for="importantTo@{@itmCnt}"><span></span>Item is Important To the individual</label>
+                                                                                        </td>
+                                                                                        <td width="5">&nbsp;</td>
+                                                                                    </tr>
+                                                                                    @{
+                                                        var chkdFor = String.Empty;
+                                                        val = @Model.rspValues[@lstIv[4].identifier];
+                                                        if (String.IsNullOrEmpty(val)) val = "0";
+                                                        if (val.Equals("1") || val.Equals("true")) chkdFor = "checked";
+                                                                                    }
+                                                                                    <tr class="toolTip" title="@(Model.showItemVariableIdentifiersAsTooltips ? lstIv[4].identifier : "")">
+                                                                                        <td>
+                                                                                            <input type="checkbox" id="importantFor@{@itmCnt}" name="@lstIv[4].identifier" value="1" @chkdFor />
+                                                                                            <label for="importantFor@{@itmCnt}"><span></span>Item is Important For the individual</label>
+                                                                                        </td>
+                                                                                        <td width="5">&nbsp;</td>
+                                                                                    </tr>
+                                                                                </table>
+
+                                                                            </td>
+                                                                            <td valign="top" align="right">
+                                                                                <b>Notes</b>
+                                                                            </td>
+                                                                            <td align="right">
+                                                                                <table border="0">
+                                                                                    <tr>
+                                                                                        <td align="right">
+                                                                                            @{ var notesRspVal = Model.rspValues[@lstIv[5].identifier];}
+                                                                                            <textarea class="toolTip" title="@(Model.showItemVariableIdentifiersAsTooltips ? lstIv[5].identifier : "")" name="@lstIv[5].identifier" id="txtS1aItemOneNotes@{@itmCnt}" wrap="soft" rows="4" cols="38"
+                                                                                                      onkeydown="textCounter(this.form.txtS1aItemOneNotes@{@itmCnt},this.form.txtS1aItemOneNotesCount@{@itmCnt},2400);"
+                                                                                                      onkeyup="textCounter(this.form.txtS1aItemOneNotes@{@itmCnt},this.form.txtS1aItemOneNotesCount@{@itmCnt},2400);">@(notesRspVal == null ? "" : notesRspVal.Trim())</textarea>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td align="right">
+                                                                                                <label for="txtS1aItemOneNotesCount@{@itmCnt}">
+                                                                                                    <span class="important">2400</span> characters maximum allowed for notes field.
+                                                                                                </label>
+                                                                                                <input readonly="readonly" type="text" name="txtS1aItemOneNotesCount@{@itmCnt}" id="txtS1aItemOneNotesCount@{@itmCnt}"
+                                                                                                       maxlength="4" value="2400" class="textCounter" />
+                                                                                                remain.
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    </table>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </table>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                        <table id="Table2" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff" width="100%">
+                                            <tr>
+                                                <td>&nbsp;</td>
+                                            </tr>
+                                        </table>
+                                        @Html.Partial("AssmntPageNotes")
+                                        <br /><br />
+                                        <input type="submit" value="Submit" id="btnSubmit" />
+                                        <!-- end survey -->
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td height="10"> &nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td align="right">
+                                        <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                            <tr>
+                                                <td align="right" valign="middle">
+                                                    @Html.Partial("AssmntNavPrevNext")
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td height="10"> </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <table border="0">
+                                            <tr>
+                                                <td>
+                                                    <table border="0" cellpadding="2" cellspacing="0" class="tableborderg" style="width:741px">
+                                                        <tr style="height: 21px;background-color:#444947">
+                                                            <td width="25%">
+                                                                <span class="titlewhite"><b>Type of Support</b></span>
+                                                            </td>
+                                                            <td>&nbsp;</td>
+                                                            <td width="40%">
+                                                                <span class="titlewhite"><b>Frequency</b></span>
+                                                            </td>
+                                                            <td>&nbsp;</td>
+                                                            <td width="35%">
+                                                                <span class="titlewhite"><b>Daily Support Time</b></span>
+                                                            </td>
+                                                        </tr>
+                                                        <tr valign="top" style="background-color:#f4f8f7">
+                                                            <td>
+                                                                What kind of support should be provided?
+                                                            </td>
+                                                            <td>&nbsp;</td>
+                                                            <td>
+                                                                How frequently is support needed for this<br />
+                                                                activity?
+                                                            </td>
+                                                            <td>&nbsp;</td>
+                                                            <td>
+                                                                On a typical day when support in this<br />
+                                                                area is needed, how much<br />
+                                                                time should be devoted?
+                                                            </td>
+                                                        </tr>
+                                                        <tr style="background-color:#f4f8f7">
+                                                            <td valign="top">
+                                                                0 = none<br />
+                                                                1 = monitoring<br />
+                                                                2 = verbal/gestural prompting<br />
+                                                                3 = partial physical assistance<br />
+                                                                4 = full physical assistance
+                                                            </td>
+                                                            <td>&nbsp; </td>
+
+                                                            @if (Model.formId == 2)
+                                                            {
+                                                                <td valign="top">                                                                    
+                                                                    0 = Negligible; the child’s support needs are rarely if ever different from those of same-aged peers in regard to frequency.<br />
+                                                                    1 = Infrequently; the child will occasionally need someone to provide extraordinary support that same-aged peers will not need.<br />
+                                                                    2 = Frequently; in order for the child to participate in the activity, extra support will need to be provided for about half of the occurrences of the activity.<br />
+                                                                    3 = Very Frequently; in most occurrences of the activity, the child will need extra support that same-aged peers will not need.<br />
+                                                                    4 = Always; on every occasion that the child participates in the activity, the child will need extra support that sameaged peers will not need. 
+                                                                </td>
+                                                            }
+                                                            else { 
+                                                                <td valign="top">
+                                                                    0 = none or less than monthly<br />
+                                                                    1 = at least once a month, but not once a week<br />
+                                                                    2 = at least once a week, but not once a day<br />
+                                                                    3 = at least once a day, but not once an hour<br />
+                                                                    4 = hourly or more frequently
+                                                                </td>
+                                                            }
+                                                            <td>&nbsp; </td>
+                                                            <td valign="top">
+                                                                0 = none<br />
+                                                                1 = less than 30 minutes<br />
+                                                                2 = 30 minutes to less than 2 hours<br />
+                                                                3 = 2 hours to less than 4 hours<br />
+                                                                4 = 4 hours or more
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                    <br />
+                                                    <table border="0" cellpadding="2" cellspacing="0" class="tableborderg" style="height: 50px">
+                                                        <tr>
+                                                            <td valign="top" width="740">
+                                                                <table border="0">
+                                                                    <tr>
+                                                                        <td>
+                                                                            <img src="~/Content/images/redPlus.gif" alt="+" />
+                                                                            &nbsp;
+                                                                            <img src="~/Content/images/redMinus.gif" alt="-" />
+                                                                        </td>
+                                                                        <td>&nbsp; </td>
+                                                                        <td>
+                                                                            Hidden content indicator - Click (<img src="~/Content/images/redPlus.gif" alt="+" />) to view or
+                                                                            (<img src="~/Content/images/redMinus.gif" alt="-" />) to hide
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td align="right">
+                                                                            <font color="#FF0000">T &nbsp; F</font>
+                                                                        </td>
+                                                                        <td>&nbsp;</td>
+                                                                        <td>
+                                                                            Indicates item is important <b>To</b> (<font color="#ff0000">T</font>) or <b>For</b>
+                                                                            (<font color="#ff0000">F</font>) the individual
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td align="right">
+                                                                            <font color="#ff0000">N</font>
+                                                                        </td>
+                                                                        <td>&nbsp;</td>
+                                                                        <td>
+                                                                            Indicates that notes pertaining to the individual exist for a given item in the hidden content area
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </form>
+                        <!-- End of Form -->
+                    </td>
+                </tr>
+            </table>
+            <table border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td style="height: 5px">&nbsp;</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+<br />

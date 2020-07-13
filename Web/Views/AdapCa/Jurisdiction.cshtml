@@ -1,0 +1,87 @@
+﻿@model Assmnts.Models.JurisdictionModel
+
+@{
+    ViewBag.Title = "Jurisdiction/Unit Assignments";
+    Layout = "~/Views/CAADAP/BaseAppLayoutNoForm.cshtml";
+}
+
+@section AddToHead{
+    <!-- dataTables -->
+<script src="https://cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.11/js/dataTables.bootstrap.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.0.2/js/dataTables.responsive.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.0.2/js/responsive.bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.11/css/dataTables.bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.0.2/css/responsive.bootstrap.min.css">
+
+
+<script type="text/javascript">
+    function doSearch() {
+        var dt = $("#DTjurisdictions").DataTable();
+        var searchJurisdiction = $("#Jurisdiction").val();
+        var searchSite = $("#Unit").val();
+        dt.columns(1).search(searchJurisdiction);
+        dt.columns(2).search(searchSite).draw();
+    };
+
+    $(document).ready(function () {
+        $('#id_Search').click(function () {
+            doSearch();
+        });
+
+        $('#DTjurisdictions').dataTable({
+            "bPaginate": true,
+            "bFilter": false,
+            "bInfo": true,
+            "responsive": true,
+            "processing": true,
+            "serverSide": true,
+            "ordering": true,
+            "searching": true,
+            "ajax": {
+                url: "/AdapCa/DataTableJurisdiction",
+                type: "POST"
+            },
+            "dom": 'ri<"float"l>ptip'
+
+        });
+    });
+</script>
+
+}
+
+
+    <div class="container">
+        <h2>Jurisdiction/Unit Assignments</h2>
+        <table id="DTjurisdictions" class="table table-bordered table-striped" cellpadding="0" cellspacing="0" border="0">
+            <thead style="background-color:#d9edf7">
+                <tr>
+                    <th>Edit</th>
+                    <th>Jurisdiction</th>
+                    <th>Unit</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+
+        <div class="bs-callout bs-callout-primary" style="background-color:#fcf8e3">
+            <h4 style="color:black">Search</h4>
+            <br>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-3">
+                        <label class="control-label" for="">Jurisdiction</label>
+                        @Html.DropDownListFor(model => model.Jurisdiction, Model.Jurisdictions, new {@class="form-control" })
+                    </div>
+                    <div class="col-md-4">
+                        <label class="control-label" for="">Unit</label>
+                        @Html.TextBoxFor(model => model.Unit, new { @class = "form-control" })
+                    </div>
+                    <div class="col-md-3">
+                        <label>&nbsp;</label>	<!-- TODO: find better way -->
+                        <button id="id_Search" class="btn btn-md btn-success btn-block" type="submit">Search</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

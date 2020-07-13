@@ -1,0 +1,612 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>ADAP Self Registration</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <link href="~/Content/css/jquery.datepick.css" rel="stylesheet" />
+    <script src="/Content/js/jquery.plugin.js"></script>
+    <script src="~/Content/js/jquery.datepick.js"></script>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/Scripts/bootstrap.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $("#birthDate").datepick();
+
+            $("#otherLangRadio").click(function () {
+                $('#otherLang').prop('disabled', false);
+            });
+
+            $(".langNotOther").click(function () {
+                $("#otherLang").prop('disabled', true);
+            });
+
+            $("#otherRelRadio").click(function () {
+                $('#otherRel').prop('disabled', false);
+            });
+
+            $(".relNotOther").click(function () {
+                $("#otherRel").prop('disabled', true);
+            });
+
+            $(".notOtherDiff").click(function () {
+                $("#otherDiff").prop('disabled', true);
+                $("#cityOtherDiff").prop('disabled', true);
+            });
+
+            $("#whereDiffOther").click(function () {
+                $("#otherDiff").prop('disabled', false);
+                $("#cityOtherDiff").prop('disabled', false);
+            });
+
+            $(".notWhereDifferent").click(function () {
+                $(".whereDiff").prop('disabled', true);
+                $(".whereDiff").prop('checked', false);
+            });
+
+            $("#whereDifferent").click(function () {
+                $(".whereDiff").prop('disabled', false);
+
+            });
+
+            $("#docYes").click(function () {
+                $("#doctorName").prop('disabled', false);
+
+            });
+
+            $("#docNo").click(function () {
+                $("#doctorName").prop('disabled', true);
+
+            });
+
+        });
+    </script>
+</head>
+<body>
+    <!-- <form class="form-horizontal">  -->
+    <form>
+        <fieldset>
+            <legend>Personal Information</legend>
+            &nbsp;<span class="label label-info">Full Legal Name</span>
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label class="control-label col-sm-4" for="lastName">Last</label>
+                    <input id="lastName" class="form-control" name="lastName" type="text" />
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4" for="firstName">First</label>
+                    <input id="firstName" class="form-control" name="firstName" type="text" />
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4" for="middleInitial">Middle Initial</label>
+                    <input id="middleInitial" class="form-control" name="middleInitial" type="text" />
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4" for="birthDate">Date of birth</label>
+                    <input id="birthDate" class="form-control" name="birthDate" type="text" />
+                </div>
+            </div>
+
+    <div class="col-sm-12">
+            <label class="control-label">  What is your ethnicity?</label>
+                <label class="radio">
+                    &nbsp;&nbsp;&nbsp;<input type="radio" name="EthnicityID" value="hispanic" />
+                    Hispalnic/Latino(a)
+                </label>
+                <label class="radio">
+                    &nbsp;&nbsp;&nbsp;<input type="radio" name="EthnicityID" value="nonhispanic" />
+                    Non-Hispanic
+                </label>
+                <label class="radio">
+                    &nbsp;&nbsp;&nbsp;<input type="radio" name="EthnicityID" value="unknown" />
+                    Unknown
+                </label>
+                <label class="radio">
+                    &nbsp;&nbsp;&nbsp;<input type="radio" name="EthnicityID" value="noAnswer" checked />
+                    Prefer not to answer
+                </label>
+    </div>
+    <div>&nbsp;</div>
+    <div class="col-sm-12">
+        <label class="control-label col-sm-4">What is your race? Check all that apply</label>
+        <div>&nbsp;</div>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" name="RaceID" value="white" />
+                    White
+                </label>
+            </div>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" name="RaceID" value="native" />
+                    Native American/Pacific Islander
+                </label>
+            </div>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" name="RaceID" value="asian" />
+                    Asian
+                </label>
+            </div>
+
+
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" name="RaceID" value="black" />
+                    Black
+                </label>
+            </div>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" name="RaceID" value="indian" />
+                    American Indian or Alaska Native
+                </label>
+            </div>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" name="RaceID" value="unknown" />
+                    Unknown
+                </label>
+            </div>
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" name="RaceID" value="noAnswer" />
+                Prefer not to answer
+            </label>
+        </div>
+
+    </div>
+    <div class="col-sm-12">
+        <label class="control-label col-sm-4">What is your preferered language?</label>
+        <div>&nbsp;</div>
+            <label class="radio">
+                &nbsp;&nbsp;&nbsp;<input type="radio" class="langNotOther" name="language" value="english" />
+                English
+            </label>
+            <label class="radio">
+                &nbsp;&nbsp;&nbsp;<input type="radio" class="langNotOther" name="language" value="spanish" />
+                Spanish
+            </label>
+            <label class="radio">
+                &nbsp;&nbsp;&nbsp;<input type="radio" class="langNotOther" name="language" value="french" />
+                French
+            </label>
+            <label class="radio">
+                &nbsp;&nbsp;&nbsp;<input type="radio" id="langNotOther" name="language" value="other" />
+                Other
+            </label>
+            <input type="text" name="otherLang" id="otherLang" disabled="disabled" />
+    </div>
+    <div>&nbsp;</div>
+    <div class="col-sm-12">
+        <label class="control-label col-sm-4">What is your gender?</label>
+        <div>&nbsp;</div>
+            <label class="radio">
+                &nbsp;&nbsp;&nbsp;<input type="radio" name="gender" value="male" />
+                Male
+            </label>
+            <label class="radio">
+                &nbsp;&nbsp;&nbsp;<input type="radio" name="gender" value="female" />
+                Female
+            </label>
+            <label class="radio">
+                &nbsp;&nbsp;&nbsp;<input type="radio" name="gender" value="transMtoF" />
+                Transgender, male to female
+            </label>
+            <label class="radio">
+                &nbsp;&nbsp;&nbsp;<input type="radio" name="gender" value="transFtoM" />
+                Transgender, female to male
+            </label>
+    </div>
+    <div class="col-sm-12">
+        <label class="control-label col-sm-4">What is your housing status:</label>
+        <div>&nbsp;</div>
+                <label class="radio">
+                    <input type="radio" name="housing" value="perm" />
+                    Permanent: I rent, own, or share my current residence
+                </label>
+                <label class="radio">
+                    <input type="radio" name="housing" value="temp" />
+                    Temporary: I am in a temporary housing situation (homeless, halfway house, shelter, staying with friends)
+                </label>
+                <label class="radio">
+                    <input type="radio" name="housing" value="inst" />
+                    I am in an institution (hospice, nursing home, etc.)
+                </label>
+                <label class="radio">
+                    <input type="radio" name="housing" value="unknown" />
+                    Unknown or refuse to answer
+                </label>
+    </div>
+    <div>
+        <span class="label label-info">What is your current <span style="font-weight:bold;">residential</span> address?</span>
+    </div>
+    <div>
+        <label class="control-label col-sm-4" for="streetAddress">Street Address (PO Boxes will <span style="font-weight:bold;">NOT</span> be accepted)</label>
+        <input id="streetAddress" class="form-control" name="streetAddress" type="text" />
+
+                <label class="control-label col-sm-4" for="city">City</label>
+                <input id="city" class="form-control" name="city" type="text" />
+
+                <label class="control-label col-sm-4" for="state">State</label>
+                <input id="state" class="form-control" name="state" type="text" />
+
+                <label class="control-label col-sm-4" for="zip">ZIP Code</label>
+                <input id="zip" class="form-control" name="zip" type="text" />
+
+            <label class="control-label col-sm-3" for="county">County</label>
+            <input id="county" class="form-control" name="county" type="text" />
+    </div>
+
+        <div class="col-sm-5">
+            <label class="control-label col-sm-6">May we contact you at this address?</label>
+            <div class="radio col-sm-3">
+                <label>
+                    <input type="radio" name="contact" value="yes" />
+                    Yes
+                </label>
+            </div>
+            <div class="radio col-sm-3">
+                <label>
+                    <input type="radio" name="contact" value="no" />
+                    No
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12">
+        <label class="control-label col-sm-4">What is your current <span style="font-weight:bold;">mailing</span> address (if different than your residential)?</label>
+        <div class="form-group col-sm-12">
+            <label class="control-label col-sm-4" for="streetAddressMail">Street Address (PO Boxes <span style="font-weight:bold;">will</span> be accepted, but not outside Colorado)</label>
+            <div class="col-sm-7">
+                <input id="streetAddressMail" class="form-control" name="streetAddressMail" type="text" />
+            </div>
+        </div>
+        <div class="col-sm-8 col-sm-offset-3">
+            <div class="form-group col-sm-5">
+                <label class="control-label col-sm-4" for="cityMail">City</label>
+                <div class="col-sm-7">
+                    <input id="cityMail" class="form-control" name="cityMail" type="text" />
+                </div>
+            </div>
+            <div class="form-group col-sm-3">
+                <label class="control-label col-sm-4" for="stateMail">State</label>
+                <div class="col-sm-7">
+                    <input id="stateMail" class="form-control" name="stateMail" type="text" />
+                </div>
+            </div>
+            <div class="form-group col-sm-4">
+                <label class="control-label col-sm-4" for="zipMail">ZIP Code</label>
+                <div class="col-sm-7">
+                    <input id="zipMail" class="form-control" name="zipMail" type="text" />
+                </div>
+            </div>
+        </div>
+        <div class="form-group col-sm-7">
+            <label class="control-label col-sm-offset-4 col-sm-3" for="countyMail">County</label>
+            <div class="col-sm-4">
+                <input id="countyMail" class="form-control" name="countyMail" type="text" />
+            </div>
+        </div>
+
+        <div class="col-sm-5">
+            <label class="control-label col-sm-6">May we contact you at this address?</label>
+            <div class="radio col-sm-3">
+                <label>
+                    <input type="radio" name="contactMail" value="yes" />
+                    Yes
+                </label>
+            </div>
+            <div class="radio col-sm-3">
+                <label>
+                    <input type="radio" name="contactMail" value="no" />
+                    No
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12">
+        <label class="control-label col-sm-4">At what phone numbers can we reach you during daytime hours?</label>
+        <div class="col-sm-12">
+            <div class="form-group col-sm-7">
+                <label for="phone1" class="control-label col-sm-offset-4 col-sm-3">Phone Number</label>
+                <div class="col-sm-4">
+                    <input id="phone1" class="form-control" type="tel" name="phone1" />
+                </div>
+            </div>
+            <div class="checkbox col-sm-1">
+                <label>
+                    <input type="checkbox" name="phone1type" value="home" />
+                    Home
+                </label>
+            </div>
+            <div class="checkbox col-sm-1">
+                <label>
+                    <input type="checkbox" name="phone1type" value="work" />
+                    Work
+                </label>
+            </div>
+            <div class="checkbox col-sm-1">
+                <label>
+                    <input type="checkbox" name="phone1type" value="cell" />
+                    Cell phone
+                </label>
+            </div>
+            <div class="col-sm-12">
+                <label class="control-label col-sm-4">May we leave a message on this phone?</label>
+                <div class="radio col-sm-1">
+                    <label>
+                        <input type="radio" name="phone1message" value="yes" />
+                        Yes
+                    </label>
+                </div>
+                <div class="radio col-sm-1">
+                    <label>
+                        <input type="radio" name="phone1message" value="no" />
+                        No
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12">
+            <div class="form-group col-sm-7">
+                <label for="phone2" class="control-label col-sm-offset-4 col-sm-3">Phone Number</label>
+                <div class="col-sm-4">
+                    <input id="phone2" class="form-control" type="tel" name="phone1" />
+                </div>
+            </div>
+            <div class="checkbox col-sm-1">
+                <label>
+                    <input type="checkbox" name="phone2type" value="home" />
+                    Home
+                </label>
+            </div>
+            <div class="checkbox col-sm-1">
+                <label>
+                    <input type="checkbox" name="phone2type" value="work" />
+                    Work
+                </label>
+            </div>
+            <div class="checkbox col-sm-1">
+                <label>
+                    <input type="checkbox" name="phone2type" value="cell" />
+                    Cell phone
+                </label>
+            </div>
+            <div class="col-sm-12">
+                <label class="control-label col-sm-4">May we leave a message on this phone?</label>
+                <div class="radio col-sm-1">
+                    <label>
+                        <input type="radio" name="phone2message" value="yes" />
+                        Yes
+                    </label>
+                </div>
+                <div class="radio col-sm-1">
+                    <label>
+                        <input type="radio" name="phone2message" value="no" />
+                        No
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12">
+            <label class="control-label col-sm-4">Is there anyone that our staff may call if your mail is returned to us (or your phone number does not work)?</label>
+            <div class="radio col-sm-1">
+                <label>
+                    <input type="radio" name="returnPerson" value="yes" />
+                    Yes
+                </label>
+            </div>
+            <div class="radio col-sm-1">
+                <label>
+                    <input type="radio" name="returnPerson" value="no" />
+                    No
+                </label>
+            </div>
+            <div class="col-sm-12">
+                <div class="form-group col-sm-8">
+                    <label class="control-label col-sm-offset-3 col-sm-4" for="returnName">Name:</label>
+                    <div class="col-sm-4">
+                        <input id="returnName" class="form-control" name="returnName" type="text" />
+                    </div>
+                </div>
+                <div class="form-group col-sm-4">
+                    <label for="phoneReturn" class="control-label col-sm-4">Phone Number</label>
+                    <div class="col-sm-8">
+                        <input id="phoneReturn" class="form-control" type="tel" name="phoneReturn" />
+                    </div>
+                </div>
+
+            </div>
+            <label class="control-label col-sm-4">Does this person know you are HIV positive?</label>
+            <div class="radio col-sm-1">
+                <label>
+                    <input type="radio" name="knowHIV" value="yes" />
+                    Yes
+                </label>
+            </div>
+            <div class="radio col-sm-1">
+                <label>
+                    <input type="radio" name="knowHIV" value="no" />
+                    No
+                </label>
+            </div>
+        </div>
+        <div class="col-sm-12">
+            <label class="control-label col-sm-4">Do you have a case manager/social worker at an AIDS Service Organization or Medical Clinic? If yes, list them below.</label>
+            <div class="radio col-sm-1">
+                <label>
+                    <input type="radio" name="caseManager" value="yes" />
+                    Yes
+                </label>
+            </div>
+            <div class="radio col-sm-1">
+                <label>
+                    <input type="radio" name="caseManager" value="no" />
+                    No
+                </label>
+            </div>
+            <div class="col-sm-8 col-sm-offset-3">
+                <div class="form-group col-sm-6">
+                    <label class="control-label col-sm-4" for="case1">Name</label>
+                    <div class="col-sm-8">
+                        <input id="case1" class="form-control" name="case1" type="text" />
+                    </div>
+                </div>
+                <div class="form-group col-sm-6">
+                    <label class="control-label col-sm-4" for="agency1">Agency/Clinic</label>
+                    <div class="col-sm-8">
+                        <input id="agency1" class="form-control" name="agency1" type="text" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-8 col-sm-offset-3">
+                <div class="form-group col-sm-6">
+                    <label class="control-label col-sm-4" for="case2">Name</label>
+                    <div class="col-sm-8">
+                        <input id="case2" class="form-control" name="case2" type="text" />
+                    </div>
+                </div>
+                <div class="form-group col-sm-6">
+                    <label class="control-label col-sm-4" for="agency2">Agency/Clinic</label>
+                    <div class="col-sm-8">
+                        <input id="agency2" class="form-control" name="agency2" type="text" />
+                    </div>
+                </div>
+            </div>
+            <label class="control-label col-sm-4">If you do not currently have one, would you like ADAP to make a referral to a case manager or social worker?</label>
+            <div class="radio col-sm-1">
+                <label>
+                    <input type="radio" name="referral" value="yes" />
+                    Yes
+                </label>
+            </div>
+            <div class="radio col-sm-1">
+                <label>
+                    <input type="radio" name="referral" value="no" />
+                    No
+                </label>
+            </div>
+            <div class="col-sm-12">
+                <label class="control-label col-sm-4">What is your current relationship status?</label>
+                <div class="col-sm-2">
+                    <div class="radio">
+                        <label>
+                            <input type="radio" class="relNotOther" name="relationship" value="single" />
+                            Single
+                        </label>
+                    </div>
+                    <div class="radio">
+                        <label>
+                            <input type="radio" class="relNotOther" name="relationship" value="married" />
+                            Married
+                        </label>
+                    </div>
+                    <div class="radio">
+                        <label>
+                            <input type="radio" class="relNotOther" name="relationship" value="separated" />
+                            Legally separated
+                        </label>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="radio">
+                        <label>
+                            <input type="radio" class="relNotOther" name="relationship" value="divorced" />
+                            Divorced
+                        </label>
+                    </div>
+                    <div class="radio">
+                        <label>
+                            <input type="radio" class="relNotOther" name="relationship" value="civilUnion" />
+                            Colorado Civil Union
+                        </label>
+                    </div>
+                    <div class="radio">
+                        <label>
+                            <input type="radio" class="relNotOther" name="relationship" value="sameSexMarriage" />
+                            Married to a same-sex partner in a state where the marriage is recognized
+                        </label>
+                    </div>
+                    <div class="radio">
+                        <label>
+                            <input type="radio" id="otherRelRadio" name="relationship" value="other" />
+                            Other -- Describe:
+                        </label>
+                        <input type="text" name="otherRel" id="otherRel" disabled="disabled" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <label class="control-label col-sm-4">What is your current tax filing status?</label>
+                <div>&nbsp;</div>
+                        <label class="radio">
+                            <input type="radio" name="tax" value="single" />
+                            Single
+                        </label>
+                        <label class="radio">
+                            <input type="radio" name="tax" value="joint" />
+                            Married, filing jointly
+                        </label>
+                        <label class="radio">
+                            <input type="radio" name="tax" value="separately" />
+                            Married, filing separately
+                        </label>
+                        <label class="radio">
+                            <input type="radio" name="tax" value="notRequired" />
+                            Not required (or eligible) to file taxes
+                        </label>
+                        <label class="radio">
+                            <input type="radio" name="tax" value="haveNot" />
+                            I am required to file taxes, but have not
+                        </label>
+
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <label class="control-label col-sm-4" for="childrenWith">How many children do you have living with you?</label>
+                        <input type="text" class="form-control" id="childrenWith" name="childrenWith" />
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4" for="children50">How many other children do you have that don't live with you but you provide 50% or more of their monthly support?</label>
+                        <input type="text" class="form-control" id="children50" name="children50" />
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <label class="control-label col-sm-4">If you are female, are you pregnant?</label>
+                    <div>&nbsp;</div>
+                            <label class="radio">
+                                <input type="radio" name="pregnant" value="yes" />
+                                Yes
+                            </label>
+
+                            <label class="radio">
+                                <input type="radio" name="pregnant" value="no" />
+                                No
+                            </label>
+                            <label class="radio">
+                                <input type="radio" name="pregnant" value="na" />
+                                Not Applicable
+                            </label>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-4" for="dueDeliver">If yes, what month are you due to deliver?</label>
+                        <input type="text" class="form-control" id="dueDeliver" name="dueDeliver" />
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <label for="soc" class="control-label col-sm-4">What is your Social Security Number (if you have one)?</label>
+                        <input id="soc" name="soc" class="form-control" type="text" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</fieldset>
+    </form>
+    </body>
+</html>

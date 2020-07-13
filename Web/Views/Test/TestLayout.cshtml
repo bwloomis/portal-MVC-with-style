@@ -1,0 +1,98 @@
+@model Assmnts.Models.TemplateItems
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <!-- Shared.Application. -->
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <title>@ViewBag.Title</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400italic,700italic,400,700" rel="stylesheet" type="text/css" />
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+    <!--jQuery was 1.11.3 to 2.1.3 RRB 11/17/15 -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" />
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
+    <!-- custom bootstrap nav css -->
+    <link href="~/Content/adap/css/bootstrap.nav.custom.css" rel="stylesheet" type="text/css" />
+
+    <!-- sticky footer css -->
+    <link href="~/Content/adap/css/sticky-footer-navbar.css" rel="stylesheet" />
+
+    <!-- date picker -->
+    <script src="~/Content/adap/js/bootstrap-customdatepicker.js"></script>
+    <link href="~/Content/adap/css/bootstrap-datepicker3.css" rel="stylesheet" />
+
+    <script>
+    $.ajax({
+        type: "GET",
+        url: "/Account/IsLoggedIn",
+        async: false,
+        cache: false,
+        success: function (result) {
+
+            if (result == "False") {
+                var url = window.location.href;
+
+                var arr = url.split("/");
+
+                var location = arr[0] + "//" + arr[2];
+
+                window.location = location;
+            }
+        },
+        error: function (xhr, status, err) {
+            alert("Error checking login status.  Status: " + xhr.status + "  Message: " + err);
+        }
+    });
+    </script>
+
+	@RenderSection("HeadContent", required: false)
+    
+
+    <script>
+        $(document).ready(function () {
+            //allow use of the spacebar for selecting radiobuttons
+            $("span").on("keydown", function (e) {
+                if ($(this).is("[data-target]") & e.which === 32) {
+                    $("#" + $(this).attr("data-target")).prop("checked", true);
+                    return false;
+                }
+                return true;
+            });
+
+            $("input[data-mask]").each(function () {
+                $(this).mask($(this).attr("data-mask"));
+            })
+
+            //trim all textarea content
+            $('textarea').each(function () {
+                $(this).val($.trim($(this).val())
+                    .replace(/\s*[\r\n]+\s*/g, '\n')
+                    .replace(/(<[^\/][^>]*>)\s*/g, '$1')
+                    .replace(/\s*(<\/[^>]+>)/g, '$1'));
+            });
+        });
+        
+    </script>
+</head>
+
+<body>
+<div id="header">
+</div>  
+<!-- div header ends here -->
+<!-- content starts here -->
+<div class="main">
+	@RenderBody()		
+</div>
+</body>
+</html>
+
+
+
+

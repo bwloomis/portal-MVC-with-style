@@ -1,0 +1,33 @@
+﻿@model Assmnts.Models.AdapApplicantRpt1
+@{
+    Layout = "BaseAppLayout.cshtml";
+}
+
+@section AddToHead{
+    <script>
+        $(document).ready(function () {
+            $('form').attr('action', '/ADAP/TeamUpdated');
+            $('.class_prevscreen').hide();
+            $('.class_nextscreen').hide();
+            $('#ADAPFooter').hide();
+        });
+    </script>
+}
+
+<div class="container">
+    <h3>Update Team for @((Model.MemberId.Equals("0"))? "No ADAP ID" : Model.MemberId.ToString() + ",") @Model.FirstName @Model.LastName</h3>
+    <br />
+
+    
+        @Html.HiddenFor(m => m.formResultId)
+    <div class="col-md-12 form-group">
+        <div class="col-md-4">
+            @Html.DropDownListFor(m => m.teamId, Model.Teams, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="col-md-12 form-group">
+        <input type="submit" class="btn btn-success btn-sm" value="Submit" />
+        <input type="button" class="btn btn-danger btn-sm" onclick="window.location='/ADAP/Report1'" value="Cancel" />
+    </div>
+</div>

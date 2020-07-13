@@ -1,0 +1,79 @@
+@model Assmnts.Models.TemplateItems        
+@{
+    ViewBag.Title = "Scores";
+    Layout = "~/Views/Shared/AssmntLayout.cshtml";
+    Validator.Required("The field is required.");
+}
+
+@section HeadContent {
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <style type="text/css">
+        #btnExpandResps
+        {
+            height: 18px;
+            width: 184px;
+            font-family: Arial, Geneva, Verdana;
+        }
+
+        .class_wide_input {
+            width: 300px;
+        }
+
+        .class_nextscreen{
+            display: none;
+        }
+    </style>
+    
+    <link rel="stylesheet" type="text/css" href="/Content/css/jquery.datepick.css">
+    <link rel="stylesheet" type="text/css" href="/Content/css/jquery.timeentry.css">
+    <script src="/Content/js/jquery.plugin.js"></script>
+    <script src="/Content/js/jquery.datepick.js"></script>
+    <script src="/Content/js/jquery.maskedinput.min.js"></script>
+    <script src="/Content/js/jquery.timeentry.min.js"></script>
+}
+
+<table id="tblData" border="0" cellpadding="0" cellspacing="0" style="height: 100%">
+    <tr>
+        <td style="width: 189px; background-color: #ffffff" valign="top" align="center">@Html.Partial("AssmntLeftPane")</td>
+        <td>
+            <br />
+            <table border="0" cellpadding="0" cellspacing="0" width="625">
+                <tr>
+                    <td align="left">
+                        <!-- <asp:Label ID="lblErr" Visible="false" ForeColor="red" runat="server" />  -->
+                        <table border="0" cellpadding="5" cellspacing="0" class="tableborder" style="background-color: #ffffff; margin-left: 1.3em;"
+                            width="800">
+                            <tr>
+                                <td colspan="2" style="background-color: #d5d5d5">
+                                    <span class="titleblack">Scores (will be updated when you generate a report)</span>
+                                </td>
+                            </tr>
+                            @{
+                                foreach (Assmnts.def_Items itm in Model.items)
+                                {
+                                    string ivIdent = itm.identifier.Substring(0, itm.identifier.Length - 5);
+                                    <tr>
+                                        <td>                                            
+                                            @Helpers.LabelSpan(Model, ivIdent + "_item")
+                                        </td>
+                                        <td>
+                                            <input type='text' name='@ivIdent' value='@Model.rspValues[ivIdent]' disabled>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </table>
+        </td>
+    </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0">
+    <tr>
+        <td style="height: 5px">&nbsp;</td>
+        <br />@Html.Partial("AssmntNavPrevNext")
+    </tr>
+</table>
+</td>
+    </tr>
+</table>
+
+		

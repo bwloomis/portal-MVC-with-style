@@ -1,0 +1,377 @@
+@model Assmnts.Models.GeneralForm        
+@{
+    ViewBag.Title = "Qualification Status";
+    Layout = "~/Views/Shared/AssmntLayout.cshtml";
+    Validator.Required("The field is required.");
+}
+
+@section HeadContent {
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <style type="text/css">
+        #btnExpandResps
+        {
+            height: 18px; 
+            width: 184px;
+            font-family: Arial, Geneva, Verdana;
+        }
+
+        .class_wide_input {
+            width: 300px;
+        }
+
+        td {
+            font-size: 12px;
+        }
+    </style>
+    
+    <link rel="stylesheet" type="text/css" href="/Content/css/jquery.timeentry.css">
+    <script src="/Content/js/jquery.plugin.js"></script>
+    <script src="/Content/js/jquery.maskedinput.min.js"></script>
+    <script src="/Content/js/jquery.timeentry.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.class_prevscreen').hide();
+        });
+    </script>
+}
+<table id="tblData" border="0" cellpadding="0" cellspacing="0" style="height: 100%">
+    <tr>
+        <td style="width: 189px; background-color: #ffffff" valign="top" align="center">@Html.Partial("AssmntLeftPane")</td>
+        <td>
+            <br />
+            <table border="0" style="border-spacing:0px; width:625px;">
+                <tr>
+                    <td align="left">
+                        <!-- <asp:Label ID="lblErr" Visible="false" ForeColor="red" runat="server" />  -->
+                        <table border="0" cellpadding="5" cellspacing="0" style="background-color: #ffffff; margin-left: 1.3em;"
+                               width="625">
+                            <tr>
+                                <td>
+                                    <span class="titleblack">Interviewer Reliability and Qualification Review</span>
+                                </td>
+                            </tr>
+                        </table>
+                        <form action="/Results/Save" method="post" id="form-id">
+                            <table cellpadding="5" cellspacing="0" style="margin-left: 1.3em"
+                                   width="800">
+                                <tr>
+                                    <td>
+                                        <table>
+                                            <tr>
+                                                <td>
+                                                    @Helpers.LabelSpan(Model, "irqr_trainee_name_item")
+                                                </td>
+                                                <td>&nbsp;</td>
+                                                <td>
+                                                    @Helpers.TextInput(Model, "irqr_trainee_name")
+                                                </td>
+                                                <td>
+                                                    <input type="radio" class="class_purpose" name="irqr_purpose" id="irqr_purpose1" value="1">
+                                                    <label for="irqr_purpose1"><span></span>Guided Practice</label><br>
+                                                </td>
+                                                <td>
+                                                    <input type="radio" class="class_purpose" name="irqr_purpose" id="irqr_purpose2" value="2">
+                                                    <label for="irqr_purpose2"><span></span>Monitoring</label><br>
+                                                </td>
+                                                <td>
+                                                    <input type="radio" class="class_purpose" name="irqr_purpose" id="irqr_purpose3" value="3">
+                                                    <label for="irqr_purpose3"><span></span>IRQR</label><br>
+                                                    <script>
+                                                        $(document).ready(function () {
+                                                            var target = '@Model.rspValues["irqr_purpose"]';
+                                                            $(".class_purpose").each(function () {
+                                                                if ($(this).prop("value") == target) {
+                                                                    $(this).attr("checked", "1");
+                                                                }
+                                                            });
+                                                        });
+                                                    </script>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <table>
+                                            <tr>
+                                                <td>
+                                                    @Helpers.LabelSpan(Model, "irqr_trainer_item")
+                                                </td>
+                                                <td>&nbsp;</td>
+                                                <td>
+                                                    @Helpers.TextInput(Model, "irqr_trainer")
+                                                </td>
+                                                <td>
+                                                    @Helpers.LabelSpan(Model, "irqr_loc_item")
+                                                </td>
+                                                <td>&nbsp;</td>
+                                                <td>
+                                                    @Helpers.TextInput(Model, "irqr_loc")
+                                                </td>
+                                                <td>
+                                                    @Helpers.LabelSpan(Model, "irqr_date_item")
+                                                </td>
+                                                <td>&nbsp;</td>
+                                                <td>
+                                                    @Helpers.TextInput(Model, "irqr_date", new { id = "IDirqr_date" })
+                                                    <script>
+                                                        $('#IDirqr_date').datepicker({ constrainInput: false });
+                                                        //$('#IDirqr_date').datepick();
+                                                    </script>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <table style="width:800px;">
+                                            <tr><td colspan="2" style="border:2px solid black; background-color:rgb(204,255,255); text-align:center; font-weight:bold">Qualification Status</td></tr>
+                                            <tr style="height:4px"></tr>
+                                            <tr>
+                                                <td colspan="2">
+                                                    <table style="border:2px solid black; border-spacing:0px; width:800px">
+                                                        <tr>
+                                                            <td style="width:150px; background-color:rgb(204,255,255); vertical-align:top">
+                                                                <br /><input type="radio" class="class_status" name="irqr_status" id="irqr_status1" value="1">
+                                                                <label for="irqr_status1"><span></span><b>Novice</b></label>
+                                                            </td>
+                                                            <td style="border-left:2px solid black;">
+                                                                <b>Develop competency in applying/adapting techniques to the interview</b>
+                                                                <ul>
+                                                                    <li>Primarily requires demonstration</li>
+                                                                    <li>Requires more knowledge</li>
+                                                                </ul>
+                                                                <b style="color:red;">Requires presence of trainer to conduct SIS</b>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+
+                                            <tr style="height:4px"></tr>
+                                            <tr>
+                                                <td colspan="2">
+                                                    <table style="border:2px solid black; border-spacing:0px; width:800px">
+                                                        <tr>
+                                                            <td style="width:150px; background-color:rgb(204,255,255); vertical-align:top">
+                                                                <br /><input type="radio" class="class_status" name="irqr_status" id="irqr_status2" value="2">
+                                                                <label for="irqr_status2"><span></span><b>Beginner</b></label>
+                                                            </td>
+                                                            <td style="border-left:2px solid black;">
+                                                                <b>Develop consistency in applying/adapting techniques to the interview</b>
+                                                                <ul>
+                                                                    <li>Primarily requires coaching</li>
+                                                                    <li>Needs to increase knowledge</li>
+                                                                </ul>
+                                                                <b style="color:red;">Requires presence of trainer to conduct SIS</b>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+
+                                            <tr style="height:4px"></tr>
+                                            <tr>
+                                                <td colspan="2">
+                                                    <table style="border:2px solid black; border-spacing:0px; width:800px">
+                                                        <tr>
+                                                            <td style="width:150px; background-color:rgb(204,255,255); vertical-align:top">
+                                                                <br /><input type="radio" class="class_status" name="irqr_status" id="irqr_status3" value="3">
+                                                                <label for="irqr_status3"><span></span><b>Qualified</b></label>
+                                                            </td>
+                                                            <td style="border-left:2px solid black;">
+                                                                <b>Adequately applying/adapting techniques to the interview</b>
+                                                                <br /><b style="color:green;">May Conduct SIS Independantly</b>
+                                                                <br />
+                                                                <table style="border-spacing:0px; width:100%">
+                                                                    <tr style="text-align:center; font-weight:bold; background-color: rgb(217,217,217);">
+                                                                        <td colspan="2" style="width:50%; border:1px solid black;">Interview Techniques</td>
+                                                                        <td colspan="2" style="width:50%; border:1px solid black; border-left:none">Decision Making</td>
+                                                                    </tr>
+                                                                    @for (int i = 0; i < 3; i++)
+                                                                    {
+                                                                        string label = new string[] { "Sufficient", "Satisfactory", "Excellent" }[i];
+                                                                        <tr>
+                                                                            <td style="text-align:center; border: 1px solid black; border-top:none; background-color:rgb(217,217,217)">
+                                                                                <input type="radio" name="irqr1_inttech" class="class_inttech" id="irqr1_inttech@(i)" value="@(i+1)" />
+                                                                                <label for="irqr1_inttech@(i)"><span></span></label>
+                                                                            </td>
+                                                                            <td style="border-right: 1px solid black; border-bottom: 1px solid black;">
+                                                                                @label
+                                                                            </td>
+                                                                            <td style="text-align:center; border-right: 1px solid black; border-bottom: 1px solid black; background-color:rgb(217,217,217)">
+                                                                                <input type="radio" name="irqr1_decmak" class="class_decmak" id="irqr1_decmak@(i)" value="@(i+1)" />
+                                                                                <label for="irqr1_decmak@(i)"><span></span></label>
+                                                                            </td>
+                                                                            <td style="border-right: 1px solid black; border-bottom: 1px solid black;">
+                                                                                @label
+                                                                            </td>
+                                                                        </tr>
+                                                                    }
+                                                                    <script>
+                                                                        $(document).ready(function () {
+                                                                            var target = '@Model.rspValues["irqr1_inttech"]';
+                                                                            $(".class_inttech").each(function () {
+                                                                                if ($(this).prop("value") == target) {
+                                                                                    $(this).attr("checked", "1");
+                                                                                }
+                                                                            });
+                                                                            target = '@Model.rspValues["irqr1_decmak"]';
+                                                                            $(".class_decmak").each(function () {
+                                                                                if ($(this).prop("value") == target) {
+                                                                                    $(this).attr("checked", "1");
+                                                                                }
+                                                                            });
+                                                                        })
+                                                                    </script>
+                                                                </table>
+                                                                <br />Sufficient
+                                                                <ul>
+                                                                    <li>Utilizes knowledge and skills adequately</li>
+                                                                    <li>Demonstrates basic understanding</li>
+                                                                </ul>
+                                                                Satisfactory
+                                                                <ul>
+                                                                    <li>Utilizes knowlede and skills well in interview</li>
+                                                                    <li>Demonstrates sound understanding</li>
+                                                                </ul>
+                                                                Excellent
+                                                                <ul>
+                                                                    <li>Utilizes knowledge and skills with strength</li>
+                                                                    <li>Demonstrates adaptability and good understanding</li>
+                                                                </ul>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+
+                                            <tr style="height:4px"></tr>
+                                            <tr>
+                                                <td colspan="2">
+                                                    <table style="border:2px solid black; border-spacing:0px; width:800px">
+                                                        <tr>
+                                                            <td style="width:150px; background-color:rgb(204,255,255); vertical-align:top">
+                                                                <br /><input type="radio" class="class_status" name="irqr_status" id="irqr_status4" value="4">
+                                                                <label for="irqr_status4"><span></span><b>Advanced</b></label>
+                                                                <script>
+                                                                    $(document).ready(function () {
+                                                                        var target = '@Model.rspValues["irqr_status"]';
+                                                                        $(".class_status").each(function () {
+                                                                            if ($(this).prop("value") == target) {
+                                                                                $(this).attr("checked", "1");
+                                                                            }
+                                                                        });
+                                                                    })
+                                                                </script>
+                                                            </td>
+                                                            <td style="border-left:2px solid black;">
+                                                                <b>Skillfully applying/adapting techniques to the interview situation</b>
+                                                                <ul>
+                                                                    <li>No support required</li>
+                                                                    <li>Has superior knowledge</li>
+                                                                    <li>Adapts to address challenging situations while maintaining the integrity of the tool</li>
+                                                                    <li>Uses versatile methods in converying key concepts</li>
+                                                                    <li>Utilizes creativity and innovation in interview situations</li>
+                                                                </ul>
+                                                                <b style="color:green;">May Conduct SIS Independantly</b>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+
+                                            <tr style="height:4px"></tr>
+                                            <tr>
+                                                <td colspan="2">
+                                                    <table style="border:2px solid black; border-spacing:0px; width:800px">
+                                                        <tr>
+                                                            <td colspan="2" style="background-color:rgb(204,255,255); text-align:center; font-weight:bold; border-bottom:2px solid black;">
+                                                                Special Circumstances
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="width:150px; border-right:2px solid black">
+
+                                                                <input type="radio" class="class_special" name="irqr_special" id="irqr_special1" value="1"> 
+                                                                <label for="irqr_special1"><span></span><b>Not Applicable</b></label>
+                                                                <br/>
+
+                                                                <input type="radio" class="class_special" name="irqr_special" id="irqr_special2" value="2"> 
+                                                                <label for="irqr_special2"><span></span><b>Provisional Pass</b></label>
+                                                                <br/>
+
+                                                                <input type="radio" class="class_special" name="irqr_special" id="irqr_special3" value="3">
+                                                                <label for="irqr_special3"><span></span><b>Incomplete</b></label>
+                                                                <br/>
+
+                                                                <input type="radio" class="class_special" name="irqr_special" id="irqr_special4" value="4">
+                                                                <label for="irqr_special4"><span></span><b>Other</b></label>
+                                                                <br/>
+
+                                                                <script>
+                                                                    $(document).ready(function () {
+                                                                        var target = '@Model.rspValues["irqr_special"]';
+                                                                        $(".class_special").each(function () {
+                                                                            if ($(this).prop("value") == target) {
+                                                                                $(this).attr("checked", "1");
+                                                                            }
+                                                                        });
+                                                                    })
+                                                                </script>
+                                                            </td>
+                                                            <td>
+                                                                Explanation & Recommendations:<br />
+                                                                <textarea style="width:95%" name="irqr_special_notes">@Model.rspValues["irqr_special_notes"]</textarea>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+
+                                            <tr style="height:4px"></tr>
+                                            <tr><td colspan="2" style="border:2px solid black; background-color:rgb(204,255,255); text-align:center; font-weight:bold">General Comments</td></tr>
+                                            <tr>
+                                                <td colspan="2" style="border:2px solid black; border-top:none; height:100px">
+                                                    <textarea style="width:99%; height:99%;" name="irqr_status_notes">@Model.rspValues["irqr_status_notes"]</textarea>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                            <br />
+                            <br />                            
+                            
+                            @Html.Partial("AssmntNavPrevNext")
+                            
+                            <input type="submit" value="Submit" id="btnSubmit" />
+                        </form>
+
+
+
+                        <div class="copyright" style="text-align:center;font-size:smaller">
+                            <fieldset>
+                                <legend></legend>
+                                Copyright© 2014 by AAIDD   Supports Intensity Scale®   Revised July 2014
+                            </fieldset>
+                        </div>
+                        <div id="sectIntSetting" style="margin-top: 12px;" visible="false">
+                            &nbsp;
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0">
+    <tr>
+        <td style="height: 5px">&nbsp;</td>
+    </tr>
+</table>
+<br />

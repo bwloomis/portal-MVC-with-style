@@ -1,0 +1,70 @@
+@model Assmnts.Models.TemplateCsvOptions   
+@{
+    ViewBag.Title = "CSV Options";
+    Validator.Required("The field is required.");
+}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+<table id="tblData" border="0" cellpadding="0" cellspacing="0" style="height: 100%">
+    <tr>
+        <td>
+            <br />
+            <table border="0" cellpadding="0" cellspacing="0" width="625">
+                <tr>
+                    <td align="left">
+                            <table border="0" cellpadding="5" cellspacing="0" class="tableborder" style="background-color: #f4f4f4; margin-left: 1.3em"
+                                width="800">
+                                <tr>
+                                    <td>
+                                        <table>
+
+                                            <tr>
+                                                <td colspan="2">
+                                                    <b>Select Parts to Include</b>
+                                                </td>
+                                            </tr>
+
+                                            @foreach( Assmnts.def_Parts prt in Model.parts ){
+                                                <tr>
+                                                    <td>
+                                                        @prt.identifier
+                                                    </td>
+                                                    <td>
+                                                        <input type="checkbox" id="part_@prt.partId" checked />
+                                                    </td>
+                                                </tr>
+                                            }
+
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        @Html.ActionLink(
+                                            linkText: "Click Here to Build CSV",
+                                            actionName: "GetFormResultsCSV",
+                                            controllerName: "Export",
+                                            routeValues: new { },
+                                            htmlAttributes: new { id = "id_BuildCsv" }
+                                        )
+                                    </td>
+                                    <script>
+                                        $('#id_BuildCsv').click(function () {
+                                            var i = this.href.indexOf('?');
+                                            if (i > 0)
+                                                this.href = this.href.substring(0, i);
+                                            this.href += '?formId=@Model.formId';
+                                            this.href += '&includeParts=';
+                                            @foreach( Assmnts.def_Parts prt in Model.parts ){
+                                                @:this.href += $('#part_@prt.partId').prop('checked') ? '1' : '0';
+                                            }
+                                        });
+                                    </script>
+                                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+</table>
+<br />

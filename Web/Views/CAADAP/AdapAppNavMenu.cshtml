@@ -1,0 +1,176 @@
+@model Assmnts.Models.TemplateAdapNavMenu
+@using UAS.Business;
+@using Data.Concrete;
+
+<script>
+    $(document).ready(function () {
+        //initialize the tooltips
+        $('[data-toggle="tooltip"]').tooltip();
+
+        $('.class_submit').click(function () {
+            SubmitForm('@Model.adapPartId', '@Model.sctId');
+        });
+
+        $('.class_cert').click(function () {
+            $('form').attr('action', '/AdapCa/ValidateAndCertify');
+            SubmitForm('@Model.adapPartId', '@Model.sectionIds["CA-ADAP-Consent"]');
+        });
+
+        $('.class_check').click(function () {
+            $('form').attr('action', '/AdapCa/Validate');
+            SubmitForm('@Model.adapPartId', '@Model.sctId');
+        });
+
+        //highlight the current section in navigation
+        $('#navLi_@Model.sctId').addClass("active");
+
+        //add padding between save buttons on mobile
+        $('.btn.pull-right').css('margin-top', '2px');
+
+        //set buttons in reviewer "reports" dropdown to trigger form submission
+        $('a[data-href]').click(function () {
+            var href = $(this).attr('data-href');
+            $('#redirectUrl').val(href);
+            $('form').attr('action', "/Results/SaveThenRedirect");
+            SubmitForm('@Model.adapPartId', '@Model.sctId');
+        });
+    });
+</script>
+
+<!-- Fixed navbar -->
+<nav id="custom-bootstrap-menu" class="navbar navbar-default navbar-static-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="/" class="logo pull-left"><img src="~/Content/adap/images/california.png" class="img-responsive" /></a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                @{int sid;}
+
+                @{sid = @Model.sectionIds["CA-ADAP-Contact"]; }
+                <li id="navLi_@sid"><a href="#" onclick="SubmitForm('@Model.adapPartId','@sid')">@Resources.AdapAppNavMenu.ContactInfo</a></li>
+
+                @{sid = @Model.sectionIds["CA-ADAP-Demographic"]; }
+                <li id="navLi_@sid"><a href="#" onclick="SubmitForm('@Model.adapPartId','@sid')">@Resources.AdapAppNavMenu.DemographicInfo</a></li>
+
+                @{sid = @Model.sectionIds["CA-ADAP-Medical"]; }
+                <li id="navLi_@sid"><a href="#" onclick="SubmitForm('@Model.adapPartId','@sid')">@Resources.AdapAppNavMenu.Clinical</a></li>
+                @{sid = @Model.sectionIds["CA-ADAP-Household"]; }
+                <li id="navLi_@sid"><a href="#" onclick="SubmitForm('@Model.adapPartId','@sid')">@Resources.AdapAppNavMenu.HouseholdIncome</a></li>
+
+                @{sid = @Model.sectionIds["CA-ADAP-Insurance"]; }
+                <li id="navLi_@sid"><a href="#" onclick="SubmitForm('@Model.adapPartId','@sid')">@Resources.AdapAppNavMenu.HealthInsurance</a></li>
+
+                @*@{sid = @Model.sectionIds["ADAP_health"]; }
+                            <li id="navLi_@sid"><a href="#" onclick="SubmitForm('@Model.adapPartId','@sid')">@Resources.AdapAppNavMenu.HealthInsurance</a></li>
+                    =======
+                                    @{sid = @Model.sectionIds["CA-ADAP-Insurance"]; }
+                                    <li id="navLi_@sid"><a href="#" onclick="SubmitForm('@Model.adapPartId','@sid')">@Resources.AdapAppNavMenu.HealthInsurance</a></li>
+                    >>>>>>> .r81496
+
+                    <<<<<<< .mine
+                            @{sid = @Model.sectionIds["CA-ADAP-Income"]; }
+                            <li id="navLi_@sid"><a href="#" onclick="SubmitForm('@Model.adapPartId','@sid')">@Resources.AdapAppNavMenu.Household</a></li>
+                    ||||||| .r81476
+                            @{sid = @Model.sectionIds["ADAP_household"]; }
+                            <li id="navLi_@sid"><a href="#" onclick="SubmitForm('@Model.adapPartId','@sid')">@Resources.AdapAppNavMenu.Household</a></li>*@
+
+                @{sid = @Model.sectionIds["CA-ADAP-Assistance"]; }
+                <li id="navLi_@sid"><a href="#" onclick="SubmitForm('@Model.adapPartId','@sid')">@Resources.AdapAppNavMenu.InsuranceAssistance</a></li>
+
+                @{sid = 757; }
+                <li id="navLi_@sid"><a href="#" onclick="SubmitForm('45','@sid', '18')">@Resources.AdapAppNavMenu.Eligibility</a></li>
+
+                <!-- NEED TO CHANGE THIS NEXT ONE TO RESX FOR CONSENT TITLE-->
+                @{sid = @Model.sectionIds["CA-ADAP-Consent"]; }
+                <li id="navLi_@sid"><a href="#" onclick="SubmitForm('@Model.adapPartId','@sid')">@Resources.AdapAppNavMenu.Consent</a></li>
+
+                @if (@Model.access)
+                {
+                    //$$$ Start - Added for Contractor readonly role - Disabling the Reports menu if Only the default ADAP Report is present for them
+                        
+                    if (!UAS.Business.UAS_Business_Functions.hasPermission(PermissionConstants.ONLY_ADAP, PermissionConstants.ASSMNTS))
+                    {
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-list"></i> Reports <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#" data-href="../COADAP/BuildPDFReport"><i class="glyphicon glyphicon-save-file"></i> Build PDF Report</a></li>
+                                @if (UAS_Business_Functions.hasPermission(PermissionConstants.APPROVE, PermissionConstants.ASSMNTS))
+                                {
+                                    <li><a href="#" data-href="../AdapCa/ShowEligibility"><i class="glyphicon glyphicon-save-file"></i> Eligibility</a></li>
+                                }
+                                @if (UAS_Business_Functions.hasPermission(PermissionConstants.APPROVE, PermissionConstants.ASSMNTS))
+                                {
+                                    <li><a href="#" data-href="../Adap/UpdateStatus?formResultId=@Model.adapFormId"><i class="glyphicon glyphicon-save-file"></i> Update Status</a></li>
+                                }
+                                <li class="divider"></li>
+
+                                <li><b>&nbsp;Applicants</b></li>
+                                <li><a href="#" data-href="/Adap/Report1">Applicant Reports</a></li>
+                                <li><a href="#" data-href="/Adap/ApplicationsPending">Applications Pending</a></li>
+                                <li><a href="#" data-href="/Adap/ReCertsDue">Re-Certifications Due</a></li>
+                                <li class="divider"></li>
+
+                                <li><b>&nbsp;Dashboards</b></li>
+                                <li><a href="#" data-href="/Adap/AppOverview">Overview of All Applicant Records</a></li>
+                                <li><a href="#" data-href="/Adap/AppsPending">New Applications Pending</a></li>
+                                <li><a href="#" data-href="/Adap/CurrentNewApps">Current New Applicants</a></li>
+                                <li><a href="#" data-href="/Adap/DashboardReCerts">Re-certifications Due</a></li>
+                                <li><a href="#" data-href="/Adap/ProcessSummary">Process Summary</a></li>
+                            </ul>
+                        </li>
+                    }
+
+                    //$$$ End - Added for Contractor readonly role - Disabling the Reports menu if Only the default ADAP Report is present for them
+                }
+
+                <li>
+                    <a href="/Account/SsoLogout">@Resources.AdapAppNavMenu.ExitToPortalMenu</a>
+                </li>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</nav>
+
+ <!-- $$$ Start for Client Info Bar-->
+    @Html.Partial("~/Views/CAAdap/_clientinfobar.cshtml")
+<!-- $$$ End for Client Info Bar-->
+
+<div class="container" style="padding-top:0">
+    <div id="ADAPHeader">
+        @{
+            //define subheader text (or lack therof) based on first and last name of applicant
+            string fn = Model.firstName, ln = Model.lastName;
+            string subheader = "";
+            if (!String.IsNullOrWhiteSpace(fn) || !String.IsNullOrWhiteSpace(ln))
+            {
+                subheader = @Resources.AdapAppNavMenu.For + " " + (String.IsNullOrWhiteSpace(fn) ? "" : fn) + (String.IsNullOrWhiteSpace(ln) ? "" : " " + ln);
+            }
+        }
+
+       <h3 id="formVariant"></h3>
+        <div id="ADAPHeaderText"><h3>@Model.currentSectionTitle</h3> @subheader</div>
+
+        <!-- SUB NAVIGATION MENU - typically this is PreviousSection button (left-justified), BuildPDFReport & NextSection (right justified)-->
+        <hr class="hr-dark" />
+        <div class="col-md-12">
+            <button type="button" class="btn btn-info btn-s class_prevornextscreen class_prevscreen">
+                <span class="glyphicon glyphicon-arrow-left"></span> @Resources.AdapAppNavMenu.PrevSection
+            </button>
+
+            <button type="button" class="btn btn-info btn-s pull-right class_prevornextscreen class_nextscreen">
+                @Resources.AdapAppNavMenu.NextSection <span class="glyphicon glyphicon-arrow-right"></span>
+            </button>
+
+            <button type="button" onclick="window.location.href = '/AdapCa/BuildPDFReport'" style="margin-right:5px" class="btn btn-primary btn-s pull-right print_pdf">
+                <span class="glyphicon glyphicon-save-file"></span> Build PDF Report
+            </button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,140 @@
+<?xml version="1.0" standalone="yes"?>
+<NewDataSet>
+  <xs:schema id="NewDataSet" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+      <xs:complexType>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="Table1">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="TableName" type="xs:string" minOccurs="0" />
+                <xs:element name="IsFilter" type="xs:string" minOccurs="0" />
+                <xs:element name="Filter" type="xs:string" minOccurs="0" />
+                <xs:element name="IsScope" type="xs:string" minOccurs="0" />
+                <xs:element name="ScopeLow" type="xs:string" minOccurs="0" />
+                <xs:element name="ScopeHigh" type="xs:string" minOccurs="0" />
+                <xs:element name="IndexName" type="xs:string" minOccurs="0" />
+                <xs:element name="FieldsOrder" type="xs:string" minOccurs="0" />
+                <xs:element name="IsFTS" type="xs:string" minOccurs="0" />
+                <xs:element name="ftsField" type="xs:string" minOccurs="0" />
+                <xs:element name="ftsPattern" type="xs:string" minOccurs="0" />
+                <xs:element name="recNo" type="xs:string" minOccurs="0" />
+                <xs:element name="findExpression" type="xs:string" minOccurs="0" />
+                <xs:element name="evalTest" type="xs:string" minOccurs="0" />
+                <xs:element name="defaultSettings" type="xs:string" minOccurs="0" />
+                <xs:element name="selectedTab" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="Table2">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="QueryColumn" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:choice>
+      </xs:complexType>
+    </xs:element>
+  </xs:schema>
+  <Table2>
+    <QueryColumn>CREATE PROCEDURE [spSearchGrid]
+@getAllRecords Bit = 1,
+    @getAllAssessments Bit = 1,
+    @detailSearch Bit = 0,
+    @ids VarChar = NULL,
+    @ent_id Int = NULL,
+    @sub_id Int = NULL,
+    @searchWords VarChar = NULL,
+    @searchNumbers VarChar = NULL,
+    @searchDates VarChar = NULL
+AS
+BEGIN
+BEGIN
+	SET NOCOUNT ON;
+
+	DECLARE @Result 
+	TABLE
+		(
+			ent_id int,
+			sub_id int,
+			Recipient_ContactID bigint,
+			formResultId int,
+			formId int,
+			assigned int,
+			deleted bit NOT NULL,
+			locked bit NOT NULL,
+			archived bit NOT NULL,
+			FirstName nvarchar(128),
+			LastName nvarchar(128),
+			MedicaidNumber nvarchar(128),
+			TrackingNumber nvarchar(128),
+			Lst4 varchar(4),
+			InterviewDate datetime,
+			InterviewerLoginID varchar(32),
+			[Status] varchar(50),
+			ReviewStatus varchar(50),
+			CheckedOutTo varChar(32),
+			[Rank] bigint
+		)
+
+	BEGIN
+		INSERT INTO @Result
+		SELECT 
+		    AV.EnterpriseID,
+			AV.GroupID,
+			R.Recipient_ContactID,
+			AV.formResultId,
+			AV.formid,
+			AV.assigned,
+			ISNULL(AV.deleted, 0),
+			ISNULL(AV.locked, 0),
+			ISNULL(AV.archived, 0),
+			ISNULL(C.FirstName, AV.sis_cl_first_nm),
+			ISNULL(C.LastName, AV.sis_cl_last_nm),
+			[sis_cl_medicaidNum],
+			AV.[sis_track_num],
+			R.Lst4,
+			[sis_completed_dt],
+			UU.[LoginID],
+			AV.[StatusText],
+			AV.[reviewStatus],
+			AV.[sis_checked_out_to_LoginID],
+			AV.formResultId
+		FROM [dbo].[def_FormResults] FR
+		LEFT JOIN Recipient R on FR.[subject] = R.[Recipient_ContactID]
+		LEFT JOIN [dbo].[Contact] C ON R.Recipient_ContactID = C.ContactID
+		LEFT JOIN [dbo].[vSISAssessmentsForSearch] AV ON AV.[formResultId] = FR.[formResultId]		
+		LEFT JOIN [dbo].[uas_User] UU ON AV.[interviewer] = UU.[UserID]
+		WHERE (@ent_id is null OR AV.EnterpriseID = @ent_id)
+			AND (
+					@getAllAssessments = 1 
+					OR
+					FR.[formResultId] = 
+					(
+						SELECT TOP 1 [formResultId]
+						FROM def_FormResults
+						WHERE [subject] = R.Recipient_ContactID 
+						ORDER BY [formResultId] DESC
+					)
+					OR
+					FR.[formResultId] IS NULL
+					OR
+					FR.[subject] IS NULL
+					OR
+					FR.[subject] = 0
+				)
+		ORDER BY AV.formResultId DESC
+	END
+
+
+	/*************** RETURN SEARCH RESULT ***************/
+	SELECT * 
+	-- SELECT TOP 600 * -- testing purpose only
+	FROM @Result
+	ORDER BY [Rank] DESC, [Recipient_ContactID] DESC
+	
+	END
+END</QueryColumn>
+  </Table2>
+</NewDataSet>

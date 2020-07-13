@@ -1,0 +1,147 @@
+﻿@model Assmnts.Models.AdapApplicantRpt1
+@{
+    Layout = "/Views/Templates/ADAP/AppLayout.cshtml";
+}
+
+@section AddToHead {
+
+<!-- dataTables -->
+<script src="https://cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.11/js/dataTables.bootstrap.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.0.2/js/dataTables.responsive.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.0.2/js/responsive.bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.11/css/dataTables.bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.0.2/css/responsive.bootstrap.min.css">
+
+<link href="~/Content/adap/css/ADAPForms.css" rel="stylesheet" />
+
+    <script type="text/javascript">
+
+        function doSearch() {
+            var sortCheck = $('#sortCheck').is(":checked");
+            var searchTeam = $('#d_Team').val();
+            //var searchLName = $('#s_lName').val();
+            //var searchStat = $('#d_Status').val();
+            //var searchDate = $('#d_Date').val();
+            var dt = $('#DTgridClinics').DataTable();
+            dt.columns(1).search(sortCheck);
+            dt.columns(2).search(searchTeam).draw();
+            //dt.columns(3).search(searchLName);
+            //dt.columns(4).search(searchStat);
+            //dt.columns(5).search(searchDate).draw();
+        }
+
+        function openContact(userId) {
+            window.open("/Adap/ContactInfo?userId=" + userId);
+        }
+
+        $(document).ready(function () {
+            $('#ADAPHeader').hide(true);
+            $('#ADAPFooter').hide(true);
+            $(".form-control").keypress(function (e) {
+                if ((e.which && e.which == 13) || (e.keyCode && e.keyCode == 13)) {
+                    doSearch();
+                    return false;
+                } else {
+                    return true;
+                }
+            });
+
+            $('#sortCheck').change(function () {
+                doSearch();
+            });
+
+            $('#id_Search').click(function () {
+                doSearch();
+            });
+
+            filterData = {
+                "Team": "@Model.setTeam",
+                "Status": "@Model.setStatus",
+                "Date": "@Model.setDate",
+            }
+            $('#DTgridClinics').DataTable({
+                "bPaginate": true,
+                "bFilter": false,
+                "bInfo": true,
+                "responsive": true,
+                "processing": true,
+                "serverSide": true,
+                "ordering": true,
+                "searching": true,
+                "ajax": {
+                    url: "DataTableClinicList",
+                    data: filterData,
+                    type: "POST"
+                },
+                "dom": '<l<t><"row"<"col-md-6"i><"col-md-6"p>>>',
+            });
+        });
+    </script>
+}
+
+<div class="container">
+    <h3>ADAP @Model.ReportName </h3>
+    <hr />
+
+        <div class="col-md-4 pull-right" >
+            <input id="sortCheck" type="checkbox" class="checkbox checkbox-inline" value="alpha" />
+            <label for="sortCheck" class="small muted"> List Items alphabetically, ignoring display order</label>
+        </div>
+
+        <table id="DTgridClinics" class="table table-striped table-hover table-bordered responsive no-wraps small dataTable no-footer dtr-inline" cellpadding="0" cellspacing="0" border="0">
+            <thead>
+                <tr>
+                    <th>Edit</th>
+                    <th>Label</th>
+                    <th>Value</th>
+                    <th>Team Color</th>
+                    <th>Display Order</th>
+                    <th>Active</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    <hr />
+    <div class="row">
+        <div class="col-md-offset-8 col-xs-6 col-sm-4 col-md-2">
+            <input type="button" id="Add" class="btn btn-md btn-primary btn-block" value="Add Record" onclick="window.location = '/Adap/AddDetail?lookupMasterId=@Model.formResultId&enterpriseId=@Model.teamId'" />
+        </div>
+
+        <div class="col-xs-6 col-sm-4 col-md-2">
+            <input type="button" id="Upload" class="btn btn-md btn-primary btn-block" value="Upload Clinic Data" onclick="window.location = '/UploadLookupData'" />
+        </div>
+    </div>
+
+    <div class="bs-callout bs-callout-primary" style="background-color:#fcf8e3">
+        <h4 style="color:black">Search ADAP @Model.ReportName </h4>
+        <div>
+            <div class="row top-buffer-25">
+                <div class="col-sm-3">
+                    <label for="d_Team">Team Color</label>
+                    <select id="d_Team" class="form-control" name="d_Team">
+                        <!--The Team DDL is used as the selector for Lists to manage-->
+                        <option value="" disabled @(Model.TeamDDL != null && Model.TeamDDL.Count > 0 ? String.Empty : "selected")>Team Colors</option>
+                        @foreach (Assmnts.UasServiceRef.Group g in Model.TeamDDL)
+                        {
+                            if (!String.IsNullOrEmpty(@Model.setTeam) && @Model.setTeam.Equals(@g.GroupName))
+                            {
+                                <option value="@g.GroupID" selected="selected">@g.GroupName</option>
+                            }
+                            else
+                            {
+                                <option value="@g.GroupID">@g.GroupName</option>
+                            }
+                        }
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label>&nbsp;</label>	<!-- TODO: find better way -->
+                    <input type="button" id="id_Search" class="btn btn-md btn-success btn-block" value="Search" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>

@@ -1,0 +1,112 @@
+@model Assmnts.Models.TemplateItems
+    <script src="/Scripts/spin.min.js" type="text/javascript"></script>
+    <!-- behavior -->
+    <script>
+    var form_original_data = false;
+    $(document).ready(function () {
+        document.getElementById('navPartId').setAttribute('value', '@Model.nextScreenPartId');
+        document.getElementById('navSectionId').setAttribute('value', '@Model.nextScreenSectionId');
+        $('.class_nextscreen').click(function () { SubmitForm('@Model.nextScreenPartId', '@Model.nextScreenSectionId') });
+        $('.class_prevscreen').click(function () { SubmitForm('@Model.prevScreenPartId', '@Model.prevScreenSectionId') });
+        $('.class_submit').click(function () { SubmitForm('@Model.thisPartId', '@Model.thisSectionId') });
+        $('.class_logout').click(function () { SubmitForm('logout', 'logout') });
+        $('.class_search').click(function () { SubmitForm('search', 'search') });
+        $('.class_new').click(function () { SubmitForm('new', 'new') });
+        // $('#btnSubmit').style.visibility = "hidden";
+        $('#btnSubmit').hide();
+
+        form_original_data = $("#form-id").serialize();
+    });
+
+
+   function SubmitForm(targetPartId, targetSectionId) {
+        document.getElementById('navPartId').setAttribute('value', targetPartId);
+        document.getElementById('navSectionId').setAttribute('value', targetSectionId);
+
+        // Show the spinner in either the body tag or form
+        // Options for the Spinner
+        var opts = {
+            length: 20, // The length of each line
+            width: 10, // The line thickness
+            radius: 30, // The radius of the inner circle
+            color: '#106296', // #rgb or #rrggbb or array of colors
+            trail: 60, // Afterglow percentage
+            shadow: false, // Whether to render a shadow
+            hwaccel: false, // Whether to use hardware acceleration
+        };
+        // var target = document.getElementById('body');
+        var target = document.getElementById('form-id');
+        if (target == null) {
+            target = document.getElementsByTagName("body")[0];
+        }
+        if (target != null) {
+            spinner = new Spinner(opts).spin(target);
+        }
+
+
+        if (!('@Model.thisSection.identifier' == "Profile" || '@Model.thisSection.identifier' == "Interview Planning") && ('@Model.newAssmnt' == "True") && (removeNav(form_original_data) !== removeNav($("#form-id").serialize()))) {
+            // alert("Changing to in progress!");
+            changeToInProgress();
+        }
+        $("#btnSubmit").click();
+        // document.getElementById('form-id').submit();
+    }
+
+    function removeNav(input) {
+        var index = input.indexOf("&navSectionId");
+        return input.substring(0, index);
+
+    }
+
+    function changeToInProgress() {
+        $.ajax({
+            type: "POST",
+            url: "/SisTemplates/ChangeToInProgress",
+            async: false,
+            cache: false,
+            success: function (result) {
+            },
+            error: function () {
+                alert("Error changing form result to in progress.");
+
+            }
+        });
+    }
+</script>
+    @Html.HiddenFor(model => model.navSectionId )
+    @Html.HiddenFor(model => model.navPartId )
+
+
+    <!-- layout -->
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+            <td align="right" valign="middle">
+                <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                    <tr>
+                        <td valign="middle" width="20" align="left">
+                            <span>
+                                &nbsp;<img class="class_prevornextscreen class_prevscreen class_prevscreenbelowpage" src="~/Content/Images/leftarrow.gif">
+                            </span>
+                        </td>
+                        <td width="5">&nbsp;</td>
+                        <td valign="middle" align="left">
+                            <span class="class_prevornextscreen class_prevscreen class_prevscreenbelowpage">
+                                Save Data and Return to @Model.prevScreenTitle
+                            </span>
+                        </td>
+                        <td valign="middle" align="right">
+                            <span class="class_prevornextscreen class_nextscreen">
+                                Save Data and Continue to @Model.nextScreenTitle&nbsp;
+                            </span>
+                        </td>
+                        <td width="5">&nbsp;</td>
+                        <td valign="middle" width="20" align="right">
+                            <span>
+                                &nbsp;<img class="class_prevornextscreen class_nextscreen" src="~/Content/Images/rightarrow.gif">
+                            </span>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>

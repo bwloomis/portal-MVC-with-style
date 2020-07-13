@@ -1,0 +1,39 @@
+﻿@model Assmnts.Models.AdapAdmin
+@{
+    Layout = "~/Views/Templates/ADAP/AppLayout.cshtml";
+}
+
+@section AddToHead{
+    <script>
+        $(document).ready(function () {
+            $('form').attr('action', '/UploadLookupData/Upload');
+            $('.class_prevscreen').hide();
+            $('.class_nextscreen').hide();
+            $('#ADAPFooter').hide();
+        });
+    </script>
+}
+
+<div class="container">
+    <h3>Upload Clinic Data</h3>
+    <hr />
+
+    @Html.HiddenFor(m => m.lookupMasterId)
+    @Html.HiddenFor(m => m.enterpriseId)
+
+    <div class="row">
+        <div class="col-md-2">
+            <input type="file" name="file" id="file" />
+        </div>
+    </div>
+    <div class="row top-buffer-25">
+        <div class="col-md-6">
+            <input type="submit" value="Upload" class="btn btn-md btn-primary class_submit" />
+        </div>
+    </div>
+    <div class="row top-buffer-25">
+        <div class="col-md-8">
+            @Model.Message
+        </div>
+    </div>
+</div>

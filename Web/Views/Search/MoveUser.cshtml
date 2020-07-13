@@ -1,0 +1,17 @@
+﻿@model Assmnts.Models.MoveModel
+@{
+    Layout = null;
+}
+<div class="selectBox">
+    <div>
+        Assigned User:
+    </div>
+    @Html.DropDownListFor(model => model.newAssigned, Model.LoginIDs, new { @id = "userList", @class="userList"})
+</div>
+<script>
+    $(document).ready(function () {
+        if ($(".userList").length != 0) {
+            $(".userList").val(@Model.selectedUser);
+        }
+    });
+</script>

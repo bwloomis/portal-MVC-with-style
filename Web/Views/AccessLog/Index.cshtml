@@ -1,0 +1,206 @@
+﻿@model Assmnts.Models.AccessLog
+@{
+
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+<style>
+    tfoot input {
+        width: 100%;
+        padding: 3px;
+        box-sizing: border-box;
+    }
+
+    #input0 {
+        width: 110px;
+    }
+
+    #input3 {
+        width: 100px;
+    }
+
+    th {
+        background-color: #BFDFFF;
+    }
+</style>
+
+<script>
+    var count = 0;
+    $(document).ready(function () {
+
+        // DataTable
+        //     var table = $('#searchTable').DataTable();
+
+        $("#min").datepick();
+        $("#max").datepick();
+
+        $("#filter").click(function () {
+            var start = $("#min").val();
+            var end = $("#max").val();
+            var user = $("#user").val();
+            var sis = $("#sis").val();
+            var page = 1;
+
+            $.ajax({
+                type: "POST",
+                url: "/AccessLog/Filter",
+                data: { page: page, numRecords: 20, startDate: start, endDate: end, sUser: user, sis: sis },
+                async: false,
+                cache: false,
+                success: function (data) {
+                    $("#results").html(data);
+
+                    $("#count").html(count);
+                    $("#countLower").html(count);
+                    paginate();
+
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert("ERROR: " + thrownError);
+
+                },
+
+            });
+        });
+
+        $(".filterInput").keypress(function (event) {
+            if (event.which == 13 || event.keyCode == 13) {
+                $("#filter").click();
+            }
+        });
+
+    });
+</script>
+
+<h3>Access Log</h3>
+<table border="0" cellpadding="5" cellspacing="5">
+        <tbody>
+            <tr>
+                <td><label for="user">User:</label></td>
+                <td><input id="user" name="user" class="filterInput" type="text" style="margin:4px"></td>
+                <td><label for="sis">Form Result ID:</label></td>
+                <td><input id="sis" name="sis" type="text" class="filterInput" style="margin:10px"></td>
+            </tr>
+            <tr>
+                <td><label for="min">Start date:</label></td>
+                <td><input id="min" class="datepicker filterInput" name="min" type="text" style="margin:4px"></td>
+                <td><label for="max">End date:</label></td>
+                <td><input id="max" class="datepicker filterInput" name="max" type="text" style="margin:4px"></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input id="filter" class="btn btn-success" type="button" value="Search" style="margin:4px;" /></td>
+            </tr>
+        </tbody>
+    </table>
+@*<div class="col-sm-2">
+    <input id="filter" class="btn btn-success" type="button" value="Search" style="margin:4px;" />
+</div>
+    <div class="col-sm-2">
+        <label for="user">User: </label>
+        <input id="user" name="user" class="form-control" type="text" style="margin:4px">
+    </div>
+    <div class="col-sm-2">
+        <label for="sis">Form Result ID:</label>
+        <input id="sis" name="sis" type="text" class="form-control" style="margin:4px">
+    </div>
+<br />
+<br />
+<br />
+<br />
+    <div class="col-sm-2">
+        <label for="min">Start date:</label>
+        <input id="min" class="datepicker form-control" name="min" type="text" style="margin:4px">
+    </div>
+    <div class="col-sm-2">
+        <label for="max">End date:</label>
+        <input id="max" class="datepicker form-control" name="max" type="text" style="margin:4px">
+    </div>
+
+<br />
+<br />
+<br />
+<br />*@
+<div><label>Record Count: <span id="count">0</span></label></div>
+<div id="pagination" class="pagination"></div>
+<div id="results">
+
+</div>
+
+@*<div id="paginationLower" class="pagination"></div>*@
+<div><label>Record Count: <span id="countLower">0</span></label></div>
+
+<script src="~/Content/js/jquery.twbsPagination.min.js"></script>
+
+<script>
+    var paged = false;
+    function paginate() {
+        if (paged) {
+            $("#pagination").twbsPagination('destroy');
+            $("#paginationLower").twbsPagination('destroy');
+        }
+
+        $('#pagination').twbsPagination({
+            startPage: 1,
+            totalPages: Math.ceil($("#count").html() / 20),
+            visiblePages: 7,
+            onPageClick: function (event, page) {
+                var start = $("#min").val();
+                var end = $("#max").val();
+                var user = $("#user").val();
+                var sis = $("#sis").val();
+
+                $.ajax({
+                    type: "POST",
+                    url: "/AccessLog/Filter",
+                    data: { page: page, numRecords: 20, startDate: start, endDate: end, sUser: user, sis: sis },
+                    async: false,
+                    cache: false,
+                    success: function (data) {
+                        $("#results").html(data);
+                        paged = true;
+
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        alert("ERROR: " + thrownError);
+                    },
+
+                });
+
+            }
+        });
+
+        $('#paginationLower').twbsPagination({
+            startPage: 1,
+            totalPages: Math.ceil($("#count").html() / 20),
+            visiblePages: 7,
+            onPageClick: function (event, page) {
+                var start = $("#min").val();
+                var end = $("#max").val();
+                var user = $("#user").val();
+                var sis = $("#sis").val();
+
+                $.ajax({
+                    type: "POST",
+                    url: "/AccessLog/Filter",
+                    data: { page: page, numRecords: 20, startDate: start, endDate: end, sUser: user, sis: sis },
+                    async: false,
+                    cache: false,
+                    success: function (data) {
+                        $("#results").html(data);
+                        paged = true;
+
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        alert("ERROR: " + thrownError);
+
+                    },
+
+                });
+
+            }
+        });
+
+
+    }
+
+</script>

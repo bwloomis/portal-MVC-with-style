@@ -1,0 +1,86 @@
+@model Assmnts.Models.FormResults
+@{
+    ViewBag.Title = "Form Results (SIS) List";
+    Layout = "~/Views/Shared/ApplicationLayout.cshtml";
+}
+
+@section HeadContent {
+
+	<link rel="stylesheet" type="text/css" href="/Content/css/sitewide.css" />
+	
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <link href="/Content/css/sis-red/jquery-ui-1.7.sisred.css" rel="stylesheet" type="text/css" />
+}
+        <table border="0" width="741">
+            <tr>
+                <td valign="top">
+                    <!-- start FormResults List -->
+                    <table id="Table1" border="0" cellpadding="0" cellspacing="1" bgcolor="#000000">
+                        <caption>Assessments</caption>
+                        <thead>
+                            <tr style="height: 21px">
+                                <td width="50" bgcolor="#be411c" valign="middle" align="left">No.</td>
+                                <td width="50" bgcolor="#be411c" valign="middle" align="left">formResultId</td>
+                                <td width="150" bgcolor="#be411c" valign="middle" align="left">Date</td>
+                                <td width="500" bgcolor="#be411c" valign="middle" align="center">Title</td>
+								<!--
+                                <td width="50" bgcolor="#be411c">&nbsp;</td>
+                                <td width="100" bgcolor="#be411c">&nbsp;</td>
+								-->
+                            </tr>
+                        </thead>
+                        <tbody>
+						@{int itmCnt = 0;}
+						@foreach (var frm in Model.formResults)
+						{
+							itmCnt++;
+							string bgColor = (itmCnt % 2) == 0 ? "#d5d5d5" : "#ffffff";
+                            <tr style="height: 28px" bgcolor="@{@bgColor}" id="trs1a_@{@itmCnt}">
+                                <td width="50" valign="top">@itmCnt.</td>
+                                <td width="50" valign="top">@frm.formResultId</td>
+                                <td width="150">@frm.dateUpdated</td>
+								
+                                <td width="500">
+									@Html.ActionLink(
+										linkText: @Model.formTitles[itmCnt - 1], 
+										actionName: "StartAssmnt", 
+										controllerName: "Results", 
+										routeValues: new { formId=frm.formId, formResultId=frm.formResultId },
+										htmlAttributes: null
+									)
+								</td>
+								<!--
+                                <td width ="50">
+									@Html.ActionLink(
+										linkText: "Parts", 
+										actionName: "Parts", 
+										controllerName: "Templates", 
+										routeValues: new { formResultId=frm.formResultId },
+										htmlAttributes: null
+									)
+                                </td>
+                                <td>
+                                    @Html.ActionLink(
+                                        linkText: "upload to master server",
+                                        actionName: "UploadFormResultsJSON",
+                                        controllerName: "Export",
+                                        routeValues: new { formId = frm.formId, formResultId = frm.formResultId },
+                                        htmlAttributes: new {}
+                                    )
+                                </td>
+								-->
+                            </tr>
+						}
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td height="10">
+                    &nbsp;
+                </td>
+            </tr>
+        </table>
+	
+	<!-- End of Section List -->
+		

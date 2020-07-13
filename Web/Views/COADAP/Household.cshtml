@@ -1,0 +1,122 @@
+﻿@model Assmnts.Models.GeneralForm
+@{
+    Layout = "AdapAppLayout.cshtml";
+}
+
+@section AddToHead{
+    <link rel="stylesheet" type="text/css" href="/Content/adap/css/ADAPForms.css" />
+    <script src="~/Content/js/ADAPLookupSelects.js"></script>
+    <script>
+            $(document).ready(function () {
+                @foreach (string shortName in new string[] { "H1_StatusDrop", "H2_RelnDrop" })
+                {
+                    string identifier = "ADAP_" + shortName;
+                    @:populateLookupSelect('@identifier', '@identifier', '@Model.rspValues[identifier]');
+                }
+        
+                @foreach (string shortName in new string[] { "H3_TaxStatusOpt", "H3_TaxNotFileOpt" })
+                {
+                    string identifier = "ADAP_" + shortName;
+                    @:populateLookupRadio('@identifier', '@identifier', '@Model.rspValues[identifier]', 12);
+                }
+            });
+    </script>  
+}
+
+<!-- H1 status -->
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="pull-right prevAppBtn"><button data-prevdiv="PreviousH1" class="btn" type="button"></button></div>
+        <div class="pull-right"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CmntModal" data-label="H1. @Model.sctTitles["ADAP_H1"]"><span class="glyphicon glyphicon-comment"></span></button></div>
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="" style="text-align:left">H1. @Model.sctTitles["ADAP_H1"]</label>
+            <div class="col-md-6">
+                @Helpers.DropDownList(Model, "ADAP_H1_StatusDrop_item", "ADAP_H1_StatusDrop")
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- H2 current relatonship status -->
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="pull-right prevAppBtn"><button data-prevdiv="PreviousH2" class="btn" type="button"></button></div>
+        <div class="pull-right"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CmntModal" data-label="H2. @Model.sctTitles["ADAP_H2"]"><span class="glyphicon glyphicon-comment"></span></button></div>
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="" style="text-align:left">H2. @Model.sctTitles["ADAP_H2"]</label>
+            <div class="col-md-6">
+                @Helpers.DropDownList(Model, "ADAP_H2_RelnDrop_item", "ADAP_H2_RelnDrop")
+            </div>
+        </div>
+
+        @Helpers.LabelSpan(Model, "ADAP_H2_RelnLabel_item", new { @class = "col-md-12 control-label" })
+    </div>
+</div>
+
+<!-- H3 tax filing status -->
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="pull-right prevAppBtn"><button data-prevdiv="PreviousH3" class="btn" type="button"></button></div>
+        <div class="pull-right"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CmntModal" data-label="H3. @Model.sctTitles["ADAP_H3"]"><span class="glyphicon glyphicon-comment"></span></button></div>
+        <p><strong>H3. @Model.sctTitles["ADAP_H3"]</strong></p>
+        <div class="form-group">
+            <div class="col-md-12">
+                @Helpers.YesNoRadioButtons(Model, "ADAP_H3_FileTaxYN")
+            </div>
+        </div>
+
+        <div class="form-group" id="YesH3">
+            <div class="col-md-12">
+                @Helpers.LabelSpan(Model, "ADAP_H3_TaxStatusOpt_item", new { style = "font-weight:bold" })
+                <div id="ADAP_H3_TaxStatusOpt"></div>
+                @*@Helpers.RadioList(Model, Html, "ADAP_H3_TaxStatusOpt_item", "ADAP_H3_TaxStatusOpt", new { @class = "small" }, 12)*@
+            </div>
+
+        </div>
+
+        <div class="form-group" id="NoH3">
+            <div class="col-md-12">
+                @Helpers.LabelSpan(Model, "ADAP_H3_TaxNotFileOpt_item", new { style = "font-weight:bold" })
+                <div id="ADAP_H3_TaxNotFileOpt"></div>
+                @*@Helpers.RadioList(Model, Html, "ADAP_H3_ReasonNo_item", "ADAP_H3_ReasonNo", new { @class = "small" }, 12)*@
+            </div>
+            <div class="col-md-12" id="notFileOther">
+                @Helpers.TextInput(Model, "ADAP_H3_TaxNotFileOther", new { @class = "form-control" })
+            </div>            
+        </div>
+        @Helpers.LabelSpan(Model, "ADAP_H3_TaxDependants_item", new { @class = "col-md-12 control-label", @id = "ADAP_H3_TaxDependants_item" })
+        @Helpers.LabelSpan(Model, "ADAP_H3_Children_item", new { @class = "col-md-12 control-label", @id = "ADAP_H3_Children_item" })
+        <div class="col-md-1">
+            @Helpers.TextInput(Model, "ADAP_H3_TaxDependants", new { @class = "form-control" })
+        </div>
+        @Helpers.LabelSpan(Model, "ADAP_H3_TaxRelatives_item", new { @class = "col-md-12 control-label", @id = "ADAP_H3_TaxRelatives_item" })
+        @Helpers.LabelSpan(Model, "ADAP_H3_Relatives_item", new { @class = "col-md-12 control-label", @id = "ADAP_H3_Relatives_item" })
+        <div class="col-md-1">
+            @Helpers.TextInput(Model, "ADAP_H3_Relatives", new { @class = "form-control" })
+        </div>
+        <script>
+            $(document).ready(function () {
+                updateH3();
+                $("#ADAP_H3_FileTaxYN_YesOption").change(updateH3);
+                $("#ADAP_H3_FileTaxYN_NoOption").change(updateH3);
+                $("[name='ADAP_H3_TaxNotFileOpt']").change(updateH3);
+            });
+
+            function updateH3() {
+                $("#PREVIOUS_YesH3").toggle($("#PREVIOUS_ADAP_H3_FileTaxYN_YesOption").get(0).checked);
+                $("#PREVIOUS_NoH3").toggle($("#PREVIOUS_ADAP_H3_FileTaxYN_NoOption").get(0).checked);
+                $("#PREVIOUS_notFileOther").toggle($("#PREVIOUS_ADAP_H3_TaxNotFileOpt1").get(0).checked);
+                $("#YesH3").toggle($("#ADAP_H3_FileTaxYN_YesOption").get(0).checked);
+                $("#NoH3").toggle($("#ADAP_H3_FileTaxYN_NoOption").get(0).checked);
+                $("#notFileOther").toggle($("#ADAP_H3_TaxNotFileOpt1").get(0).checked);
+                $("#ADAP_H3_TaxRelatives_item").toggle($("#ADAP_H3_FileTaxYN_YesOption").get(0).checked);
+                $("#ADAP_H3_Relatives_item").toggle($("#ADAP_H3_FileTaxYN_NoOption").get(0).checked);
+                $("#ADAP_H3_TaxDependants_item").toggle($("#ADAP_H3_FileTaxYN_YesOption").get(0).checked);
+                $("#ADAP_H3_Children_item").toggle($("#ADAP_H3_FileTaxYN_NoOption").get(0).checked);
+            };
+        </script>
+    </div>
+</div>
+
+
+        <!-- Comments Modal -->@Html.Partial("_AdapCommentModal", Model)

@@ -1,0 +1,84 @@
+﻿@model Assmnts.Models.AdapAdmin
+@{
+    Layout = "/Views/Templates/ADAP/AppLayout.cshtml";
+}
+
+@section AddToHead{
+    <script>
+        $(document).ready(function () {
+            $('form').attr('action', '/Adap/SaveDetail');
+            $('.class_prevscreen').hide();
+            $('.class_nextscreen').hide();
+            $('#ADAPFooter').hide();
+        });
+    </script>
+}
+
+<div class="container">
+    <h3>Add Clinic Record</h3>
+    <hr />
+</div>
+<div class="panel panel-default">
+    <div class="panel-body" style="background-color:#f8f8f8">
+        @Html.HiddenFor(m => m.lookupDetailId)
+        @Html.HiddenFor(m => m.lookupMasterId)
+        @Html.HiddenFor(m => m.enterpriseId)
+
+        <div class="row form-group">
+            <div class="col-md-4">
+                @Html.LabelFor(m => m.groupId, new { @class = "control-label" })
+                @Html.DropDownListFor(m => m.groupId, Model.groups, new { @class = "form-control" })
+            </div>
+            <div class="col-md-4">
+                @Html.LabelFor(m => m.dataValue, new { @class = "control-label" })
+                @Html.TextBoxFor(m => m.dataValue, new { @class = "form-control" })
+            </div>
+        </div>
+
+        @{
+            List<SelectListItem> listItems = new List<SelectListItem>();
+            listItems.Add(new SelectListItem
+            {
+                Text = "Active",
+                Value = "True",
+                Selected = true
+            });
+            listItems.Add(new SelectListItem
+            {
+                Text = "Inactive",
+                Value = "False",
+            });
+        }
+
+        <div class="row form-group">
+            <div class="col-md-4">
+                @Html.LabelFor(m => m.displayText, new { @class = "control-label" })
+                @Html.TextBoxFor(m => m.displayText, new { @class = "form-control" })
+            </div>
+            <div class="col-md-4">
+                @Html.LabelFor(m => m.statusFlag, new { @class = "control-label" })
+                @Html.DropDownListFor(m => m.statusFlag, listItems, new { @class = "form-control" })
+            </div>
+        </div>
+            
+        <div class="row form-group">
+            <div class="col-md-4">
+                @Html.LabelFor(m => m.displayOrder, new { @class = "control-label" })
+                @Html.TextBoxFor(m => m.displayOrder, new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <input type="submit" value="Save" class="btn btn-primary class_submit" />
+            <input type="button" value="Cancel" class="btn btn-danger" onclick="window.location='/ADAP/Clinic'" />
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+

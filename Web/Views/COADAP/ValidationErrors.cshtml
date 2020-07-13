@@ -1,0 +1,167 @@
+@model Assmnts.Models.AdapValidationErrorsModel
+@using Data.Abstract
+@using Assmnts
+@{
+    ViewBag.Title = Resources.Validation.ValidationErrors;
+    Layout = "AdapAppLayout.cshtml";
+    IFormsRepository formsRepo = DependencyResolver.Current.GetService(typeof(IFormsRepository)) as IFormsRepository;
+}
+
+@section AddToHead{
+    <script>
+    $(document).ready(function () {
+
+        @if ((Model.titlesOfMissingSubsectionsBySectionByPart.Count() > 0) || (Model.validationMessages.Count() > 0)) {
+                @:$('.class_cert').replaceWith('<button type="button" class="btn btn-s pull-right btn-warning" style="margin-right: 5px; margin-top: 2px;" data-toggle="modal" data-target="#SubmitWithErrorsModal"><span class="glyphicon glyphicon-check"></span> @Resources.Validation.SubmitWithErrorsHeader</button>');
+            }
+
+        $('.class_finalsubmit').click(function () {
+            $('form').attr('action', '/COADAP/SkipToFinalCert');
+            SubmitForm('', '');
+        });
+
+        $('.class_submit').attr('disabled', 'disabled');
+        $('#quickValidationMessages').hide();
+        $('.class_prevornextscreen').hide();
+        $('#ADAPHeaderText>h3').html("@Resources.Validation.ValidationErrors");
+    });
+    </script>
+}
+
+@if ((Model.titlesOfMissingSubsectionsBySectionByPart.Count() == 0) && (Model.validationMessages.Count() == 0))
+{
+    <div class="panel panel-default">
+        <div class="panel-heading">@Resources.Validation.ValidPassed</div>
+    </div>
+}
+else
+{
+    if (Model.titlesOfMissingSubsectionsBySectionByPart.Count() > 0)
+    { 
+        <div class="panel panel-default">
+            <div class="panel-heading"><b>@Resources.Validation.SctMissingReqRsps</b></div>
+            <table class="table">
+                @{
+                    //display missing items, by part and section
+                    foreach (int prtId in Model.titlesOfMissingSubsectionsBySectionByPart.Keys)
+                    {
+                        def_Parts prt = formsRepo.GetPartById( prtId );
+                        @*<tr>
+                                <td><span style="font-weight:bold">@prt.identifier</span></td>
+                            </tr>*@
+                        foreach (int sctId in Model.titlesOfMissingSubsectionsBySectionByPart[prtId].Keys)
+                        {
+                            def_Sections sct = formsRepo.GetSectionById( sctId );
+                            <tr>
+                                <td>
+                                    <table>
+                                        <tr>
+                                            <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                            <td>
+                                                <a style="color:rgb(190, 65, 54);font-weight:bold;" href="#" 
+                                                    onclick="SubmitForm('@prt.partId','@sct.sectionId')">@sct.title</a>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            foreach (string subsectionTitle in Model.titlesOfMissingSubsectionsBySectionByPart[prtId][sctId])
+                            {
+                                <tr>
+                                    <td>
+                                        <table>
+                                            <tr>
+                                                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                                <td>@subsectionTitle</td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    }
+                }
+            </table>
+        </div>
+    }
+
+    @*divide validation messages into errors and warnings*@
+    List<string> errorMessages = new List<string>();
+    List<string> warningMessages = new List<string>();
+    string warningPrefix = Resources.Validation.WARNING + ":";
+    foreach( string msg in Model.validationMessages ){
+        if (msg.StartsWith(warningPrefix))
+        {
+            warningMessages.Add(msg.Replace(warningPrefix, "").Trim());
+        }
+        else
+        {
+            errorMessages.Add(msg);
+        }
+    }
+    
+    if (errorMessages.Count > 0)
+    {
+
+        <div class="panel panel-default">
+            <div class="panel-heading"><b>@Resources.Validation.OtherValProblems</b></div>
+            <table class="table">
+                @{
+                    //display other validation messages
+                    foreach (string message in errorMessages)
+                    {
+                        <tr>
+                            <td>@message</td>
+                        </tr>
+                    }
+                }
+            </table>
+        </div>
+    }
+
+    if (warningMessages.Count > 0)
+    {
+
+        <div class="panel panel-default">
+            <div class="panel-heading">@Html.Raw(Resources.Validation.WarningsHeader)</div>
+            <p></p>
+            <table class="table">
+                @{
+                    //display other validation messages
+                    foreach (string message in warningMessages)
+                    {
+                        <tr>
+                            <td>@message</td>
+                        </tr>
+                    }
+                }
+            </table>
+        </div>
+    }
+}
+
+
+
+<div class="modal fade" id="SubmitWithErrorsModal" tabindex="-1" role="dialog" aria-labelledby="SubmitWithErrorsLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="SubmitWithErrorsLabel">
+                    <b><span id="Title">@Resources.Validation.SubmitWithErrorsHeader</span></b>
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <span class="col-md-12 control-label">
+                        @Resources.Validation.SubmitWithErrorsPrompt
+                    </span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-warning class_finalsubmit"><span class="glyphicon glyphicon-check"></span> @Resources.Validation.SubmitWithErrorsConfirm</button>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#SubmitWithErrorsModal" style="margin-top:5px;">@Resources.Validation.SubmitWithErrorsCancel</button>
+            </div>
+        </div>
+    </div>
+</div>

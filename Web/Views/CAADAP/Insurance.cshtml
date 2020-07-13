@@ -1,0 +1,2355 @@
+﻿@model Assmnts.Models.GeneralForm
+@{
+    Layout = "AdapAppLayout.cshtml";
+}
+
+@section AddtoHead{
+    <link rel="stylesheet" type="text/css" href="/Content/adap/css/ADAPForms.css" />
+    <script src="~/Content/js/ADAPLookupSelects.js"></script>
+    <script src="/Content/js/jquery.maskedinput.min.js"></script>
+    <link href="~/stylesheets/jquery.growl.css" rel="stylesheet" />
+    <script src="~/javascripts/jquery.growl.js"></script>
+    <script src="~/Scripts/Validate.js"></script>
+    <link href="~/stylesheets/Validate.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery.maskMoney.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+
+            $('.cacurrency').maskMoney({ thousands: "", allowZero: true });
+
+            $(".navbar-nav").find("li").each(function () {
+                $(this).click(function () {
+                    $.ajax({
+                        url: '@Url.Action("PageLoadEvents","Results")',
+                    });
+                });
+            });
+
+            $("button").click(function () {
+                $.ajax({
+                    url: '@Url.Action("PageLoadClickEvents", "Results")',
+                });
+            });
+
+            var Notify = '@ViewBag.Notify';
+            var NotifyMessage = '@ViewBag.NotifyMessage';
+            if (Notify == "Saved") {
+                console.log("notify start");
+                if (NotifyMessage != '')
+                    $.growl.notice({ title: "Save", message: NotifyMessage });
+                else
+                    $.growl.notice({ title: "Save", message: "Application Save successfully" });
+
+            }
+            else if (Notify == "Cancel") {
+                if (NotifyMessage != '')
+                    $.growl.error({ title: "Error", message: NotifyMessage });
+                else
+                    $.growl.error({ title: "Error", message: "Internal server error:Review the logs" });
+            }
+
+            $('.class_phone_input').mask("999-999-9999");
+
+        });
+    </script>
+}
+<br />
+<!-- I1 Details -->
+<span class="label label-danger" style="font-size:15px;">@Model.sctTitles["CA-ADAP-Insurance-1_sub"]</span></p>
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="pull-right prevAppBtn"><button data-prevdiv="PreviousC1" class="btn" type="button"></button></div>
+        <div class="pull-right"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CmntModal" data-label="I1. @Model.sctTitles["CA-ADAP-Insurance-1_sub"]"><span class="glyphicon glyphicon-comment"></span></button></div>
+
+        <div class="form-group">
+            <div class="col-md-6">
+                @Helpers.LabelSpan(Model, "C1_StateMedicaidEnrolled_item", new { @class = "control-label" })
+            </div>
+            <div class="col-md-4">
+                @Helpers.DropDownList(Model, "C1_StateMedicaidEnrolled_item", "C1_StateMedicaidEnrolled", true)
+            </div>
+        </div>
+        <hr />
+        <script type="text/javascript">
+            $(function () {
+                function loadEnrolled() {
+                    var selectedText = $("#C1_StateMedicaidEnrolled").find("option:selected").text();
+                    var selectedValue = $("#C1_StateMedicaidEnrolled").val();
+                    //alert("Selected Text: " + selectedText + " Value: " + selectedValue);
+                    if (selectedText == 'Yes, I am enrolled') {
+                        $(".divyesenrolled").show();
+                        $(".divDateofDenial").hide();
+                        $(".divtyofMCEdenial").hide();
+                        $(".divtyofMCEdenialother").hide();
+                        $(".divtypeofstandardMC").hide();
+                        $(".divtypeofstandardMCother").hide();
+                        $(".divattachtheletter").hide();
+                        $(".divTypeofMCE").hide();
+                        $(".divspecificreason").hide();
+                        $(".divStandardMedi").hide();
+                        $(".divother").hide();
+                        $(".divproof").hide();
+                        $(".divapplytoMediCal").hide();
+                        $(".divneverapplied").hide();
+                        $(".divspecificreasonnot").hide();
+                        $(".divreasonnotapplMCEother").hide();
+                        $(".divMCEdenialreceiveother").hide();
+                        $(".diviwasdisenrolled").hide();
+                    }
+                    else if (selectedText == 'I applied, but was denied') {
+                        $(".divyesenrolled").hide();
+                        $(".divDateofDenial").show();
+                        $(".divtyofMCEdenial").show();
+                        $(".divtyofMCEdenialother").hide();
+                        $(".divtypeofstandardMC").show();
+                        $(".divtypeofstandardMCother").hide();
+                        $(".divattachtheletter").hide();
+                        $(".divTypeofMCE").hide();
+                        $(".divspecificreason").hide();
+                        $(".divStandardMedi").hide();
+                        $(".divother").hide();
+                        $(".divproof").hide();
+                        $(".divapplytoMediCal").hide();
+                        $(".divneverapplied").hide();
+                        $(".divspecificreasonnot").hide();
+                        $(".divreasonnotapplMCEother").hide();
+                        $(".divMCEdenialreceiveother").hide();
+                        $(".diviwasdisenrolled").hide();
+
+                    }
+                    else if (selectedText == 'No, I have never applied') {
+                        $(".divyesenrolled").hide();
+                        $(".divDateofDenial").hide();
+                        $(".divtyofMCEdenial").hide();
+                        $(".divtyofMCEdenialother").hide();
+                        $(".divtypeofstandardMC").hide();
+                        $(".divtypeofstandardMCother").hide();
+                        $(".divattachtheletter").hide();
+                        $(".divTypeofMCE").hide();
+                        $(".divspecificreason").hide();
+                        $(".divStandardMedi").hide();
+                        $(".divother").hide();
+                        $(".divproof").hide();
+                        $(".divapplytoMediCal").hide();
+                        $(".divneverapplied").hide();
+                        $(".divspecificreasonnot").show();
+                        $(".divreasonnotapplMCEother").hide();
+                        $(".divMCEdenialreceiveother").hide();
+                        $(".diviwasdisenrolled").hide();
+                    }
+                    else if (selectedText == 'I am still awaiting a decision about my Medi-Cal eligibility') {
+                        $(".divyesenrolled").hide();
+                        $(".divDateofDenial").hide();
+                        $(".divtyofMCEdenial").hide();
+                        $(".divtyofMCEdenialother").hide();
+                        $(".divtypeofstandardMC").hide();
+                        $(".divtypeofstandardMCother").hide();
+                        $(".divattachtheletter").hide();
+                        $(".divTypeofMCE").hide();
+                        $(".divspecificreason").hide();
+                        $(".divStandardMedi").hide();
+                        $(".divother").hide();
+                        $(".divproof").show();
+                        $(".divapplytoMediCal").show();
+                        $(".divneverapplied").hide();
+                        $(".divspecificreasonnot").hide();
+                        $(".divreasonnotapplMCEother").hide();
+                        $(".divMCEdenialreceiveother").hide();
+                        $(".diviwasdisenrolled").hide();
+                    }
+                    else if (selectedText == 'I do not know') {
+                        $(".divyesenrolled").hide();
+                        $(".divDateofDenial").hide();
+                        $(".divtyofMCEdenial").hide();
+                        $(".divtyofMCEdenialother").hide();
+                        $(".divtypeofstandardMC").hide();
+                        $(".divtypeofstandardMCother").hide();
+                        $(".divattachtheletter").hide();
+                        $(".divTypeofMCE").hide();
+                        $(".divspecificreason").hide();
+                        $(".divStandardMedi").hide();
+                        $(".divother").hide();
+                        $(".divproof").hide();
+                        $(".divapplytoMediCal").hide();
+                        $(".divneverapplied").hide();
+                        $(".divspecificreasonnot").hide();
+                        $(".divreasonnotapplMCEother").hide();
+                        $(".divMCEdenialreceiveother").hide();
+                        $(".diviwasdisenrolled").hide();
+
+                    }
+                    else if (selectedText == 'I was disenrolled') {
+                        $(".divyesenrolled").hide();
+                        $(".divDateofDenial").hide();
+                        $(".divtyofMCEdenial").hide();
+                        $(".divtyofMCEdenialother").hide();
+                        $(".divtypeofstandardMC").hide();
+                        $(".divtypeofstandardMCother").hide();
+                        $(".divattachtheletter").hide();
+                        $(".divTypeofMCE").hide();
+                        $(".divspecificreason").hide();
+                        $(".divStandardMedi").hide();
+                        $(".divother").hide();
+                        $(".divproof").hide();
+                        $(".divapplytoMediCal").hide();
+                        $(".divneverapplied").hide();
+                        $(".divspecificreasonnot").hide();
+                        $(".divreasonnotapplMCEother").hide();
+                        $(".divMCEdenialreceiveother").hide();
+                        $(".diviwasdisenrolled").show();
+
+                    }
+                    else {
+                        $(".divyesenrolled").hide();
+                        $(".divDateofDenial").hide();
+                        $(".divtyofMCEdenial").hide();
+                        $(".divtyofMCEdenialother").hide();
+                        $(".divtypeofstandardMC").hide();
+                        $(".divtypeofstandardMCother").hide();
+                        $(".divattachtheletter").hide();
+                        $(".divTypeofMCE").hide();
+                        $(".divspecificreason").hide();
+                        $(".divStandardMedi").hide();
+                        $(".divother").hide();
+                        $(".divproof").hide();
+                        $(".divapplytoMediCal").hide();
+                        $(".divneverapplied").hide();
+                        $(".divspecificreasonnot").hide();
+                        $(".diviwasdisenrolled").hide();
+                    }
+                }
+                function ShowtypeofMCEdenialOther() {
+                    var selectedText = $("#C1_MCEDenialType2").find("option:selected").text();
+                    var selectedValue = $("#C1_MCEDenialType2").val();
+                    //alert("Selected Text: " + selectedText + " Value: " + selectedValue);
+                    //3-other(describe)
+                    if (selectedValue == "3") {
+                        $(".divtyofMCEdenialother").show();
+                    }
+                    else {
+                        $(".divtyofMCEdenialother").hide();
+                    }
+                }
+                function ShowtypeofstandardMCOther() {
+                    var selectedText = $("#C1_MCDenialType2").find("option:selected").text();
+                    var selectedValue = $("#C1_MCDenialType2").val();
+                    //alert("Selected Text: " + selectedText + " Value: " + selectedValue);
+                    // //5-other(describe)
+                    if (selectedValue == "5") {
+                        $(".divtypeofstandardMCother").show();
+                    }
+                    else {
+                        $(".divtypeofstandardMCother").hide();
+                    }
+                }
+
+                function ShowreasonnotapplMCEother() {
+                    var selectedText = $("#C1_MCENeverAppliedType2").find("option:selected").text();
+                    var selectedValue = $("#C1_MCENeverAppliedType2").val();
+                    //alert("Selected Text: " + selectedText + " Value: " + selectedValue);
+                    // //3-other(describe)
+                    if (selectedValue == "3") {
+                        $(".divreasonnotapplMCEother").show();
+                    }
+                    else {
+                        $(".divreasonnotapplMCEother").hide();
+                    }
+                }
+                function ShowMCEdenialreceiveother() {
+                    var selectedText = $("#C1_MCNeverAppliedType2").find("option:selected").text();
+                    var selectedValue = $("#C1_MCNeverAppliedType2").val();
+                    //alert("Selected Text: " + selectedText + " Value: " + selectedValue);
+                    // //4-other(describe)
+                    if (selectedValue == "4") {
+                        $(".divMCEdenialreceiveother").show();
+                    }
+                    else {
+                        $(".divMCEdenialreceiveother").hide();
+                    }
+                }
+
+                function ShowMCEdisenrollmentother() {
+                    var selectedText = $("#C1_MCEDisenrollType2").find("option:selected").text();
+                    var selectedValue = $("#C1_MCEDisenrollType2").val();
+                    //alert("Selected Text: " + selectedText + " Value: " + selectedValue);
+                    // //3-other(describe)
+                    if (selectedValue == "3") {
+                        $(".divMCEdisenrollmentother").show();
+                    }
+                    else {
+                        $(".divMCEdisenrollmentother").hide();
+                    }
+                }
+                function ShowstandardMCdisenrollmentother() {
+                    var selectedText = $("#C1_MCDisenrollType2").find("option:selected").text();
+                    var selectedValue = $("#C1_MCDisenrollType2").val();
+                    //alert("Selected Text: " + selectedText + " Value: " + selectedValue);
+                    // //5-other(describe)
+                    if (selectedValue == "5") {
+                        $(".divstandardMCdisenrollmentother").show();
+                    }
+                    else {
+                        $(".divstandardMCdisenrollmentother").hide();
+                    }
+                }
+
+                $("#C1_StateMedicaidEnrolled").change(function () {
+                    loadEnrolled();
+                }).change();
+
+                $("#C1_MCEDenialType2").change(function () {
+                    ShowtypeofMCEdenialOther();
+                }).change();
+
+                $("#C1_MCDenialType2").change(function () {
+                    ShowtypeofstandardMCOther();
+                }).change();
+
+                $("#C1_MCENeverAppliedType2").change(function () {
+                    ShowreasonnotapplMCEother();
+                }).change();
+
+                $("#C1_MCNeverAppliedType2").change(function () {
+                    ShowMCEdenialreceiveother();
+                }).change();
+
+                $("#C1_MCEDisenrollType2").change(function () {
+                    ShowMCEdisenrollmentother();
+                }).change();
+
+                $("#C1_MCDisenrollType2").change(function () {
+                    ShowstandardMCdisenrollmentother();
+                }).change();
+
+                //Date inputs
+                $('div.date>input').inputmask({
+                    "mask": ["9/9/9999", "99/99/9999"],
+                    "placeholder": " ",
+                    "showMaskOnHover": false,
+                    jitMasking: true
+                });
+
+                loadEnrolled();
+                ShowtypeofMCEdenialOther();
+                ShowtypeofstandardMCOther();
+                ShowreasonnotapplMCEother();
+                ShowMCEdenialreceiveother();
+                ShowMCEdisenrollmentother();
+                ShowstandardMCdisenrollmentother();
+
+            });
+
+        </script>
+
+        <div class="divyesenrolled">
+            <div class="form-group">
+                <div class="col-md-6">
+                    @Helpers.LabelSpan(Model, "C1_StateMedicaidMemberId_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-5">
+                    @Helpers.TextInput(Model, "C1_StateMedicaidMemberId", new { @class = "form-control" })
+                </div>
+            </div>
+            <hr>
+            <div class="form-group">
+                <div class="col-md-6">
+                    @Helpers.LabelSpan(Model, "C1_StateMAidEffDate_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group date">
+                        @Helpers.TextInput(Model, "C1_StateMAidEffDate", new { @class = "form-control", placeholder = "mm/dd/yyyy", onkeypress = "return isNumeric(event);" })
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-6">
+                    @Helpers.LabelSpan(Model, "C1_MediCalEffectiveEndDate_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group date">
+                        @Helpers.TextInput(Model, "C1_MediCalEffectiveEndDate", new { @class = "form-control", placeholder = "mm/dd/yyyy", onkeypress = "return isNumeric(event);" })
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="form-group">
+                <div class="col-md-6">
+                    @Helpers.LabelSpan(Model, "C1_StateMAidDoc_item", new { @class = "control-label" })
+                </div>
+
+                @Helpers.FileUpload(Model, "C1_StateMAidDoc")
+
+            </div>
+            <hr>
+            <div class="form-group">
+                <div class="col-md-6">
+                    @Helpers.LabelSpan(Model, "C1_StateMAidType_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-5">
+                    @Helpers.DropDownList(Model, "C1_StateMAidType_item", "C1_StateMAidType", true)
+                </div>
+            </div>
+            <hr>
+            <div class="form-group">
+                <div class="col-md-6">
+                    @Helpers.LabelSpan(Model, "C1_MediCALShareOfCost_item", new { @class = "control-label" })
+                </div>
+                @Helpers.YesNoRadioButtons(Model, "C1_MediCALShareOfCost")
+            </div>
+            <hr />
+            <div class="form-group" id="mdsharecostdiv" style="display:none;">
+                <div class="col-md-6">
+                    @Helpers.LabelSpan(Model, "C1_MediCALShareOfCostAmt_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-4">
+
+                    <div class="input-group">
+
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-usd"></span></span>
+                        @Helpers.TextInput(Model, "C1_MediCALShareOfCostAmt", new { @class = "form-control cacurrency", maxlength = "9" })
+                    </div>
+
+
+                    <span class="icon"></span><label class="lbl-error error"></label>
+                </div>
+                <hr>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-6">
+                    @Helpers.LabelSpan(Model, "C1_MediCalSOCEndDate_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group date">
+                        @Helpers.TextInput(Model, "C1_MediCalSOCEndDate", new { @class = "form-control", placeholder = "mm/dd/yyyy", onkeypress = "return isNumeric(event);" })
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="divtyofMCEdenial">
+            @*<div class="form-group">
+                    <div class="col-md-6">
+                        @Helpers.LabelSpan(Model, "C1_MediCALDenialType_item", new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-5">
+                        @Helpers.DropDownList(Model, "C1_MediCALDenialType_item", "C1_MediCALDenialType", true)
+                    </div>
+                </div>*@
+            <div class="form-group">
+                <div class="col-md-6">
+                    @Helpers.LabelSpan(Model, "C1_MCEDenialType2_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-4">
+                    @Helpers.DropDownList(Model, "C1_MCEDenialType2_item", "C1_MCEDenialType2", true)
+                </div>
+            </div>
+
+        </div>
+        <div class="divtyofMCEdenialother">
+            <div class="form-group">
+                <div class="col-md-6">
+                    @Helpers.LabelSpan(Model, "C1_MCEDenialTypeOther2_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-4">
+                    @Helpers.TextInput(Model, "C1_MCEDenialTypeOther2", new { @class = "form-control" })
+                </div>
+            </div>
+            <hr />
+        </div>
+
+        <div class="divtypeofstandardMC">
+            <div class="form-group">
+                <div class="col-md-6">
+                    @Helpers.LabelSpan(Model, "C1_MCDenialType2_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-4">
+                    @Helpers.DropDownList(Model, "C1_MCDenialType2_item", "C1_MCDenialType2", true)
+                </div>
+            </div>
+        </div>
+        <div class="divtypeofstandardMCother">
+            <div class="form-group">
+                <div class="col-md-6">
+                    @Helpers.LabelSpan(Model, "C1_MCDenialTypeOther2_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-4">
+                    @Helpers.TextInput(Model, "C1_MCDenialTypeOther2", new { @class = "form-control" })
+                </div>
+            </div>
+            <hr />
+        </div>
+
+        <div class="divDateofDenial">
+            <div class="form-group">
+                <div class="col-md-6">
+                    @Helpers.LabelSpan(Model, "C1_StateMAidDenialDate_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group date">
+                        @Helpers.TextInput(Model, "C1_StateMAidDenialDate", new { @class = "form-control", placeholder = "mm/dd/yyyy", onkeypress = "return isNumeric(event);" })
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="form-group">
+                <div class="col-md-6">
+                    @Helpers.LabelSpan(Model, "C1_MediCALDenialMCEDoc_item", new { @class = "control-label" })
+                </div>
+
+                @Helpers.FileUpload(Model, "C1_MediCALDenialMCEDoc")
+
+            </div>
+        </div>
+
+        <div class="divattachtheletter">
+            <div class="form-group">
+                <div class="col-md-6">
+                    @Helpers.LabelSpan(Model, "C1_StateMAidDenialDoc_item", new { @class = "control-label" })
+                </div>
+
+                @Helpers.FileUpload(Model, "C1_StateMAidDenialDoc")
+
+            </div>
+            <hr>
+        </div>
+        <div class="divTypeofMCE">
+            <div class="form-group">
+                <div class="col-md-6">
+                    @Helpers.LabelSpan(Model, "C1_StateMCEDenialType_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-5">
+                    @Helpers.DropDownList(Model, "C1_StateMCEDenialType_item", "C1_StateMCEDenialType", true)
+                </div>
+            </div>
+            <hr>
+        </div>
+        <div class="divspecificreason">
+            <div class="form-group">
+                <div class="col-md-6">
+                    @Helpers.LabelSpan(Model, "C1_StateMCEDenialReason_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-5">
+                    @Helpers.TextInput(Model, "C1_StateMCEDenialReason", new { @class = "form-control" })
+                </div>
+            </div>
+
+            <hr>
+        </div>
+        <div class="divStandardMedi">
+            <div class="form-group">
+                <div class="col-md-6">
+                    @Helpers.LabelSpan(Model, "C1_StateMAidDenialType_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-5">
+                    @Helpers.DropDownList(Model, "C1_StateMAidDenialType_item", "C1_StateMAidDenialType", true)
+                </div>
+            </div>
+            <hr>
+        </div>
+        <div class="divother">
+            <div class="form-group">
+                <div class="col-md-6">
+                    @Helpers.LabelSpan(Model, "C1_StateMAidDenialReason_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-5">
+                    @Helpers.TextInput(Model, "C1_StateMAidDenialReason", new { @class = "form-control" })
+                </div>
+            </div>
+            <hr>
+        </div>
+        <div class="divproof">
+            <div class="form-group">
+                <div class="col-md-6">
+                    @Helpers.LabelSpan(Model, "C1_StateMAidPendingDoc_item", new { @class = "control-label" })
+                </div>
+
+                @Helpers.FileUpload(Model, "C1_StateMAidPendingDoc")
+
+            </div>
+            <hr>
+        </div>
+        <div class="divapplytoMediCal">
+            <div class="form-group">
+                <div class="col-md-6">
+                    @Helpers.LabelSpan(Model, "C1_StateMAidDateSubmitted_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-4">
+                    <div class="input-group date">
+                        @Helpers.TextInput(Model, "C1_StateMAidDateSubmitted", new { @class = "form-control", placeholder = "mm/dd/yyyy", onkeypress = "return isNumeric(event);" })
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                    </div>
+                </div>
+            </div>
+            <hr>
+        </div>
+        <div class="divneverapplied">
+            <div class="form-group">
+                <div class="col-md-6">
+                    @Helpers.LabelSpan(Model, "C1_StateMAidNotEnrollRsnD_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-4">
+                    @Helpers.DropDownList(Model, "C1_StateMAidNotEnrollRsnD_item", "C1_StateMAidNotEnrollRsnD", true)
+                </div>
+            </div>
+            <hr>
+        </div>
+
+        <div class="divspecificreasonnot">
+            @*<div class="form-group">
+                    <div class="col-md-6">
+                        @Helpers.LabelSpan(Model, "C1_StateMAidNotEnrollRsn_item", new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-5">
+                        @Helpers.TextInput(Model, "C1_StateMAidNotEnrollRsn", new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-6">
+                        @Helpers.LabelSpan(Model, "C1_StateMCENotEnrollRsnD_item", new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-5">
+                        @Helpers.DropDownList(Model, "C1_StateMCENotEnrollRsnD_item", "C1_StateMCENotEnrollRsnD", true)
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-6">
+                        @Helpers.LabelSpan(Model, "C1_StateMCENotEnrollReasonOther_item", new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-5">
+                        @Helpers.TextInput(Model, "C1_StateMCENotEnrollReasonOther", new { @class = "form-control" })
+                    </div>
+                </div>*@
+            <div class="divreasonnotapplMCE">
+                <div class="form-group">
+                    <div class="col-md-6">
+                        @Helpers.LabelSpan(Model, "C1_MCENeverAppliedType2_item", new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-4">
+                        @Helpers.DropDownList(Model, "C1_MCENeverAppliedType2_item", "C1_MCENeverAppliedType2", true)
+                    </div>
+                </div>
+            </div>
+            <div class="divreasonnotapplMCEother">
+                <div class="form-group">
+                    <div class="col-md-6">
+                        @Helpers.LabelSpan(Model, "C1_MCENeverAppliedTypeOther2_item", new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-4">
+                        @Helpers.TextInput(Model, "C1_MCENeverAppliedTypeOther2", new { @class = "form-control" })
+                    </div>
+                    <hr />
+                </div>
+            </div>
+            <div class="divMCEdenialreceive">
+                <div class="form-group">
+                    <div class="col-md-6">
+                        @Helpers.LabelSpan(Model, "C1_MCNeverAppliedType2_item", new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-4">
+                        @Helpers.DropDownList(Model, "C1_MCNeverAppliedType2_item", "C1_MCNeverAppliedType2", true)
+                    </div>
+                </div>
+            </div>
+            <div class="divMCEdenialreceiveother">
+                <div class="form-group">
+                    <div class="col-md-6">
+                        @Helpers.LabelSpan(Model, "C1_MCNeverAppliedTypeOther2_item", new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-4">
+                        @Helpers.TextInput(Model, "C1_MCNeverAppliedTypeOther2", new { @class = "form-control" })
+                    </div>
+                    <hr />
+                </div>
+            </div>
+        </div>
+
+        <div class="diviwasdisenrolled">
+
+            <div class="form-group">
+                <div class="col-md-6">
+                    @Helpers.LabelSpan(Model, "C1_MCEDisenrollType2_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-4">
+                    @Helpers.DropDownList(Model, "C1_MCEDisenrollType2_item", "C1_MCEDisenrollType2", true)
+                </div>
+            </div>
+            <div class="divMCEdisenrollmentother">
+                <div class="form-group">
+                    <div class="col-md-6">
+                        @Helpers.LabelSpan(Model, "C1_MCEDisenrollTypeOther2_item", new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-4">
+                        @Helpers.TextInput(Model, "C1_MCEDisenrollTypeOther2", new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-6">
+                    @Helpers.LabelSpan(Model, "C1_MediCALDisenrollDate_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-4">
+                    <div class="input-group date">
+                        @Helpers.TextInput(Model, "C1_MediCALDisenrollDate", new { @class = "form-control", placeholder = "mm/dd/yyyy", onkeypress = "return isNumeric(event);" })
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <div class="form-group">
+                <div class="col-md-6">
+                    @Helpers.LabelSpan(Model, "C1_MCDisenrollType2_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-4">
+                    @Helpers.DropDownList(Model, "C1_MCDisenrollType2_item", "C1_MCDisenrollType2", true)
+                </div>
+            </div>
+            <div class="divstandardMCdisenrollmentother">
+                <div class="form-group">
+                    <div class="col-md-6">
+                        @Helpers.LabelSpan(Model, "C1_MCDisenrollTypeOther2_item", new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-4">
+                        @Helpers.TextInput(Model, "C1_MCDisenrollTypeOther2", new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-6">
+                    @Helpers.LabelSpan(Model, "C1_MCDisenrollDate_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-4">
+                    <div class="input-group date">
+                        @Helpers.TextInput(Model, "C1_MCDisenrollDate", new { @class = "form-control", placeholder = "mm/dd/yyyy", onkeypress = "return isNumeric(event);" })
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <div class="form-group">
+                <div class="col-md-6">
+                    @Helpers.LabelSpan(Model, "C1_MediCALDisenrollDoc_item", new { @class = "control-label" })
+                </div>
+                @Helpers.FileUpload(Model, "C1_MediCALDisenrollDoc")
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<!-- PREVIOUS I1 Details -->
+<div class="panel panel-default previous-response" id="PreviousC1">
+    <div class="panel-body">
+        <div class="pull-right prevAppBtn"><a href="#" class="btn btn-success btn-xs active" id="hsName" role="button">&nbsp;</a></div>
+        <div class="pull-right"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CmntModal"><span class="glyphicon glyphicon-comment"></span></button></div>
+        <p><strong>@Model.sctTitles["CA-ADAP-Insurance-1_sub"]</strong></p>
+        <div class="form-group">
+            <div class="col-md-6">
+                @Helpers.LabelSpan(Model, "C1_StateMedicaidEnrolled_item", new { @class = "control-label" })
+            </div>
+            <div class="col-md-4">
+                @Helpers.DropDownList(Model, "C1_StateMedicaidEnrolled_item", "PREVIOUS_C1_StateMedicaidEnrolled", true)
+            </div>
+        </div>
+        <hr />
+        <div class="divyesenrolled">
+            <div class="form-group">
+                <div class="col-md-6">
+                    @Helpers.LabelSpan(Model, "C1_StateMedicaidMemberId_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-4">
+                    @Helpers.TextInput(Model, "PREVIOUS_C1_StateMedicaidMemberId", new { @class = "form-control" })
+                </div>
+            </div>
+            <hr>
+            <div class="form-group">
+                <div class="col-md-6">
+                    @Helpers.LabelSpan(Model, "C1_StateMAidEffDate_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-4">
+                    <div class="input-group date">
+                        @Helpers.TextInput(Model, "PREVIOUS_C1_StateMAidEffDate", new { @class = "form-control", placeholder = "mm/dd/yyyy" })
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-6">
+                    @Helpers.LabelSpan(Model, "C1_MediCalEffectiveEndDate_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group date">
+                        @Helpers.TextInput(Model, "PREVIOUS_C1_MediCalEffectiveEndDate", new { @class = "form-control", placeholder = "mm/dd/yyyy", onkeypress = "return isNumeric(event);" })
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="form-group">
+                <div class="col-md-6">
+                    @Helpers.LabelSpan(Model, "C1_StateMAidDoc_item", new { @class = "control-label" })
+                </div>
+
+                @Helpers.FileUpload(Model, "C1_StateMAidDoc")
+
+            </div>
+            <hr>
+            <div class="form-group">
+                <div class="col-md-6">
+                    @Helpers.LabelSpan(Model, "C1_StateMAidType_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-4">
+                    @Helpers.DropDownList(Model, "C1_StateMAidType_item", "PREVIOUS_C1_StateMAidType", true)
+                </div>
+            </div>
+            <hr>
+            <div class="form-group">
+                <div class="col-md-6">
+                    @Helpers.LabelSpan(Model, "C1_MediCALShareOfCost_item", new { @class = "control-label" })
+                </div>
+                @Helpers.YesNoRadioButtons(Model, "PREVIOUS_C1_MediCALShareOfCost")
+            </div>
+            <hr />
+            <div class="form-group" id="mdsharecostdiv" style="display:none;">
+                <div class="col-md-6">
+                    @Helpers.LabelSpan(Model, "C1_MediCALShareOfCostAmt_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-4">
+                    @Helpers.TextInput(Model, "PREVIOUS_C1_MediCALShareOfCostAmt", new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-6">
+                    @Helpers.LabelSpan(Model, "C1_MediCalSOCEndDate_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group date">
+                        @Helpers.TextInput(Model, "PREVIOUS_C1_MediCalSOCEndDate", new { @class = "form-control", placeholder = "mm/dd/yyyy", onkeypress = "return isNumeric(event);" })
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="divDateofDenial">
+
+            <div class="form-group">
+                <div class="col-md-6">
+                    @Helpers.LabelSpan(Model, "C1_MediCALDenialType_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-4">
+                    @Helpers.DropDownList(Model, "C1_MediCALDenialType_item", "PREVIOUS_C1_MediCALDenialType", true)
+                </div>
+            </div>
+            <hr />
+            <div class="form-group">
+                <div class="col-md-6">
+                    @Helpers.LabelSpan(Model, "C1_StateMAidDenialDate_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-4">
+                    <div class="input-group date">
+                        @Helpers.TextInput(Model, "PREVIOUS_C1_StateMAidDenialDate", new { @class = "form-control", placeholder = "mm/dd/yyyy" })
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="form-group">
+                <div class="col-md-6">
+                    @Helpers.LabelSpan(Model, "C1_MediCALDenialMCEDoc_item", new { @class = "control-label" })
+                </div>
+
+                @Helpers.FileUpload(Model, "C1_MediCALDenialMCEDoc")
+
+            </div>
+        </div>
+        <div class="divattachtheletter">
+            <div class="form-group">
+                <div class="col-md-6">
+                    @Helpers.LabelSpan(Model, "C1_StateMAidDenialDoc_item", new { @class = "control-label" })
+                </div>
+
+                @Helpers.FileUpload(Model, "C1_StateMAidDenialDoc")
+
+            </div>
+            <hr>
+        </div>
+        <div class="divTypeofMCE">
+            <div class="form-group">
+                <div class="col-md-6">
+                    @Helpers.LabelSpan(Model, "C1_StateMCEDenialType_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-4">
+                    @Helpers.DropDownList(Model, "C1_StateMCEDenialType_item", "PREVIOUS_C1_StateMCEDenialType", true)
+                </div>
+            </div>
+            <hr>
+        </div>
+        <div class="divspecificreason">
+            <div class="form-group">
+                <div class="col-md-6">
+                    @Helpers.LabelSpan(Model, "C1_StateMCEDenialReason_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-5">
+                    @Helpers.TextInput(Model, "PREVIOUS_C1_StateMCEDenialReason", new { @class = "form-control" })
+                </div>
+            </div>
+
+            <hr>
+        </div>
+        <div class="divStandardMedi">
+            <div class="form-group">
+                <div class="col-md-6">
+                    @Helpers.LabelSpan(Model, "C1_StateMAidDenialType_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-5">
+                    @Helpers.DropDownList(Model, "C1_StateMAidDenialType_item", "PREVIOUS_C1_StateMAidDenialType", true)
+                </div>
+            </div>
+            <hr>
+        </div>
+        <div class="divother">
+            <div class="form-group">
+                <div class="col-md-6">
+                    @Helpers.LabelSpan(Model, "C1_StateMAidDenialReason_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-5">
+                    @Helpers.TextInput(Model, "PREVIOUS_C1_StateMAidDenialReason", new { @class = "form-control" })
+                </div>
+            </div>
+            <hr>
+        </div>
+        <div class="divproof">
+            <div class="form-group">
+                <div class="col-md-6">
+                    @Helpers.LabelSpan(Model, "C1_StateMAidPendingDoc_item", new { @class = "control-label" })
+                </div>
+
+                @Helpers.FileUpload(Model, "C1_StateMAidPendingDoc")
+
+            </div>
+            <hr>
+        </div>
+        <div class="divapplytoMediCal">
+            <div class="form-group">
+                <div class="col-md-6">
+                    @Helpers.LabelSpan(Model, "C1_StateMAidDateSubmitted_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-4">
+                    <div class="input-group date">
+                        @Helpers.TextInput(Model, "PREVIOUS_C1_StateMAidDateSubmitted", new { @class = "form-control", placeholder = "mm/dd/yyyy" })
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                    </div>
+                </div>
+            </div>
+            <hr>
+        </div>
+        <div class="divneverapplied">
+            <div class="form-group">
+                <div class="col-md-6">
+                    @Helpers.LabelSpan(Model, "C1_StateMAidNotEnrollRsnD_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-5">
+                    @Helpers.DropDownList(Model, "C1_StateMAidNotEnrollRsnD_item", "PREVIOUS_C1_StateMAidNotEnrollRsnD", true)
+                </div>
+            </div>
+            <hr>
+        </div>
+        <div class="divspecificreasonnot">
+            <div class="form-group">
+                <div class="col-md-6">
+                    @Helpers.LabelSpan(Model, "C1_StateMAidNotEnrollRsn_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-5">
+                    @Helpers.TextInput(Model, "PREVIOUS_C1_StateMAidNotEnrollRsn", new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-6">
+                    @Helpers.LabelSpan(Model, "C1_StateMCENotEnrollRsnD_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-5">
+                    @Helpers.DropDownList(Model, "C1_StateMCENotEnrollRsnD_item", "PREVIOUS_C1_StateMCENotEnrollRsnD", true)
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-6">
+                    @Helpers.LabelSpan(Model, "C1_StateMCENotEnrollReasonOther_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-5">
+                    @Helpers.TextInput(Model, "PREVIOUS_C1_StateMCENotEnrollReasonOther", new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+        <div class="diviwasdisenrolled">
+
+            <div class="form-group">
+                <div class="col-md-6">
+                    @Helpers.LabelSpan(Model, "C1_MCDisenrollDate_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group date">
+                        @Helpers.TextInput(Model, "PREVIOUS_C1_MCDisenrollDate", new { @class = "form-control", placeholder = "mm/dd/yyyy" })
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <div class="form-group">
+                <div class="col-md-6">
+                    @Helpers.LabelSpan(Model, "C1_MediCALDisenrollDoc_item", new { @class = "control-label" })
+                </div>
+                @Helpers.FileUpload(Model, "C1_MediCALDisenrollDoc")
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+<!-- I2 Details -->
+<span class="label label-danger" style="font-size:15px;">@Model.sctTitles["CA-ADAP-Insurance-2_sub"]</span></p>
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="pull-right prevAppBtn"><button data-prevdiv="PreviousI3" class="btn" type="button"></button></div>
+        <div class="pull-right"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CmntModal" data-label="I3. @Model.sctTitles["CA-ADAP-Insurance-2_sub"]"><span class="glyphicon glyphicon-comment"></span></button></div>
+        @*@<p><strong>@Model.sctTitles["CA-ADAP-Insurance-2_sub"]</strong></p>*@
+        <div class="form-group">
+            <div class="col-md-6">
+                @Helpers.LabelSpan(Model, "C1_MedicareEligible_item", new { @class = "control-label" })
+            </div>
+
+            @Helpers.YesNoRadioButtons(Model, "C1_MedicareEligible")
+
+        </div>
+        <hr>
+        <script type="text/javascript">
+            $(function () {
+                function Showorhidediveligible() {
+                    if ($("#C1_MedicareEligible_YesOption").prop("checked") === true) {
+                        // show section
+                        $(".divlabel").show();
+                        $(".divfchk").show();
+                        $(".divschk").show();
+                        $(".divtchk").show();
+                        $(".divfochk").show();
+                        $(".divSubsidy").hide();
+                        $(".divpercentage").hide();
+                        $(".divLIS").hide();
+                        $(".divinsuranceCard").hide();
+                        $(".divfchkitems").hide();
+                        $(".divschkitems").hide();
+                        $(".divtchkitems").hide();
+                        $(".divfochkitems").hide();
+                        $(".partDReason").show();
+
+                    }
+                    else {
+                        // hide section
+                        $(".divlabel").hide();
+                        $(".divfchk").hide();
+                        $(".divschk").hide();
+                        $(".divtchk").hide();
+                        $(".divfochk").hide();
+                        $(".divSubsidy").hide();
+                        $(".divpercentage").hide();
+                        $(".divLIS").hide();
+                        $(".divinsuranceCard").hide();
+                        $(".divfchkitems").hide();
+                        $(".divschkitems").hide();
+                        $(".divtchkitems").hide();
+                        $(".divfochkitems").hide();
+                        $(".partDReason").hide();
+                    }
+                }
+
+                Showorhidediveligible();
+
+                $("#C1_MedicareEligible_YesOption").change(function (e) {
+                    Showorhidediveligible();
+                }).change();
+                $("#C1_MedicareEligible_NoOption").change(function (e) {
+                    Showorhidediveligible();
+                }).change();
+
+
+            });
+        </script>
+
+        <script>
+            $(document).ready(function () {
+                HideChkitemsA();
+                HideChkitemsB();
+                HideChkitemsC();
+                HideChkitemsD();
+
+                $("#C1_MedicarePartAEnroll").change(HideChkitemsA);
+                $("#C1_MedicarePartBEnroll").change(HideChkitemsB);
+                $("#C1_MedicarePartCEnroll").change(HideChkitemsC);
+                $("#C1_MedicarePartDEnroll").change(HideChkitemsD);
+            });
+            function HideChkitemsA() {
+                if ($("#C1_MedicarePartAEnroll").get(0).checked) {
+                    // show section
+                    $(".divfchkitems").show();
+                }
+                else {
+                    // hide section
+                    $(".divfchkitems").hide();
+                }
+            };
+            function HideChkitemsB() {
+                if ($("#C1_MedicarePartBEnroll").get(0).checked) {
+                    // show section
+                    $(".divschkitems").show();
+                }
+                else {
+                    // hide section
+                    $(".divschkitems").hide();
+                }
+            };
+            function HideChkitemsC() {
+                if ($("#C1_MedicarePartCEnroll").get(0).checked) {
+                    // show section
+                    $(".divtchkitems").show();
+                }
+                else {
+                    // hide section
+                    $(".divtchkitems").hide();
+                }
+            };
+            function HideChkitemsD() {
+                if ($("#C1_MedicarePartDEnroll").get(0).checked) {
+                    // show section
+                    $(".divfochkitems").show();
+                    $(".divSubsidy").show();
+                    $(".divpercentage").show();
+                    $(".divLIS").show();
+                    $(".divinsuranceCard").show();
+                    $(".partDReason").hide();
+                }
+                else {
+                    // hide section
+                    $(".divfochkitems").hide();
+                    $(".divSubsidy").hide();
+                    $(".divpercentage").hide();
+                    $(".divLIS").hide();
+                    $(".divinsuranceCard").hide();
+
+                    if ($("#C1_MedicareEligible_YesOption").prop("checked") === true) {
+                        $(".partDReason").show();
+                    }
+                }
+            };
+        </script>
+
+        <div class="divlabel">
+            <div class="form-group">
+                <div class="col-md-5">
+                    @Helpers.LabelSpan(Model, "C1_MedicareParts_item", new { @class = "control-label" })
+                </div>
+            </div>
+        </div>
+        <div class="divfchk">
+            <div class="form-group">
+                <div class="col-md-4">
+                    @Helpers.LabeledCheckboxInput(Model, "C1_MedicarePartAEnroll")
+                </div>
+            </div>
+        </div>
+        <div class="divfchkitems">
+            <div class="form-group">
+                <div class="col-md-3">
+                    @Helpers.LabelSpan(Model, "C1_MedicarePartAEffDate_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group date">
+                        @Helpers.TextInput(Model, "C1_MedicarePartAEffDate", new { @class = "form-control", placeholder = "mm/dd/yyyy", onkeypress = "return isNumeric(event);" })
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    @Helpers.LabelSpan(Model, "C1_MedicarePartAEnrollDate_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group date">
+                        @Helpers.TextInput(Model, "C1_MedicarePartAEnrollDate", new { @class = "form-control", placeholder = "mm/dd/yyyy", onkeypress = "return isNumeric(event);" })
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="divschk">
+            <div class="form-group">
+                <div class="col-md-4">
+                    @Helpers.LabeledCheckboxInput(Model, "C1_MedicarePartBEnroll")
+
+                </div>
+            </div>
+        </div>
+        <div class="divschkitems">
+            <div class="form-group">
+                <div class="col-md-3">
+                    @Helpers.LabelSpan(Model, "C1_MedicarePartBEffDate_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group date">
+                        @Helpers.TextInput(Model, "C1_MedicarePartBEffDate", new { @class = "form-control", placeholder = "mm/dd/yyyy", onkeypress = "return isNumeric(event);" })
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    @Helpers.LabelSpan(Model, "C1_MedicarePartBEnrollDate_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group date">
+                        @Helpers.TextInput(Model, "C1_MedicarePartBEnrollDate", new { @class = "form-control", placeholder = "mm/dd/yyyy", onkeypress = "return isNumeric(event);" })
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="divtchk">
+            <div class="form-group">
+                <div class="col-md-4">
+                    @Helpers.LabeledCheckboxInput(Model, "C1_MedicarePartCEnroll")
+
+                </div>
+            </div>
+        </div>
+        <div class="divtchkitems">
+            <div class="form-group">
+                <div class="col-md-3">
+                    @Helpers.LabelSpan(Model, "C1_MedicarePartCEffDate_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group date">
+                        @Helpers.TextInput(Model, "C1_MedicarePartCEffDate", new { @class = "form-control", placeholder = "mm/dd/yyyy", onkeypress = "return isNumeric(event);" })
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    @Helpers.LabelSpan(Model, "C1_MedicarePartCEnrollDate_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group date">
+                        @Helpers.TextInput(Model, "C1_MedicarePartCEnrollDate", new { @class = "form-control", placeholder = "mm/dd/yyyy", onkeypress = "return isNumeric(event);" })
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="divfochk">
+            <div class="form-group">
+                <div class="col-md-4">
+                    @Helpers.LabeledCheckboxInput(Model, "C1_MedicarePartDEnroll")
+
+                </div>
+            </div>
+        </div>
+        <div class="divfochkitems">
+            <div class="form-group">
+                <div class="col-md-3">
+                    @Helpers.LabelSpan(Model, "C1_MedicarePartDEffDate_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group date">
+                        @Helpers.TextInput(Model, "C1_MedicarePartDEffDate", new { @class = "form-control", placeholder = "mm/dd/yyyy", onkeypress = "return isNumeric(event);" })
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    @Helpers.LabelSpan(Model, "C1_MedicarePartDEnrollDate_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group date">
+                        @Helpers.TextInput(Model, "C1_MedicarePartDEnrollDate", new { @class = "form-control", placeholder = "mm/dd/yyyy", onkeypress = "return isNumeric(event);" })
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-3">
+                    @Helpers.LabelSpan(Model, "C1_MedicarePartDEffEndDate_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group date">
+                        @Helpers.TextInput(Model, "C1_MedicarePartDEffEndDate", new { @class = "form-control", placeholder = "mm/dd/yyyy", onkeypress = "return isNumeric(event);" })
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                    </div>
+                </div>
+            </div>
+            <hr>
+        </div>
+        <div class="divSubsidy">
+            <div class="form-group">
+                <div class="col-md-6">
+                    @Helpers.LabelSpan(Model, "C1_LowIncomeSubsidyEnroll_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-5">
+                    @Helpers.DropDownList(Model, "C1_LowIncomeSubsidyEnroll_item", "C1_LowIncomeSubsidyEnroll", true)
+                </div>
+            </div>
+            <hr>
+        </div>
+        <div id="lisprogramdiv" style="display:none;">
+            <div class="divpercentage">
+                <div class="form-group">
+                    <div class="col-md-6">
+                        @Helpers.LabelSpan(Model, "C1_LowIncomeSubsidyPercent_item", new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-5">
+                        @Helpers.DropDownList(Model, "C1_LowIncomeSubsidyPercent_item", "C1_LowIncomeSubsidyPercent", true)
+                    </div>
+                </div>
+                <hr>
+            </div>
+            <div class="divLIS">
+                <div class="form-group">
+                    <div class="col-md-6">
+                        @Helpers.LabelSpan(Model, "C1_LowIncomeDoc_item", new { @class = "control-label" })
+                    </div>
+
+                    @Helpers.FileUpload(Model, "C1_LowIncomeDoc")
+
+                </div>
+                <hr>
+            </div>
+        </div>
+        <div class="divinsuranceCard">
+            <div class="form-group">
+                <div class="col-md-6">
+                    @Helpers.LabelSpan(Model, "C1_MedicarePartDCardDoc_item", new { @class = "control-label" })
+                </div>
+
+                @Helpers.FileUpload(Model, "C1_MedicarePartDCardDoc")
+            </div>
+            <hr />
+            @*<div class="form-group">
+                    <div class="col-md-6">
+                        @Helpers.LabelSpan(Model, "C1_MedicareHICNumber_item", new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-5">
+                        @Helpers.TextInput(Model, "C1_MedicareHICNumber", new { @class = "form-control" })
+                    </div>
+                </div>*@
+            <div class="form-group">
+                <div class="col-md-6">
+                    @Helpers.LabelSpan(Model, "C1_MedicarePartDIdNumber_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-5">
+                    @Helpers.TextInput(Model, "C1_MedicarePartDIdNumber", new { @class = "form-control" })
+                </div>
+            </div>
+            <hr />
+            <div class="form-group">
+                <div class="col-md-6">
+                    @Helpers.LabelSpan(Model, "C1_MedicarePartDPlanName_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-5">
+                    @Helpers.TextInput(Model, "C1_MedicarePartDPlanName", new { @class = "form-control" })
+                </div>
+            </div>
+            @*<hr />
+                <div class="form-group">
+                    <div class="col-md-6">
+                        @Helpers.LabelSpan(Model, "C1_MedicarePartDIdNumber_item", new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-5">
+                        @Helpers.TextInput(Model, "C1_MedicarePartDIdNumber", new { @class = "form-control" })
+                    </div>
+                </div>*@
+
+        </div>
+        <div class="partDReason" style="display:none;">
+            @*<div class="form-group">
+                    <div class="col-md-6">
+                        @Helpers.LabelSpan(Model, "C1_MedicarePartDNotEnrolledReason_item", new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-5">
+                        @Helpers.DropDownList(Model, "C1_MedicarePartDNotEnrolledReason_item", "C1_MedicarePartDNotEnrolledReason", true)
+                    </div>
+                </div>
+                <hr />
+                <div class="form-group">
+                    <div class="col-md-6">
+                        @Helpers.LabelSpan(Model, "C1_MedicarePartDNotEnrollReasonOther_item", new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-5">
+                        @Helpers.TextInput(Model, "C1_MedicarePartDNotEnrollReasonOther", new { @class = "form-control" })
+                    </div>
+                </div>*@
+            @*<hr />
+                <div class="form-group">
+                    <div class="col-md-6">
+                        @Helpers.LabelSpan(Model, "C1_MedPartDWaiverStatus_item", new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-5">
+                        @Helpers.DropDownList(Model, "C1_MedPartDWaiverStatus_item", "C1_MedPartDWaiverStatus")
+                    </div>
+                </div>
+                <hr />
+                <div class="col-md-6">
+                    @Helpers.LabelSpan(Model, "C1_MedPartDWaiverEndDate_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group date">
+                        @Helpers.TextInput(Model, "C1_MedPartDWaiverEndDate", new { @class = "form-control", placeholder = "mm/dd/yyyy" })
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                    </div>
+                </div>*@
+        </div>
+    </div>
+
+</div>
+<!-- PREVIOUS I2 Details -->
+<div class="panel panel-default previous-response" id="PreviousI3">
+    <div class="panel-body">
+        <div class="pull-right prevAppBtn"><a href="#" class="btn btn-success btn-xs active" id="hsName" role="button">&nbsp;</a></div>
+        <div class="pull-right"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CmntModal"><span class="glyphicon glyphicon-comment"></span></button></div>
+        <p><strong>@Model.sctTitles["CA-ADAP-Insurance-2_sub"]</strong></p>
+        <div class="form-group">
+            <div class="col-md-6">
+                @Helpers.LabelSpan(Model, "C1_MedicareEligible_item", new { @class = "control-label" })
+            </div>
+
+            @Helpers.YesNoRadioButtons(Model, "PREVIOUS_C1_MedicareEligible")
+
+        </div>
+        <hr>
+
+        <div class="divlabel">
+            <div class="form-group">
+                <div class="col-md-5">
+                    @Helpers.LabelSpan(Model, "C1_MedicareParts_item", new { @class = "control-label" })
+                </div>
+            </div>
+        </div>
+        <div class="divfchk">
+            <div class="form-group">
+                <div class="col-md-4">
+                    @Helpers.LabeledCheckboxInput(Model, "C1_MedicarePartAEnroll")
+                </div>
+            </div>
+        </div>
+        <div class="divfchkitems">
+            <div class="form-group">
+                <div class="col-md-3">
+                    @Helpers.LabelSpan(Model, "C1_MedicarePartAEffDate_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group date">
+                        @Helpers.TextInput(Model, "PREVIOUS_C1_MedicarePartAEffDate", new { @class = "form-control", placeholder = "mm/dd/yyyy" })
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    @Helpers.LabelSpan(Model, "C1_MedicarePartAEnrollDate_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group date">
+                        @Helpers.TextInput(Model, "PREVIOUS_C1_MedicarePartAEnrollDate", new { @class = "form-control", placeholder = "mm/dd/yyyy" })
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="divschk">
+            <div class="form-group">
+                <div class="col-md-4">
+                    @Helpers.LabeledCheckboxInput(Model, "C1_MedicarePartBEnroll")
+
+                </div>
+            </div>
+        </div>
+        <div class="divschkitems">
+            <div class="form-group">
+                <div class="col-md-3">
+                    @Helpers.LabelSpan(Model, "C1_MedicarePartBEffDate_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group date">
+                        @Helpers.TextInput(Model, "PREVIOUS_C1_MedicarePartBEffDate", new { @class = "form-control", placeholder = "mm/dd/yyyy" })
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    @Helpers.LabelSpan(Model, "C1_MedicarePartBEnrollDate_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group date">
+                        @Helpers.TextInput(Model, "PREVIOUS_C1_MedicarePartBEnrollDate", new { @class = "form-control", placeholder = "mm/dd/yyyy" })
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="divtchk">
+            <div class="form-group">
+                <div class="col-md-4">
+                    @Helpers.LabeledCheckboxInput(Model, "C1_MedicarePartCEnroll")
+
+                </div>
+            </div>
+        </div>
+        <div class="divtchkitems">
+            <div class="form-group">
+                <div class="col-md-3">
+                    @Helpers.LabelSpan(Model, "C1_MedicarePartCEffDate_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group date">
+                        @Helpers.TextInput(Model, "PREVIOUS_C1_MedicarePartCEffDate", new { @class = "form-control", placeholder = "mm/dd/yyyy" })
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    @Helpers.LabelSpan(Model, "C1_MedicarePartCEnrollDate_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group date">
+                        @Helpers.TextInput(Model, "PREVIOUS_C1_MedicarePartCEnrollDate", new { @class = "form-control", placeholder = "mm/dd/yyyy" })
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="divfochk">
+            <div class="form-group">
+                <div class="col-md-4">
+                    @Helpers.LabeledCheckboxInput(Model, "C1_MedicarePartDEnroll")
+
+                </div>
+            </div>
+        </div>
+        <div class="divfochkitems">
+            <div class="form-group">
+                <div class="col-md-3">
+                    @Helpers.LabelSpan(Model, "C1_MedicarePartDEffDate_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group date">
+                        @Helpers.TextInput(Model, "PREVIOUS_C1_MedicarePartDEffDate", new { @class = "form-control", placeholder = "mm/dd/yyyy" })
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    @Helpers.LabelSpan(Model, "C1_MedicarePartDEnrollDate_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group date">
+                        @Helpers.TextInput(Model, "PREVIOUS_C1_MedicarePartDEnrollDate", new { @class = "form-control", placeholder = "mm/dd/yyyy" })
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-3">
+                    @Helpers.LabelSpan(Model, "C1_MedicarePartDEffEndDate_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group date">
+                        @Helpers.TextInput(Model, "PREVIOUS_C1_MedicarePartDEffEndDate", new { @class = "form-control", placeholder = "mm/dd/yyyy", onkeypress = "return isNumeric(event);" })
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                    </div>
+                </div>
+            </div>
+            <hr>
+        </div>
+        <div class="divSubsidy">
+            <div class="form-group">
+                <div class="col-md-6">
+                    @Helpers.LabelSpan(Model, "C1_LowIncomeSubsidyEnroll_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-5">
+                    @Helpers.DropDownList(Model, "C1_LowIncomeSubsidyEnroll_item", "PREVIOUS_C1_LowIncomeSubsidyEnroll", true)
+                </div>
+            </div>
+            <hr>
+        </div>
+        <div id="lisprogramdiv" style="display:none;">
+            <div class="divpercentage">
+                <div class="form-group">
+                    <div class="col-md-6">
+                        @Helpers.LabelSpan(Model, "C1_LowIncomeSubsidyPercent_item", new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-5">
+                        @Helpers.DropDownList(Model, "C1_LowIncomeSubsidyPercent_item", "PREVIOUS_C1_LowIncomeSubsidyPercent", true)
+                    </div>
+                </div>
+                <hr>
+            </div>
+            <div class="divLIS">
+                <div class="form-group">
+                    <div class="col-md-6">
+                        @Helpers.LabelSpan(Model, "C1_LowIncomeDoc_item", new { @class = "control-label" })
+                    </div>
+
+                    @Helpers.FileUpload(Model, "C1_LowIncomeDoc")
+
+                </div>
+                <hr>
+            </div>
+        </div>
+        <div class="divinsuranceCard">
+            <div class="form-group">
+                <div class="col-md-6">
+                    @Helpers.LabelSpan(Model, "C1_MedicarePartDCardDoc_item", new { @class = "control-label" })
+                </div>
+
+                @Helpers.FileUpload(Model, "C1_MedicarePartDCardDoc")
+            </div>
+            <hr />
+
+            <div class="form-group">
+                <div class="col-md-6">
+                    @Helpers.LabelSpan(Model, "C1_MedicarePartDIdNumber_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-5">
+                    @Helpers.TextInput(Model, "PREVIOUS_C1_MedicarePartDIdNumber", new { @class = "form-control" })
+                </div>
+            </div>
+            <hr />
+            <div class="form-group">
+                <div class="col-md-6">
+                    @Helpers.LabelSpan(Model, "C1_MedicarePartDPlanName_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-5">
+                    @Helpers.TextInput(Model, "PREVIOUS_C1_MedicarePartDPlanName", new { @class = "form-control" })
+                </div>
+            </div>
+
+        </div>
+        <div class="partDReason" style="display:none;">
+
+            @*<hr />
+                <div class="form-group">
+                    <div class="col-md-6">
+                        @Helpers.LabelSpan(Model, "C1_MedPartDWaiverStatus_item", new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-5">
+                        @Helpers.DropDownList(Model, "C1_MedPartDWaiverStatus_item", "PREVIOUS_C1_MedPartDWaiverStatus", true)
+                    </div>
+                </div>
+                <hr />
+                <div class="col-md-6">
+                    @Helpers.LabelSpan(Model, "C1_MedPartDWaiverEndDate_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group date">
+                        @Helpers.TextInput(Model, "PREVIOUS_C1_MedPartDWaiverEndDate", new { @class = "form-control", placeholder = "mm/dd/yyyy" })
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                    </div>
+                </div>*@
+        </div>
+    </div>
+</div>
+
+<!-- I3 Details -->
+<span class="label label-danger" style="font-size:15px;">@Model.sctTitles["CA-ADAP-Insurance-3_sub"]</span></p>
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="pull-right prevAppBtn"><button data-prevdiv="PreviousI2" class="btn" type="button"></button></div>
+        <div class="pull-right"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CmntModal" data-label="I2. @Model.sctTitles["CA-ADAP-Insurance-3_sub"]"><span class="glyphicon glyphicon-comment"></span></button></div>
+        <div class="form-group">
+            <div class="col-md-6">
+                @Helpers.LabelSpan(Model, "C1_ACAStateExchgEnroll_item", new { @class = "control-label" })
+            </div>
+            @Helpers.YesNoRadioButtons(Model, "C1_ACAStateExchgEnroll")
+        </div>
+        <hr>
+
+
+
+
+        <div class="divbenefitcoverage">
+            <div class="form-group">
+                <div class="col-md-6">
+                    @Helpers.LabelSpan(Model, "C1_ACAStateExchgCardDoc_item", new { @class = "control-label" })
+                </div>
+
+                @Helpers.FileUpload(Model, "C1_ACAStateExchgCardDoc")
+
+            </div>
+            <hr>
+        </div>
+        <div class="divpurchased">
+            <div class="form-group">
+                <div class="col-md-6">
+                    @Helpers.LabelSpan(Model, "C1_OtherInsuranceEnroll_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-4">
+                    @Helpers.DropDownList(Model, "C1_OtherInsuranceEnroll_item", "C1_OtherInsuranceEnroll", true)
+                </div>
+            </div>
+            <hr>
+        </div>
+
+        @*<script type="text/javascript">
+                $(document).ready(function () {
+
+                   // $(".divdivwhynoinsure").hide();
+
+
+                    $("#C1_OtherInsuranceEnroll").change(function () {
+                        $(".divwhynoinsure").hide();
+                        var selectedText = $(this).find("option:selected").text();
+                        var selectedValue = $("#C1_C1_OtherInsuranceEnroll").val();
+                        //alert("Selected Text: " + selectedText + " Value: " + selectedValue);
+                        if (selectedText == 'No, I have no insurance (please explain)') {
+                            $(".divwhynoinsure").show();
+
+                        }
+
+                        else {
+                            $(".divwhynoinsure").hide();
+                        }
+
+                    }).change();
+                });
+            </script>*@
+
+
+
+
+        <script type="text/javascript">
+
+            $(document).ready(function () {
+
+                function Showorhidedivexenrol() {
+
+                    if ($("#C1_ACAStateExchgEnroll_YesOption").prop("checked") === true) {
+                        // show section
+                        $(".divbenefitcoverage").show();
+                        $(".divpurchased").hide();
+                        $(".divwhathealth").hide();
+                        $(".divDescribeprivate").hide();
+                        $(".divVAsystem").hide();
+                        $(".divIfntowhy").hide();
+                        $(".divName").show();
+                        $(".divpolno").show();
+                        $(".diveffdate").show();
+                        $(".divwhynoinsure").hide();
+                    }
+                    else {
+                        // hide section
+                        $(".divbenefitcoverage").hide();
+                        $(".divpurchased").show();
+                        $(".divwhynoinsure").hide();
+                        $(".divwhathealth").hide();
+                        $(".divDescribeprivate").hide();
+                        $(".divVAsystem").hide();
+                        $(".divIfntowhy").hide();
+                        $(".divName").hide();
+                        $(".divpolno").hide();
+                        $(".diveffdate").hide();
+
+                    }
+                }
+
+
+
+                $("#C1_ACAStateExchgEnroll_YesOption").change(function (e) {
+                    Showorhidedivexenrol();
+
+                }).change();
+
+                $("#C1_ACAStateExchgEnroll_NoOption").change(function (e) {
+                    Showorhidedivexenrol();
+
+                }).change();
+
+                Showorhidedivexenrol();
+
+
+
+                function otherInsuranceEnroll() {
+                    var selectedText = $("#C1_OtherInsuranceEnroll").find("option:selected").text();
+                    var selectedValue = $("#C1_OtherInsuranceEnroll").val();
+                    //alert("Selected Text: " + selectedText + " Value: " + selectedValue);
+
+                    if (selectedText == 'Yes') {
+                        $(".divbenefitcoverage").hide();
+                        $(".divpurchased").show();
+                        $(".divwhynoinsure").hide();
+                        $(".divwhathealth").show();
+                        $(".divDescribeprivate").hide();
+                        $(".divVAsystem").hide();
+                        $(".divIfntowhy").hide();
+                        $(".divName").hide();
+                        $(".divpolno").hide();
+                        $(".diveffdate").hide();
+                    }
+                    else if (selectedText == 'No, I have no insurance (please explain)') {
+                        $(".divbenefitcoverage").hide();
+                        $(".divpurchased").show();
+                        $(".divwhynoinsure").show();
+                        $(".divwhathealth").hide();
+                        $(".divDescribeprivate").hide();
+                        $(".divVAsystem").hide();
+                        $(".divIfntowhy").hide();
+                        $(".divName").hide();
+                        $(".divpolno").hide();
+                        $(".diveffdate").hide();
+
+                    }
+                    else if (selectedText == 'No, I lost my private insurance') {
+                        $(".divbenefitcoverage").hide();
+                        $(".divpurchased").show();
+                        $(".divwhynoinsure").hide();
+                        $(".divwhathealth").hide();
+                        $(".divDescribeprivate").hide();
+                        $(".divVAsystem").hide();
+                        $(".divIfntowhy").hide();
+                        $(".divName").hide();
+                        $(".divpolno").hide();
+                        $(".diveffdate").hide();
+                    }
+                    else {
+                        $(".divbenefitcoverage").hide();
+                        $(".divpurchased").show();
+                        $(".divwhynoinsure").hide();
+                        $(".divwhathealth").hide();
+                        $(".divDescribeprivate").hide();
+                        $(".divVAsystem").hide();
+                        $(".divIfntowhy").hide();
+                        $(".divName").hide();
+                        $(".divpolno").hide();
+                        $(".diveffdate").hide();
+                    }
+                }
+
+                $("#C1_OtherInsuranceEnroll").change(function () {
+                    otherInsuranceEnroll();
+                }).change();
+
+
+
+                otherInsuranceEnroll();
+
+                function otherInsuranceType() {
+                    var selectedText = $("#C1_OtherInsuranceType").find("option:selected").text();
+                    var selectedValue = $("#C1_OtherInsuranceType").val();
+                    //alert("Selected Text: " + selectedText + " Value: " + selectedValue);
+
+                    if (selectedText == 'Other (Describe)') {
+
+                        $(".divbenefitcoverage").show();
+                        $(".divpurchased").show();
+                        $(".divwhynoinsure").hide();
+                        $(".divwhathealth").show();
+                        $(".divDescribeprivate").hide();
+                        $(".divVAsystem").hide();
+                        $(".divIfntowhy").hide();
+                        $(".divName").show();
+                        $(".divpolno").show();
+                        $(".diveffdate").show();
+                    }
+
+                    else if (selectedText == 'Private insurance through employer' || selectedText == 'Private insurance obtained through health insurance provider or broker' || selectedText == 'Private insurance through spouse or other' || selectedText == 'COBRA or Cal-COBRA') {
+
+                        $(".divbenefitcoverage").show();
+                        $(".divpurchased").show();
+                        $(".divwhynoinsure").hide();
+                        $(".divwhathealth").show();
+                        $(".divDescribeprivate").hide();
+                        $(".divVAsystem").hide();
+                        $(".divIfntowhy").hide();
+                        $(".divName").show();
+                        $(".divpolno").show();
+                        $(".diveffdate").show();
+                    }
+                    else if (selectedText == "Veteran's Administration Health Care (e.g. TRICARE)") {
+
+
+                        $(".divbenefitcoverage").hide();
+                        $(".divpurchased").show();
+                        $(".divwhynoinsure").hide();
+                        $(".divwhathealth").show();
+                        $(".divDescribeprivate").hide();
+                        $(".divVAsystem").show();
+                        $(".divIfntowhy").show();
+                        $(".divName").hide();
+                        $(".divpolno").hide();
+                        $(".diveffdate").show();
+
+                    }
+
+                    else {
+                        $(".divbenefitcoverage").hide();
+                        $(".divpurchased").show();
+                        $(".divwhynoinsure").hide();
+                        $(".divwhathealth").hide();
+                        $(".divDescribeprivate").hide();
+                        $(".divVAsystem").hide();
+                        $(".divIfntowhy").hide();
+                        $(".divName").hide();
+                        $(".divpolno").hide();
+                        $(".diveffdate").hide();
+
+                    }
+                }
+
+                $("#C1_OtherInsuranceType").change(function () {
+                    otherInsuranceType();
+                }).change();
+
+                otherInsuranceType();
+
+                var otherInsurance = $("#C1_OtherInsuranceEnroll").find("option:selected").text();
+                if (otherInsurance == "No, I have no insurance (please explain)" || otherInsurance == "No, I lost my private insurance") {
+                    otherInsuranceEnroll();
+                }
+
+
+                if ($("#C1_ACAStateExchgEnroll_YesOption").prop("checked") === true) {
+                    Showorhidedivexenrol();
+                }
+            });
+
+
+        </script>
+
+
+        <div class="divwhynoinsure">
+            <div class="form-group">
+                <div class="col-md-6">
+                    @Helpers.LabelSpan(Model, "C1_NoInsurnaceDescription_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-4">
+                    @Helpers.TextInput(Model, "C1_NoInsurnaceDescription", new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="divwhathealth">
+            <div class="form-group">
+                <div class="col-md-6">
+                    @Helpers.LabelSpan(Model, "C1_OtherInsuranceType_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-6">
+                    @Helpers.DropDownList(Model, "C1_OtherInsuranceType_item", "C1_OtherInsuranceType", true)
+                </div>
+            </div>
+        </div>
+        @*<div id="subinsrtypediv" style="display:none;">
+                <div class="form-group">
+                    <div class="col-md-5">
+                        @Helpers.LabelSpan(Model, "C1_StateMCENotEnrollReasonOther_item", new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-5">
+                        @Helpers.TextInput(Model, "C1_StateMCENotEnrollReasonOther", new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>*@
+        <div class="divDescribeprivate">
+            <div class="form-group">
+                <div class="col-md-4">
+                    @Helpers.LabelSpan(Model, "C1_OtherInsuranceDescription_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-3">
+                    @Helpers.TextInput(Model, "C1_OtherInsuranceDescription", new { @class = "form-control" })
+                </div>
+            </div>
+            <hr>
+        </div>
+        <div class="divVAsystem">
+            <div class="form-group">
+                <div class="col-md-7">
+                    @Helpers.LabelSpan(Model, "C1_DrugCoveredByVA_item", new { @class = "control-label" })
+                </div>
+                @Helpers.YesNoRadioButtons(Model, "C1_DrugCoveredByVA")
+            </div>
+        </div>
+        <div class="divIfntowhy">
+            <div class="form-group">
+                <div class="col-md-6">
+                    @Helpers.LabelSpan(Model, "C1_DrugNotCoveredVARsn_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-5">
+                    @Helpers.TextInput(Model, "C1_DrugNotCoveredVARsn", new { @class = "form-control" })
+                </div>
+            </div>
+            <hr>
+        </div>
+        <div class="divName">
+            <div class="form-group">
+                <div class="col-md-6">
+                    @Helpers.LabelSpan(Model, "C1_OtherInsuranceProvider_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-5">
+                    @Helpers.TextInput(Model, "C1_OtherInsuranceProvider", new { @class = "form-control" })
+                </div>
+            </div>
+
+        </div>
+
+        <div class="form-group">
+            <div class="divpolno">
+
+                <div class="col-md-6">
+                    @Helpers.LabelSpan(Model, "C1_OtherInsurancePlanID_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-5">
+                    @Helpers.TextInput(Model, "C1_OtherInsurancePlanID", new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="divpolno">
+                @*<div class="col-md-6">
+                        @Helpers.LabelSpan(Model, "C1_OtherInsuranceGroupCode_item", new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-5">
+                        @Helpers.TextInput(Model, "C1_OtherInsuranceGroupCode", new { @class = "form-control" })
+                    </div>*@
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="divpolno">
+                <div class="col-md-6">
+                    @Helpers.LabelSpan(Model, "C1_OtherInsuranceMemberID2_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-5">
+                    @Helpers.TextInput(Model, "C1_OtherInsuranceMemberID2", new { @class = "form-control" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="diveffdate">
+            <div class="col-md-3">
+                @Helpers.LabelSpan(Model, "C1_OtherInsuranceEffDate_item", new { @class = "control-label" })
+            </div>
+            <div class="col-md-3">
+                <div class="input-group date">
+                    @Helpers.TextInput(Model, "C1_OtherInsuranceEffDate", new { @class = "form-control", placeholder = "mm/dd/yyyy", datavalidationmessage = "Start date should be lesser than End date", onkeypress = "return isNumeric(event);" })
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                    <label class="lbl-error error"></label>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                @Helpers.LabelSpan(Model, "C1_OtherInsuranceEndDate_item", new { @class = "control-label" })
+            </div>
+            <div class="col-md-3">
+                <div class="input-group date">
+                    @Helpers.TextInput(Model, "C1_OtherInsuranceEndDate", new { @class = "form-control", placeholder = "mm/dd/yyyy", datavalidationmessage = "End date should be greater than start date", onkeypress = "return isNumeric(event);" })
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                    <label class="lbl-error error"></label>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+<!-- PREVIOUS I3 Details -->
+<div class="panel panel-default previous-response" id="PreviousI2">
+    <div class="panel-body">
+        <div class="pull-right prevAppBtn"><a href="#" class="btn btn-success btn-xs active" id="hsName" role="button">&nbsp;</a></div>
+        <div class="pull-right"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CmntModal"><span class="glyphicon glyphicon-comment"></span></button></div>
+        <p><strong>@Model.sctTitles["CA-ADAP-Insurance-3_sub"]</strong></p>
+        <div class="form-group">
+            <div class="col-md-6">
+                @Helpers.LabelSpan(Model, "C1_ACAStateExchgEnroll_item", new { @class = "control-label" })
+            </div>
+            @Helpers.YesNoRadioButtons(Model, "PREVIOUS_C1_ACAStateExchgEnroll")
+        </div>
+        <hr>
+
+        <div class="divbenefitcoverage">
+            <div class="form-group">
+                <div class="col-md-6">
+                    @Helpers.LabelSpan(Model, "C1_ACAStateExchgCardDoc_item", new { @class = "control-label" })
+                </div>
+
+                @Helpers.FileUpload(Model, "C1_ACAStateExchgCardDoc")
+
+            </div>
+            <hr>
+        </div>
+        <div class="divpurchased">
+            <div class="form-group">
+                <div class="col-md-6">
+                    @Helpers.LabelSpan(Model, "C1_OtherInsuranceEnroll_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-6">
+                    @Helpers.DropDownList(Model, "C1_OtherInsuranceEnroll_item", "PREVIOUS_C1_OtherInsuranceEnroll", true)
+                </div>
+            </div>
+            <hr>
+        </div>
+        <div class="divwhathealth">
+            <div class="form-group">
+                <div class="col-md-6">
+                    @Helpers.LabelSpan(Model, "C1_OtherInsuranceType_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-6">
+                    @Helpers.DropDownList(Model, "C1_OtherInsuranceType_item", "PREVIOUS_C1_OtherInsuranceType", true)
+                </div>
+            </div>
+        </div>
+        @*<div id="subinsrtypediv" style="display:none;">
+                <div class="form-group">
+                    <div class="col-md-5">
+                        @Helpers.LabelSpan(Model, "C1_StateMCENotEnrollReasonOther_item", new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-5">
+                        @Helpers.TextInput(Model, "PREVIOUS_C1_StateMCENotEnrollReasonOther", new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>*@
+        <div class="divDescribeprivate">
+            <div class="form-group">
+                <div class="col-md-4">
+                    @Helpers.LabelSpan(Model, "C1_OtherInsuranceDescription_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-3">
+                    @Helpers.TextInput(Model, "PREVIOUS_C1_OtherInsuranceDescription", new { @class = "form-control" })
+                </div>
+            </div>
+            <hr>
+        </div>
+        <div class="divVAsystem">
+            <div class="form-group">
+                <div class="col-md-7">
+                    @Helpers.LabelSpan(Model, "C1_DrugCoveredByVA_item", new { @class = "control-label" })
+                </div>
+                @Helpers.YesNoRadioButtons(Model, "PREVIOUS_C1_DrugCoveredByVA")
+            </div>
+        </div>
+        <div class="divIfntowhy">
+            <div class="form-group">
+                <div class="col-md-6">
+                    @Helpers.LabelSpan(Model, "C1_DrugNotCoveredVARsn_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-5">
+                    @Helpers.TextInput(Model, "PREVIOUS_C1_DrugNotCoveredVARsn", new { @class = "form-control" })
+                </div>
+            </div>
+            <hr>
+        </div>
+        <div class="divName">
+            <div class="form-group">
+                <div class="col-md-6">
+                    @Helpers.LabelSpan(Model, "C1_OtherInsuranceProvider_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-5">
+                    @Helpers.TextInput(Model, "PREVIOUS_C1_OtherInsuranceProvider", new { @class = "form-control" })
+                </div>
+            </div>
+
+        </div>
+
+        <div class="form-group">
+            <div class="divpolno">
+
+                <div class="col-md-6">
+                    @Helpers.LabelSpan(Model, "C1_OtherInsurancePlanID_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-5">
+                    @Helpers.TextInput(Model, "PREVIOUS_C1_OtherInsurancePlanID", new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="divpolno">
+                @*<div class="col-md-6">
+                        @Helpers.LabelSpan(Model, "C1_OtherInsuranceGroupCode_item", new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-5">
+                        @Helpers.TextInput(Model, "PREVIOUS_C1_OtherInsuranceGroupCode", new { @class = "form-control" })
+                    </div>*@
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="divpolno">
+                <div class="col-md-6">
+                    @Helpers.LabelSpan(Model, "C1_OtherInsuranceMemberID2_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-5">
+                    @Helpers.TextInput(Model, "PREVIOUS_C1_OtherInsuranceMemberID2", new { @class = "form-control" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="diveffdate">
+            <div class="col-md-3">
+                @Helpers.LabelSpan(Model, "C1_OtherInsuranceStartDate_item", new { @class = "control-label" })
+            </div>
+            <div class="col-md-3">
+                <div class="input-group date">
+                    @Helpers.TextInput(Model, "PREVIOUS_C1_OtherInsuranceStartDate", new { @class = "form-control", placeholder = "mm/dd/yyyy" })
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                @Helpers.LabelSpan(Model, "C1_OtherInsuranceEffDate_item", new { @class = "control-label" })
+            </div>
+            <div class="col-md-3">
+                <div class="input-group date">
+                    @Helpers.TextInput(Model, "PREVIOUS_C1_OtherInsuranceEffDate", new { @class = "form-control", placeholder = "mm/dd/yyyy" })
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- Comments Modal -->
+@Html.Partial("_AdapCommentModal", Model)
+
+<script type="text/javascript">
+
+    $(function () {
+
+        if ($("#C1_MediCALShareOfCost_NoOption").prop("checked")) {
+            var isChecked = $('#C1_MediCALShareOfCost_NoOption').is(':checked');
+            if (isChecked) { $('#mdsharecostdiv').hide(); }
+        }
+        $('#C1_MediCALShareOfCost_NoOption').change(function () {
+            var isChecked = $('#C1_MediCALShareOfCost_NoOption').is(':checked');
+            if (isChecked) { $('#mdsharecostdiv').hide(); }
+        })
+        $('#C1_MediCALShareOfCost_YesOption').change(function () {
+            var isChecked = $('#C1_MediCALShareOfCost_YesOption').is(':checked');
+            if (isChecked) { $('#mdsharecostdiv').show(); }
+        })
+        $('#C1_LowIncomeSubsidyEnroll').change(function () {
+            var index = $(this).val();
+            if (index == '1') $('#lisprogramdiv').show();
+            else $('#lisprogramdiv').hide();
+        })
+
+
+
+        //$('#C1_OtherInsuranceEnroll').change(function () {
+        //    var index = $(this).val();
+        //    if (index == '2') { $('#subinsrtypediv').show(); }
+        //    else { $('#subinsrtypediv').hide(); }
+
+        //})
+        //function ClearFields() {
+        //    if ($("#C1_ACAStateExchgEnroll_YesOption").prop("checked") === true) {
+        //        Reset();
+        //    }
+        //    else {
+        //        Reset();
+
+        //    }
+        //}
+
+        //$("#C1_ACAStateExchgEnroll_YesOption").change(function (e) {
+        //    ClearFields();
+
+        //})
+
+        //$("#C1_ACAStateExchgEnroll_NoOption").change(function (e) {
+        //    ClearFields();
+
+        //})
+
+        //function Reset() {
+
+        //    $('#C1_ACAStateExchgCardDoc').val('');
+
+        //    $('#C1_OtherInsuranceEnroll').val('');
+        //    $('#C1_NoInsurnaceDescription').val('');
+        //    $('#C1_OtherInsuranceType').val('');
+        //    $('#C1_OtherInsuranceDescription').val('');
+        //    $('#C1_DrugCoveredByVA').val('');
+        //    $('#C1_DrugNotCoveredVARsn').val('');
+        //    $('#C1_OtherInsuranceProvider').val('');
+        //    $('#C1_OtherInsurancePlanID').val('');
+        //    $('#C1_OtherInsuranceMemberID2').val('');
+        //    $('#C1_OtherInsuranceEffDate').val('');
+        //    $('#C1_OtherInsuranceEndDate').val('');
+        //}
+
+
+
+
+
+
+
+
+        //function Effectivestartdate() {
+        //    $("#C1_OtherInsuranceEffDate").off('change').on('change', function () {
+        //        var Enddate = $('#C1_OtherInsuranceEndDate').val();
+        //        var Startdate = $('#C1_OtherInsuranceEffDate').val();
+
+        //        var message = $(this).attr("datavalidationmessage");
+
+        //        if (Enddate != "") {
+        //            if (Startdate >= Enddate) {
+        //                $(this).parent().removeClass("success").addClass("error");
+        //                $(this).removeClass("successControl").addClass("errorControl");
+        //                $(this).parent().find(".lbl-error").text(message).addClass("error-date");
+        //            }
+        //            else {
+        //                $(this).removeClass("errorControl").addClass("successControl");
+        //                $(this).parent().removeClass("error").addClass("success");
+        //                $(this).parent().find(".lbl-error").hide().text("");
+
+        //            }
+        //        }
+        //    });
+        //}
+
+        //$("#C1_OtherInsuranceEffDate").change(function () {
+        //    Effectivestartdate();
+        //});
+
+        //function EffectiveEnddate() {
+        //    $("#C1_OtherInsuranceEndDate").off('change').on('change', function () {
+
+        //        var Enddate = $('#C1_OtherInsuranceEndDate').val();
+        //        var Startdate = $('#C1_OtherInsuranceEffDate').val();
+
+        //        var message = $(this).attr("datavalidationmessage");
+        //        if (Startdate != "") {
+        //            if (Enddate <= Startdate) {
+        //                $(this).parent().removeClass("success").addClass("error");
+        //                $(this).removeClass("successControl").addClass("errorControl");
+        //                $(this).parent().find(".lbl-error").text(message).addClass("error-date");
+        //            }
+        //            else {
+        //                $(this).removeClass("errorControl").addClass("successControl");
+        //                $(this).parent().removeClass("error").addClass("success");
+        //                $(this).parent().find(".lbl-error").hide().text("");
+
+        //            }
+        //        }
+        //    });
+        //}
+
+        //$("#C1_OtherInsuranceEndDate").change(function () {
+        //    EffectiveEnddate();
+        //});
+
+    })
+
+</script>

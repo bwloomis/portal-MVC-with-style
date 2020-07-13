@@ -1,0 +1,78 @@
+@model Assmnts.Models.TemplateItems
+@using Assmnts
+
+<table id="Table3" border="0" cellpadding="3" cellspacing="1" bgcolor="#d5d5d5" width="100%" style="margin:10px 0px;">
+    <tr>
+        <td bgcolor="#ffffff">
+            <div onclick="expandcontent('S1aPageNotes')" style="cursor: hand; cursor: pointer" id="label_S1aPageNotes">
+                &nbsp;
+                <font color="#be411e"><b><span class="showstate"></span></b></font>&nbsp;<img src="~/Content/images/redPlus.gif" id="showstate_S1aPageNotes">&nbsp;Enter Notes for @Model.thisScreenTitle
+            </div>
+        </td>
+        <td bgcolor="#ffffff" width="5" align="right">
+            <!-- <asp:Label runat="server" ID="lblSectionN" Text="N" Visible="false" ForeColor="#FF0000" />  -->
+            @{
+                def_ItemVariables notesIV = Model.notesItem.def_ItemVariables.First();
+                if (Model.notesItem.def_ItemVariables.Count > 1)
+                {
+                    notesIV = Model.notesItem.def_ItemVariables.Where(iv => iv.identifier.EndsWith("PageNotes")).First();
+                }
+                string pageNotesText;
+                if (Model.rspValues[@notesIV.identifier] != null)
+                {
+                    pageNotesText = Model.rspValues[@notesIV.identifier].Trim();
+                }
+                else
+                {
+                    pageNotesText = null;
+                }
+                if (!String.IsNullOrEmpty(pageNotesText))
+                {
+                    <label>N</label>
+                }
+            }
+        </td>
+    </tr>
+</table>
+<div id="S1aPageNotes" class="switchcontent" style="margin-top:10px">
+    <table id="Table4" border="0" cellpadding="3" cellspacing="1" bgcolor="#d5d5d5" width="100%">
+        <tr>
+            <td bgcolor="lightyellow" align="center">
+                <table border="0" cellpadding="0">
+                    <tr>
+                        <td valign="top"></td>
+                        <td>&nbsp; </td>
+                        <td>
+                            <table border="0">
+                                <tr>
+                                    <td align="right">
+                                        <textarea cols="10" id="txtS1aPageNotes" wrap="soft" rows="4"
+                                                  onkeydown="textCounter(this.form.txtS1aPageNotes,this.form.txtS1aPageNotesCount,4000);"
+                                                  onkeyup="textCounter(this.form.txtS1aPageNotes,this.form.txtS1aPageNotesCount,4000);"
+                                                  style="font-family: Arial,Geneva,Verdana; width: 600px; border-color: #7b7b7b;
+                                                                border-width: 1px; border-style: solid"
+                                                  name="@notesIV.identifier" title="@notesIV.identifier">@pageNotesText</textarea>
+                                        <script>
+                                            $(document).ready(function () {
+                                                textCounter( $('#txtS1aPageNotes').get(0), $('#txtS1aPageNotesCount').get(0), 4000 );
+                                            });
+                                        </script>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align="right">
+                                        <label for="txtS1aPageNotesCount">
+                                            <span class="important">4000</span> characters maximum allowed for section notes field.
+                                        </label>
+                                        <input readonly="readonly" type="text" id="txtS1aPageNotesCount" name="txtS1aPageNotesCount"
+                                                size="3" maxlength="4" value="4000" class="textCounter" /> remain.
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</div>

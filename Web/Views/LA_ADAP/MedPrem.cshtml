@@ -1,0 +1,182 @@
+﻿@model Assmnts.Models.GeneralForm
+@using Assmnts.Models;
+@{
+    Layout = "LA_AdapAppLayout.cshtml";
+}
+@section AddtoHead{
+    <link rel="stylesheet" type="text/css" href="/Content/adap/css/ADAPForms.css" />
+    <script src="~/Content/js/ADAPLookupSelects.js"></script>
+    <script src="~/Scripts/jquery.inputmask/inputmask.js"></script>
+    <script src="~/Scripts/jquery.inputmask/jquery.inputmask.js"></script>
+    <script src="~/Scripts/Validate.js"></script>
+    <link href="~/stylesheets/Validate.css" rel="stylesheet" />
+    <script>
+        $(document).ready(function () {
+            @foreach (string letter in new string[] { "B", "C", "D", "Supp" })
+        {
+            foreach (string suffix in new string[] { "PayFreq", "RegDue", "PastDue" })
+            {
+                string identifier = "LA_ADAP_Med" + letter + "_" + suffix;
+                @:populateLookupSelect('@identifier', '@identifier', '@Model.rspValues[identifier]');
+                                                                        }
+        }
+
+            //$("#LA_ADAP_MedB_RegDue").change(function () {
+            //    $("#toggleAltB").toggle($("#LA_ADAP_MedB_RegDue").val() == 2);
+            //})
+
+            @*@foreach (string letter in new string[] { "B", "C", "D", "Supp" }) {
+            @:$("#LA_ADAP_Med@(letter)_RegDue").change(function() {
+                                                 @:$("#toggleAlt@(letter)").toggle($("#LA_ADAP_Med@(letter)_RegDue").val() == 2);
+                                            @:});
+                    @:});*@
+
+            $('.class_dob_input').inputmask("99/99/9999");
+            $('.class_zip_code').inputmask("99999[-9999]");
+            setApplicationProgressIndicator(8);
+            $('.class_nextscreen').click(function () {
+
+                var nextScreenIdentifier;
+
+                if ($('#LA_ADAP_HaveInsNotMed').val() == "true")                                                            //If "Yes.  I have one or more..." was checked...
+                    nextScreenIdentifier = '@(((TemplateAdapNavMenu)Model.navMenuModel).sectionIds["LA_ADAP_InsPolicy"])';  //...the next screen is Insurance Policy.
+
+                else if ($('#LA_ADAP_HaveInsNotHealth').val() == "true")                                                    //Otherwise, if "Yes.  I have dental..." was checked...
+                    nextScreenIdentifier = '@(((TemplateAdapNavMenu)Model.navMenuModel).sectionIds["LA_ADAP_DentPolicy"])'; //...the next screen is Dental Policy.
+
+                else
+                    nextScreenIdentifier = '@(((TemplateAdapNavMenu)Model.navMenuModel).sectionIds["LA_ADAP_Diagnosis"])';  //Otherwise, the next screen is Diagnosis.
+
+                SubmitForm('@(((TemplateAdapNavMenu)Model.navMenuModel).adapPartId)', nextScreenIdentifier);
+
+            });
+        });
+    </script>
+}
+
+<div style="display:none">
+    @Helpers.TextInput(Model, "LA_ADAP_HaveInsNotMed", new { @class = "form-control" })
+    @Helpers.TextInput(Model, "LA_ADAP_HaveInsNotHealth", new { @class = "form-control" })
+</div>
+@{int i = 1;}
+
+@foreach (string letter in new string[] { "B", "C", "D", "Supp" })
+{
+    <div class="panel panel-default" id=@("toggle" + letter)>
+        <div style="display:none">
+            @Helpers.TextInput(Model, "LA_ADAP_MedPolicy_Type" + letter, new { @class = "form-control" })
+            @if (letter == "B")
+            {
+                @Helpers.TextInput(Model, "LA_ADAP_MedPolicy_TypeAB", new { @class = "form-control" });
+            }
+        </div>
+        <div class="panel-body">
+            <p><strong>@(i++). @Model.sctTitles["LA_ADAP_MedPrem_Med" + letter]</strong></p>
+            <div class="form-group">
+                @Helpers.LabelSpan(Model, "LA_ADAP_Med" + letter + "_Admin_item", new { @class = "col-md-6 control-label" })
+                <div class="col-md-4">
+                    @Helpers.TextInput(Model, "LA_ADAP_Med" + letter + "_Admin", new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Helpers.LabelSpan(Model, "LA_ADAP_Med" + letter + "_Addr_item", new { @class = "col-md-6 control-label" })
+                <div class="col-md-4">
+                    @Helpers.TextInput(Model, "LA_ADAP_Med" + letter + "_Addr", new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Helpers.LabelSpan(Model, "LA_ADAP_Med" + letter + "_City_item", new { @class = "col-md-1 control-label" })
+                <div class="col-md-3">
+                    @Helpers.TextInput(Model, "LA_ADAP_Med" + letter + "_City", new { @class = "form-control" })
+                </div>
+                @Helpers.LabelSpan(Model, "LA_ADAP_Med" + letter + "_State_item", new { @class = "col-md-1 control-label" })
+                <div class="col-md-1">
+                    @Helpers.TextInput(Model, "LA_ADAP_Med" + letter + "_State", new { @class = "form-control" })
+                </div>
+                <div class="col-md-1">
+                    @Helpers.LabelSpan(Model, "LA_ADAP_Med" + letter + "_Zip_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-2">
+                    @Helpers.TextInput(Model, "LA_ADAP_Med" + letter + "_Zip", new { @class = "form-control class_zip_code", datavalidate = "true", datavalidationmessage = "Enter Valid Zip Code", datadv = "zipCode" })
+                    <span class="icon"></span>
+                    <label class="lbl-error error"></label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-5">
+                    @Helpers.LabelSpan(Model, "LA_ADAP_Med" + letter + "_AppAmt_item", new { @class = "control-label" })
+                    @Helpers.ToolTipFromItemPrompt(Model, "LA_ADAP_Med" + letter + "_City_item", new { @class = "pointer fa fa-question-circle text-primary fa-1x" })
+                </div>
+                <div class="col-md-3">
+                    @Helpers.TextInput(Model, "LA_ADAP_Med" + letter + "_AppAmt", new { @class = "form-control", datavalidate = "true", datavalidationmessage = "Enter Valid Premium amount", datadv = "Allow0to9Numbers", onblur = "currencyTextBoxOnBlur(this);", onkeyup = "javascript:this.value=Comma(this.value);" })
+                    <span class="icon"></span><label class="lbl-error error"></label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-5">
+                    @Helpers.LabelSpan(Model, "LA_ADAP_Med" + letter + "_PayFreq_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-3">
+                    @Helpers.DropDownList(Model, "LA_ADAP_Med" + letter + "_PayFreq_item", "LA_ADAP_Med" + letter + "_PayFreq")
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-5">
+                    @Helpers.LabelSpan(Model, "LA_ADAP_Med" + letter + "_NextDue_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group date">
+                        @Helpers.TextInput(Model, "LA_ADAP_Med" + letter + "_NextDue", new { @class = "form-control class_dob_input", placeholder = "mm/dd/yyyy" })
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-5">
+                    @Helpers.LabelSpan(Model, "LA_ADAP_Med" + letter + "_RegDue_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-3">
+                    @Helpers.DropDownList(Model, "LA_ADAP_Med" + letter + "_RegDue_item", "LA_ADAP_Med" + letter + "_RegDue")
+                </div>
+
+            </div>
+            <div class="form-group">
+                <div id="toggleAlt@(letter)">
+                    <div class="col-md-5">
+                        @Helpers.LabelSpan(Model, "LA_ADAP_Med" + letter + "_AltDue_item", new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-3">
+                        @Helpers.TextInput(Model, "LA_ADAP_Med" + letter + "_AltDue", new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-5">
+                    @Helpers.LabelSpan(Model, "LA_ADAP_Med" + letter + "_PastDue_item", new { @class = "control-label" })
+                    @Helpers.ToolTipFromItemPrompt(Model, "LA_ADAP_Med" + letter + "_State_item", new { @class = "pointer fa fa-question-circle text-primary fa-1x" })
+                </div>
+                <div class="col-md-3">
+                    @Helpers.DropDownList(Model, "LA_ADAP_Med" + letter + "_PastDue_item", "LA_ADAP_Med" + letter + "_PastDue")
+                </div>
+            </div>
+            <script>
+                $(document).ready(function () {
+                    UpdateAlt@(letter)();
+                    $("#LA_ADAP_Med@(letter)_RegDue").change(UpdateAlt@(letter));
+                    @if(letter == "B")
+                    {
+                        @:$("#toggle@(letter)").toggle($("#LA_ADAP_MedPolicy_TypeB").val() == "true" || $("#LA_ADAP_MedPolicy_TypeAB").val() == "true");
+                    } else {
+                        @:$("#toggle@(letter)").toggle($("#LA_ADAP_MedPolicy_Type@(letter)").val() == "true");
+                    }
+                });
+
+                function UpdateAlt@(letter)() {
+                    $("#toggleAlt@(letter)").toggle($("#LA_ADAP_Med@(letter)_RegDue").val() == 2);
+                };
+            </script>
+        </div>
+    </div>
+}

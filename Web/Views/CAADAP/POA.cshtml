@@ -1,0 +1,389 @@
+﻿@model Assmnts.Models.GeneralForm
+@{
+    Layout = "AdapAppLayout.cshtml";
+}
+
+@section AddtoHead{
+    <link rel="stylesheet" type="text/css" href="/Content/adap/css/ADAPForms.css" />
+    <script src="~/Content/js/ADAPLookupSelects.js"></script>
+    <script src="/Content/js/jquery.maskedinput.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('.class_phone_input').mask("999-999-9999");
+        });
+    </script>
+}
+
+<!-- First POA (Legal Contact)-->
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="pull-right prevAppBtn"><button data-prevdiv="PreviousC4" class="btn" type="button"></button></div>
+        <div class="pull-right"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CmntModal" data-label="C4. @Model.sctTitles["CA-ADAP-Contact"]"><span class="glyphicon glyphicon-comment"></span></button></div>
+        <div class="form-group">
+            <label class="col-md-7 control-label" for="" style="text-align:left">C4. @Model.sctTitles["CA-ADAP-Contact"]</label>
+            @Helpers.YesNoRadioButtons(Model, "C1_LegalContactMayMessage")
+        </div>
+
+        <div class="form-group toggleC4">
+            @Helpers.LabelSpan(Model, "C1_LegalContactName_item", new { @class = "col-md-1 control-label" })
+            <div class="col-md-3">
+                @Helpers.TextInput(Model, "C1_LegalContactName", new { @class = "form-control" })
+            </div>
+            @Helpers.LabelSpan(Model, "C1_LegalContactAddressLine1_item", new { @class = "col-md-1 control-label" })
+            <div class="col-md-3">
+                @Helpers.TextInput(Model, "C1_LegalContactAddressLine1", new { @class = "form-control" })
+            </div>
+            @Helpers.LabelSpan(Model, "C1_LegalContactAddressCity_item", new { @class = "col-md-1 control-label" })
+            <div class="col-md-3">
+                @Helpers.TextInput(Model, "C1_LegalContactAddressCity", new { @class = "form-control" })
+            </div>
+            @Helpers.LabelSpan(Model, "C1_LegalContactAddressState_item", new { @class = "col-md-1 control-label" })
+            <div class="col-md-3">
+                @Helpers.TextInput(Model, "C1_LegalContactAddressState", new { @class = "form-control" })
+            </div>
+            @Helpers.LabelSpan(Model, "C1_LegalContactAddressZip_item", new { @class = "col-md-1 control-label" })
+            <div class="col-md-3">
+                @Helpers.TextInput(Model, "C1_LegalContactAddressZip", new { @class = "form-control" })
+            </div>
+            @Helpers.LabelSpan(Model, "C1_LegalContactPhoneNumber_item", new { @class = "col-md-1 control-label" })
+            <div class="col-md-3">
+                @Helpers.TextInput(Model, "C1_LegalContactPhoneNumber", new { @class = "form-control class_phone_input" })
+            </div>
+
+        </div>
+        <div class="form-group toggleC4">
+
+            @Helpers.LabelSpan(Model, "C1_LegalContactType_item", new { @class = "col-md-2 control-label" })
+            <div class="col-md-4">
+                @Helpers.DropDownList(Model, "C1_LegalContactType", "C1_LegalContactType", true)
+            </div>
+
+            @Helpers.LabelSpan(Model, "C1_LegalContactDuration_item", new { @class = "col-md-2 control-label" })
+            <div class="col-md-4">
+                @Helpers.DropDownList(Model, "C1_LegalContactDuration", "C1_LegalContactDuration", true)
+            </div>
+        </div>
+        <div class="form-group toggleC4">
+            <div class="form-group">
+                @Helpers.LabelSpan(Model, "C1_LegalContactProofOfPOA_item", new { @class = "col-md-4 control-label" })
+                @Helpers.FileUpload(Model, "C1_LegalContactProofOfPOA")
+            </div>
+        </div>
+
+        <div class="form-group toggleC4">
+            @Helpers.LabelSpan(Model, "C1_LegalContactAwareHIV_item", new { @class = "col-md-6 control-label" })
+            @Helpers.YesNoRadioButtons(Model, "C1_LegalContactAwareHIV")
+        </div>
+        <div class="form-group toggleC4">
+            <label class="col-md-3 control-label" for="" style="text-align:left">D2. @Model.sctTitles["C1_LegalContactApprovalDate_item"]</label>
+            <div class="col-md-4">
+                <div class="input-group date">
+                    @Helpers.TextInput(Model, "C1_LegalContactApprovalDate", new { @class = "form-control", placeholder = "mm/dd/yyyy" })
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                </div>
+            </div>
+
+            <label class="col-md-3 control-label" for="" style="text-align:left">D2. @Model.sctTitles["C1_LegalContactExpirationDate_item"]</label>
+            <div class="col-md-4">
+                <div class="input-group date">
+                    @Helpers.TextInput(Model, "C1_LegalContactExpirationDate", new { @class = "form-control", placeholder = "mm/dd/yyyy" })
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            $(document).ready(function () {
+                updateC4();
+                $("#C1_LegalContactMayMessage").change(updateC4);
+                $("#C1_LegalContactMayMessage").change(updateC4);
+            });
+
+            function updateC4() {
+                $(".toggleC4").toggle($("#C1_LegalContactMayMessage").get(0).checked);
+                if ($("#C1_LegalContactMayMessage").get(0).checked) {
+                    $('[name=ADAP_C4_Name]').val('');
+                    $('[name=ADAP_C4_Phone]').val('');
+                }
+            };
+        </script>
+    </div>
+</div>
+<!-- PREVIOUS First POA (Legal Contact) -->
+<div class="panel panel-default previous-response" id="PreviousC4">
+    <div class="panel-body">
+        <div class="pull-right prevAppBtn"><a href="#" class="btn btn-success btn-xs active" id="hsName" role="button">&nbsp;</a></div>
+        <div class="pull-right"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CmntModal"><span class="glyphicon glyphicon-comment"></span></button></div>
+        <div class="form-group">
+            <label class="col-md-7 control-label" for="" style="text-align:left">C4. @Model.sctTitles["CA-ADAP-Contact"]</label>
+            @Helpers.YesNoRadioButtons(Model, "PREVIOUS_C1_LegalContactMayMessage")
+        </div>
+
+        <div class="form-group PREVIOUS_toggleC4">
+
+            @Helpers.LabelSpan(Model, "C1_LegalContactName_item", new { @class = "col-md-1 control-label" })
+            <div class="col-md-3">
+                @Helpers.TextInput(Model, "PREVIOUS_C1_LegalContactName", new { @class = "form-control" })
+            </div>
+            @Helpers.LabelSpan(Model, "C1_LegalContactAddressLine1_item", new { @class = "col-md-1 control-label" })
+            <div class="col-md-3">
+                @Helpers.TextInput(Model, "PREVIOUS_C1_LegalContactAddressLine1", new { @class = "form-control" })
+            </div>
+            @Helpers.LabelSpan(Model, "C1_LegalContactAddressCity_item", new { @class = "col-md-1 control-label" })
+            <div class="col-md-3">
+                @Helpers.TextInput(Model, "PREVIOUS_C1_LegalContactAddressCity", new { @class = "form-control" })
+            </div>
+            @Helpers.LabelSpan(Model, "C1_LegalContactAddressState_item", new { @class = "col-md-1 control-label" })
+            <div class="col-md-3">
+                @Helpers.TextInput(Model, "PREVIOUS_C1_LegalContactAddressState", new { @class = "form-control" })
+            </div>
+            @Helpers.LabelSpan(Model, "C1_LegalContactAddressZip_item", new { @class = "col-md-1 control-label" })
+            <div class="col-md-3">
+                @Helpers.TextInput(Model, "PREVIOUS_C1_LegalContactAddressZip", new { @class = "form-control" })
+            </div>
+            @Helpers.LabelSpan(Model, "C1_LegalContactPhoneNumber_item", new { @class = "col-md-1 control-label" })
+            <div class="col-md-3">
+                @Helpers.TextInput(Model, "PREVIOUS_C1_LegalContactPhoneNumber", new { @class = "form-control class_phone_input" })
+            </div>
+
+        </div>
+        <div class="form-group PREVIOUS_toggleC4">
+            @Helpers.LabelSpan(Model, "C1_LegalContactType_item", new { @class = "col-md-2 control-label" })
+            <div class="col-md-4">
+                @Helpers.DropDownList(Model, "PREVIOUS_C1_LegalContactType", "PREVIOUS_C1_LegalContactType", true)
+            </div>
+
+            @Helpers.LabelSpan(Model, "C1_LegalContactDuration_item", new { @class = "col-md-2 control-label" })
+            <div class="col-md-4">
+                @Helpers.DropDownList(Model, "PREVIOUS_C1_LegalContactDuration", "PREVIOUS_C1_LegalContactDuration", true)
+            </div>
+        </div>
+        <div class="form-group PREVIOUS_toggleC4">
+            <div class="form-group">
+                @Helpers.LabelSpan(Model, "C1_LegalContactProofOfPOA_item", new { @class = "col-md-4 control-label" })
+                @Helpers.FileUpload(Model, "PREVIOUS_C1_LegalContactProofOfPOA")
+            </div>
+        </div>
+        <div class="form-group PREVIOUS_toggleC4">
+            @Helpers.LabelSpan(Model, "C1_LegalContactAwareHIV_item", new { @class = "col-md-6 control-label" })
+            @Helpers.YesNoRadioButtons(Model, "PREVIOUS_C1_LegalContactAwareHIV")
+        </div>
+        <div class="form-group PREVIOUS_toggleC4">
+            <label class="col-md-3 control-label" for="" style="text-align:left">D2. @Model.sctTitles["C1_LegalContactApprovalDate_item"]</label>
+            <div class="col-md-4">
+                <div class="input-group date">
+                    @Helpers.TextInput(Model, "PREVIOUS_C1_LegalContactApprovalDate", new { @class = "form-control", placeholder = "mm/dd/yyyy" })
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                </div>
+            </div>
+
+            <label class="col-md-3 control-label" for="" style="text-align:left">D2. @Model.sctTitles["C1_LegalContactExpirationDate_item"]</label>
+            <div class="col-md-4">
+                <div class="input-group date">
+                    @Helpers.TextInput(Model, "PREVIOUS_C1_LegalContactExpirationDate", new { @class = "form-control", placeholder = "mm/dd/yyyy" })
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            $(document).ready(function () {
+                PREVIOUS_updateC4();
+                $("#C1_LegalContactMayMessage_YesOption").change(PREVIOUS_updateC4);
+                $("#C1_LegalContactMayMessage_NoOption").change(PREVIOUS_updateC4);
+            });
+
+            function PREVIOUS_updateC4() {
+                $(".PREVIOUS_toggleC4").toggle($("#PREVIOUS_C1_LegalContactMayMessage_YesOption").get(0).checked);
+            };
+        </script>
+    </div>
+</div>
+
+<!-- Alternate POA (Alt Legal Contact)-->
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="pull-right prevAppBtn"><button data-prevdiv="PreviousC4" class="btn" type="button"></button></div>
+        <div class="pull-right"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CmntModal" data-label="C4. @Model.sctTitles["CA-ADAP-Contact"]"><span class="glyphicon glyphicon-comment"></span></button></div>
+        <div class="form-group">
+            <label class="col-md-7 control-label" for="" style="text-align:left">C4. @Model.sctTitles["CA-ADAP-Contact"]</label>
+            @Helpers.YesNoRadioButtons(Model, "C1_AltLegalContactMayMessage")
+        </div>
+
+        <div class="form-group toggleC4">
+            @Helpers.LabelSpan(Model, "C1_AltLegalContactName_item", new { @class = "col-md-1 control-label" })
+            <div class="col-md-3">
+                @Helpers.TextInput(Model, "C1_AltLegalContactName", new { @class = "form-control" })
+            </div>
+            @Helpers.LabelSpan(Model, "C1_AltLegalContactAddressLine1_item", new { @class = "col-md-1 control-label" })
+            <div class="col-md-3">
+                @Helpers.TextInput(Model, "C1_AltLegalContactAddressLine1", new { @class = "form-control" })
+            </div>
+            @Helpers.LabelSpan(Model, "C1_AltLegalContactAddressCity_item", new { @class = "col-md-1 control-label" })
+            <div class="col-md-3">
+                @Helpers.TextInput(Model, "C1_AltLegalContactAddressCity", new { @class = "form-control" })
+            </div>
+            @Helpers.LabelSpan(Model, "C1_AltLegalContactAddressState_item", new { @class = "col-md-1 control-label" })
+            <div class="col-md-3">
+                @Helpers.TextInput(Model, "C1_AltLegalContactAddressState", new { @class = "form-control" })
+            </div>
+            @Helpers.LabelSpan(Model, "C1_AltLegalContactAddressZip_item", new { @class = "col-md-1 control-label" })
+            <div class="col-md-3">
+                @Helpers.TextInput(Model, "C1_AltLegalContactAddressZip", new { @class = "form-control" })
+            </div>
+            @Helpers.LabelSpan(Model, "C1_AltLegalContactPhoneNumber_item", new { @class = "col-md-1 control-label" })
+            <div class="col-md-3">
+                @Helpers.TextInput(Model, "C1_AltLegalContactPhoneNumber", new { @class = "form-control class_phone_input" })
+            </div>
+
+        </div>
+        <div class="form-group toggleC4">
+
+
+            @Helpers.LabelSpan(Model, "C1_AltLegalContactType_item", new { @class = "col-md-2 control-label" })
+            <div class="col-md-4">
+                @Helpers.DropDownList(Model, "C1_AltLegalContactType", "C1_AltLegalContactType", true)
+            </div>
+            @Helpers.LabelSpan(Model, "C1_AltLegalContactDuration_item", new { @class = "col-md-2 control-label" })
+            <div class="col-md-4">
+                @Helpers.DropDownList(Model, "C1_AltLegalContactDuration", "C1_AltLegalContactDuration", true)
+            </div>
+        </div>
+        <div class="form-group toggleC4">
+            <div class="form-group">
+                @Helpers.LabelSpan(Model, "C1_AltLegalContactProofOfPOA_item", new { @class = "col-md-4 control-label" })
+                @Helpers.FileUpload(Model, "C1_AltLegalContactProofOfPOA")
+            </div>
+        </div>
+
+        <div class="form-group toggleC4">
+            @Helpers.LabelSpan(Model, "C1_AltLegalContactAwareHIV_item", new { @class = "col-md-6 control-label" })
+            @Helpers.YesNoRadioButtons(Model, "C1_AltLegalContactAwareHIV")
+        </div>
+        <div class="form-group toggleC4">
+            <label class="col-md-3 control-label" for="" style="text-align:left">D2. @Model.sctTitles["C1_AltLegalContactApprovalDate_item"]</label>
+            <div class="col-md-4">
+                <div class="input-group date">
+                    @Helpers.TextInput(Model, "C1_AltLegalContactApprovalDate", new { @class = "form-control", placeholder = "mm/dd/yyyy" })
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                </div>
+            </div>
+
+            <label class="col-md-3 control-label" for="" style="text-align:left">D2. @Model.sctTitles["C1_AltLegalContactExpirationDate_item"]</label>
+            <div class="col-md-4">
+                <div class="input-group date">
+                    @Helpers.TextInput(Model, "C1_AltLegalContactExpirationDate", new { @class = "form-control", placeholder = "mm/dd/yyyy" })
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            $(document).ready(function () {
+                updateC4();
+                $("#C1_LegalContactMayMessage").change(updateC4);
+                $("#C1_LegalContactMayMessage").change(updateC4);
+            });
+
+            function updateC4() {
+                $(".toggleC4").toggle($("#C1_LegalContactMayMessage").get(0).checked);
+                if ($("#C1_LegalContactMayMessage").get(0).checked) {
+                    $('[name=ADAP_C4_Name]').val('');
+                    $('[name=ADAP_C4_Phone]').val('');
+                }
+            };
+        </script>
+    </div>
+</div>
+
+<!-- PREVIOUS Alternate POA (Alt Legal Contact) -->
+<div class="panel panel-default previous-response" id="PreviousC4">
+    <div class="panel-body">
+        <div class="pull-right prevAppBtn"><a href="#" class="btn btn-success btn-xs active" id="hsName" role="button">&nbsp;</a></div>
+        <div class="pull-right"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CmntModal"><span class="glyphicon glyphicon-comment"></span></button></div>
+        <div class="form-group">
+            <label class="col-md-7 control-label" for="" style="text-align:left">C4. @Model.sctTitles["CA-ADAP-Contact"]</label>
+            @Helpers.YesNoRadioButtons(Model, "PREVIOUS_C1_AltLegalContactMayMessage")
+        </div>
+
+        <div class="form-group PREVIOUS_toggleC4">
+
+            @Helpers.LabelSpan(Model, "C1_AltLegalContactName_item", new { @class = "col-md-1 control-label" })
+            <div class="col-md-3">
+                @Helpers.TextInput(Model, "PREVIOUS_C1_AltLegalContactName", new { @class = "form-control" })
+            </div>
+            @Helpers.LabelSpan(Model, "C1_AltLegalContactAddressLine1_item", new { @class = "col-md-1 control-label" })
+            <div class="col-md-3">
+                @Helpers.TextInput(Model, "PREVIOUS_C1_AltLegalContactAddressLine1", new { @class = "form-control" })
+            </div>
+            @Helpers.LabelSpan(Model, "C1_AltLegalContactAddressCity_item", new { @class = "col-md-1 control-label" })
+            <div class="col-md-3">
+                @Helpers.TextInput(Model, "PREVIOUS_C1_AltLegalContactAddressCity", new { @class = "form-control" })
+            </div>
+            @Helpers.LabelSpan(Model, "C1_AltLegalContactAddressState_item", new { @class = "col-md-1 control-label" })
+            <div class="col-md-3">
+                @Helpers.TextInput(Model, "PREVIOUS_C1_AltLegalContactAddressState", new { @class = "form-control" })
+            </div>
+            @Helpers.LabelSpan(Model, "C1_AltLegalContactAddressZip_item", new { @class = "col-md-1 control-label" })
+            <div class="col-md-3">
+                @Helpers.TextInput(Model, "PREVIOUS_C1_AltLegalContactAddressZip", new { @class = "form-control" })
+            </div>
+            @Helpers.LabelSpan(Model, "C1_AltLegalContactPhoneNumber_item", new { @class = "col-md-1 control-label" })
+            <div class="col-md-3">
+                @Helpers.TextInput(Model, "PREVIOUS_C1_AltLegalContactPhoneNumber", new { @class = "form-control class_phone_input" })
+            </div>
+
+        </div>
+        <div class="form-group PREVIOUS_toggleC4">
+            @Helpers.LabelSpan(Model, "C1_AltLegalContactType_item", new { @class = "col-md-2 control-label" })
+            <div class="col-md-4">
+                @Helpers.DropDownList(Model, "PREVIOUS_C1_AltLegalContactType", "PREVIOUS_C1_AltLegalContactType", true)
+            </div>
+            @Helpers.LabelSpan(Model, "C1_AltLegalContactDuration_item", new { @class = "col-md-2 control-label" })
+            <div class="col-md-4">
+                @Helpers.DropDownList(Model, "PREVIOUS_C1_AltLegalContactDuration", "PREVIOUS_C1_AltLegalContactDuration", true)
+            </div>
+        </div>
+        <div class="form-group PREVIOUS_toggleC4">
+            <div class="form-group">
+                @Helpers.LabelSpan(Model, "C1_AltLegalContactProofOfPOA_item", new { @class = "col-md-4 control-label" })
+                @Helpers.FileUpload(Model, "PREVIOUS_C1_AltLegalContactProofOfPOA")
+            </div>
+        </div>
+        <div class="form-group PREVIOUS_toggleC4">
+            @Helpers.LabelSpan(Model, "C1_AltLegalContactAwareHIV_item", new { @class = "col-md-6 control-label" })
+            @Helpers.YesNoRadioButtons(Model, "PREVIOUS_C1_AltLegalContactAwareHIV")
+        </div>
+        <div class="form-group PREVIOUS_toggleC4">
+            <label class="col-md-3 control-label" for="" style="text-align:left">D2. @Model.sctTitles["C1_AltLegalContactApprovalDate_item"]</label>
+            <div class="col-md-4">
+                <div class="input-group date">
+                    @Helpers.TextInput(Model, "PREVIOUS_C1_AltLegalContactApprovalDate", new { @class = "form-control", placeholder = "mm/dd/yyyy" })
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                </div>
+            </div>
+
+            <label class="col-md-3 control-label" for="" style="text-align:left">D2. @Model.sctTitles["C1_AltLegalContactExpirationDate_item"]</label>
+            <div class="col-md-4">
+                <div class="input-group date">
+                    @Helpers.TextInput(Model, "PREVIOUS_C1_AltLegalContactExpirationDate", new { @class = "form-control", placeholder = "mm/dd/yyyy" })
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            $(document).ready(function () {
+                PREVIOUS_updateC4();
+                $("#C1_LegalContactMayMessage_YesOption").change(PREVIOUS_updateC4);
+                $("#C1_LegalContactMayMessage_NoOption").change(PREVIOUS_updateC4);
+            });
+
+            function PREVIOUS_updateC4() {
+                $(".PREVIOUS_toggleC4").toggle($("#PREVIOUS_C1_LegalContactMayMessage_YesOption").get(0).checked);
+            };
+        </script>
+    </div>
+</div>
+

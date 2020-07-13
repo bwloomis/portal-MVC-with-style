@@ -1,0 +1,183 @@
+﻿@model Assmnts.Models.DataSync
+@{
+    ViewBag.Title = "Data Sync";
+    Layout = "~/Views/Shared/SISVentureLayout.cshtml";
+}
+	
+    <script>
+        function toggle(id) {
+            var state = document.getElementById(id).style.display;
+            document.getElementById(id).style.display = (state == 'block') ? 'none' : 'block';
+        }
+
+    var uniqueId = '<%= @Guid.NewGuid().ToString() %>';
+	
+	var filesToProcess = 5;   // Number of tables in Assmnts.Data.Concrete.FormsSql.cs formResultsTables[]
+	var currentFile = 4;
+	var deleteIndex = 0;
+
+	function updPrcntComplete() {
+		var percentComplete = Math.round((currentFile / filesToProcess) * 100);
+		var pcnt = percentComplete.toString() + '%';
+		$('#pbar').width(pcnt);
+		$('#pbar').text(pcnt);
+	}
+
+    function isNumeric(obj) {
+        return obj - parseFloat(obj) >= 0;
+    }
+
+    // Import tables in the reverse order of the Deletes
+    function initImportTables() {
+		$('#overallStatus').text('Remote data being downloaded and imported.');
+		currentFile = 0;	// It should already be zero anyway after the Deletes
+		var tableName = document.getElementById('tableName_' + currentFile.toString()).innerHTML;
+		ImportTable(tableName);
+	}
+
+	// Downloads a DEF User Data table from the master remote server.
+    // Should only run in Venture mode. 
+    function ImportTable(tblName) {		
+        $.ajax({
+            type: "GET",
+            url: "/DataSync/DownloadTable",
+            data: param = { fileId: currentFile.toString(), tableName: tblName },
+            async: true,
+            cache: false,
+            success: function (response) { 
+				var tagStatus = '#syStatus_' + currentFile.toString();
+				
+				if ( $.isNumeric(response) )
+				{
+				    var tagVntCnt = '#vtCntId_' + currentFile.toString();
+				   	$(tagVntCnt).html(response);
+					$(tagStatus).html("Records Downloaded.");
+				}
+				else		// Must've been an error so display the message.
+				{
+					$(tagStatus).html("Error downloading records.");
+				}
+				
+                // Process the next table
+				currentFile++;
+
+				updPrcntComplete();
+			
+				if (currentFile < filesToProcess) {
+				    var nextTableName = document.getElementById('tableName_' + currentFile.toString()).innerHTML;
+				    ImportTable(nextTableName);
+				} else {
+				    $('#overallStatus').text('Synchronization process has been completed.');
+				    updPrcntComplete();
+				}
+				// Update the Progress bar
+				$('.progress').removeClass('active');
+				$('.progress').removeClass('progress-striped');
+				// $('.progress-bar').text('Complete');
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                document.getElementById('status').innerHTML = "Validate xhr:  " + xhr.status + "   thrownError: " + thrownError + "</br>";
+            }
+        });
+
+    }
+    
+    // Gets the number of tables to download FormResults, ItemResults, ResponseVariables
+    // *** RRB 2/11/16 - doesn't appear to be used anymore ?? table names coming from the HTML table ??
+    function getVentureTblCnt() {
+        $.ajax({
+            type: "POST",
+            url: "/DataSync/GetResultTblCnt",
+            data: param = { index: totalTbl },
+            async: false,
+            cache: false,
+            success: function (response) { 
+                var tagString = '#vtCntId_' + totalTbl;
+                $(tagString).html(response);
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                document.getElementById('status').innerHTML = "Validate xhr:  " + xhr.status + "   thrownError: " + thrownError + "</br>";
+            }
+        });
+
+    }
+
+	
+	// This function initiates downloading a table to the local database
+    // *** RRB 2/11/16 - it doesn't appear that this is being used anywhere ***
+    function SyncResultData() {
+        $.ajax({
+            type: "POST",
+            url: "/DataSync/StartDataSyncProcess",
+            data: param = { id: uniqueId },
+            async: false,
+            cache: false,
+            success: function (response) {
+                getStatus();
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                //alert("ERROR: " + thrownError);
+                document.getElementById('status').innerHTML = "Validate xhr:  " + xhr.status + "   thrownError: " + thrownError + "</br>";
+            }
+
+        });
+    }
+
+    $(document).ready(function () {
+        if ('@Model.autoDownload' == 'True') {
+            initImportTables();
+        }
+    });
+
+    </script>
+	
+
+    <h2>Download of Data from SIS Online</h2>
+    
+        <div class="row">
+            <div class="col-md-3 col-sm-3">
+                <span id="rltPlusSign" title="Show Details" class="glyphicon glyphicon-tasks" onclick="toggle('RltTblDetail')"></span>
+                <b>&nbsp;&nbsp;Assessment Data</b>
+            </div>
+
+            <div class="col-md-3 col-sm-3">
+              <!-- <input type="button" id="startProcess" value="Download" onclick="initDeleteTableContent(0)" />
+                  -->
+              
+               <!--  <input type="button" id="startProcess" value="Download" onclick="initImportTables()" /> -->
+            </div>
+
+            <div title="Sync Status Information" class="col-md-6 col-sm-6">
+                <span class=" glyphicon glyphicon-info-sign"></span><a id="status"></a>
+            </div>
+        </div>
+
+    <div>
+        
+    </div>
+    <br />
+    <div id="RltTblDetail" class="container-fluid">
+        <div class="row">
+            <div class="col-xs-6 col-sm-3"><h4>File</h4></div><div class="visible-lg visible-md col-xs-6 col-sm-3"><h4>Venture Records</h4></div><div class="visible-lg visible-md col-xs-6 col-sm-3"><h4>SIS Records</h4></div>@if (Model.autoDownload == true) {<div class="col-xs-6 col-sm-3"><h4>Status</h4></div>}
+        </div>
+        @{int rowCnt = 0; }
+        @foreach (var tbl in ViewBag.ResultTable)
+        {
+            <div class="row">
+                <div id="tableName_@{@rowCnt}" class="col-xs-6 col-sm-3">@tbl.tableName</div>
+                <div id="vtCntId_@{@rowCnt}" class="visible-lg visible-md col-xs-6 col-sm-3">@tbl.VentureCnt</div>
+                <div class="visible-lg visible-md col-xs-6 col-sm-3">@tbl.SISOnlineCnt</div>
+                @if (Model.autoDownload == true) {
+                    <div id="syStatus_@{@rowCnt}" class="col-xs-6 col-sm-3">@tbl.SyncStatus</div>
+                }
+            </div>
+            rowCnt++;
+        }
+    </div>
+    <br />
+    @if (Model.autoDownload == true) {    
+        <div class="progress progress-striped active">
+        <div id="pbar" aria-valuemax="100" aria-valuemin="0" aria-valuenow="20" class="progress-bar" role="progressbar" style="width: 2%">0%</div>
+        </div>
+        <div id="overallStatus" class="alert alert-success">Overall Status</div>
+    }

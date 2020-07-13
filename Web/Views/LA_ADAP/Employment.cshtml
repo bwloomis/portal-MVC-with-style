@@ -1,0 +1,146 @@
+﻿@model Assmnts.Models.GeneralForm
+@using Assmnts.Models
+@{
+    Layout = "LA_AdapAppLayout.cshtml";
+}
+@section AddtoHead{
+    <link rel="stylesheet" type="text/css" href="/Content/adap/css/ADAPForms.css" />
+    <script src="~/Content/js/ADAPLookupSelects.js"></script>
+    <script>
+        $(document).ready(function () {
+            @foreach (string identifier in new string[] { "ADAP_F1_EmployOpt", "LA_ADAP_PayFreq" })
+        {
+            @:populateLookupSelect('@identifier', '@identifier', '@Model.rspValues[identifier]');
+                    }
+
+            //Set the placeholder text for all dropdowns, except the "Jump to Application Section" dropdown
+            $('select[name!=jumpSection] option[value=""]').html("Choose One");
+
+            setApplicationProgressIndicator(4);
+
+            $('.class_prevscreen').click(function () {
+                SubmitForm('@(((TemplateAdapNavMenu)Model.navMenuModel).adapPartId)', '@(((TemplateAdapNavMenu)Model.navMenuModel).sectionIds["LA_ADAP_HouseholdTaxStatus"])');
+            });
+        });
+    </script>
+}
+@{int i = 1;}
+<div class="panel panel-default">
+    <div class="panel-body">
+
+        <div class="form-group">
+            <div class="col-md-6">
+                <p><strong>@(i++). <span class="control-label required">@Model.sctTitles["LA_ADAP_Employment_Status"]</span></strong></p>
+            </div>
+        </div>
+        <div class="form-group">
+           
+
+            <div class="col-md-4">
+                @Helpers.DropDownList(Model, "ADAP_F1_EmployOpt_item", "ADAP_F1_EmployOpt")
+            </div>
+        </div>
+        <script>
+            $(document).ready(function () {
+                updateEmploy();
+                $("#ADAP_F1_EmployOpt").change(updateEmploy);
+            });
+            function updateEmploy() {
+                var val = $("#ADAP_F1_EmployOpt").val();
+                $("#EmploymentToggle").toggle(val < 4 && val > 0);
+            };
+        </script>
+    </div>
+</div>
+<div id="EmploymentToggle">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="form-group">
+
+
+                <div class="col-md-6">
+                    <p><strong>@(i++). @Model.sctTitles["LA_ADAP_Employment_Employer"]</strong>
+                        @Helpers.ToolTipFromItemPrompt(Model, "ADAP_F3_A_Employer_item", new { @class = "pointer fa fa-question-circle text-primary fa-1x" })</p>
+                </div>
+                <div class="col-md-4">
+                    @Helpers.TextInput(Model, "ADAP_F3_A_Employer", new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default panel-body">
+        <div class="panel-body">
+            <p>
+                <strong>@(i++). @Model.sctTitles["LA_ADAP_Employment_PayFreq"]</strong>
+                @Helpers.ToolTipFromItemPrompt(Model, "LA_ADAP_PayFreq_item", new { @class = "pointer fa fa-question-circle text-primary fa-1x" })
+            </p>
+        </div>
+        @*<div class="form-group">
+                <div class="col-md-4">
+                    @Helpers.DropDownList(Model, "LA_ADAP_PayFreq_item", "LA_ADAP_PayFreq")
+                </div>
+            </div>*@
+        @*checkboxes-start*@
+        <div class="form-group panel-body" style="margin-left:12px">
+            <div class="col-md-6">
+                @Helpers.LabeledCheckboxInput(Model, "LA_OnceAWeek")
+            </div>
+        </div>
+        <div class="form-group panel-body" style="margin-left:12px">
+            <div class="col-md-6">
+                @Helpers.LabeledCheckboxInput(Model, "LA_EveryTwoWeeks")
+            </div>
+        </div>
+        <div class="form-group panel-body" style="margin-left:12px">
+            <div class="col-md-6">
+                @Helpers.LabeledCheckboxInput(Model, "LA_OnceAMonth")
+            </div>
+        </div>
+
+        <div class="form-group panel-body" style="margin-left:12px">
+            <div class="col-md-6">
+                @Helpers.LabeledCheckboxInput(Model, "LA_OtherPay")
+            </div>
+        </div>
+        <script>
+            $(document).ready(function () {
+                $('#LA_OtherPay').change(function () {
+                    var $this = $(this);
+                    if ($this.is(':checked')) {
+                        $('#toggleother').show();
+                    } else {
+                        $('#toggleother').hide();
+                    }
+                }).change();
+            });
+        </script>
+    @*<script>
+      $(document).ready(function () {
+        HideOthertextbox();
+
+        $("LA_OtherPay").change(HideOthertextbox);
+
+      });
+      function HideOthertextbox() {
+          if ($("LA_OtherPay").get(0).checked) {
+
+              $(".toggleother").show();
+              alert("ggg");
+          }
+          else {
+
+              $(".toggleother").hide();
+              alert("hh");
+          }
+      };
+
+    </script>*@
+
+        @*checkboxes-end*@
+        <div class="form-group panel-body" id="toggleother" style="margin-left:12px">
+            <div class="col-md-4">
+                @Helpers.TextInput(Model, "LA_ADAP_PayFreqOther", new { @class = "form-control" })
+            </div>
+        </div>
+    </div>
+</div>

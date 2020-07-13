@@ -1,0 +1,130 @@
+﻿@model Assmnts.Models.GeneralForm
+@using Assmnts.Models;
+@{
+    Layout = "LA_AdapAppLayout.cshtml";
+}
+@section AddtoHead{
+    <link rel="stylesheet" type="text/css" href="/Content/adap/css/ADAPForms.css" />
+    <script src="~/Content/js/ADAPLookupSelects.js"></script>
+    <script src="~/Scripts/jquery.inputmask/inputmask.js"></script>
+    <script src="~/Scripts/jquery.inputmask/jquery.inputmask.js"></script>
+    <script src="~/Scripts/Validate.js"></script>
+    <link href="~/stylesheets/Validate.css" rel="stylesheet" />
+    <script>
+        $(document).ready(function () {
+            //Set the placeholder text for all dropdowns, except the "Jump to Application Section" dropdown
+            $('select[name!=jumpSection] option[value=""]').html("Choose One");
+            $('.class_dob_input').inputmask("99/99/9999");
+
+            setApplicationProgressIndicator(13);
+
+            var prevScreenIdentifier;
+
+            if ($('#LA_ADAP_HaveInsNotHealth').val() == "true")                                                         //If "Yes.  I have dental..." was checked...
+
+                prevScreenIdentifier = '@(((TemplateAdapNavMenu)Model.navMenuModel).sectionIds["LA_ADAP_DentalPrem"])'; //...the previous screen is Dental Premium.
+
+            else if($('#LA_ADAP_HaveInsNotMed').val() == "true")                                                        //Otherwise, if "Yes.  I have one or more..." was checked...
+                
+                prevScreenIdentifier = '@(((TemplateAdapNavMenu)Model.navMenuModel).sectionIds["LA_ADAP_InsPrem"])';    //...the previous screen is Insurance Premium.
+
+            else if ($('#LA_ADAP_HaveInsMed').val() == "true")                                                          //Otherwise, if "Yes.  I have Medicare..." was checked...
+
+                prevScreenIdentifier =  '@(((TemplateAdapNavMenu)Model.navMenuModel).sectionIds["LA_ADAP_MedPrem"])';   //...the previous screen is Medicare Premium.
+            
+            else
+                prevScreenIdentifier = '@(((TemplateAdapNavMenu)Model.navMenuModel).sectionIds["LA_ADAP_Assistance"])'; //Otherwise, the previous screen is Assistance.
+            
+            $('.class_prevscreen').click(function () {
+                SubmitForm('@(((TemplateAdapNavMenu)Model.navMenuModel).adapPartId)', prevScreenIdentifier);
+            });
+            //$('.input-group.date').datepicker({
+            //    autoclose: true,
+            //    format: 'mm/dd/yyyy'
+            //});
+            UpdateMed();
+            $("#LA_ADAP_Diagnosis_MedRef_YesOption").change(UpdateMed);
+            $("#LA_ADAP_Diagnosis_MedRef_NoOption").change(UpdateMed);
+
+            UpdateHIV();
+            $("#LA_ADAP_Diagnosis_HIVDiag_YesOption").change(UpdateHIV);
+            $("#LA_ADAP_Diagnosis_HIVDiag_NoOption").change(UpdateHIV);
+        });
+        function UpdateMed() {
+            console.log($("#LA_ADAP_Diagnosis_MedRef_YesOption").val());
+            $(".toggleMed").toggle($("#LA_ADAP_Diagnosis_MedRef_YesOption").get(0).checked);
+        }
+
+        function UpdateHIV() {
+            $(".toggleHIV").toggle($("#LA_ADAP_Diagnosis_HIVDiag_YesOption").get(0).checked);
+        }
+
+
+    </script>
+}
+
+<!DOCTYPE html>
+<body>
+    <div style="display:none">
+        @Helpers.TextInput(Model, "LA_ADAP_HaveInsNotHealth", new { @class = "form-control" })
+        @Helpers.TextInput(Model, "LA_ADAP_HaveInsNotMed", new { @class = "form-control" })
+        @Helpers.TextInput(Model, "LA_ADAP_HaveInsMed", new { @class = "form-control" })
+    </div>
+<div class="panel panel-default" id="">
+        <div class="panel-body" style="background-color:#f8f8f8">
+            <div class="form-group">
+                <div class="col-md-9">
+                    <label class="control-label" for="">@Model.sctTitles["LA_ADAP_Diagnosis_MedRef"]</label>
+                    @Helpers.ToolTipFromItemPrompt(Model, "LA_ADAP_Diagnosis_MedRef_item", new { @class = "pointer fa fa-question-circle text-primary fa-1x" })
+                </div>
+                @Helpers.YesNoRadioButtons(Model, "LA_ADAP_Diagnosis_MedRef")
+            </div>
+            <hr>
+            <div class="toggleMed">
+                <div class="form-group">
+                    <div class="col-md-4">
+                        @Helpers.LabelSpan(Model, "LA_ADAP_Diagnosis_MedRefDate_item", new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-3">
+                        <div class="input-group date">
+                            @Helpers.TextInput(Model, "LA_ADAP_Diagnosis_MedRefDate", new { @class = "form-control class_dob_input", placeholder = "mm/dd/yyyy" })
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                        </div>
+                    </div>                   
+                </div>
+                <hr>
+            </div>
+            <div class="form-group">
+                <div class="col-md-9">
+                    <label class="control-label" for="">@Model.sctTitles["LA_ADAP_Diagnosis_HIVDiag"]</label>
+                    @Helpers.ToolTipFromItemPrompt(Model, "LA_ADAP_Diagnosis_HIVDiag_item", new { @class = "pointer fa fa-question-circle text-primary fa-1x" })
+                </div>
+                @Helpers.YesNoRadioButtons(Model, "LA_ADAP_Diagnosis_HIVDiag")
+            </div>
+            <hr>
+            <div class="toggleHIV">
+
+                <div class="form-group">
+                    <div class="col-md-4">
+                        @Helpers.LabelSpan(Model, "LA_ADAP_Diagnosis_HIVDiagDate_item", new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-3">
+                        <div class="input-group date">
+                            @Helpers.TextInput(Model, "LA_ADAP_Diagnosis_HIVDiagDate", new { @class = "form-control class_dob_input", placeholder = "mm/dd/yyyy" })
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                        </div>                        
+                    </div>                    
+                </div>
+                <hr>
+            </div>
+            <div class="form-group">
+                <div class="col-md-9">
+                    <label class="control-label" for="">@Model.sctTitles["LA_ADAP_Diagnosis_HepCYN"]</label>
+                    @Helpers.ToolTipFromItemPrompt(Model, "LA_ADAP_Diagnosis_HepCYN_item", new { @class = "pointer fa fa-question-circle text-primary fa-1x" })
+                </div>
+                @Helpers.YesNoRadioButtons(Model, "LA_ADAP_Diagnosis_HepCYN")
+            </div>
+        </div>
+    </div>
+</body>
+</html>

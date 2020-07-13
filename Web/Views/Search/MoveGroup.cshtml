@@ -1,0 +1,24 @@
+﻿@model Assmnts.Models.MoveModel
+@{
+    Layout = null;
+}
+
+@if (Model.Groups != null)
+{
+    <div class="selectBox">
+        <div>
+            Group:
+        </div>
+        @Html.DropDownListFor(model => model.newGroupID, Model.Groups, new { @id = "groupList", @class="groupList"})
+
+    </div>
+}
+
+<script>
+    $(document).ready(function(){
+        if ($(".groupList").length != 0) {
+            $(".groupList").val(@Model.selectedGroup);
+        }
+
+    });
+</script>

@@ -1,0 +1,125 @@
+﻿@model Assmnts.Models.GeneralForm
+@using Assmnts.Models;
+@{
+    Layout = "LA_AdapAppLayout.cshtml";
+}
+
+@{
+    //attempt to compute the age of the applicant, based on the current date and the DOB they entered on the "contact info" screen
+    int applicantAge = -1;
+    try
+    {
+        //http://stackoverflow.com/a/4127396
+        DateTime dob = DateTime.Parse(Model.rspValues["ADAP_D2_DOB"]);
+        DateTime zeroTime = new DateTime(1, 1, 1);
+        TimeSpan span = DateTime.Now - dob;
+        applicantAge = (zeroTime + span).AddDays(-1).Year - 1;
+    }
+    catch (Exception){}
+    
+    TemplateAdapNavMenu adapNavModel = (TemplateAdapNavMenu)Model.navMenuModel;
+    int adapPartId = adapNavModel.adapPartId;
+    string contactSectionTitle = adapNavModel.sectionTitles["LA_ADAP_Contact"];
+    int demographicsSectionId = adapNavModel.sectionIds["LA_ADAP_HouseholdTaxStatus"];
+    int contactSectionId = adapNavModel.sectionIds["LA_ADAP_Contact"];
+    int membersSectionId = adapNavModel.sectionIds["LA_ADAP_HouseholdMembers"];
+}
+
+@section AddtoHead{
+    <link rel="stylesheet" type="text/css" href="/Content/adap/css/ADAPForms.css" />
+    <script src="~/Content/js/ADAPLookupSelects.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('.class_prevscreen').click(function () {
+                SubmitForm('@adapPartId', '@demographicsSectionId');
+            });
+
+            setApplicationProgressIndicator(3);
+
+            updateToggles();
+            $("input").keyup(updateToggles);
+        });
+
+        function updateToggles() {
+
+            var dependentCount = parseInt($('[name=LA_ADAP_TaxNonFiler_MemberCount]').val(), 10);
+
+            var nextSectionId = updateConclusion(dependentCount);
+
+            if (nextSectionId == -1) {
+                $(".class_nextscreen").hide();
+                $('#conclusionText').css('color','red');
+            } else {
+                $(".class_nextscreen").show();
+                $('.class_nextscreen').click(function () {
+                    SubmitForm('@adapPartId', nextSectionId);
+                });
+                $('#conclusionText').css('color','green');
+            }
+        }
+
+        function updateConclusion(dependentCount) {
+            if (@applicantAge < 0)
+            {
+                $('#conclusionText').html("You must enter a valid date of birth on the <a href=\"#\" class=\"contactSectionLink\">@contactSectionTitle</a> screen");
+                $('a.contactSectionLink').click(function(){
+                    SubmitForm('@adapPartId', '@contactSectionId');
+                });
+                return -1;
+            }
+            else if( isNaN(dependentCount) || dependentCount < 0 )
+            {
+                $('#conclusionText').html("You must enter a non-negative number above.");
+                return -1;
+            }
+            else if( dependentCount == 0 )
+            {
+                $('#conclusionText').html("You will need to enter income information for YOURSELF ONLY.  Click Next Section to continue.");
+                $('#LA_ADAP_Household_MembersCount').val(1);
+                return @membersSectionId;
+            }
+
+            else if( @applicantAge >= 19 )
+            {
+                $('#conclusionText').html("You will need to enter income information for YOURSELF. " +
+                    "Depending on you other household members' relationships to you, you may also need " +
+                    "to enter income information for your SPOUSE, your CHILD(REN)/STEP-CHILD(REN) 18 OR " +
+                    "YOUNGER, your SIBLING(S)/STEP-SIBLING(S) 18 OR YOUNGER, and your PARENT(S).  Click Next Section to continue.");
+                $('#LA_ADAP_Household_MembersCount').val(1 + dependentCount);
+                return @membersSectionId;
+            }
+            else
+            {
+                $('#conclusionText').html("You will need to enter income information for YOURSELF. " +
+                    "Depending on you other household members' relationships to you, you may also need " +
+                    "to enter income information for your SPOUSE and your CHILD(REN)/STEP-CHILD(REN) 18 OR YOUNGER.  Click Next Section to continue.");
+                $('#LA_ADAP_Household_MembersCount').val(1 + dependentCount);
+                return @membersSectionId;
+            }
+        }
+    </script>
+}
+
+<input hidden name="LA_ADAP_Household_MembersCount" id="LA_ADAP_Household_MembersCount" value="@Model.rspValues["LA_ADAP_Household_MembersCount"]" />
+
+<div class="panel panel-default toggleMarriedOrSpouseDependNo">
+    <div class="panel-body" style="background-color:#f8f8f8">
+        <div class="form-group">
+            @Helpers.LabelSpan(Model, "LA_ADAP_TaxNonFiler_MemberCount_item", new { @class = "col-md-5 control-label" })
+            <div class="col-md-1">
+                @Helpers.TextInput(Model, "LA_ADAP_TaxNonFiler_MemberCount", new { @class = "form-control dependentCount" })
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-default conclusionToggle">
+    <div class="panel-body" style="background-color:#f8f8f8">
+        <div class="form-group">
+            <span id="conclusionText" class="col-md-12 control-label" style="font-weight: bold; text-align: left;">
+                
+            </span>
+        </div>
+    </div>
+</div>

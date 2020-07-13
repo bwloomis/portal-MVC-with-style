@@ -1,0 +1,67 @@
+@model Assmnts.Models.TemplateItemVariables
+@{
+    ViewBag.Title = "Item Variable Edit";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+@section HeadContent {
+
+	@*<link rel="stylesheet" type="text/css" href="/Content/css/sitewide.css" />*@
+	
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min.js"></script>
+    <link href="/Content/css/sis-red/jquery-ui-1.7.sisred.css" rel="stylesheet" type="text/css" />
+	
+}
+	
+<style>
+    table, th, td {
+        padding: 5px;
+    }
+
+    .pageEdit {
+        padding-top: .6em;
+        font-size: small;
+    }
+</style>
+
+<h3>Item Variable Edit</h3>
+<div class="form-group ">
+    <form action="/Templates/PostItemVariable" method="post">
+        @Html.HiddenFor(model => model.itemVariables[0].itemVariableId)
+        @Html.HiddenFor(model => model.itemVariables[0].itemId)
+        @Html.HiddenFor(model => model.itemVariables[0].outcomeDeclarationId)
+        <div class="row">
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.itemVariables[0].identifier, @"Identifier", new { @class = "control-label pageEdit" })
+            </div>
+            <div class="col-md-4">
+                @Html.TextBoxFor(model => model.itemVariables[0].identifier, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.itemVariables[0].baseTypeId, @"Base Type Id", new { @class = "control-label pageEdit" })
+            </div>
+            <div class="col-md-4">
+                @Html.DropDownListFor(model => model.itemVariables[0].baseTypeId, Model.baseTypes, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.itemVariables[0].defaultValue, @"Default Value", new { @class = "control-label pageEdit" })
+            </div>
+            <div class="col-md-4">
+                @Html.TextBoxFor(model => model.itemVariables[0].defaultValue, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <input type="submit" class="btn btn-success" value="Submit">
+                <input type="button" class="btn btn-danger" value="Cancel" onclick="window.location='ItemVariables?itemId=@Model.itemId'">
+            </div>
+        </div>
+    </form>
+</div>
+<!-- End of Form -->
+	
+	<!-- End of Form -->

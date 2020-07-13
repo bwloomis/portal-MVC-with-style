@@ -1,0 +1,262 @@
+﻿@model Assmnts.Models.GeneralForm
+@using Assmnts.Models;
+@{
+    Layout = "LA_AdapAppLayout.cshtml";
+}
+
+@section AddtoHead{
+    <link rel="stylesheet" type="text/css" href="/Content/adap/css/ADAPForms.css" />
+    <script src="~/Content/js/ADAPLookupSelects.js"></script>
+    <script src="~/Scripts/jquery.inputmask/inputmask.js"></script>
+    <script src="~/Scripts/jquery.inputmask/jquery.inputmask.js"></script>
+    <script src="~/Scripts/Validate.js"></script>
+    <link href="~/stylesheets/Validate.css" rel="stylesheet" />
+    <script>
+        $(document).ready(function () {
+
+            populateLookupSelect('LA_ADAP_DentPolicy_InsTypeDrop', 'LA_ADAP_DentPolicy_InsTypeDrop', '@Model.rspValues["LA_ADAP_DentPolicy_InsTypeDrop"]');
+
+            $('.class_dob_input').inputmask("99/99/9999");
+            setApplicationProgressIndicator(11);
+
+        var prevScreenIdentifier = '@(((TemplateAdapNavMenu)Model.navMenuModel).sectionIds["LA_ADAP_InsPrem"])';//By default, the previous screen is Insurance Premium.
+
+        if (!($('#LA_ADAP_HaveInsNotMed').val() == "true"))                                                     //If "Yes.  I have one or more..." was unchecked...
+
+            //...the previous screen is Medicare Premium if "Yes.  I have Medicare..." is checked.  Otherwise, it's Assistance.
+            prevScreenIdentifier = $('#LA_ADAP_HaveInsMed').val() == "true" ? '@(((TemplateAdapNavMenu)Model.navMenuModel).sectionIds["LA_ADAP_MedPrem"])' : '@(((TemplateAdapNavMenu)Model.navMenuModel).sectionIds["LA_ADAP_Assistance"])';
+
+        $('.class_prevscreen').click(function () {
+            SubmitForm('@(((TemplateAdapNavMenu)Model.navMenuModel).adapPartId)', prevScreenIdentifier);
+        });
+
+            //$('.input-group.date').datepicker({
+            //    autoclose: true,
+            //    format: 'mm/dd/yyyy'
+            //});
+        });
+
+    </script>
+}@{int i = 1;}
+
+<div style="display:none">
+    @Helpers.TextInput(Model, "LA_ADAP_HaveInsNotMed", new { @class = "form-control" })
+    @Helpers.TextInput(Model, "LA_ADAP_HaveInsMed", new { @class = "form-control" })
+</div>
+
+<div class="panel panel-default" id="">
+    <div class="panel-body" style="background-color:#f8f8f8">
+        <div class="form-group">
+            <div class="col-md-5">
+                <p><strong>@(i++). @Model.sctTitles["LA_ADAP_DentPolicy_InsType"]</strong></p>
+            </div>
+            <div class="col-md-4">
+                @Helpers.DropDownList(Model, "LA_ADAP_DentPolicy_InsType_item", "LA_ADAP_DentPolicy_InsTypeDrop")
+            </div>
+        </div>
+        <hr>
+        <div class="form-group">
+            <div class="col-md-12">
+                <p><strong>@(i++). @Model.sctTitles["LA_ADAP_DentPolicy_AssistType"]</strong></p>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-1 col-md-6">
+                @Helpers.LabeledCheckboxInput(Model, "LA_ADAP_DentPolicy_AssistPremium")
+                <br>
+                @Helpers.LabeledCheckboxInput(Model, "LA_ADAP_DentPolicy_AssistCopay")
+                <br>
+                @Helpers.LabeledCheckboxInput(Model, "LA_ADAP_DentPolicy_AssistVisionPrem")
+                <br>
+                @Helpers.LabeledCheckboxInput(Model, "LA_ADAP_DentPolicy_AssistVisionCopay")
+            </div>
+        </div>
+        <hr>
+        <div class="form-group">
+            <div class="col-md-4">
+                @Helpers.LabelSpan(Model, "LA_ADAP_DentPolicy_CompName_item", new { @class = "control-label" })
+            </div>
+            <div class="col-md-4">
+                @Helpers.TextInput(Model, "LA_ADAP_DentPolicy_CompName", new { @class = "form-control" })
+            </div>
+        </div>
+        <hr>
+        <div class="form-group">
+            <div class="col-md-4">
+                @Helpers.LabelSpan(Model, "LA_ADAP_DentPolicy_PlanName_item", new { @class = "control-label" })
+            </div>
+            <div class="col-md-4">
+                @Helpers.TextInput(Model, "LA_ADAP_DentPolicy_PlanName", new { @class = "form-control" })
+            </div>
+        </div>
+        <hr>
+        <div class="form-group">
+            <div class="col-md-4">
+                <p><strong>@(i++). @Model.sctTitles["LA_ADAP_DentPolicy_PolicyNo"]</strong></p>
+            </div>
+            <div class="col-md-4">
+                @Helpers.TextInput(Model, "LA_ADAP_DentPolicy_PolicyNo", new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-8">
+                @Helpers.LabeledCheckboxInput(Model, "LA_ADAP_DentPolicy_NoPolicyNo")
+        </div>
+        </div>
+        <hr>
+        <div class="form-group">
+            <div class="col-md-4">
+                <p><strong>@(i++). @Model.sctTitles["LA_ADAP_DentPolicy_GroupNo"]</strong></p>
+            </div>
+            <div class="col-md-4">
+                @Helpers.TextInput(Model, "LA_ADAP_DentPolicy_GroupNo", new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-8">
+                <label class="control-label" for="">
+                    @Helpers.LabeledCheckboxInput(Model, "LA_ADAP_DentPolicy_NoGroupNo")
+                </label>
+
+        </div>
+        </div>
+        <hr>
+        <div class="form-group">
+            <div class="col-md-4">
+                <p><strong>@(i++). @Model.sctTitles["LA_ADAP_DentPolicy_PolicyStart"]</strong></p>
+            </div>
+            <div class="col-md-4">
+                <div class="input-group date">
+                    @Helpers.TextInput(Model, "LA_ADAP_DentPolicy_PolicyStart", new { @class = "form-control class_dob_input", placeholder = "mm/dd/yyyy" })
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-default" id="">
+    <div class="panel-body" style="background-color:#f8f8f8">
+        <div class="form-group">
+            <div class="col-md-12">
+                @Helpers.LabelSpan(Model, "LA_ADAP_DentPolicy_VisionIns_item", new { @class = "control-label" })
+            </div>
+        </div>
+        <div class="form-group">
+
+            @Helpers.YesNoRadioButtons(Model, "LA_ADAP_DentPolicy_VisionIns")
+
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    $(function () {
+        function ShoworhideVisioninsu(checked) {
+            if (checked == 1) {
+                $("#hidevisioninsu").css("display", "block");
+                $('#hidetitle').show();
+            }
+            else {
+
+                $("#hidevisioninsu").css("display", "none");
+                $('#hidetitle').hide();
+            }
+        }
+        ShoworhideVisioninsu();
+
+        $('input[name=LA_ADAP_DentPolicy_VisionIns]').change(function (e) {
+            var j = $('input[name=LA_ADAP_DentPolicy_VisionIns]:checked').val();
+            ShoworhideVisioninsu(j);
+        }).change();
+
+    });
+</script>
+
+<p id="hidetitle"><span class="label label-danger" style="font-size:15px;">Vision Insurance</span></p>
+<div class="panel panel-default" id="hidevisioninsu">
+    <div class="panel-body" style="background-color:#f8f8f8">
+        @*<div class="form-group">
+                <div class="col-md-12">
+                    @Helpers.LabelSpan(Model, "LA_ADAP_DentPolicy_VisionIns_item", new { @class = "control-label" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Helpers.YesNoRadioButtons(Model, "LA_ADAP_DentPolicy_VisionIns")
+            </div>
+            <hr>*@
+        <div class="form-group">
+            <div class="col-md-12">
+                <label class="control-label">
+                    <p><strong>@(i++). @Model.sctTitles["LA_ADAP_DentPolicy_VisionAssist"]</strong></p>
+                </label>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-1 col-md-6">
+                @Helpers.LabeledCheckboxInput(Model, "LA_ADAP_DentPolicy_VisionAssistPrem")
+                <br />
+                @Helpers.LabeledCheckboxInput(Model, "LA_ADAP_DentPolicy_VisionAssistCopay")
+            </div>
+        </div>
+        <hr>
+        <div class="form-group">
+            <div class="col-md-4">
+                @Helpers.LabelSpan(Model, "LA_ADAP_DentPolicy_VisionName_item", new { @class = "control-label" })
+            </div>
+            <div class="col-md-4">
+                @Helpers.TextInput(Model, "LA_ADAP_DentPolicy_VisionName", new { @class = "form-control" })
+            </div>
+        </div>
+        <hr>
+        <div class="form-group">
+            <div class="col-md-4">
+                @Helpers.LabelSpan(Model, "LA_ADAP_DentPolicy_VisionPlan_item", new { @class = "control-label" })
+            </div>
+            <div class="col-md-4">
+                @Helpers.TextInput(Model, "LA_ADAP_DentPolicy_VisionPlan", new { @class = "form-control" })
+            </div>
+        </div>
+        <hr>
+        <div class="form-group">
+            <div class="col-md-4">
+                @Helpers.LabelSpan(Model, "LA_ADAP_DentPolicy_VisionPolicy_item", new { @class = "control-label" })
+            </div>
+            <div class="col-md-4">
+                @Helpers.TextInput(Model, "LA_ADAP_DentPolicy_VisionPolicy", new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                @Helpers.LabeledCheckboxInput(Model, "LA_ADAP_DentPolicy_NoVisionPolicy")
+            </div>
+        </div>
+        <hr>
+        <div class="form-group">
+            <div class="col-md-4">
+                @Helpers.LabelSpan(Model, "LA_ADAP_DentPolicy_VisionGroup_item", new { @class = "control-label" })
+            </div>
+            <div class="col-md-4">
+                @Helpers.TextInput(Model, "LA_ADAP_DentPolicy_VisionGroup", new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-8">
+                @Helpers.LabeledCheckboxInput(Model, "LA_ADAP_DentPolicy_NoVisionGroup")
+            </div>
+        </div>
+        <hr>
+        <div class="form-group">
+            <div class="col-md-4">
+                <p><strong>@(i++). @Model.sctTitles["LA_ADAP_DentPolicy_VisionStart"]</strong></p>
+            </div>
+            <div class="col-md-4">
+                <div class="input-group date">
+                    @Helpers.TextInput(Model, "LA_ADAP_DentPolicy_VisionStart", new { @class = "form-control class_dob_input", placeholder = "mm/dd/yyyy" })
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

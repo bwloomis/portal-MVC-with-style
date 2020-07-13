@@ -1,0 +1,685 @@
+﻿@model Assmnts.Models.AdapApplicantRpt1
+@{
+    Layout = "/Views/LA_ADAP/LA_AdapReportLayout.cshtml";
+}
+
+@section AddToHead {
+
+    <!-- dataTables -->
+    <script src="https://cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.11/js/dataTables.bootstrap.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.0.2/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.0.2/js/responsive.bootstrap.min.js"></script>
+
+    <script src="/Scripts/jquery.form.min.js"></script>
+    <link href="/Content/js/jquery-ui-1.11.2-custom/jquery-ui.min.css" rel="stylesheet" />
+    <script src="/Scripts/spin.min.js" type="text/javascript"></script>
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.11/css/dataTables.bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.0.2/css/responsive.bootstrap.min.css">
+
+    <link href="~/Content/adap/css/ADAPForms.css" rel="stylesheet" />
+    <script type="text/javascript">
+        function setFormResult(formResultId) {
+            $("#formResultId").val(formResultId);
+        }
+
+
+        function doSearch() {
+            var searchFName = $('#s_fName').val();
+            var searchLName = $('#s_lName').val();
+            var searchType = $('#d_Type').val();
+            var searchStat = $('#d_Status').val();
+            var searchDate = $('#d_Date').val();
+            var dt = $('#DTgridReport1').DataTable();
+
+            var reportName = '@Model.ReportName';
+            if (reportName.indexOf('Re-Certification') > -1) {
+                searchDate = searchDate + ' Re-Certs';
+            } else if (reportName.indexOf('Pending') > -1) {
+                searchStat = searchStat + ' Pending';
+            }
+
+            dt.columns(1).search(searchFName);
+            dt.columns(2).search(searchLName);
+            dt.columns(4).search(searchStat);
+            dt.columns(5).search(searchDate);
+            dt.columns(6).search(searchType).draw();
+        }
+
+        function openContact(userId) {
+            window.open("/Adap/ContactInfo?userId=" + userId);
+        }
+
+        $(document).ready(function () {
+
+            //in "type" dropdown, replace form identfiiers with more concise form types
+            $('.form-type-ddl-text').each(function () {
+                $(this).text(getTypeNameForFormIdentifier($(this).val()));
+            })
+
+            $('#exitToPortalMenuButton').hide();
+            $('#ADAPHeader').hide();
+            $('#ADAPFooter').hide();
+            $(".form-control").keypress(function (e) {
+                if ((e.which && e.which == 13) || (e.keyCode && e.keyCode == 13)) {
+                    doSearch();
+                    return false;
+                } else {
+                    return true;
+                }
+            });
+
+            $('#id_Search').click(function () {
+                doSearch();
+            });
+            // setup data table
+            $('#DTUsers').dataTable({
+                "processing": true,
+                "serverSide": true,
+                "ajax": {
+                    url: "/LAADAP/DataTableCSSPeopleList",
+                    type: "POST"
+                },
+                "ordering": false,
+                "dom": 'ri<"float"l>ptip'
+            });
+
+            $('#DTgridReport1').DataTable({
+                "bPaginate": true,
+                "bFilter": false,
+                "bInfo": true,
+                "responsive": true,
+                "processing": true,
+                "serverSide": true,
+                "ordering": true,
+                "searching": true,
+                "ajax": {
+                    url: "/ADAP/DataTableApplicationsListLA",
+                    data: function (d) {
+                        d.Team = "@Model.setTeam";
+                        d.Status = "@Model.setStatus";
+                        d.Date = "@Model.setDate";
+                        d.FormIdentifiers = "LA-ADAP;LA-ADAP-Stub;LA-ADAP-PreIns";
+                        //d.ShowFullHistory = $("#ShowFullHistory").get(0).checked;
+                    },
+                    type: "POST"
+                },
+                "dom": '<l<t><"row"<"col-md-6"i><"col-md-6"p>>>',
+                "columnDefs": [
+                    {
+                        "targets": [9, 12, 13],
+                        "visible": false,
+                    },
+                    {
+                        "targets": [10, 11, 13],
+                        "orderable": false,
+                    }
+                ],
+                "drawCallback": function (settings) {
+                    //in grid, replace form identifiers with more concise form types
+                    $('.form-type-text').each(function () {
+                        $(this).text(getTypeNameForFormIdentifier($(this).attr('data-formIdentifier')));
+                    })
+
+                    //center the icons in each of the cells under "Print" column
+                    $('.glyphicon-print').parent().addClass("text-center");
+
+                    viewFiles();
+
+                    // Add trap for spinner on any form submit
+                    $("form").submit(function () {
+                        // Options for the Spinner
+                        var opts = {
+                            length: 20, // The length of each line
+                            width: 10, // The line thickness
+                            radius: 30, // The radius of the inner circle
+                            color: '#106296', // #rgb or #rrggbb or array of colors
+                            trail: 60, // Afterglow percentage
+                            shadow: false, // Whether to render a shadow
+                            hwaccel: false, // Whether to use hardware acceleration
+                        };
+                        var target = $('body').get(0);
+                        var spinner = new Spinner(opts).spin(target);
+                        //alert('spinner launched.');
+                    });
+
+                    $('.uploadForm').ajaxForm(function () {
+                        viewFiles();
+                        alert("File Uploaded");
+                        $(".spinner").remove();
+                    });
+
+                }
+            });
+
+            $('#contactsModal').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget);
+                var formResultId = button.data('formresultid');
+                var modal = $(this);
+
+                $.ajax({
+                    url: "/Adap/ContactInfo?formResultId=" + formResultId,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+
+                        //populate data in contact modal
+                        modal.find('#Name').text(data.Name);
+                        modal.find('#HomePhone').text(data.HomePhone);
+                        modal.find('#CellPhone').text(data.CellPhone);
+                        modal.find('#ResidAddress1').text(data.ResidAddress1);
+                        modal.find('#ResidAddress2').text(data.ResidAddress2);
+                        modal.find('#ResidCitySTZip').text(data.ResidCity + ", " + data.ResidState + " " + data.ResidZip);
+                        modal.find('#MailAddress1').text(data.MailAddress1);
+                        modal.find('#MailAddress2').text(data.MailAddress2);
+                        modal.find('#MailCitySTZip').text(data.MailCity + ", " + data.MailState + " " + data.MailZip);
+                        modal.find('#Email').text(data.Email);
+
+                        //show "compose message" button if email is present
+                        modal.find('#composeMessage')
+                            .toggle(!(data.Email === null || data.Email.match(/^ *$/) !== null))
+                            .unbind('click')
+                            .click(function () {
+                                window.open('/LAADAP/RedirectToSecureEmail?recipients=' + data.UserId, '_blank');
+                            });
+                    }
+                });
+            });
+
+            $('#CssPeoplepickerModal').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget);
+                var formResultId = button.data('formresultid');
+                setFormResult(formResultId);
+            });
+
+            $('#infoModal').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget);
+                var userId = button.data('userid');
+                var formResultId = button.data('formresultid');
+
+                var modal = $(this);
+
+                $.ajax({
+                    url: "/Adap/MissingInfo?userId=" + userId + "&formResultId=" + formResultId,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        // first index contains name.
+                        modal.find('#Name').text(data[0]);
+                        var result = "<b>";
+                        for (var i = 1; i < data.length; i++) {
+                            if (i > 1) {
+                                result += "<br />";
+                            }
+
+                            result += data[i];
+                        }
+                        result += "</b>";
+
+                        modal.find('#fields').html(result);
+                    }
+                });
+            });
+
+            $('#cmmtModal').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget);
+                var userId = button.data('userid');
+                // alert('userId: ' + userId);
+                var formResultId = button.data('formresultid');
+                // alert('formResultId: ' + formResultId);
+                var modal = $(this);
+
+                $.ajax({
+                    url: "/Adap/AppCmmt?formResultId=" + formResultId,
+                    type: 'GET',
+                    dataType: 'html',
+                    success: function (data) {
+                        // alert('data:' + data);
+                        modal.find('#cmmts').html(data);
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        alert('xhr.status: ' + xhr.status);
+                        alert(thrownError);
+                    }
+
+                });
+            });
+
+            $("#pp_Search").click(function () {
+                var searchFName = $('#pp_fn').val();
+                var searchLName = $('#pp_ln').val();
+                var searchLoginId = $('#pp_loginId').val();
+                var searchEmail = $("#pp_email").val();
+
+                var dt = $('#DTUsers').DataTable();
+
+                dt.columns(1).search(searchFName);
+                dt.columns(2).search(searchLName);
+                dt.columns(3).search(searchLoginId);
+                dt.columns(4).search(searchEmail).draw();
+            });
+
+            $("body").on('click', '.ppCheck', function () {
+                var checked = $(this).prop('checked');
+                if (checked === true) {
+                    var userId = $(this).val();
+                    $("#userId").val(userId);
+                    var formResultId = $("#formResultId").val();
+
+                    var url = "/LAADAP/UpdateAssigned"
+                    $.post(url, { formResultId: formResultId, userId: userId }, function () {
+                        // refresh grid of forms
+                        $('#id_Search').click();
+                    });
+
+                    var firstName = $(this).parent().siblings("td:eq(0)").text();
+                    var lastName = $(this).parent().siblings("td:eq(1)").text();
+                    $("#userName").val(firstName + " " + lastName);
+
+                    var id = $(this).attr("id");
+                    $(".ppCheck:checked").each(function (index, item) {
+                        var itemId = $(item).attr("id");
+                        if (itemId != id) {
+                            $(item).removeAttr("checked");
+                        }
+                    });
+                }
+            });
+
+        });
+
+        function viewFiles() {
+            var ids = $(".viewFiles").map(function (index) {
+                return this.id;
+            });
+
+            for (i = 0; i < ids.length; i++) {
+                frid = ids[i].substring(4);
+                postdata = {
+                    'formResultId': frid
+                }
+                $.ajax({
+                    type: 'GET',
+                    url: '/Search/hasFiles',
+                    data: postdata,
+                    async: false,
+                    cache: false,
+                    success: function (result) {
+                        if (result == 'True') {
+                            $('#' + ids[i]).show();
+                        } else {
+                            $('#' + ids[i]).hide();
+                        }
+                    },
+                    error: function () {
+                        alert('Error checking file count for form ' + frid + '.');
+                    }
+                });
+            }
+        }
+
+        // Shows the attachment download option, as well as delete button.
+        function downloadAttach(formResultId) {
+            var postdata = {
+                'formResultId': formResultId
+            }
+
+            // Populate the Attachment drop down, which is the same in both download and delete options.
+            $.ajax({
+                type: 'GET',
+                url: '/Search/getFileDisplayText',
+                data: postdata,
+                async: false,
+                cache: false,
+                success: function (result) {
+                    $('.AttachDDL' + formResultId).html(result);
+                },
+                error: function () {
+                    alert('Error retrieving file list.');
+                }
+            });
+
+            $('#attachment1' + formResultId).hide();
+            $('#attachment3' + formResultId).hide();
+            $('#attachment2' + formResultId).show();
+        }
+
+        // Downloads the selected file.
+        function downloadFile(formResultId) {
+            // Make sure the drop down was populated.
+            if ($('#dwnldDDL' + formResultId).html().indexOf('<option') !== -1) {
+                var DDL = $('#dwnldDDL' + formResultId).children('.filesDDL' + formResultId);
+                var fileId = DDL.attr('selected', true).val();
+
+                window.location.href = '/Search/DownloadFile?fileId=' + fileId;
+            } else {
+                alert('No files selected');
+            }
+        }
+
+        // Returns to the file attach option.
+        function cancelAttach(formResultId) {
+            $('#attachment2' + formResultId).hide();
+            $('#attachment1' + formResultId).show();
+        }
+
+        // Shows the attachment delete option.
+        function deleteAttach(formResultId) {
+            $('#attachment2' + formResultId).hide();
+            $('#attachment3' + formResultId).show();
+        }
+
+        // Deletes the selected file.
+        function deleteFile(formResultId) {
+            // Make sure the drop down was populated.
+            if ($('#dltDDL' + formResultId).html().indexOf('<option') !== -1) {
+                var DDL = $('#dltDDL' + formResultId).children('select.filesDDL' + formResultId);
+                var fileId = DDL.attr('selected', true).val();
+                var postdata = {
+                    'formResultId': formResultId,
+                    'fileId': fileId
+                }
+
+                $.ajax({
+                    type: 'GET',
+                    url: '/Search/DeleteFile',
+                    data: postdata,
+                    async: false,
+                    cache: false,
+                    success: function (result) {
+                        alert('File deleted');
+                        downloadAttach(formResultId);
+                    },
+                    error: function () {
+                        alert('File not found.');
+                    }
+                });
+            } else {
+                alert('No files selected');
+            }
+        }
+
+        function getTypeNameForFormIdentifier(formIdent) {
+            switch (formIdent) {
+                case "LA-ADAP": return "Application";
+                case "LA-ADAP-Stub": return "Stub";
+                case "LA-ADAP-PreIns": return "Insurance";
+                case "All": return "All";
+                default: return "[form identifier " + formIdent + "]";
+            }
+        }
+    </script>
+}
+
+
+<h3>@Model.ReportName</h3>
+<hr />
+
+@if (Model.errorMessage != null && Model.errorMessage.Trim().Length > 0)
+{
+    <div class="alert alert-danger alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close" style="top:-5px;"><span aria-hidden="true">&times;</span></button>
+        @Model.errorMessage
+    </div>
+}
+
+<table id="DTgridReport1" class="table table-striped table-hover table-bordered responsive no-wraps small dataTable no-footer dtr-inline" cellpadding="0" cellspacing="0" border="0">
+    <thead>
+        <tr>
+            <th>MemberID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>DOB</th>
+            <th>Status</th>
+            <th>Assigned</th>
+            <th>Status Changed</th>
+            <th>Eligibility End Date</th>
+            <th>Next Recert</th>
+            <th>Type</th>
+            <th>Group</th>
+            <th>Contact Info</th>
+            <th>Print</th>
+            <th>Subject</th>
+            <th>Attachments</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+<div class="bs-callout bs-callout-primary" style="background-color:#fcf8e3">
+    <h4 style="color:black">Search Pending Items</h4>
+    <div>
+        <div class="row top-buffer-25">
+            <div class="col-md-2">
+                <label for="s_fName">First Name</label>
+                <input type="text" id="s_fName" class="form-control input-md" name="first name" placeholder="First Name">
+            </div>
+            <div class="col-md-2">
+                <label for="s_lName">Last Name</label>
+                <input type="text" id="s_lName" class="form-control input-md" name="last name" placeholder="Last Name">
+            </div>
+            <div class="col-md-2">
+                <label for="d_Type">Type</label>
+                <select id="d_Type" class="form-control" name="d_Type">
+                    <option value="" disabled @(Model.TypeDDL != null && Model.TypeDDL.Count > 0 ? String.Empty : "selected")>Type</option>
+                    @foreach (string type in Model.TypeDDL)
+                    {
+                        bool selected = !String.IsNullOrEmpty(@Model.setType) && @Model.setType.Equals(type);
+                        <option class="form-type-ddl-text" value="@type" @(selected ? "selected=\"selected\"" : "")>@type</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label for="d_Status">Status</label>
+                <select id="d_Status" class="form-control" name="d_Status">
+                    <option value="" disabled @(Model.StatusDDL != null && Model.StatusDDL.Count > 0 ? String.Empty : "selected")>Status</option>
+                    @foreach (string statusText in Model.StatusDDL.OrderBy(kv => kv.Key).Select(kv => kv.Value))
+                    {
+                        bool selected = !String.IsNullOrEmpty(@Model.setStatus) && @Model.setStatus.Equals(statusText);
+                        <option value="@statusText" @(selected ? "selected" : "")>@statusText</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label for="d_Date">Date</label>
+                <select id="d_Date" class="form-control input-md" name="d_Date">
+                    @foreach (string s in Model.DateDDL)
+                    {
+                        if (!String.IsNullOrEmpty(@Model.setDate) && @Model.setDate.Equals(@s))
+                        {
+                            <option value="@s" selected="selected">@s</option>
+                        }
+                        else
+                        {
+                            <option value="@s">@s</option>
+                        }
+                    }
+                </select>
+            </div>
+            <div class="col-md-3">
+                @*<label for="ShowFullHistory">Show every status change</label>
+                    <input type="checkbox" id="ShowFullHistory" @(Model.ShowFullHistory ? "checked" : "") />*@
+                <button class="btn btn-md btn-success btn-block" id="id_Search" type="submit">Search</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Contacts Modal -->
+<div class="modal fade" id="contactsModal" tabindex="-1" role="dialog" aria-labelledby="contactsModalLabel">
+    <div class="modal-dialog" role="document" style="width:700px">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #337ab7; color:white;">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="contactsModalLabel">Contact Information for <span id="Name"></span></h4>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <h5><b>Home Phone</b></h5>
+                            <span class="indent" id="HomePhone"></span>
+                            <h5><b>Cell Phone</b></h5>
+                            <span class="indent" id="CellPhone"></span>
+                            <h5><b>Email Address</b></h5>
+                            <span class="indent" id="Email"></span>
+                        </div>
+                        <div class="col-md-3">
+                            <h5><b>Residential Address</b></h5>
+                            <span class="indent" id="ResidAddress1"></span><br />
+                            <span class="indent" id="ResidAddress2"></span><br />
+                            <span class="indent" id="ResidCitySTZip"></span>
+                            <h5><b>Maliing Address</b></h5>
+                            <span class="indent" id="MailAddress1"></span><br />
+                            <span class="indent" id="MailAddress2"></span><br />
+                            <span class="indent" id="MailCitySTZip"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" hidden id="composeMessage">Compose Message</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Missing Info Modal -->
+<div class="modal fade" id="infoModal" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #337ab7; color:white;">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="infoModalLabel"><b><span id="Name"></span></b>Missing Info</h4>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <span id="fields">
+                    </span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Application Comments -->
+<div class="modal fade" id="cmmtModal" tabindex="-1" role="dialog" aria-labelledby="cmmtModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #337ab7; color:white;">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="cmmtModalLabel"><b><span id="cmmtHdr"></span></b>Comments</h4>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <span id="cmmts">
+                    </span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- CSS People Pcker -->
+<div class="modal fade" id="CssPeoplepickerModal" tabindex="-1" role="dialog" aria-labelledby="cssModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="width:900px;">
+            <div class="modal-header" style="background-color: #337ab7; color:white;">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="cmmtModalLabel"><b><span id="cmmtHdr"></span></b>CSS People Picker</h4>
+            </div>
+            <div class="modal-body" style="height:840px; overflow-y:auto">
+                <div>
+                    <div class="row form-group">
+                        <div class="col-md-2">
+                            <label class="control-label" for="pp_fn">First Name</label>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control" id="pp_fn" name="pp_fn" maxlength="60">
+                        </div>
+                        <div class="col-md-2">
+                            <label class="control-label" for="pp_ln">Last Name</label>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control" id="pp_ln" name="pp_ln" maxlength="60">
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-md-2">
+                            <label class="control-label" for="pp_adapId">Login ID</label>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control" id="pp_loginId" name="pp_loginId" maxlength="60">
+                        </div>
+                        <div class="col-md-2">
+                            <label class="control-label" for="pp_dob">Email Address</label>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control" id="pp_email" name="pp_email" maxlength="60">
+                        </div>
+                    </div>
+
+                    <div class="row form-group">
+                        <div class="col-md-4">
+                            <input type="button" id="pp_Search" class="btn btn-md btn-primary btn-block" value="Search">
+                        </div>
+                    </div>
+                </div>
+                <table id="DTUsers" class="table table-striped table-hover table-bordered responsive no-wraps small dataTable no-footer dtr-inline" cellpadding="0" cellspacing="0" border="0">
+                    <thead>
+                        <tr>
+                            <th tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="User ID: activate to sort column ascending">&nbsp;</th>
+                            <th tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="UAS ID: activate to sort column ascending">UAS ID</th>
+                            <th tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="First Name: activate to sort column ascending">First Name</th>
+                            <th tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Last Name: activate to sort column ascending">Last Name</th>
+                            <th tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Login Id: activate to sort column ascending">Login  Id</th>
+                            <th tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Email ID: activate to sort column ascending">Email ID</th>
+                            @*<th tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Client ID: activate to sort column ascending">Client ID</th>
+                            <th tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="ES: activate to sort column ascending">Enrollment Site</th>
+                            <th tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="SSN: activate to sort column ascending">SSN</th>
+                            <th tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="UAS ID: activate to sort column ascending">UAS ID</th>*@
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <input type="hidden" id="formResultId" name="formResultId" />
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<p>Some of the color/design elements here are not finalized.  There is too much black/white in the content and not enough contrast and/or focus on certain elements, page title included</p>
+
+<p>
+    I removed the search/filter for each column because it wouldn't be responsive and it's also unncessary.  If you want to filter multiple columns just type for what you want in the
+    search box.  For example, type "Locked" followed by "Yang".
+</p>
+
+<p>The additional contact info is present but currently hidden.  Toggling will be worked out soon (assuming this table design is OK)</p>
+
+<p>
+    This table is fully responsive, shrink your browser horizontally and you can see how it behaves (again, not the issue with the logo forcing top content to get swallowed up).  On a mobile
+    device table content will be presented vertically underneath each record as a sub-data.
+</p>
+    -->

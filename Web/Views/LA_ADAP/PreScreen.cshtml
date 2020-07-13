@@ -1,0 +1,185 @@
+﻿@model Assmnts.Models.GeneralForm
+@{
+    Layout = "LA_AdapAppLayout.cshtml";
+}
+@section AddtoHead{
+    <link rel="stylesheet" type="text/css" href="/Content/adap/css/ADAPForms.css" />
+    <script src="~/Content/js/ADAPLookupSelects.js"></script>
+    <script src="~/Scripts/jquery.inputmask/inputmask.js"></script>
+    <script src="~/Scripts/jquery.inputmask/jquery.inputmask.js"></script>
+    <script src="~/Scripts/Validate.js"></script>
+    <script>
+    $(document).ready(function () {
+        //Set the placeholder text for all dropdowns, except the "Jump to Application Section" dropdown
+        $('select[name!=jumpSection] option[value=""]').html("Choose One");
+        $('.conclusionToggle').hide();
+
+        populateLookupRadio('LA_ADAP_PreScreen_Medicaid_Elig', 'LA_ADAP_PreScreen_Medicaid_Elig', '@Model.rspValues["LA_ADAP_PreScreen_Medicaid_Elig"]', 12);
+        $("input[type=radio]").change(updateToggles);
+        $("input[type=text").keyup(updateToggles);
+        setApplicationProgressIndicator(0);
+
+        $(".MedicaidLossToggle").hide();
+        updateToggles();
+        $(".class_prevscreen").hide();
+    });
+
+    function updateToggles() {
+        var radioSelect = -1;
+        if ($("#LA_ADAP_PreScreen_Medicaid_Elig0").get(0).checked)
+        {
+            $(".MedicaidLossToggle").hide();
+            radioSelect = $("#LA_ADAP_PreScreen_Medicaid_Elig0").get(0).value;
+        }
+        else if ($("#LA_ADAP_PreScreen_Medicaid_Elig1").get(0).checked) 
+        {
+            $(".MedicaidLossToggle").show();
+            var endDate = $("#LA_ADAP_PreScreen_Medicaid_End_Date").val();
+            var endReason = $("#LA_ADAP_PreScreen_Reason_End").val();
+            if (endDate == '' || endReason == '') {
+                $('.conclusionToggle').hide();
+            }
+            else {
+                radioSelect = $("#LA_ADAP_PreScreen_Medicaid_Elig1").get(0).value;
+            }
+        }
+        else if ($("#LA_ADAP_PreScreen_Medicaid_Elig2").get(0).checked) 
+        {
+            $(".MedicaidLossToggle").hide();
+            radioSelect = $("#LA_ADAP_PreScreen_Medicaid_Elig2").get(0).value;
+        }
+        else if ($("#LA_ADAP_PreScreen_Medicaid_Elig3").get(0).checked) 
+        {
+            $(".MedicaidLossToggle").hide();
+            radioSelect = $("#LA_ADAP_PreScreen_Medicaid_Elig3").get(0).value;
+        }
+
+        var result = updateConclusion(radioSelect);
+
+        if (result > 0 && '@Model.navMenuModel.readOnly' != 'True') {
+            $(".class_nextscreen").show();
+            $("[name='jumpSection']").show();
+            $('#conclusionText').css('color', 'green');
+        } else {
+            $(".class_nextscreen").hide();
+            $("[name='jumpSection']").hide();
+            $('#conclusionText').css('color', 'red');
+        }
+    }
+
+    function updateConclusion(radioSelect) {
+        if (radioSelect < 0)
+        {
+            return -1;
+        }
+        else
+        {
+            $('.conclusionToggle').show();
+        }
+
+        if (radioSelect == 0)
+        {
+            $('#conclusionText').html("It doesn’t look like you’re eligible for LA HAP.  Please call your case manager, or call LA HAP at 504-568-7474 if you have any questions.");
+            return -1;
+        }
+        else if (radioSelect == 1)
+        {
+            $('#conclusionText').html("You can be screened for LA HAP eligibility starting from the day you lose your Medicaid coverage. ");
+            return 1;
+        }
+        else if (radioSelect == 2)
+        {
+            $('#conclusionText').html("You may be eligible for limited LA HAP services.");
+            return 1;
+        }
+        else
+        {
+            $('#conclusionText').html("Proceed to the LA HAP application.");
+            return 1;
+        }
+    }
+
+    function redirect(hrefLink) {
+        window.open(hrefLink);
+    }
+</script>
+}
+<!DOCTYPE html>
+<html lang="en">
+<body>
+    <div class="panel panel-default" id="">
+        <div class="panel-body" style="background-color:#f8f8f8">
+            <div class="col-md-offset-1 col-md-11">
+                <span class="col-md-12 control-label" style="text-align: left;">
+                    As of July 1st 2016, anyone meeting the following criteria is eligible for Louisiana Medicaid:
+                    <ul>
+                        <li>Household income of 138% of the Federal Poverty Guideline or below (see <a href="#" onclick="redirect('http://healthy.la.gov')">Healthy Louisiana</a> for the current income guidelines)</li>
+                        <li>Aged 19-64</li>
+                        <li>Meets U.S. citizenship requirements</li>
+                        <li>Not eligible for Medicare</li>
+                    </ul>
+                    Individuals who are eligible for Medicaid (without Medicare) are NOT eligible for LA HAP.  Before you complete this application, visit <a href="#" onclick="redirect('http://www.healthcare.gov')">HealthCare.gov</a> to see if you may be eligible for Medicaid.
+                    <br /><br />
+                    Please select one of the items below to tell us about your current Medicaid status.
+                </span>
+                <div class="form-group">
+                    <div id="LA_ADAP_PreScreen_Medicaid_Elig"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="panel panel-default MedicaidLossToggle">
+        <div class="panel-body" style="background-color:#f8f8f8">
+            <div class="form-group">        
+                <div class="col-md-3">
+                    @Helpers.LabelSpan(Model, "LA_ADAP_PreScreen_Medicaid_End_Date_item", new { @class = "control-label" })
+                    <div class="input-group date">
+                        @Helpers.TextInput(Model, "LA_ADAP_PreScreen_Medicaid_End_Date", new { @class = "form-control" })
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                        <script type="text/javascript">
+                            $(document).ready(function () {
+                                $("#LA_ADAP_PreScreen_Medicaid_End_Date").off('change').on('change', function () {
+                                    //var dob = $('#ADAP_D2_DOB').val();
+                                    //var dobSplit = dob.split("/");
+                                    //var DobYear = parseInt(dobSplit[2]);
+                                    //var currentYear = (new Date).getFullYear();
+                                    //debugger;
+                                    //if (DobYear > (currentYear - 18)) {
+                                    //    alert('You must be 18 years or older. Enter your correct date of birth.');
+                                    //    $("#ADAP_D2_DOB").val('');
+
+                                    //} else if ((DobYear < (currentYear - (116)))) {
+                                    //    alert('You must be 116 years or younger. Enter your correct date of birth.');
+                                    //    $("#ADAP_D2_DOB").val('');
+
+                                    //}
+
+
+                                });
+
+
+                            });
+                        </script>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    @Helpers.LabelSpan(Model, "LA_ADAP_PreScreen_Reason_End_item", new { @class = "control-label" })
+                    @Helpers.TextInput(Model, "LA_ADAP_PreScreen_Reason_End", new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default conclusionToggle">
+        <div class="panel-body" style="background-color:#f8f8f8">
+            <div class="form-group">
+                <span id="conclusionText" class="col-md-12 control-label" style="font-weight: bold; text-align: left;">
+
+                </span>
+            </div>
+        </div>
+    </div>
+    <hr>
+</body>
+
+</html>

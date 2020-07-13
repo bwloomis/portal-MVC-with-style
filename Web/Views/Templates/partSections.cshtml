@@ -1,0 +1,50 @@
+@model Assmnts.Models.TemplatePartSections
+@{
+    ViewBag.Title = "Sections List";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+@section HeadContent {
+    <script>
+        $(document).ready(function () {
+            @*postdata = {
+                "sIden":"@Model.nextScreenTitle"
+            }*@
+
+            $('#dtPartSections').dataTable({
+                "processing": true,
+                "serverSide": true,
+                "ajax": {
+                    url: "/Templates/DataTablePartSections",
+                    //data: postdata,
+                    type: "POST"
+                },
+                "ordering": false,
+                "dom": 'lriptip'
+            });
+        });
+    </script>
+}
+
+<input type="button" class="return btn btn-primary" value="Return to Parts" onclick="window.location = 'FormParts?formId=@Model.formId'" />
+<h2>Sections for Part: <span class="text-primary">@Model.thisScreenTitle</span></h2>
+
+<div class="col-sm-2">
+    <input type="button" class="btn btn-success" value="Add New Section" style="width:100%" onclick="window.location='PartSectionEdit'" />
+</div>
+<br /> <br />
+<table id="dtPartSections" class="table table-bordered table-striped datatable" cellpadding="0" cellspacing="0" border="0">
+    <thead>
+        <tr>
+            <th>Part Section Id</th>
+            <th>Order</th>
+            <th>Visible</th>
+            <th>Section Id</th>
+            <th>Section Identifier</th>
+            <th>Section Title</th>
+            <th>Edit</th>
+            <th>View</th>
+        </tr>
+    </thead>
+</table>
+	<!-- End of Section List -->
+		

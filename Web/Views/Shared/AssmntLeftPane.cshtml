@@ -1,0 +1,150 @@
+@model Assmnts.Models.TemplateItems
+
+<br />
+<style>
+    #logo{
+        height: 130px;
+        width: auto;
+    }
+</style>
+<div class="class_search"> <a href="#">
+    @{
+
+        if (Model == null)
+        {
+            <img id="logo" style="
+                    margin-right:-100px;
+                    margin-bottom:-20px;
+                    border-image:url('~/content/images/sisonline%20logo.jpg');
+                "
+                 src="~/content/images/sisonline%20logo.jpg" />
+        }
+        else if (Model.formId == 6)
+        {
+            <img id="logo" src="~/Content/images/ADAP App logo.jpg" />
+        }
+        else if (Model.formId == 2)
+        {
+            if (Model.ventureMode)
+            {
+                <img id="logo" src="~/Content/images/SIS C Venture logo.jpg" />
+            }
+            else
+            {
+                <img id="logo" src="/Content/images/SIS C logo.jpg" />
+            }
+        }
+        else
+        {
+            if (Model.ventureMode)
+            {
+                <img id="logo" src="~/Content/images/SIS A Venture logo.jpg" />
+            }
+            else
+            {
+                <img id="logo" src="/Content/images/SIS A logo.jpg" />
+            }
+        }
+
+    }
+</a>
+</div>
+<br />
+<br />
+<table border="0" cellpadding="4" cellspacing="0" width="172" class="tableborder"
+    style="background-color: #ffffff; text-align: left;">
+    <tr class="class_prevornextscreen class_prevscreen class_leftprevscreen">
+        <td>
+            <a href="#">
+                <img src="~/Content/images/leftarrow.gif" border="0" />
+            </a>
+        </td>
+        <td>
+            <a href="#">
+                Return to Previous
+            </a>
+        </td>
+    </tr>
+    <tr class="class_prevornextscreen class_nextscreen">
+        <td>
+            <a href="#">
+                <img src="~/Content/images/rightarrow.gif" border="0" />
+            </a>
+        </td>
+        <td>
+            <a href="#">
+                Proceed to Next
+            </a>
+        </td>
+    </tr>
+    <tr class="class_prevornextscreen class_submit">
+        <td>
+            <a href="#">
+                <img src="~/Content/images/disk2.png" border="0" />
+            </a>
+        </td>
+        <td>
+            <a href="#">
+                Save
+            </a>
+        </td>
+    </tr>
+    <tr class="class_prevornextscreen class_search">
+        <td>
+            <a href="#">
+                <img src="~/Content/images/search.gif" style="border-width: 0px" alt="Search for Reports" />
+            </a>
+        </td>
+        <td>
+            <a href="#">Search for Report(s)</a>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <a target="_blank" href="Help">
+                <img src="~/Content/images/help.gif" style="border-width: 0px" alt="Help with the SIS System" />
+            </a>
+        </td>
+        <td>
+            <a target="_blank" href="Help">
+                Help with SIS
+            </a>
+        </td>
+    </tr>
+    <tr>
+        <td style="width: 10px">
+            <a target="_blank" href="~/Content/docs/SIS-FAQ.pdf">
+                <img src="~/Content/images/help.gif" style="border-width: 0px" alt="Frequently Asked Questions" />
+            </a>
+        </td>
+        <td align="left">
+            <a target="_blank" href="~/Content/docs/SIS-FAQ.pdf">FAQs</a>&nbsp;
+        </td>
+    </tr>
+@*    <tr>
+        <td>
+            <a href="docs/casestudy.pdf">
+                <img src="~/Content/images/pdf.gif" style="border-width: 0px" alt="Download Case Study Document" /></a>
+        </td>
+        <td>
+            <a href="docs/casestudy.pdf">Case Study</a>
+        </td>
+    </tr>*@
+    <tr>
+        <td>
+            <a href="docs/sisguide.pdf">
+                <img src="~/Content/images/pdf.gif" style="border-width: 0px" alt="Download Guidelines Document" /></a>
+        </td>
+        <td>
+            <a href="docs/sisguide.pdf">Interviewing Guidelines</a>
+        </td>
+    </tr>
+    <tr class="class_logout">
+        <td>
+            <a href="#"><img src="/Content/images/logoff.gif" /></a>
+        </td>
+        <td>
+            <a href="#">Logout</a>
+        </td>
+    </tr>
+</table>

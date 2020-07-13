@@ -1,0 +1,160 @@
+﻿@model Assmnts.Models.GeneralForm
+@{
+    Layout = "BaseAppLayout.cshtml";
+
+    ViewBag.Address = string.Empty;
+
+    if(Model.formResultUser.Addresses.Count > 0)
+    {
+        var address = Model.formResultUser.Addresses[0];
+
+        ViewBag.Address = string.Concat(address.Address1," ",address.Address2,", ", address.City, ", ", address.ZIP);
+
+    }
+
+}
+
+@section AddtoHead{
+    <link href="~/stylesheets/jquery.growl.css" rel="stylesheet" />
+    <link href="~/Content/adap/css/MedicalClaim.css" rel="stylesheet" />
+
+
+    <script src="~/javascripts/jquery.growl.js"></script>
+    <script src="~/Content/js/ADAPLookupSelects.js"></script>
+    <script src="~/Content/js/CAADAP/MedicalClaim.js"></script>
+
+    <script src="~/Content/js/bootbox.min.js"></script>
+    <script src="~/Scripts/jquery.inputmask/inputmask.js"></script>
+    <script src="~/Scripts/jquery.inputmask/jquery.inputmask.js"></script>
+    <script src="~/Scripts/jquery.maskMoney.min.js"></script>
+    <script src="~/Content/js/moment.min.js"></script>
+    <script src="~/Content/js/moment-range.js"></script>
+
+    <script type="text/javascript">
+
+
+
+        //To get the Notifications(right side popups) on save of form
+        var Notify = '@ViewBag.Notify';
+        var NotifyMessage = '@ViewBag.NotifyMessage';
+
+        $(document).ready(function () {
+
+            // Start : Will be useful to set session state of page load events.
+            $(".navbar-nav").find("li").each(function () {
+                $(this).click(function () {
+                    $.ajax({
+                        url: '@Url.Action("PageLoadEvents","Results")',
+                    });
+                });
+            });
+            $("button").click(function () {
+                $.ajax({
+                    url: '@Url.Action("PageLoadClickEvents", "Results")',
+                });
+            });
+   
+
+            Initializeevents();
+
+            var status = @Model.formStatus;
+
+            RenderFormelementsOnStatus(status);
+
+        });
+
+    </script>
+
+
+    <!--Start Temporary additions, to be moved to file -->
+    <style type="text/css">
+        
+    </style>
+    <!--End Temporary additions, to be moved to file -->
+}
+
+<div class="container">
+    <h3>Medical Out of Pocket Claim</h3>
+    <div id="divMsg" class="alert alert-success hide">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    </div>
+
+    <div class="panel panel-default" id="attach-document">
+        <div class="panel-body" style="background-color:#f8f8f8">
+
+
+                <div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group right-buffer-15px">
+                                <div class="input-group claims  date" data-date-end-date="0d" data-toggle = "tooltip" data-placement= "top" title = "Date of Service">
+                                    @Helpers.TextInput(Model, "C1_ClaimDateOfService", new { @class = "form-control", placeholder = "Date of Service (mm/dd/yyyy)" })
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                                    
+                                </div>
+                                <span id="helpClaimDateOfService" class="hide"><span class="glyphicon glyphicon-remove-circle"></span><span id="msg"></span></span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group right-buffer-15px" data-toggle = "tooltip" data-placement= "top" title = "Claim Amount in Dollars">
+
+                                <div class="input-group">
+
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-usd"></span></span>
+                                    @Helpers.TextInput(Model, "C1_ClaimAmount", new { @class = "form-control cacurrency", maxlength = "9", placeholder = "out-of-pocket amount paid" })
+                                </div>
+
+                                
+
+                                <span id="helpClaimAmount" class="hide"><span class="glyphicon glyphicon-remove-circle"></span><span id="msg"></span></span>
+                            </div>
+                        </div>
+                        <div class="col-md-4" data-toggle = "tooltip" data-placement= "top" title = "Receipt for the Claim">
+                            <div class="form-group right-buffer-15px serviceinfo-upload">
+                                @Helpers.FileUpload(Model, "C1_ClaimAttachDoc")
+                                <span id="helpClaimAttachDoc" class="hide"><span class="glyphicon glyphicon-remove-circle"></span><span id="msg"></span></span>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8">
+
+                            <div class="form-group right-buffer-15px" data-toggle = "tooltip" data-placement= "top" title = "Optional Comments">
+                                
+                                @Helpers.TextAreaInput(Model, "C1_ClaimOptionalComments", new { @placeholder = "Comments (optional)", @class = "form-control", maxlength = 256 })
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+
+            <div>
+                <b>Note:</b>
+                <em>
+                    If you have multiple claims on a single out-of-pocket receipt, you will
+                    need to submit each amount on a separate claims form. Enter the first one
+                    here, and create another form from the portal where you can reattach the
+                    receipt for the second claim.<em>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+<div id="ADAPFooter" class="col-md-12">
+
+    <input id="informResultId" type="hidden" value="@Model.formResultId"/>
+
+
+    <button type="button" id="btnPrevoius" class="btn btn-default btn-s pull-left class_prev" style="margin-right:5px" data-toggle = "tooltip"  data-placement="top" title="Back to Adap portal"><span class="glyphicon glyphicon-arrow-left" ></span> Back to ADAP Portal</button>
+
+    <button type="button" id="btncancel" class="btn btn-primary btn-s pull-right " style="margin-right:5px"><span class="glyphicon glyphicon-question-sign"></span> Cancel</button>
+    <button type="button" id="btnsubmitChanges" class="btn btn-primary btn-s pull-right" style="margin-right:5px"><span class="glyphicon glyphicon-check"></span>Certify & Submit</button>
+    <button type="button" id="btnsave" class="btn btn-primary btn-s pull-right " style="margin-right:5px"><span class="glyphicon glyphicon-floppy-open"></span> Save</button>
+
+</div>
+

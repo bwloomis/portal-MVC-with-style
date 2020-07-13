@@ -1,0 +1,102 @@
+﻿@model Assmnts.Models.AdapPortal
+@{
+    Layout = "/Views/Templates/ADAP/PortalLayout.cshtml";
+}
+
+@section AddToHead {
+
+
+<!-- dataTables -->
+<script src="https://cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.11/js/dataTables.bootstrap.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.0.2/js/dataTables.responsive.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.0.2/js/responsive.bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.11/css/dataTables.bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.0.2/css/responsive.bootstrap.min.css">
+
+    <style>
+        thead th {
+            background-color: #BFDFFF;
+        }
+    </style>
+    <script>
+    $(document).ready(function () {
+        $('#ADAPHeader').hide(true);
+        $('#ADAPFooter').hide(true);
+        //$(".form-control").keypress(function (e) {
+        //    if ((e.which && e.which == 13) || (e.keyCode && e.keyCode == 13)) {
+        //        doSearch();
+        //        return false;
+        //    } else {
+        //        return true;
+        //    }
+        //});
+
+        //$('#id_Search').click(function () {
+        //    doSearch();
+        //});
+
+        $('#DTgridPortal').DataTable({
+            "bPaginate": true,
+            "bFilter": false,
+            "bInfo": true,
+            "responsive": true,
+            "processing": true,
+            "serverSide": true,
+            "ajax": {
+                url: "/AdapCa/DataTablePortal",
+                data: {
+                    "UserId": "@Model.UserId",
+                    "FormIdentifiers": "ADAP"
+                },
+                type: "POST"
+            },
+            "ordering": false,
+            "dom": 'lriptip',
+            "language": {
+                "lengthMenu": "@Resources.AdapPortal.ShowNumEntries.Replace( "#", "_MENU_" )"
+            },
+            "infoCallback": function (settings, start, end, max, total, pre) {
+                return "@Resources.AdapPortal.Showing " + start + " @Resources.AdapPortal.to " + end + " @Resources.AdapPortal.of " + total + " @Resources.AdapPortal.entries";
+            },
+            "initComplete": function () {
+                $("a.paginate_button.next").text("@Resources.AdapPortal.Next");
+                $("a.paginate_button.previous").text("@Resources.AdapPortal.Previous");
+            },
+            "dom": '<lr<"row"<"col-md-6"i><"col-md-6"p>><t><"row"<"col-md-6"i><"col-md-6"p>>>'
+        });
+    });
+    </script>
+}
+<div class="container">
+    <h3>@Resources.AdapPortal.AdapAppsFor @Model.Name</h3>
+
+    <div>
+        <label class="info">@Resources.AdapPortal.NextRecertDate:</label> <label class="text-primary" style="font-size:large"> @Model.RecertDate</label>&nbsp;&nbsp;&nbsp;
+        @if (String.IsNullOrEmpty(@Model.errorMsg))
+        {
+        <button type="button" class="btn btn-sm btn-success" onclick="location.href='CreateAdapApplication?userId=@Model.UserId'">
+        @Resources.AdapPortal.CreateApp</button>
+        }
+        <br/>
+        @if (!String.IsNullOrEmpty(@Model.errorMsg))
+        {
+            <label class="error text-danger">@Model.errorMsg</label>
+        }
+    </div>
+
+    <div id="context" class="context" data-toggle="context" data-target="#context-menu">
+        <table id="DTgridPortal" class="table table-bordered table-striped" cellpadding="0" cellspacing="0" border="0">
+            <thead>
+                <tr>
+                    <th>@Resources.AdapPortal.MemberId</th>
+                    <th>@Resources.AdapPortal.AppDate</th>
+                    <th>@Resources.AdapPortal.AppStatus</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+</div>
+

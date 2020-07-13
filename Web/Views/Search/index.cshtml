@@ -1,0 +1,1355 @@
+﻿@using System.Linq
+@using Assmnts
+@using Assmnts.Models
+@using Data.Concrete
+@using GridMvc.Html
+
+@model SearchModel
+
+@{
+    Layout = null;
+
+    // For Venture use IEnumerable, site is IQueryable
+    var searchResults = Model.VentureMode ? Model.vSearchResultEnumerable : Model.vSearchResult;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Search</title>
+    <!-- JS has been moved to the bottom of body tag -->
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script> -->
+
+    <link href="/Content/js/jquery-ui-1.11.2-custom/jquery-ui.min.css" rel="stylesheet" />
+
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/themes/base/jquery.ui.datepicker.css" rel="stylesheet" type="text/css" />
+
+    <script src="/Scripts/jquery-2.1.3.min.js"></script>
+    <script src="/Scripts/jquery.form.min.js"></script>
+
+    <style>
+        .sisImage {
+            position: absolute;
+            top: 45px;
+            left: -45px;
+            z-index: -3;
+            height: 180px;
+            width: auto;
+        }
+
+        .sisImageVenture {
+            position: absolute;
+            top: 45px;
+            left: 2px;
+            z-index: -3;
+            height: auto;
+            width: 280px;
+        }
+
+        .topBoxes {
+            position: absolute;
+            top: 45px;
+            left: 300px;
+            color: #8E3C42;
+            border-color: #4D4B53;
+            height: 112px;
+            width: 800px;
+        }
+
+            .topBoxes a {
+                color: #8E3C42;
+                font-weight: normal;
+                text-decoration: underline;
+                margin-left: 3px;
+            }
+
+            .topBoxes > span, .head {
+                font-weight: bold;
+                font-size: inherit;
+            }
+
+        .adminBox {
+            position: absolute;
+            padding-top: 2px;
+            padding-right: 40px;
+            padding-left: 5px;
+            width: 400px;
+            height: 100%;
+            border: solid;
+            border-width: 2px;
+            border-color: inherit;
+            text-align: left;
+        }
+
+
+        .exportBox {
+            position: absolute;
+            left: 400px;
+            padding-top: 2px;
+            padding-right: 4px;
+            padding-left: 5px;
+            width: 300px;
+            height: 100%;
+            border: solid;
+            border-width: 2px;
+            border-color: inherit;
+            border-left: none;
+            text-align: left;
+        }
+
+        #searchBox {
+            position: absolute;
+            /* width: 1000px; */
+            top: 170px;
+            left: 150px;
+            text-align: left;
+            background: #f9f3dd;
+            padding: 5px;
+            border: solid;
+            border-width: 2px;
+            border-color: #4A6096;
+        }
+
+            #searchBox > span, #searchTitle {
+                color: #4A6096;
+                font-size: medium;
+                vertical-align: bottom;
+            }
+
+        /*#searchBox > input {
+            vertical-align: bottom;
+        }*/
+
+        #divSearchGrid {
+            position: relative;
+            width: 95%;
+            margin: 230px auto 0px 30px;
+            min-width: 800px;
+        }
+
+        #advancedSearchBox {
+            position: relative;
+            width: 900px;
+            background: #f9f3dd;
+            border: 3px solid #eee2ab;
+            border-radius: 20px;
+            padding-bottom: 50px;
+            margin: 0 auto;
+        }
+
+        #advanced_search_container hr {
+            border-color: white;
+        }
+
+        input[type="checkbox"] {
+            display: none;
+        }
+
+            input[type="checkbox"] + input + label span {
+                display: inline-block;
+                width: 12px;
+                height: 12px;
+                margin: -1px 4px 0 0;
+                vertical-align: middle;
+                background: url(/Content/images/check_radio_sheet.png) left top no-repeat;
+                cursor: pointer;
+            }
+
+            input[type="checkbox"]:checked + input + label span {
+                background: url(/Content/images/check_radio_sheet.png) -12px top no-repeat;
+            }
+
+        .highlight {
+            background-color: #FFFF88;
+        }
+
+        textarea.textarea-ids {
+            width: 200px;
+            height: 120px;
+        }
+
+        .styled-select select {
+            width: 180px;
+        }
+
+        .divListItems {
+            display: inline-block;
+            margin: 0px 5px;
+        }
+
+        #threeColumns {
+            width: 525px;
+            height: 100px;
+            margin: 0 auto;
+            display: block;
+        }
+
+        #thirdCol {
+            width: 150px;
+            float: right;
+        }
+
+        #secondCol {
+            width: 100px;
+            display: inline-block;
+        }
+
+        #firstCol {
+            width: 200px;
+            float: left;
+        }
+
+        #divCompletedLevel {
+            text-align: left;
+        }
+
+        .pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus {
+            background-color: #106296;
+            border-color: #52669B;
+        }
+
+        .pagination > li > a, .pagination > li > span {
+            color: #2F4577;
+        }
+
+        .pagination {
+            margin: 0px;
+        }
+
+        h1, h2, h3 {
+            color: #314778;
+        }
+
+        nav {
+            background: none repeat scroll 0 0 #8E3C42;
+            display: block;
+            width: 100%; /*  1580px;  */
+            font-size: 1.6em;
+            min-height: 32px;
+            line-height: 32px;
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            z-index: 9999;
+            color: white;
+            vertical-align: middle;
+            padding-left: 10px;
+        }
+
+            nav > div > a {
+                float: left;
+            }
+
+        .searchTitle {
+            float: left;
+        }
+
+        .topNavItems {
+            float: right;
+        }
+
+            .topNavItems > div {
+                position: relative;
+                line-height: 90%;
+                margin-top: 6px;
+                float: left;
+                margin-left: 5px;
+                background-color: white;
+                color: #4D4B53;
+                border-style: solid;
+                border-width: 1px;
+                border-color: #4A6096;
+                padding: 1px;
+            }
+
+        .topButton {
+            height: inherit;
+            vertical-align: middle;
+            background-color: white;
+            border-style: solid;
+            border-width: 1px;
+            border-color: #4A6096;
+            /*font-size:small;*/
+            color: #4D4B53;
+        }
+
+        .userBox {
+            position: relative;
+            line-height: 70%;
+            margin-top: 6px;
+            float: left;
+            margin-left: 50px;
+            background-color: white;
+            color: #4D4B53;
+            border-style: solid;
+            border-width: 1px;
+            border-color: #4A6096;
+            font-size: small;
+            padding: 6px;
+        }
+
+        .minutesBox {
+            position: relative;
+            line-height: 70%;
+            margin-top: 6px;
+            float: left;
+            margin-left: 50px;
+            background-color: white;
+            color: #4D4B53;
+            border-style: solid;
+            border-width: 1px;
+            border-color: #4A6096;
+            font-size: small;
+            padding: 6px;
+            padding-top: 2px;
+            padding-bottom: 2px;
+        }
+
+        .grid-footer {
+            text-align: right;
+        }
+
+        a {
+            color: #193773;
+            font-family: verdana,Helvetica,sans-serif;
+            font-size: 10px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        hr {
+            margin-bottom: 10px;
+            margin-top: 10px;
+        }
+
+        .table {
+            border-left: 1px solid #ebeaaf;
+            border-bottom: 1px solid #ddd;
+        }
+
+            .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
+                vertical-align: middle;
+                border-right: 1px solid #ebeaaf;
+            }
+
+            .table > thead > tr > th {
+                background-color: #4A6096;
+                border-bottom: none;
+                color: white;
+            }
+
+                .table > thead > tr > th > div > a {
+                    color: white;
+                }
+
+        .divInline {
+            display: inline-block;
+            text-align: left;
+            vertical-align: top;
+            margin: 0px 10px;
+        }
+
+        #movePartialView {
+            position: absolute;
+            top: 200px;
+            left: 150px;
+            background: white;
+        }
+
+        #prefPartialView, #exportPartialView {
+            position: absolute;
+            top: 200px;
+            left: 150px;
+            width: 600px;
+            background: white;
+            border: solid;
+            border-width: 1px;
+            border-color: #4D4B53;
+        }
+
+            #prefPartialView .content, #exportPartialView .content {
+                position: relative;
+                width: 100%;
+                text-align: left;
+                padding: 5px;
+            }
+
+            #prefPartialView input[type=checkbox], #prefPartialView input[type=radio], #exportPartialView input[type=checkbox], #exportPartialView input[type=checkbox] {
+                display: inline;
+            }
+
+            #prefPartialView .top, #exportPartialView .top {
+                padding-left: 10px;
+                padding-bottom: 5px;
+                background-color: lightgray;
+                font-size: small;
+                font-weight: bold;
+            }
+
+        #numResults {
+            padding-bottom: 5px;
+            font-size: 12px;
+            color: #4A6096;
+            font-family: verdana,Helvetica,sans-serif;
+            text-align: right;
+        }
+    </style>
+
+    <link rel="stylesheet" type="text/css" href="/Content/css/sitewide.css">
+    <link rel="alternate stylesheet" type="text/css" media="screen" title="medium" href="/Content/css/sitewide2.css">
+    <link rel="alternate stylesheet" type="text/css" media="screen" title="large" href="/Content/css/sitewide3.css">
+
+</head>
+<body>
+    <header>
+        <nav>
+
+            @{string navTitle = Model.VentureMode ? "Search Page; Venture" : "Search Page"; }
+
+            <div style="font-weight:bold; color:white;font-size: 1.5em; ">
+
+                <div class="searchTitle">
+                    @Html.Raw(navTitle)
+                </div>
+
+                <div class="titleblack topNavItems">
+                    @if (Model.VentureMode)
+                    {
+                        <div><input class="topButton" type="button" onclick="window.location = '/Account/VentureLogout';" value="Logout" /></div>
+                    }
+                    else
+                    {
+                        <div><input class="topButton" type="button" onclick="window.location = '/Account/LogoutUAS';" value="Logout" /></div>
+                    }
+
+                    <div><input class="topButton" type="button" value="Help" onclick="window.location = '/Results/Help';" /></div>
+                </div>
+
+                <a href="javascript:chooseStyle('none', 60)" style="margin-left: 50px; padding-right:0px;">
+                    <img src="/Content/images/font-small.gif" alt="Small font" style="border-width: 0px" />
+                </a>
+                <a href="javascript:chooseStyle('medium', 60)" style="padding-left:0px; padding-right:0px;">
+                    <img src="/Content/images/font-medium.gif" alt="Medium font" style="border-width: 0px" />
+                </a>
+                <a href="javascript:chooseStyle('large', 60)" style="padding-left:0px;">
+                    <img src="/Content/images/font-large.gif" alt="Large font" style="border-width: 0px" />
+                </a>
+
+                <div class="userBox">
+                    Current User:
+                    <span style="text-decoration:underline;">@Html.Raw(Assmnts.Infrastructure.SessionHelper.LoginInfo.LoginID)</span>
+                </div>
+
+                <div class="minutesBox">
+                    Session Minutes Remaining:
+                    <input id="minutesRemaining" style="color:red; width:50px;" type="text" disabled value="" />
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div id="body">
+        <section class="content-wrapper main-content clear-fix">
+            @if (!Model.VentureMode)
+            {
+                <div>
+                    <a href="~/Search">
+                        <img class="sisImage" src="~/Content/images/SISOnline logo.jpg" />
+                    </a>
+
+
+                    <div class="topBoxes">
+                        <div class="adminBox">
+                            <div style="float:left;">
+                                <div><span class="head">Administrative Options</span></div>
+                                <div><a href="#" onclick="xferUas()">User Administration</a></div>
+                                <div><a href="#">System Administration</a></div>
+                            </div>
+                            <br />
+                            <div style="float:left;">
+                                <div><a href="#" onclick="searchPref()">Search Preferences</a></div>
+                                <div><a href="#" onclick="changePass()">Change Password</a></div>
+                                <div><a href="#" onclick="userInfo()">Update User Info</a></div>
+                            </div>
+                        </div>
+                        <div class="exportBox">
+                            <a href="/Search/BatchCSVOptions/">Export CSV</a>
+                            <br />
+                            <a href="/SisPdfRpts/GetBatchPdfReport">Export PDF Batch</a>
+                        </div>
+                    </div>
+                    <div id="searchBox" hidden="hidden">
+                        @if (Model.showSearch == true)
+                        {
+
+                            using (Html.BeginForm("GeneralSearch", "Search", FormMethod.Post, new { }))
+                            {
+                                <span id="searchTitle">Search</span>
+                                @Html.TextBoxFor(x => x.GeneralSearchString, new { id = "txtGeneralSearch", size = 90 })
+                                <input type="submit" name="command" value="Search" />
+                                <input type="submit" name="command" value="Reset" />
+                                <a href="#advancedSearch">Advanced Search</a>
+                            }
+                        }
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div>
+                    <a href="~/Search">
+                        <img class="sisImageVenture" src="~/Content/images/SISVenture_7-10-2015.jpg" />
+                    </a>
+
+                    <div class="topBoxes">
+                        <div class="adminBox">
+                            <div style="float:left;">
+                                <div><span class="head">Venture Options</span></div>
+
+                                <div><a href="/Search">Assessments</a></div>
+                                <div><a href="/DataSync/Index">View Assessment Download</a></div>
+                                <div><a href="/DataSync/MetaSync">Download Form Data</a></div>
+                                <div><a href="/DataSync/Upload">Upload Completed Assessments</a></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            <div id="movePartialView" hidden="hidden"></div>
+
+            <div id="prefPartialView" hidden="hidden"></div>
+
+            <div id="exportPartialView" hidden="hidden"></div>
+
+            <div id="divSearchGrid" hidden="hidden">
+
+                @if (Model.showSearch == true)
+                {
+                    <div id="numResults">Number of records: @searchResults.Count()</div>
+
+                    @helper GridActionColumn(long? recId, int sisId, int formId, bool deleted, bool archived, bool locked, string status, string reviewStatus)
+{
+                    <div style="width:160px;">
+                        @if (deleted)
+                        {
+                            <div style="color:red; font-weight:bold; width:100%; text-align:center;">Deleted</div>
+                        }
+                        else if (archived)
+                        {
+                            <div style="color:red; font-weight:bold; width:100%; text-align:center;">Archived</div>
+                        }
+                        <form class="actionOption" method="post" action="/Search/GoAction">
+                            <input type="hidden" name="recId" value="@recId" />
+                            <input class="sisId" type="hidden" name="sisId" value="@sisId" />
+                            <input type="hidden" name="formId" value="@formId" />
+                            <select class="CategoryID" name="CategoryID" style="width:120px;">
+                                @if (sisId != null)
+                                {
+
+                                    if (Int32.Parse(reviewStatus) != Assmnts.Business.ReviewStatus.PRE_QA)
+                                    {
+                                        if ((Model.edit && !locked && !Model.editLocked) || (Model.editLocked && status != "Completed"))
+                                        {
+                                            <option value="edit">Edit</option>
+                                            <option value="planning">Interview Planning</option>
+                                        }
+                                        else if (Model.editLocked && status == "Completed")
+                                        {
+                                            if (Model.reviewAll && Int32.Parse(reviewStatus) == Assmnts.Business.ReviewStatus.APPROVED)
+                                            {
+                                                <option value="review">Re-Approve</option>
+                                            }
+                                            else if (!Model.VentureMode)
+                                            {
+                                                if (Int32.Parse(reviewStatus) == Assmnts.Business.ReviewStatus.REVIEWED)
+                                                {
+                                                    <option value="review">Re-Review</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="review">Review</option>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <option value="edit">Edit</option>
+                                            }
+                                            if (Model.reviewAll && Int32.Parse(reviewStatus) == Assmnts.Business.ReviewStatus.REVIEWED)
+                                            {
+                                                <option value="approve">Approve</option>
+                                            }
+                                        }
+                                    }
+                                    if (Model.VentureMode && status == "Completed")
+                                    {
+                                        <option value="upload">Upload</option>
+                                    }
+
+                                    if (!deleted && Model.delete)
+                                    {
+                                        <option value="delete">Delete</option>
+                                    }
+                                    if (deleted && Model.undelete)
+                                    {
+                                        <option value="undelete">Undelete</option>
+                                    }
+                                    if (!Model.VentureMode)
+                                    {
+                                        if (Model.move)
+                                        {
+                                            <option value="move">Move</option>
+                                        }
+
+                                        if (Model.archive && !archived)
+                                        {
+                                            <option value="archive">Archive</option>
+                                        }
+                                        else
+                                        {
+                                            if (Model.archive)
+                                            {
+                                                <option value="unarchive">Unarchive</option>
+                                            }
+                                        }
+
+                                        if (Int32.Parse(reviewStatus) != Assmnts.Business.ReviewStatus.PRE_QA)
+                                        {
+                                            if (Model.unlock && !locked)
+                                            {
+                                                <option value="lock">Lock</option>
+                                            }
+                                            else
+                                            {
+                                                if (Model.unlock)
+                                                {
+                                                    <option value="unlock">Unlock</option>
+                                                }
+                                            }
+                                        }
+                                    }
+
+                                }
+
+
+                                }
+
+                                @if (recId != null)
+                                {
+
+                                    if (!Model.VentureMode && Model.create)
+                                    {
+                                        <option value="create">New Assessment</option>
+                                    }
+                                }
+                                else
+                                {
+                                    //  <option value="assign">Assign</option>
+                                }
+                            </select>
+                            <input type="submit" name="go" value="Go" />
+                        </form>
+                    </div>
+}
+                    @helper ViewReportColumn(int? frId, int? formId, string status)
+{
+                    <div>
+                        @if (status != null && status.ToLower().Contains("completed"))
+                        {
+                            @Html.ActionLink("View Report", "BuildReport", "SisPdfRpts", new { formResultId = frId, hasOptions = false }, null)
+                        }
+                        else if (Model.edit)
+                        {
+                            @Html.ActionLink("Missing Items", "ViewReport", "Search", new { formResultId = frId, formId = formId }, null)
+                        }
+                    </div>
+}
+                    if (Model.VentureMode == false)
+                    {
+                        @helper PatternCheckColumn(int formResultId)
+                        {
+                           var context = DataContext.getSisDbContext();
+                            PatternCheckItem patternCheck = (from p in context.PatternCheckItems
+                                where p.FormResultId == formResultId
+                                select p).FirstOrDefault();
+
+                            <span>@(patternCheck != null ?  patternCheck.PatternCheckITEMS : "")</span>
+                        }
+                        
+                        @helper AttachmentColumn(int? formResultId, string status)
+{
+                        <div>
+                            @if (Model.editLocked || Model.edit)
+                            {
+                                <div id="attachment1@(formResultId)">
+                                    <form class="uploadForm" action="/Search/UploadFile" method="post" enctype="multipart/form-data">
+                                        <input type="hidden" name="formResultId" value="@(formResultId)" />
+                                        <input type="file" id="file@(formResultId)" name="file@(formResultId)"><a href="#" onclick="$('#Upload@(formResultId)').click()">Upload</a>&nbsp;&nbsp;&nbsp;
+                                        <a href="#" class="viewFiles" id="view@(formResultId)" onclick="downloadAttach(@formResultId)" hidden="hidden">View Files</a>&nbsp;&nbsp;&nbsp;<input type="submit" id="Upload@(formResultId)" value="Upload" hidden="hidden" />
+                                    </form>
+                                </div>
+                            }
+                            else
+                            {
+                                <div id="attachment1@(formResultId)">
+                                    <form class="uploadForm" action="/Search/UploadFile" method="post" enctype="multipart/form-data">
+                                        <a href="#" onclick="downloadAttach(@formResultId)">View Files</a>
+                                    </form>
+                                </div>
+                            }
+                            @if (Model.editLocked || (Model.edit && !status.Contains(" - Locked")))
+                            {
+                                <div id="attachment2@(formResultId)" hidden="hidden">
+                                    <span id="dwnldDDL@(formResultId)" class="AttachDDL@(formResultId)" style="min-width:10px"></span> <a href="#" onclick="downloadFile(@formResultId)">Download</a>&nbsp;&nbsp;&nbsp;
+                                    <a href="#" onclick="deleteAttach(@formResultId)">Delete Files</a>&nbsp;&nbsp;&nbsp;<a href="#" onclick="cancelAttach(@formResultId)">Cancel</a>
+                                </div>
+                            }
+                            else
+                            {
+                                <div id="attachment2@(formResultId)" hidden="hidden">
+                                    <span id="dwnldDDL@(formResultId)" class="AttachDDL@(formResultId)" style="min-width:10px"></span> <a href="#" onclick="downloadFile(@formResultId)">Download</a>&nbsp;&nbsp;&nbsp;
+                                    <a href="#" onclick="cancelAttach(@formResultId)">Cancel</a>
+                                </div>
+                            }
+                            <div id="attachment3@(formResultId)" hidden="hidden">
+                                <span id="dltDDL@(formResultId)" class="AttachDDL@(formResultId)"></span> <a href="#" onclick="deleteFile(@formResultId)">Delete</a>&nbsp;&nbsp;&nbsp;
+                                <a href="#" onclick="downloadAttach(@formResultId)">Cancel</a>
+                            </div>
+                        </div>
+}
+                    }
+                    @Html.Grid(searchResults).Columns(columns =>
+            {
+                if (Model.VentureMode == false)
+                {
+                    columns.Add().Sanitized(false).Encoded(false).Titled("Reports").RenderValueAs(d => ViewReportColumn(d.formResultId, d.formId, d.Status).ToHtmlString()).SetWidth("90px");
+                }
+                columns.Add().Sanitized(false).Encoded(false).Titled("Action").RenderValueAs(
+                    d => GridActionColumn(d.Recipient_ContactID, d.formResultId, d.formId, d.deleted, d.archived, d.locked, d.Status, d.reviewStatus).ToHtmlString()
+                ).SetWidth("150px");
+                columns.Add(o => o.FirstName).Titled("First Name").Sortable(true);
+                columns.Add(o => o.LastName).Titled("Last Name").Sortable(true);
+                columns.Add(o => o.Recipient_ContactID).Titled("Recipient ID").Sortable(true).Encoded(false).Sanitized(false).RenderValueAs(o => @<a href="#">@o.Recipient_ContactID</a>);
+                columns.Add(o => o.formResultId).Titled("SIS ID").Sortable(true);
+                //columns.Add(o => o.Status).Titled("Status").Sortable(true);
+                columns.Add(o => o.Status).Titled("Status").Sortable(true).Encoded(false).Sanitized(false).RenderValueAs(o => o.locked == true ? @o.Status + " - Locked" : @o.Status);
+                columns.Add(o => o.InterviewDate).Titled("Interview Date").Sortable(true).Format("{0:MM/dd/yyyy}");
+                columns.Add(o => o.MedicaidNumber).Titled("Medicaid Id").Sortable(true);
+                columns.Add(o => o.TrackingNumber).Titled("<span id=\"trkNum\">Tracking #</span>").Sortable(true);
+                columns.Add(o => o.Lst4).Titled("SSN").Sortable(true);
+                columns.Add(o => o.InterviewerLoginID).Titled("Interviewer Login ID").Sortable(true);
+                columns.Add(o => o.assigned).Titled("Assigned").Sortable(true).RenderValueAs(o => (@o.assigned.HasValue && Model.userNames.ContainsKey((int)@o.assigned)) ? Model.userNames[(int)@o.assigned] : (@o.assigned.HasValue ? @o.assigned.ToString() : "None"));
+                columns.Add(o => o.reviewStatus).Titled("Review Status").Sortable(true).RenderValueAs(o => (o.reviewStatus != null && Model.reviewStatuses.ContainsKey(Int32.Parse(@o.reviewStatus))) ? Model.reviewStatuses[(Int32.Parse(@o.reviewStatus))] + ((Int32.Parse(@o.reviewStatus) == Assmnts.Business.ReviewStatus.CHECKED_OUT) ? ": " + @o.CheckedOutTo : String.Empty) : String.Empty).SetWidth("100px");
+                columns.Add(o => o.sub_id).Titled("Group").Sortable(true).RenderValueAs(o => (@o.sub_id.HasValue && Model.Groups.ContainsKey((int)@o.sub_id)) ? Model.Groups[(int)@o.sub_id] : (@o.sub_id.HasValue ? @o.sub_id.ToString() : "Null"));
+                columns.Add(o => o.ent_id).Titled("Enterprise").Sortable(true).RenderValueAs(o => (@o.ent_id.HasValue && Model.Enterprises.ContainsKey((int)@o.ent_id)) ? Model.Enterprises[(int)@o.ent_id] : (@o.ent_id.HasValue ? @o.ent_id.ToString() : "Null"));
+                if (Model.DetailSearchCriteria.PatternCheck 
+                   || (Model.DetailSearchCriteria.SelectedPatterns != null && Model.DetailSearchCriteria.SelectedPatterns.Any()))
+                {
+                    columns.Add().Sanitized(false).Encoded(false).Titled("Pattern Check").RenderValueAs(
+                        d => PatternCheckColumn(d.formResultId));
+                }
+                
+                columns.Add(o => o.formId).Titled("Type").Sortable(true).RenderValueAs(o => (Model.AllForms.ContainsKey((int)@o.formId)) ? Model.AllForms[(int)@o.formId] : (@o.formId.ToString()));
+                if (Model.VentureMode == false)
+                {
+                    columns.Add().Sanitized(false).Encoded(false).Titled("Attachment").RenderValueAs(o => AttachmentColumn(@o.formResultId, o.locked == true ? @o.Status + " - Locked" : @o.Status));
+                }
+            }).WithPaging(@Model.numAssmnts);  // .WithGridItemsCount("Total Assessments");  *** preceding code is in v3.1 of GridMVC
+
+                    <div>
+                        <div>
+                            @if (Model.create && Model.edit)
+                            {
+                                try
+                                {
+                                    foreach (KeyValuePair<int, string> entry in Model.Forms)
+                                    {
+                                        <form action="/Search/NewBlankAssessment" method="get" style="display:inline-block;">
+                                            <input type="hidden" name="formId" value="@entry.Key" />
+                                            <input type="submit" value="Create New @entry.Value Assessment">
+                                        </form>
+                                    }
+                                }
+                                catch (Exception ex)
+                                {
+
+                                }
+                            }
+
+                            @*@Html.ActionLink("Create New Assessment", "NewBlankAssessment", "Search", null, null)*@
+                        </div>
+                    </div>
+                }
+            </div>
+            <hr />
+            @if (Model.VentureMode == false)
+            {
+
+                <div id="advancedSearchBox" hidden="hidden">
+                    @if (Model.showSearch == true)
+                    {
+                        <div id="advanced_search_container" style="width:700px; margin: 0 auto 0 auto; text-align:center;">
+                            <!--<div style="position:relative; left:-130px; top:50px; text-align:left;"><h3>Advanced<br />Search</h3></div>  -->
+                            <div style="position:center; top:40px; text-align:center;"><h3>Advanced Search</h3></div>
+                            <button type="button" onclick="document.getElementById('submitSA').click();">Search Assessments</button>
+                            <button type="button" onclick="document.getElementById('submitCSC').click();">Clear Search Criteria</button>
+                            @using (Html.BeginForm("DetailSearch", "Search", FormMethod.Post, new { }))
+                            {
+                                <div style="margin-top:30px;text-align:left;position:relative;left:100px;">
+                                    <span class="searchLabel">First Name:</span>
+                                    @Html.TextBoxFor(x => x.DetailSearchCriteria.FirstName, Model.DetailSearchCriteria.FirstName, new { id = "firstNameBox", @class = "textbox-ids", type = "text" })
+                                    <span class="searchLabel" style="margin-left:30px;">Last Name:</span>
+                                    @Html.TextBoxFor(x => x.DetailSearchCriteria.LastName, Model.DetailSearchCriteria.LastName, new { id = "lastNameBox", @class = "textbox-ids", type = "text" })
+                                </div>
+                                <div style="margin-top:20px;">
+                                    <span style="font-weight:bold;">Search for multiple records by inserting the SIS_id's or tracking numbers or ssn’s by entering numbers in a single column. </span>
+                                </div>
+                                <div>
+                                    <div style="display:inline-block;text-align:left">
+                                        <span class="searchLabel">SIS IDs</span>
+                                        <br />
+                                        @Html.TextAreaFor(x => x.DetailSearchCriteria.sisIds, new { @class = "textarea-ids" })
+                                    </div>
+                                    <div style="display:inline-block;text-align:left">
+                                        <span class="searchLabel">Recipient IDs</span>
+                                        <br />
+                                        @Html.TextAreaFor(x => x.DetailSearchCriteria.recIds, new { @class = "textarea-ids" })
+                                    </div>
+                                    <div style="display:inline-block;text-align:left">
+                                        <span class="searchLabel">Tracking Numbers</span>
+                                        <br />
+                                        @Html.TextAreaFor(x => x.DetailSearchCriteria.trackingNumber, new { @class = "textarea-ids" })
+                                    </div>
+                                </div>
+                                <hr />
+                                <div style="margin-top:8px;">
+                                    <div class="styled-select divListItems" style="text-align:left">
+                                        <span class="searchLabel">
+                                            Interviewer Username
+                                        </span>
+                                        <br />
+                                        @Html.ListBoxFor(m => m.DetailSearchCriteria.SelectedInterviewers, Model.DetailSearchCriteria.InterviewerList, new { size = 8 })
+                                    </div>
+                                    <div class="styled-select divListItems" style="text-align:left">
+                                        <span class="searchLabel">
+                                            Groups
+                                        </span>
+                                        <br />
+                                        @Html.ListBoxFor(m => m.DetailSearchCriteria.SelectedGroups, Model.DetailSearchCriteria.GroupList, new { size = 8 })
+                                    </div>
+                                    <div class="styled-select divListItems" style="text-align:left">
+                                        <span class="searchLabel">
+                                            Enterprise
+                                        </span>
+                                        <br />
+                                        @Html.ListBoxFor(m => m.DetailSearchCriteria.SelectedEnts, Model.DetailSearchCriteria.EnterpriseList, new { size = 8 })
+                                    </div>
+                                </div>
+                                <hr />
+                                if (Model.ShowPatternCheck)
+                                {
+                                    <div>
+                                        <div style="margin-bottom: 10px;">
+                                            <span class="searchLabel">Pattern Recognition:</span>
+                                            @Html.CheckBoxFor(x => x.DetailSearchCriteria.PatternCheck) <label for="DetailSearchCriteria_PatternCheck"><span></span>Pattern Check</label>
+                                        </div>
+                                        <div style="display: inline-block; text-align: left">
+                                            <span class="searchLabel">Pattern Check</span>
+                                            <br/>
+                                            @Html.ListBoxFor(m => m.DetailSearchCriteria.SelectedPatterns, Model.DetailSearchCriteria.PatternList, new {size = 8})
+                                        </div>
+                                    </div>
+                                    <div id="threeColumns" style="margin-top:10px;">
+                                        <div style="text-align:left">
+                                            <span class="searchLabel">
+                                                Date Updated Range:
+                                            </span>
+                                            <br />
+                                        </div>
+                                        <div id="firstCol">
+                                            <span style="float:left; width:50px; text-align:right;">From:</span>
+                                            <div style="float:right">@Html.TextBoxFor(x => x.DetailSearchCriteria.updatedDateFrom, new { id = "upDateFrom", @class = "datefield", type = "text" })</div>
+
+                                            <br />
+                                            <br />
+                                            <span style="float:left; width:50px; text-align:right;">To:</span>
+                                            <div style="float:right">@Html.TextBoxFor(x => x.DetailSearchCriteria.updatedDateTo, new { id = "upDateTo", @class = "datefield", type = "text" })</div>
+                                        </div>
+                                        <div id="secondCol">
+                                            <div align="left"><a style="cursor:pointer;" onclick="lastMonth('upDate')">Last Month</a></div>
+                                            <div align="left"><a style="cursor:pointer;" onclick="lastQuarter('upDate')">Last Quarter</a></div>
+                                            <div align="left"><a style="cursor:pointer;" onclick="yearToDate('upDate')">Year to Date</a></div>
+                                            <div align="left"><a style="cursor:pointer;" onclick="lastYear('upDate')">Last Year</a></div>
+                                            <div></div>
+                                        </div>
+                                        <div id="thirdCol">
+                                            <div align="right"><a style="cursor:pointer;" onclick="endNextMonth('upDate')">End of Next Month</a></div>
+                                            <div align="right"><a style="cursor:pointer;" onclick="endQuarter('upDate')">End of Quarter</a></div>
+                                            <div align="right"><a style="cursor:pointer;" onclick="endNextQuarter('upDate')">End of Next Quarter</a></div>
+                                            <div align="right"><a style="cursor:pointer;" onclick="endYear('upDate')">End of Year</a></div>
+                                            <div align="right"><a style="cursor:pointer;" onclick="endNextYear('upDate')">End of Next Year</a></div>
+                                        </div>
+                                    </div>
+                                }
+                                <div style="width:600px;position:relative;left:50px;">
+                                    <div style="text-align:left">
+                                        <span class="searchLabel">
+                                            Interview Date Range:
+                                        </span>
+                                        <br />
+                                    </div>
+                                    <div id="threeColumns" style="margin-top:10px;">
+                                        <div id="firstCol">
+                                            <span style="float:left; width:50px; text-align:right;">From:</span>
+                                            <div style="float:right">@Html.TextBoxFor(x => x.DetailSearchCriteria.interviewDateFrom, new { id = "dateFrom", @class = "datefield", type = "text" })</div>
+
+                                            <br />
+                                            <br />
+                                            <span style="float:left; width:50px; text-align:right;">To:</span>
+                                            <div style="float:right">@Html.TextBoxFor(x => x.DetailSearchCriteria.interviewDateTo, new { id = "dateTo", @class = "datefield", type = "text" })</div>
+                                        </div>
+                                        <div id="secondCol">
+                                            <div align="left"><a style="cursor:pointer;" onclick="lastMonth('date')">Last Month</a></div>
+                                            <div align="left"><a style="cursor:pointer;" onclick="lastQuarter('date')">Last Quarter</a></div>
+                                            <div align="left"><a style="cursor:pointer;" onclick="yearToDate('date')">Year to Date</a></div>
+                                            <div align="left"><a style="cursor:pointer;" onclick="lastYear('date')">Last Year</a></div>
+                                            <div></div>
+                                        </div>
+                                        <div id="thirdCol">
+                                            <div align="right"><a style="cursor:pointer;" onclick="endNextMonth('date')">End of Next Month</a></div>
+                                            <div align="right"><a style="cursor:pointer;" onclick="endQuarter('date')">End of Quarter</a></div>
+                                            <div align="right"><a style="cursor:pointer;" onclick="endNextQuarter('date')">End of Next Quarter</a></div>
+                                            <div align="right"><a style="cursor:pointer;" onclick="endYear('date')">End of Year</a></div>
+                                            <div align="right"><a style="cursor:pointer;" onclick="endNextYear('date')">End of Next Year</a></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr />
+                                <div style="margin-bottom: 10px;">
+                                    <span class="searchLabel">SIS Version:</span>
+                                    @Html.CheckBoxFor(x => x.DetailSearchCriteria.adultSis, new { @checked = "checked" }) <label for="DetailSearchCriteria_adultSis"><span></span>Adult</label>
+                                    @Html.CheckBoxFor(x => x.DetailSearchCriteria.childSis, new { @checked = "checked" }) <label for="DetailSearchCriteria_childSis"><span></span>Child</label>
+                                </div>
+                                <div style="margin-bottom:25px;">
+                                    <div id="divCompletedLevel" class="divInline">
+                                        <span class="searchLabel">Level of Completion:</span>
+                                        <br />
+                                        <div>@Html.CheckBoxFor(o => o.DetailSearchCriteria.statusCompleted)<label for="DetailSearchCriteria_statusCompleted"><span></span>Completed</label></div>
+                                        <div>@Html.CheckBoxFor(o => o.DetailSearchCriteria.statusNew)<label for="DetailSearchCriteria_statusNew"><span></span>New</label></div>
+                                        <div>@Html.CheckBoxFor(o => o.DetailSearchCriteria.statusInProgress)<label for="DetailSearchCriteria_statusInProgress"><span></span>In Progress</label></div>
+                                        <div>@Html.CheckBoxFor(o => o.DetailSearchCriteria.statusAbandoned)<label for="DetailSearchCriteria_statusAbandoned"><span></span>Abandoned</label></div>
+                                    </div>
+
+                                    <div id="divReviewStatus" class="divInline">
+                                        <span class="searchLabel">QA Review Status</span>
+                                        <div>@Html.CheckBoxFor(o => o.DetailSearchCriteria.reviewStatusToBeReviewed)<label for="DetailSearchCriteria_reviewStatusToBeReviewed"><span></span>To Be Reviewed</label></div>
+                                        <div>@Html.CheckBoxFor(o => o.DetailSearchCriteria.reviewStatusReviewed)<label for="DetailSearchCriteria_reviewStatusReviewed"><span></span>Reviewed</label></div>
+                                        <div>@Html.CheckBoxFor(o => o.DetailSearchCriteria.reviewStatusApproved)<label for="DetailSearchCriteria_reviewStatusApproved"><span></span>Approved</label></div>
+                                        <div>@Html.CheckBoxFor(o => o.DetailSearchCriteria.reviewStatusPreQA)<label for="DetailSearchCriteria_reviewStatusPreQA"><span></span>Pre-QA (typically hidden)</label></div>
+
+                                    </div>
+                                    <div class="divInline">
+                                        <span class="searchLabel">Typically Hidden Records:</span>
+                                        <div>@Html.CheckBoxFor(o => o.DetailSearchCriteria.deleted)<label for="DetailSearchCriteria_deleted"><span></span>Deleted</label></div>
+                                        <div>@Html.CheckBoxFor(o => o.DetailSearchCriteria.archived)<label for="DetailSearchCriteria_archived"><span></span>Archived</label></div>
+                                        <div>@Html.CheckBoxFor(o => o.DetailSearchCriteria.training)<label for="DetailSearchCriteria_training"><span></span>Training</label></div>
+                                    </div>
+                                    <div class="divInline">
+                                        <span class="searchLabel">Other:</span>
+                                        <div>@Html.CheckBoxFor(o => o.DetailSearchCriteria.inactiveRecipient)<label for="DetailSearchCriteria_inactiveRecipient"><span></span>Inactive Recipient Records</label></div>
+                                        <div>@Html.CheckBoxFor(o => o.DetailSearchCriteria.allForEachRecipient)<label for="DetailSearchCriteria_allForEachRecipient"><span></span>All Assessments for Each Recipient</label></div>
+                                    </div>
+                                </div>
+                                <input type="submit" id="submitSA" name="command" value="Search Assessments" />
+                                <input type="submit" id="submitCSC" name="command" value="Clear Search Criteria" />
+                            }
+                        </div>
+                    }
+                </div>
+            }
+            else
+            {
+                <div id="filter" style="margin-left:30px;">
+                    @using (Html.BeginForm("Venture", "Search", FormMethod.Post, new { }))
+                    {
+                        <div>@Html.CheckBoxFor(o => o.DetailSearchCriteria.deleted)<label for="DetailSearchCriteria_deleted"><span></span>Deleted</label></div>
+                        <div>@Html.CheckBoxFor(o => o.DetailSearchCriteria.archived)<label for="DetailSearchCriteria_archived"><span></span>Uploaded</label></div>
+                        <input type="submit" id="applyFilter" name="applyFilter" value="Change results" />
+                    }
+                </div>
+            }
+        </section>
+    </div>
+
+    <script src="/Scripts/jquery-ui-1.11.4.min.js"></script>
+    <script src="/Scripts/jquery.highlight.js" type="text/javascript"></script>
+    <script src="/Scripts/gridmvc.min.js" type="text/javascript"></script>
+    <script src="/Content/js/DateFunctionForSearch.js" type="text/javascript"></script>
+    <script src="/content/js/textchanger.js" type="text/javascript"></script>
+    <script src="~/Content/js/jquery.sessionTimeout.js" type="text/javascript"></script>
+    <script src="/Scripts/spin.min.js" type="text/javascript"></script>
+    <script src="~/Content/js/timeout.js" type="text/javascript"></script>
+    <script src="~/Scripts/moment.min.js" type="text/javascript"></script>
+    <script src="~/Content/js/ReplaceText.js" type="text/javascript"></script>
+
+    <script type="text/javascript">
+
+        $(document).ready(function() {
+
+            if ("@Model.showSearch" == "True") {
+                $("#searchBox").show();
+                $("#divSearchGrid").show();
+                $("#advancedSearchBox").show();
+
+                var searchElement = document.getElementById('txtGeneralSearch');
+
+                var searchWords = "";
+
+                if (searchElement != null)
+                    searchWords = searchElement.value;
+
+                if (searchWords.trim() != "") {
+                    var listSearchWords = searchWords.trim().split(" ");
+
+                    $('#divSearchGrid table td').highlight(listSearchWords, { wordsOnly: true });
+
+                    for (var i = 0; i < listSearchWords.length; i++) {
+                        if (moment(listSearchWords[i].replace(/\-/g, '/'), "MM/DD/YYYY").isValid()) {
+                            var tempDate = moment(listSearchWords[i].replace(/\-/g, '/'), "MM/DD/YYYY");
+                            var splitDate = listSearchWords[i].replace(/\-/g, '/').trim().split("/");
+
+                            // Assuming third part of the date will be the year
+                            if (splitDate[2] < 50) {
+                                tempDate.add('y', 100);
+                            }
+                            else if (splitDate[2] == null) // If the year wasn't entered, assume the current year
+                            {
+                                tempDate.year(moment().year());
+                            }
+
+                            $('#divSearchGrid table td').highlight(tempDate.format("MM/DD/YYYY"), { wordsOnly: true });
+                        }
+                    }
+                }
+
+                $(".datefield").datepicker();
+            }
+
+            if ("@Model.profilePref"== "True") {
+                userInfo();
+            }
+
+            if ("@Model.searchPref" == "True") {
+                searchPref();
+            }
+
+            if ("@Model.passPref" == "True") {
+                changePass();
+            }
+
+            if ("@Model.batchCSVExportOptions" == "True") {
+                batchCSVExportOptions();
+            }
+
+            if ("@Model.CSVExportOptions" == "True") {
+                CSVExportOptions();
+            }
+
+            $("#submitXferUAS").click(function () {
+                $("#xferForm").submit();
+            });
+
+
+            $("#exportCSV").click(function () {
+                //Add ajax to load appropriate export selection form
+            });
+
+            // Add trap for spinner on any form submit
+            $("form").submit(function() {
+                // Options for the Spinner
+                var opts = {
+                    length: 20, // The length of each line
+                    width: 10, // The line thickness
+                    radius: 30, // The radius of the inner circle
+                    color: '#106296', // #rgb or #rrggbb or array of colors
+                    trail: 60, // Afterglow percentage
+                    shadow: false, // Whether to render a shadow
+                    hwaccel: false, // Whether to use hardware acceleration
+                };
+                var target = document.getElementById('body');
+                var spinner = new Spinner(opts).spin(target);
+                // alert('spinner launched.');
+            });
+
+            // *** RRB is this necessary??
+            // ReplaceText("#trkNum", "trkNum");
+
+            $("form").submit(function(e)
+            {
+                if($(this).find("select").val() == "move") {
+
+                    e.preventDefault();
+                    var formResultId = $(this).find(".sisId").val();
+
+                    $.ajax({
+                        url: '@(Url.Action("Move", "Search"))',
+                        type: "POST",
+                        data: { formResultId: formResultId},
+                        cache: false,
+                        async: false,
+                        success: function (result) {
+                            $("#searchBox").hide();
+                            $("#divSearchGrid").hide();
+                            $("#advancedSearchBox").hide();
+                            $("#movePartialView").html(result);
+                            $("#movePartialView").show();
+                        }
+                    });
+                    $(".spinner").remove();
+
+                }
+            });
+
+
+            var uploadOptions = {
+                'success' : uploadResponse
+            };
+            $('.uploadForm').ajaxForm(function() {
+                //Originally intended to fire a post response method, but the dynamic population of records forces identification via class.
+                //Find a way to get the formResultId of the upload button clicked then call by identifier for this method to work.
+                //see http://malsup.com/jquery/form/#ajaxSubmit for more info.
+                //$('#UploadFORMRESULTID').ajaxSubmit(options);
+                viewFiles();
+                alert("File Uploaded");
+                $(".spinner").remove();
+                //return false;
+            });
+
+            viewFiles();
+        });
+        // End of document.Ready()
+
+        var timeout = @Model.timeout;
+
+        function batchCSVExportOptions() {
+            $("#searchBox").hide();
+            $("#divSearchGrid").hide();
+            $("#advancedSearchBox").hide();
+            $("#prefPartialView").hide();
+
+            $.ajax({
+                url: '@(Url.Action("exportCSVCaller", "Search"))',
+                type: "POST",
+                cache: false,
+                async: true,
+                success: function (result) {
+                    $("#exportPartialView").html(result);
+                    $("#exportPartialView").show();
+                }
+            });
+        }
+
+        function CSVExportOptions() {
+            $("#searchBox").hide();
+            $("#divSearchGrid").hide();
+            $("#advancedSearchBox").hide();
+            $("#prefPartialView").hide();
+
+            $.ajax({
+                url: '@(Url.Action("CSVOptions", "Export"))',
+                type: "GET",
+                cache: false,
+                async: true,
+                success: function (result) {
+                    $("#exportPartialView").html(result);
+                    $("#exportPartialView").show();
+                }
+            });
+        }
+
+        function searchPref() {
+            $("#searchBox").hide();
+            $("#divSearchGrid").hide();
+            $("#advancedSearchBox").hide();
+            $("#exportPartialView").hide();
+
+            $.ajax({
+                url: '@(Url.Action("indexUser", "Preferences"))',
+                type: "POST",
+                cache: false,
+                async: true,
+                success: function (result) {
+                    $("#prefPartialView").html(result);
+                    $("#prefPartialView").show();
+                }
+            });
+
+
+        }
+
+        function changePass() {
+            $("#searchBox").hide();
+            $("#divSearchGrid").hide();
+            $("#advancedSearchBox").hide();
+            $("#exportPartialView").hide();
+
+            $.ajax({
+                url: '@(Url.Action("indexPassword", "Preferences"))',
+                type: "POST",
+                cache: false,
+                async: true,
+                success: function (result) {
+                    $("#prefPartialView").html(result);
+                    $("#prefPartialView").show();
+                }
+            });
+        }
+
+        function userInfo() {
+            $("#searchBox").hide();
+            $("#divSearchGrid").hide();
+            $("#advancedSearchBox").hide();
+            $("#exportPartialView").hide();
+
+            $.ajax({
+                url: '@(Url.Action("Index", "Preferences"))',
+                type: "POST",
+                cache: false,
+                async: true,
+                success: function (result) {
+                    $("#prefPartialView").html(result);
+                    $("#prefPartialView").show();
+                }
+            });
+        }
+
+        function xferUas() {
+            window.open('Account/xferUAS');
+        }
+
+        function uploadResponse(responseText, statusText, xhr, $form) {
+            // currently doesn't work, see the ajax method at the bottom of the document.ready method.
+            alert("showResponse");
+            $(".spinner").remove();
+        }
+
+        function viewFiles() {
+            var ids = $(".viewFiles").map(function(index) {
+                return this.id;
+            });
+
+            for (i = 0; i < ids.length; i++) {
+                frid = ids[i].substring(4);
+                postdata = {
+                    'formResultId' : frid
+                }
+                $.ajax({
+                    type: 'GET',
+                    url: '/Search/hasFiles',
+                    data: postdata,
+                    async: false,
+                    cache: false,
+                    success: function (result) {
+                        if (result == 'True') {
+                            $('#' + ids[i]).show();
+                        } else {
+                            $('#' + ids[i]).hide();
+                        }
+                    },
+                    error: function () {
+                        alert('Error checking file count for form ' + frid + '.');
+                    }
+                });
+            }
+        }
+
+        // Shows the attachment download option, as well as delete button.
+        function downloadAttach(formResultId)
+        {
+            var postdata = {
+                'formResultId' : formResultId
+            }
+
+            // Populate the Attachment drop down, which is the same in both download and delete options.
+            $.ajax({
+                type: 'GET',
+                url: '/Search/getFileDisplayText',
+                data: postdata,
+                async: false,
+                cache: false,
+                success: function (result) {
+                    $('.AttachDDL' + formResultId).html(result);
+                },
+                error: function () {
+                    alert('Error retrieving file list.');
+                }
+            });
+
+            $('#attachment1' + formResultId).hide();
+            $('#attachment3' + formResultId).hide();
+            $('#attachment2' + formResultId).show();
+        }
+
+        // Downloads the selected file.
+        function downloadFile(formResultId)
+        {
+            // Make sure the drop down was populated.
+            if ($('#dwnldDDL' + formResultId).html().indexOf('<option') !== -1) {
+                var DDL = $('#dwnldDDL' + formResultId).children('.filesDDL' + formResultId);
+                var fileId = DDL.attr('selected',true).val();
+
+                window.location.href = '/Search/DownloadFile?fileId=' + fileId;
+            } else {
+                alert('No files selected');
+            }
+        }
+
+        // Returns to the file attach option.
+        function cancelAttach(formResultId)
+        {
+            $('#attachment2' + formResultId).hide();
+            $('#attachment1' + formResultId).show();
+        }
+
+        // Shows the attachment delete option.
+        function deleteAttach(formResultId)
+        {
+            $('#attachment2' + formResultId).hide();
+            $('#attachment3' + formResultId).show();
+        }
+
+        // Deletes the selected file.
+        function deleteFile(formResultId)
+        {
+            // Make sure the drop down was populated.
+            if ($('#dltDDL' + formResultId).html().indexOf('<option') !== -1) {
+                var DDL = $('#dltDDL' + formResultId).children('select.filesDDL' + formResultId);
+                var fileId = DDL.attr('selected',true).val();
+                var postdata = {
+                    'formResultId': formResultId,
+                    'fileId': fileId
+                }
+
+                $.ajax({
+                    type: 'GET',
+                    url: '/Search/DeleteFile',
+                    data: postdata,
+                    async: false,
+                    cache: false,
+                    success: function (result) {
+                        alert('File deleted');
+                        downloadAttach(formResultId);
+                    },
+                    error: function () {
+                        alert('File not found.');
+                    }
+                });
+            } else {
+                alert('No files selected');
+            }
+        }
+
+    </script>
+
+</body>
+</html>

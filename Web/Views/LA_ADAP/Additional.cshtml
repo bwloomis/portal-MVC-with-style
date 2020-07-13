@@ -1,0 +1,42 @@
+﻿@model Assmnts.Models.GeneralForm
+@{
+    Layout = "LA_AdapAppLayout.cshtml";
+}
+
+@section AddtoHead{
+    <link rel="stylesheet" type="text/css" href="/Content/adap/css/ADAPForms.css" />
+    <script src="~/Content/js/ADAPLookupSelects.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            //Set the placeholder text for all dropdowns, except the "Jump to Application Section" dropdown
+            $('select[name!=jumpSection] option[value=""]').html("Choose One");
+
+            setApplicationProgressIndicator(14);
+
+        });
+
+    </script>
+}
+
+<!DOCTYPE html>
+
+<html>
+<body>
+    <div class="panel panel-default" id="">
+        <div class="panel-body" style="background-color:#f8f8f8">
+            <div class="form-group">
+                <div class="col-md-9">
+                    @Model.sctTitles["LA_ADAP_Additional_Comments"]
+                    @Helpers.ToolTipFromItemPrompt(Model, "LA_ADAP_Additional_Comments_item", new { @class = "pointer fa fa-question-circle text-primary fa-1x col-md-4", @style="float:right" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-10">
+                    <textarea type="input" cols="120" rows="20" name="LA_ADAP_Additional_Comments" id="LA_ADAP_Additional_Comments">@Model.rspValues["LA_ADAP_Additional_Comments"]</textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

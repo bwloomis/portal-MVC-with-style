@@ -1,0 +1,151 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="CertHeader" xml:space="preserve">
+    <value>ADAP Certification and Authorization of Release of Information</value>
+  </data>
+  <data name="CertText" xml:space="preserve">
+    <value>&lt;li&gt;I certify that the information provided in this application is complete and accurate, to the best of my knowledge.&lt;/li&gt;
+&lt;li&gt;I understand that my failure to be accurate and complete may prevent or delay a determination of eligibility to receive assistance from ADAP.&lt;/li&gt;
+&lt;li&gt;I understand that, for the purposes of determining my eligibility for ADAP, the CDPHE, its contractors and subcontractors may request further documentation to verify my HIV positive serostatus, my Colorado residency, and my financial, employment or insurance information as necessary.&lt;/li&gt;
+&lt;li&gt;I authorize my prescribing physician, case manager, other departments and programs of the State of Colorado, and other information sources to release information necessary to complete the application process, to verify the accuracy of any information provided in this application, and to verify my ongoing eligibility for ADAP. I further authorize the CDPHE to utilize data from public health records to verify that I am living with HIV.&lt;/li&gt;
+&lt;li&gt;I authorize the CDPHE to release information to my physicians, case manager, treatment centers, and other healthcare providers to facilitate provision of ADAP services.&lt;/li&gt;
+&lt;li&gt;I understand and agree to submit periodic information regarding my continued eligibility for ADAP, including proof of income, proof of residency, health insurance coverage, and general updates on forms provided by the CDPHE. I understand that changes in my situation will be evaluated to determine my continued eligibility for ADAP. I will be notified in writing if I am to be discontinued from ADAP.&lt;/li&gt;
+&lt;li&gt;I agree to notify, or have my case manager notify, the CDPHE of any circumstances affecting my participation in, or eligibility for, ADAP. I agree to notify the CDPHE within thirty (30) days if I change my address or other preferred contact information. I further authorize the CDPHE to contact the persons listed as "Emergency Contact" on this form if the CDPHE's attempts to contact me have been unsuccessful.&lt;/li&gt;
+&lt;li&gt;I understand that I am to recertify for ADAP twice per year in a timely manner at my birth month and six months after my birth month.&lt;/li&gt;
+&lt;li&gt;
+	I understand that my ADAP eligibility will terminate if:
+	&lt;ul&gt;
+		&lt;li&gt;I do not cooperate with efforts to verify information in this application, or&lt;/li&gt;
+		&lt;li&gt;I do not comply with the activities needed to identify/verify potential sources of alternative coverage, or&lt;/li&gt;
+		&lt;li&gt;I fail to seek other forms of coverage, as instructed by the CDPHE, for which I may be eligible, or&lt;/li&gt;
+		&lt;li&gt;The CDPHE becomes aware of material misrepresentation, withheld information, or documented fraud, or &lt;/li&gt;
+		&lt;li&gt;Qualifying medication is no longer being prescribed to me.&lt;/li&gt;
+	&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;I understand that the CDPHE reserves the right at any time and without notice to modify the ADAP application form. &lt;/li&gt;
+&lt;li&gt;I understand that my assistance through all CDPHE programs is contingent on state and federal funding. This funding is limited and may expire at any time without extended or alternative funds being available.&lt;/li&gt;
+&lt;li&gt;I understand that completing this application does not ensure that I will qualify for this program.&lt;/li&gt;
+&lt;li&gt;I understand that my name, address and any other personal identifying information provided in this application will be available to the CDPHE and its contractors and subcontractors, and that this information will not be disclosed to anyone else, except as required or permitted by law. &lt;/li&gt;
+&lt;li&gt;I understand that I have a right to ask for a full hearing if I feel that a decision on my eligibility was unfair or incorrect of if I believe CDPHE staff or contractors discriminated against me based on my age, race, ethnicity, sex, gender identity, disability, religion, nationality, or sexual orientation. &lt;/li&gt;
+&lt;li&gt;I understand that pursuant to the Colorado Governmental Immunity Act, C.R.S. ยง 24-10-101 et seq., the CDPHE is not liable for damages for any injury arising out of my participation in ADAP. &lt;/li&gt;
+&lt;li&gt;I understand that I may revoke this authorization at any time in writing. However, the release shall remain valid until such time as I inform the ADAP, in writing, of my wish to terminate services through the program, or until such time as I no longer qualify for these services, whichever occurs first, except to the extent that action has been taken in reliance on this authorization.&lt;/li&gt;
+&lt;li&gt;A copy of this authorization has the same effect as the original.&lt;/li&gt;</value>
+  </data>
+</root>

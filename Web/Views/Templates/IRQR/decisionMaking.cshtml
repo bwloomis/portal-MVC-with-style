@@ -1,0 +1,427 @@
+@model Assmnts.Models.GeneralForm       
+@using Assmnts
+@{
+    ViewBag.Title = "Decision-making Process";
+    Layout = "~/Views/Shared/AssmntLayout.cshtml";
+    Validator.Required("The field is required.");
+}
+
+@section HeadContent {
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <style type="text/css">
+        #btnExpandResps
+        {
+            height: 18px; 
+            width: 184px;
+            font-family: Arial, Geneva, Verdana;
+        }
+
+        .class_wide_input {
+            width: 300px;
+        }
+
+        td {
+            font-size: 12px;
+        }
+
+        table.internalborders {
+            border: 2px solid black;
+            border-bottom: 1px solid black;
+            border-right: 1px solid black;
+            border-spacing:0px; 
+        }
+
+        table.internalborders td {
+            border-right: 1px solid black;
+            border-bottom: 1px solid black;
+        }
+
+        td.header {
+            font-weight: bold;
+            text-align: center;
+            background-color: rgb(217,217,217);
+        }
+
+        td.label {
+            font-weight: bold;
+            text-align: center;
+            vertical-align: top;
+            background-color: rgb(217,217,217);
+        }
+
+        td.info {
+            font-weight: normal;
+            text-align: left;
+            background-color: white;
+        }
+    </style>
+
+    <link rel="stylesheet" type="text/css" href="/Content/css/jquery.datepick.css">
+    <link rel="stylesheet" type="text/css" href="/Content/css/jquery.timeentry.css">
+    <script src="/Content/js/jquery.plugin.js"></script>
+    <script src="/Content/js/jquery.datepick.js"></script>
+    <script src="/Content/js/jquery.maskedinput.min.js"></script>
+    <script src="/Content/js/jquery.timeentry.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.class_nextscreen').hide();
+            updateAgreementTotal();
+
+            //necessary to display textareas properly on internet explorer
+            //http://stackoverflow.com/questions/23139126/textarea-css-height-100-in-table-cell-div-ie
+            $('.rspTextArea').each(function () {
+                $(this).height(($(this).parent().height() - 6));
+            });
+        });
+
+        function updateAgreementTotal() {
+            var total = 0;
+            $('.agreement').each(function () {
+                var i = parseInt($(this).prop("value"));
+                if (!isNaN(i))
+                    total += i;
+            });
+            document.getElementById("agTotal").innerHTML = total;
+        }
+    </script>
+}
+<table id="tblData" border="0" cellpadding="0" cellspacing="0" style="height: 100%">
+    <tr>
+        <td style="width: 189px; background-color: #ffffff" valign="top" align="center">@Html.Partial("AssmntLeftPane")</td>
+        <td>
+            <br />
+            <table border="0" style="border-spacing: 0px; width: 625px;">
+                <tr>
+                    <td align="left">
+                        <!-- <asp:Label ID="lblErr" Visible="false" ForeColor="red" runat="server" />  -->
+                        <table border="0" cellpadding="5" cellspacing="0" style="background-color: #ffffff; margin-left: 1.3em;"
+                            width="625">
+                            <tr>
+                                <td>
+                                    <span class="titleblack">Interviewer Reliability and Qualification Review</span>
+                                </td>
+                            </tr>
+                        </table>
+                        <form action="/Results/Save" method="post" id="form-id">
+                            <table style="width: 800px; margin-left: 1.3em">
+                                <tr>
+                                    <td>
+                                        <table>
+                                            <tr>
+                                                <td colspan="2" style="border: 2px solid black; background-color: rgb(204,255,255); text-align: center; font-weight: bold">Decision-making Process
+                                                </td>
+                                            </tr>
+                                            <tr style="height: 4px"></tr>
+
+                                            <tr>
+                                            </tr>
+                                            <tr style="height: 4px"></tr>
+                                            <tr>
+                                                <td colspan="2">
+                                                    <table class="internalborders" style="width: 800px">
+                                                        <tr>
+                                                            <td colspan="4" class="header">
+                                                                Key
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="header" style="background-color:white">
+                                                                Set the Scene
+                                                            </td>
+                                                            <td class="header" style="background-color:white">
+                                                                Item Intent
+                                                            </td>
+                                                            <td class="header" style="background-color:white">
+                                                                Decision-making
+                                                            </td>
+                                                            <td class="header" style="background-color:white">
+                                                                Agreement
+                                                            </td>
+                                                        </tr>
+                                                        <tr style="text-align:center">
+                                                            <td>
+                                                                <b>+</b> yes<br /><b>-</b> no
+                                                            </td>
+                                                            <td>
+                                                                <b>+</b> yes for all<br /><b>-</b> number missed
+                                                            </td>
+                                                            <td>
+                                                                <b>+</b> agreement for all<br /><b>-</b> number of disagreements
+                                                            </td>
+                                                            <td>
+                                                                <b>+</b> pass<br /><b>-</b> not passed
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+
+                                            <tr style="height: 4px"></tr>
+                                            <tr>
+                                                <td colspan="2">
+                                                    <table class="internalborders" style="width: 800px">
+                                                        @for (int sctCnt = 0; sctCnt < Model.subSections.Count(); sctCnt++)
+                                                        {
+                                                            def_Sections sctn = Model.subSections[sctCnt];
+                                                            if (!sctn.multipleItemsPerPage)     // Only process sections with multiple common items per screen
+                                                            {
+                                                                continue;
+                                                            }
+                                                            
+                                                            <tr>
+                                                                <td class="header" colspan="5">
+                                                                    @sctn.title
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="width:40%"></td>
+                                                                <td class="header" style="background-color:white">
+                                                                    Set the Scene
+                                                                </td>
+                                                                <td class="header" style="background-color:white">
+                                                                    Item Intent
+                                                                </td>
+                                                                <td class="header">
+                                                                    Decision-making
+                                                                </td>
+                                                                <td class="header" style="background-color:rgb(204,255,255)">
+                                                                    Agreement
+                                                                </td>
+                                                            </tr>
+                                                
+                                                            string[] iv_suffixes = {"sts","ii","dm","ag"};
+                                                            foreach ( def_SectionItems si in sctn.def_SectionItems )
+                                                            {
+                                                                <tr>
+                                                                    <td style="font-weight:bold">&nbsp;&nbsp;@si.def_Items.label</td>
+                                                                    @for (int i = 0; i < 4; i++)
+                                                                    {
+                                                                        string bgCol = i == 3 ? "rgb(204,255,255)" : "white";
+                                                                        def_ItemVariables iv = si.def_Items.def_ItemVariables.First(v=>v.identifier.EndsWith( iv_suffixes[i] ) );
+                                                                        <td style="background-color:@bgCol">
+                                                                            @Helpers.TextInput(Model, iv.identifier, new {
+                                                                                style    = "background-color:" + bgCol + ";height:100%;width:100%;",
+                                                                                @class   = (i==3? "agreement":""),
+                                                                                onchange = (i==3? "updateAgreementTotal()":"")
+                                                                            })
+                                                                        </td>
+                                                                    }
+                                                                </tr>
+                                                            }
+                                                
+                                                        }
+                                                        <tr style="font-weight:bold;background-color:rgb(204,255,255)">
+                                                            <td style="border-top: 1px solid black; border-right:2px solid black" colspan="4">
+                                                                &nbsp;&nbsp;Total number of domains in agreements per Decision-making
+                                                            </td>
+                                                            <td id="agTotal" style="font-size:12px; text-align:center; border-top:1px solid black"></td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+
+                                            <tr style="height: 4px"></tr>
+
+                                            <tr>
+                                                <td colspan="2">
+                                                    <table class="internalborders" style="width: 800px">
+                                                        <tr>
+                                                            <td class="header" style="background-color:rgb(204,255,255)">
+                                                                Comments
+                                                            </td>
+                                                        </tr>
+                                                        <tr style="height:100px">
+                                                            <td>
+                                                                <textarea class="rspTextArea" name="irqr4_notesA" style="width:99%;height:100%;">@Model.rspValues["irqr4_notesA"]</textarea>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+
+                                            <tr style="height: 4px"></tr>
+
+                                            <tr>
+                                                <td colspan="2">
+                                                    <table class="internalborders" style="width: 800px">
+                                                        <tr>
+                                                            <td style="background-color:rgb(204,255,255)" class="header">
+                                                                Assessment Situation
+                                                            </td>
+                                                            <td>
+                                                                <input type="radio" name="irqr4_volunteer" id="irqr4_volunteer1" value="1" />
+                                                                <label for="irqr4_volunteer1"><span></span>Volunteer SIS</label>
+                                                            </td>
+                                                            <td>
+                                                                <input type="radio" name="irqr4_volunteer" id="irqr4_volunteer2" value="2" />
+                                                                <label for="irqr4_volunteer2"><span></span>Required SIS</label>
+                                                                <script>
+                                                                    $(document).ready(function () {
+                                                                        var target = '@Model.rspValues["irqr4_volunteer"]';
+                                                                        $("[name=irqr4_volunteer]").each(function () {
+                                                                            if ($(this).prop("value") == target) {
+                                                                                $(this).attr("checked", "1");
+                                                                            }
+                                                                        });
+                                                                    })
+                                                                </script>
+                                                            </td>
+                                                            <td>
+                                                                <!--
+                                                                    5/11/15 Changed line below from using getCheckboxInput to getLabeledCheckboxInput as the former
+                                                                    does not exist at this time and was causing an error. -- LK
+                                                                -->
+                                                                @Helpers.LabeledCheckboxInput(Model, "irqr4_corrected", "Scores corrected for final submission")) 
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="4" style="padding:0px">
+                                                                <table class="internalborders" style="border:none;width:100%">
+                                                                    <tr>
+                                                                        <td style="padding:0px">
+                                                                            <br />
+                                                                            <b>&nbsp;&nbsp;Individual Being Assessed:</b>
+                                                                            <input type="radio" name="irqr4_attend" id="irqr4_attend1" value="1" />
+                                                                            <label for="irqr4_attend1"><span></span>Not Present</label>
+                                                                            <input type="radio" name="irqr4_attend" id="irqr4_attend2" value="2" />
+                                                                            <label for="irqr4_attend2"><span></span>Present</label>
+                                                                                <script>
+                                                                                    $(document).ready(function () {
+                                                                                        var target = '@Model.rspValues["irqr4_attend"]';
+                                                                                        $("[name=irqr4_attend]").each(function () {
+                                                                                            if ($(this).prop("value") == target) {
+                                                                                                $(this).attr("checked", "1");
+                                                                                            }
+                                                                                        });
+                                                                                    })
+                                                                                </script>
+                                                                            <br />
+                                                                            <br />
+                                                                            <b>&nbsp;&nbsp;Level of Participation:</b>
+                                                                            <input type="radio" name="irqr4_partic" id="irqr4_partic1" value="1" />
+                                                                            <label for="irqr4_partic1"><span></span>Full</label>
+                                                                            <input type="radio" name="irqr4_partic" id="irqr4_partic2" value="2" />
+                                                                            <label for="irqr4_partic2"><span></span>Some</label>
+                                                                            <input type="radio" name="irqr4_partic" id="irqr4_partic3" value="3" />
+                                                                            <label for="irqr4_partic3"><span></span>Minimal</label>
+                                                                            <input type="radio" name="irqr4_partic" id="irqr4_partic4" value="4" />
+                                                                            <label for="irqr4_partic4"><span></span>None</label>
+                                                                                <script>
+                                                                                    $(document).ready(function () {
+                                                                                        var target = '@Model.rspValues["irqr4_partic"]';
+                                                                                        $("[name=irqr4_partic]").each(function () {
+                                                                                            if ($(this).prop("value") == target) {
+                                                                                                $(this).attr("checked", "1");
+                                                                                            }
+                                                                                        });
+                                                                                    })
+                                                                                </script>
+                                                                            <br />
+                                                                            <br />
+                                                                            <b>&nbsp;&nbsp;Respondents Meet AAIDD Valid Respondent Guidelines:</b>
+                                                                            <input type="radio" name="irqr4_valres" id="irqr4_valres1" value="1" />
+                                                                            <label for="irqr4_valres1"><span></span>Yes</label>
+                                                                            <input type="radio" name="irqr4_valres" id="irqr4_valres2" value="2" />
+                                                                            <label for="irqr4_valres2"><span></span>No</label>
+                                                                                <script>
+                                                                                    $(document).ready(function () {
+                                                                                        var target = '@Model.rspValues["irqr4_valres"]';
+                                                                                        $("[name=irqr4_valres]").each(function () {
+                                                                                            if ($(this).prop("value") == target) {
+                                                                                                $(this).attr("checked", "1");
+                                                                                            }
+                                                                                        });
+                                                                                    })
+                                                                                </script>
+                                                                            <br />
+                                                                            <br />
+                                                                            <b>&nbsp;&nbsp;Situation Challenge Level:</b>
+                                                                            <input type="radio" name="irqr4_chall" id="irqr4_chall1" value="1" />
+                                                                            <label for="irqr4_chall1"><span></span>Average</label>
+                                                                            <input type="radio" name="irqr4_chall" id="irqr4_chall2" value="2" />
+                                                                            <label for="irqr4_chall2"><span></span>Some Challenges</label>
+                                                                            <input type="radio" name="irqr4_chall" id="irqr4_chall3" value="3" />
+                                                                            <label for="irqr4_chall3"><span></span>Complicated</label>
+                                                                                <script>
+                                                                                    $(document).ready(function () {
+                                                                                        var target = '@Model.rspValues["irqr4_chall"]';
+                                                                                        $("[name=irqr4_chall]").each(function () {
+                                                                                            if ($(this).prop("value") == target) {
+                                                                                                $(this).attr("checked", "1");
+                                                                                            }
+                                                                                        });
+                                                                                    })
+                                                                                </script>
+                                                                            <br />
+                                                                            <br />
+                                                                            <b>&nbsp;&nbsp;Situation is Suitable for Evalutation of Interviewer</b>
+                                                                            <input type="radio" name="irqr4_suitab" id="irqr4_suitab1" value="1" />
+                                                                            <label for="irqr4_suitab1"><span></span>Yes</label>
+                                                                            <input type="radio" name="irqr4_suitab" id="irqr4_suitab2" value="2" />
+                                                                            <label for="irqr4_suitab2"><span></span>No (explain)</label>
+                                                                                <script>
+                                                                                    $(document).ready(function () {
+                                                                                        var target = '@Model.rspValues["irqr4_suitab"]';
+                                                                                        $("[name=irqr4_suitab]").each(function () {
+                                                                                            if ($(this).prop("value") == target) {
+                                                                                                $(this).attr("checked", "1");
+                                                                                            }
+                                                                                        });
+                                                                                    })
+                                                                                </script>
+                                                                            <br />
+                                                                            <br />
+                                                                        </td>
+                                                                        <td style="padding:0px;height:100px">
+                                                                            <table class="internalborders" style="border:none;width:100%;height:100%;">
+                                                                                <tr>
+                                                                                    <td  style="background-color: rgb(204,255,255); text-align: center; font-weight: bold;border-right:none">
+                                                                                        Comments
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td style="border-right:none;height:100%">
+                                                                                        <textarea name="irqr4_notesB" style="width:97%;height:100%;">@Model.rspValues["irqr4_notesB"]</textarea>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </table>
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </table>
+
+                                        @Html.Partial("AssmntNavPrevNext")
+
+                                        <div class="copyright" style="text-align:center;font-size:smaller">
+                                            <fieldset>
+                                                <legend></legend>
+                                                Copyright© 2014 by AAIDD   Supports Intensity Scale®   Revised July 2014
+                                            </fieldset>
+                                        </div>
+                                        <div id="sectIntSetting" style="margin-top: 12px;" visible="false">
+                                            &nbsp;
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                            <br />
+                            <br />
+                            <input type="submit" value="Submit" id="btnSubmit" />
+                        </form>
+                    </td>
+                </tr>
+            </table>
+            <table border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td style="height: 5px">&nbsp;</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+<br />

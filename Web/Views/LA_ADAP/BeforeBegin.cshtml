@@ -1,0 +1,58 @@
+﻿@model Assmnts.Models.GeneralForm
+@{
+    Layout = "LA_AdapAppLayout.cshtml";
+}
+@section AddtoHead{
+    <link rel="stylesheet" type="text/css" href="/Content/adap/css/ADAPForms.css" />
+    <script src="~/Content/js/ADAPLookupSelects.js"></script>
+    <script>
+        $(document).ready(function () {
+            //Set the placeholder text for all dropdowns, except the "Jump to Application Section" dropdown
+            $('select[name!=jumpSection] option[value=""]').html("Choose One");
+
+            setApplicationProgressIndicator(0);
+        });
+
+    </script>
+    <script>
+        $(document).ready(function () {
+        
+        });
+    </script>
+}
+<!DOCTYPE html>
+<html lang="en">
+<body>
+    <div class="panel panel-default" id="">
+        <div class="panel-body" style="background-color:#f8f8f8">
+            <div>
+                <div class="col-md-offset-1 col-md-11">
+                    <span class="col-md-12 control-label" style="text-align: left;">
+                        Before you start your application, here are some items you will need to have with you:
+                        <ul>
+                            <li>Your Social Security Number if you have one</li>
+                            <li>Income information for you, your family members, and your dependents</li>
+                            <li>Policy numbers and plan names for any insurance plans you have</li>
+                        </ul>
+                        Here are some items you MAY need:
+                        <ul>
+                            <li>A premium invoice from your insurance company, if you are applying for help paying your premiums</li>
+                            <li>Information about any Extra Help or Low Income Subsidy you receive or have applied for, if you have Medicare</li>
+                            <li>Proof that you applied for and were denied Medicaid, if your income is equal to 138% of the Federal Poverty Guideline or below</li>
+                        </ul>
+                        LA HAP will ask you to attach documentation of your income, your premium invoice (if applicable), and your LIS information (if applicable) to your application.  If you have trouble attaching the documentation, you may send it to LA HAP later.
+                        <br /><br />
+                        You may save your application at any time and return to it later.
+                        <br /><br />
+                        If you have any questions about this application, you can call LA HAP at 504-568-7474.
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+</body>
+
+</html>
+
+

@@ -1,0 +1,16 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+	@{string styleSheetName = "sisa.css";}
+	<link rel="stylesheet" type="text/css" href="/Content/css/@styleSheetName" />	
+	<link rel="stylesheet" type="text/css" href="/Content/css/sitewide3.css" />	
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+</head>
+<body>
+    <div>
+        @RenderBody()
+    </div>
+</body>
+</html>

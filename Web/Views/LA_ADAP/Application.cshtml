@@ -1,0 +1,160 @@
+﻿@model Assmnts.Models.GeneralForm
+@{
+    Layout = "LA_AdapAppLayout.cshtml";
+}
+
+@section AddtoHead{
+    <link rel="stylesheet" type="text/css" href="/Content/adap/css/ADAPForms.css" />
+    <script src="~/Content/js/ADAPLookupSelects.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            //Set the placeholder text for all dropdowns, except the "Jump to Application Section" dropdown
+            $('select[name!=jumpSection] option[value=""]').html("Choose One");
+
+            setApplicationProgressIndicator(14);
+
+            //$('.input-group.date').datepicker({
+            //    autoclose: true,
+            //    format: 'mm/dd/yyyy'
+            //});
+        });
+
+    </script>
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<body>
+    <div class="panel panel-default" id="">
+        <div class="panel-body" style="background-color:#f8f8f8">
+            <label for="">Do you have a provider or case manager who you want to have access to your LA HAP records? This includes all information on your application, medication fills, and payments made by LA HAP for your insurance or medications.</label>
+            <div class="form-group">
+                <div class="col-md-1">
+                    <div class="radio">
+                        <label>
+                            <input type="radio" id="" name="">
+                            Yes
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-1">
+                    <div class="radio">
+                        <label>
+                            <input type="radio" id="" name="">
+                            No
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <p style="color:#ff0000">Assuming if no is selected above, the below fields do no show?</p>
+
+    <span class="label label-danger" style="font-size:15px;">Provider 1</span></p>
+    <div class="panel panel-default" id="">
+        <div class="panel-body" style="background-color:#f8f8f8">
+            <div class="form-group">
+                <div class="col-md-2">
+                    <div class="pull-right">
+                        <label class="control-label" for="">First Name</label>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <input type="text" class="form-control" name="" id="" maxlength="" />
+                </div>
+                <div class="col-md-2">
+                    <div class="pull-right">
+                        <label class="control-label" for="">Last Name</label>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <input type="text" class="form-control" name="" id="" maxlength="" />
+                </div>
+            </div>
+            <hr>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <label class="control-label" for="">Entity/Agency Name</label>
+                </div>
+                <div class="col-md-7">
+                    <input type="text" class="form-control" name="" id="" maxlength="" />
+                </div>
+            </div>
+            <hr>
+            <div class="form-group">
+                <div class="col-md-2">
+                    <div class="pull-right">
+                        <label class="control-label" for="">Phone</label>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <input type="text" class="form-control" name="" id="" maxlength="" />
+                </div>
+                <div class="col-md-2">
+                    <div class="pull-right">
+                        <label class="control-label" for="">Phone Ext</label>
+                    </div>
+                </div>
+                <div class="col-md-1">
+                    <input type="text" class="form-control" name="" id="" maxlength="" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <span class="label label-danger" style="font-size:15px;">Provider 2</span></p>
+    <div class="panel panel-default" id="">
+        <div class="panel-body" style="background-color:#f8f8f8">
+            <div class="form-group">
+                <div class="col-md-2">
+                    <div class="pull-right">
+                        <label class="control-label" for="">First Name</label>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <input type="text" class="form-control" name="" id="" maxlength="" />
+                </div>
+                <div class="col-md-2">
+                    <div class="pull-right">
+                        <label class="control-label" for="">Last Name</label>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <input type="text" class="form-control" name="" id="" maxlength="" />
+                </div>
+            </div>
+            <hr>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <label class="control-label" for="">Entity/Agency Name</label>
+                </div>
+                <div class="col-md-7">
+                    <input type="text" class="form-control" name="" id="" maxlength="" />
+                </div>
+            </div>
+            <hr>
+            <div class="form-group">
+                <div class="col-md-2">
+                    <div class="pull-right">
+                        <label class="control-label" for="">Phone</label>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <input type="text" class="form-control" name="" id="" maxlength="" />
+                </div>
+                <div class="col-md-2">
+                    <div class="pull-right">
+                        <label class="control-label" for="">Phone Ext</label>
+                    </div>
+                </div>
+                <div class="col-md-1">
+                    <input type="text" class="form-control" name="" id="" maxlength="" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+</body>
+</html>

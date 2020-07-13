@@ -1,0 +1,43 @@
+﻿.panel-body {
+    background-color:#f8f8f8;
+}
+
+thead th {
+    background-color: #d9edf7;
+}
+
+#heading {
+    font-size: large;
+}
+
+.indent {
+    margin-left: 3em;
+}
+
+.pagination{
+    margin: 0px;
+}
+
+.paging_simple_numbers{
+    text-align: right;
+}
+
+.dataTable{
+    margin-bottom: 7px;
+    margin-top: 7px;
+}
+
+.dataTables_info{
+    margin-top: 10px;
+}
+
+.dataTables_length label{
+    font-weight: normal;
+}
+.control-label{
+    font-weight:normal;
+}
+
+.required {
+    color:red;
+}

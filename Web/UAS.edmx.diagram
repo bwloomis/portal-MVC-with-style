@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="7f13c4bde9ed42618a63c8ecc8ae2d66" Name="Diagram1" ZoomLevel="88">
+        <EntityTypeShape EntityType="formsModel1.uas_Config" Width="1.5" PointX="0.5" PointY="12.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="formsModel1.uas_Enterprise" Width="1.875" PointX="0.75" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="formsModel1.uas_Group" Width="1.75" PointX="6.5" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="formsModel1.uas_GroupUserAppPermissions" Width="2.5" PointX="11.5" PointY="12.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="formsModel1.uas_ProfileConfig" Width="1.875" PointX="1" PointY="27.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="formsModel1.uas_Role" Width="1.5" PointX="4.625" PointY="7.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="formsModel1.uas_RoleAppPermissions" Width="2.125" PointX="8.25" PointY="13" IsExpanded="true" />
+        <EntityTypeShape EntityType="formsModel1.uas_SecretQuestion" Width="2.125" PointX="16.5" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="formsModel1.uas_SecretQuestionAnswer" Width="2.125" PointX="10.5" PointY="19.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="formsModel1.uas_StatusFlagType" Width="1.875" PointX="19.375" PointY="11.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="formsModel1.uas_User" Width="1.5" PointX="3.125" PointY="13" IsExpanded="true" />
+        <EntityTypeShape EntityType="formsModel1.uas_UserAddress" Width="1.875" PointX="5.75" PointY="15" IsExpanded="true" />
+        <EntityTypeShape EntityType="formsModel1.uas_UserEmail" Width="1.5" PointX="6.375" PointY="20.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="formsModel1.uas_UserPhone" Width="1.5" PointX="6.625" PointY="26" IsExpanded="true" />
+        <EntityTypeShape EntityType="formsModel1.uas_UserProfile" Width="1.5" PointX="8.75" PointY="22" IsExpanded="true" />
+        <AssociationConnector Association="formsModel1.FK_uas_Enterprise_uas_Config" ManuallyRouted="false" />
+        <AssociationConnector Association="formsModel1.FK_uas_ProfileConfig_uas_Config" ManuallyRouted="false" />
+        <AssociationConnector Association="formsModel1.FK_uas_Group_uas_Enterprise" ManuallyRouted="false" />
+        <AssociationConnector Association="formsModel1.FK_uas_Role_uas_Enterprise" ManuallyRouted="false" />
+        <AssociationConnector Association="formsModel1.FK_uas_User_uas_Enterprise" ManuallyRouted="false" />
+        <AssociationConnector Association="formsModel1.FK_uas_GroupUserAppPermissions_uas_Group" ManuallyRouted="false" />
+        <AssociationConnector Association="formsModel1.FK_uas_ParentGroup_uas_Group" ManuallyRouted="false" />
+        <AssociationConnector Association="formsModel1.FK_uas_GroupUserAppPermissions_uas_RoleAppPermissions" ManuallyRouted="false" />
+        <AssociationConnector Association="formsModel1.FK_uas_GroupUserAppPermissions_uas_User" ManuallyRouted="false" />
+        <AssociationConnector Association="formsModel1.FK_uas_UserProfile_uas_ProfileConfig" ManuallyRouted="false" />
+        <AssociationConnector Association="formsModel1.FK_uas_RoleAppPermissions_uas_Role" ManuallyRouted="false" />
+        <AssociationConnector Association="formsModel1.FK_uas_SecretQuestionAnswer_uas_SecretQuestion" ManuallyRouted="false" />
+        <AssociationConnector Association="formsModel1.FK_uas_SecretQuestionAnswer_uas_User" ManuallyRouted="false" />
+        <AssociationConnector Association="formsModel1.FK_uas_ContactAddress_uas_User" ManuallyRouted="false" />
+        <AssociationConnector Association="formsModel1.FK_uas_ContactEmail_uas_User" ManuallyRouted="false" />
+        <AssociationConnector Association="formsModel1.FK_uas_ContactPhone_uas_User" ManuallyRouted="false" />
+        <AssociationConnector Association="formsModel1.FK_uas_User_uas_User" ManuallyRouted="false" />
+        <AssociationConnector Association="formsModel1.FK_uas_UserProfile_uas_User" ManuallyRouted="false" />
+        <AssociationConnector Association="formsModel1.FK_Config_CreatedBy" />
+        <AssociationConnector Association="formsModel1.FK_Config_ModifiedBy" />
+        <AssociationConnector Association="formsModel1.FK_Enterprise_CreatedBy" />
+        <AssociationConnector Association="formsModel1.FK_Enterprise_ModifiedBy" />
+        <AssociationConnector Association="formsModel1.FK_Group_CreatedBy" />
+        <AssociationConnector Association="formsModel1.FK_Group_ModifiedBy" />
+        <AssociationConnector Association="formsModel1.FK_GroupUserAppPermissions_CreatedBy" />
+        <AssociationConnector Association="formsModel1.FK_GroupUserAppPermissions_ModifiedBy" />
+        <AssociationConnector Association="formsModel1.FK_ProfileConfig_CreatedBy" />
+        <AssociationConnector Association="formsModel1.FK_ProfileConfig_ModifiedBy" />
+        <AssociationConnector Association="formsModel1.FK_Role_CreatedBy" />
+        <AssociationConnector Association="formsModel1.FK_Role_ModifiedBy" />
+        <AssociationConnector Association="formsModel1.FK_RoleAppPermissions_CreatedBy" />
+        <AssociationConnector Association="formsModel1.FK_RoleAppPermissions_ModifiedBy" />
+        <AssociationConnector Association="formsModel1.FK_SecretQuestion_CreatedBy" />
+        <AssociationConnector Association="formsModel1.FK_SecretQuestion_ModifiedBy" />
+        <AssociationConnector Association="formsModel1.FK_SecretQuestionAnswer_CreatedBy" />
+        <AssociationConnector Association="formsModel1.FK_SecretQuestionAnswer_ModifiedBy" />
+        <AssociationConnector Association="formsModel1.FK_StatusFlagType_CreatedBy" />
+        <AssociationConnector Association="formsModel1.FK_StatusFlagType_ModifiedBy" />
+        <AssociationConnector Association="formsModel1.FK_User_CreatedBy" />
+        <AssociationConnector Association="formsModel1.FK_User_ModifiedBy" />
+        <AssociationConnector Association="formsModel1.FK_UserAddress_CreatedBy" />
+        <AssociationConnector Association="formsModel1.FK_UserAddress_ModifiedBy" />
+        <AssociationConnector Association="formsModel1.FK_UserEmail_CreatedBy" />
+        <AssociationConnector Association="formsModel1.FK_UserEmail_ModifiedBy" />
+        <AssociationConnector Association="formsModel1.FK_UserPhone_CreatedBy" />
+        <AssociationConnector Association="formsModel1.FK_UserPhone_ModifiedBy" />
+        <AssociationConnector Association="formsModel1.FK_UserProfile_CreatedBy" />
+        <AssociationConnector Association="formsModel1.FK_UserProfile_ModifiedBy" />
+        <EntityTypeShape EntityType="formsModel1.uas_EntAppConfig" Width="1.75" PointX="8.75" PointY="7.625" />
+        <AssociationConnector Association="formsModel1.FK_EntAppConfig_CreatedBy" />
+        <AssociationConnector Association="formsModel1.FK_EntAppConfig_ModifiedBy" />
+        <AssociationConnector Association="formsModel1.FK_uas_EntAppConfig_uas_Enterprise" />
+        <EntityTypeShape EntityType="formsModel1.uas_ConfirmationQueue" Width="2" PointX="7.5" PointY="33.125" />
+        <EntityTypeShape EntityType="formsModel1.uas_EmailQueue" Width="1.5" PointX="16.5" PointY="31.875" />
+        <EntityTypeShape EntityType="formsModel1.uas_EntConfig" Width="1.5" PointX="1.5" PointY="7.75" />
+        <EntityTypeShape EntityType="formsModel1.uas_EntGrpAddress" Width="1.75" PointX="11.5" PointY="1.25" />
+        <EntityTypeShape EntityType="formsModel1.uas_EntGrpEmail" Width="1.75" PointX="16.125" PointY="2.25" />
+        <EntityTypeShape EntityType="formsModel1.uas_EntGrpPhone" Width="1.75" PointX="13.75" PointY="1.75" />
+        <EntityTypeShape EntityType="formsModel1.uas_GroupType" Width="1.875" PointX="9" PointY="1" />
+        <EntityTypeShape EntityType="formsModel1.uas_License" Width="1.5" PointX="11.5" PointY="27.25" />
+        <EntityTypeShape EntityType="formsModel1.uas_PasswordRestriction" Width="2" PointX="10.5" PointY="33.625" />
+        <EntityTypeShape EntityType="formsModel1.uas_UserLoginActivity" Width="1.875" PointX="14.25" PointY="16" />
+        <AssociationConnector Association="formsModel1.FK_uas_GroupType_uas_Config" />
+        <AssociationConnector Association="formsModel1.FK_ConfirmationQueue_CreatedBy" />
+        <AssociationConnector Association="formsModel1.FK_ConfirmationQueue_ModifiedBy" />
+        <AssociationConnector Association="formsModel1.FK_uas_ConfirmationQueue_uas_Enterprise" />
+        <AssociationConnector Association="formsModel1.FK_uas_ConfirmationQueue_uas_User" />
+        <AssociationConnector Association="formsModel1.FK_EmailQueue_CreatedBy" />
+        <AssociationConnector Association="formsModel1.FK_EmailQueue_ModifiedBy" />
+        <AssociationConnector Association="formsModel1.FK_uas_EmailQueue_uas_Enterprise" />
+        <AssociationConnector Association="formsModel1.FK_uas_EmailQueue_uas_User" />
+        <AssociationConnector Association="formsModel1.FK_EntConfig_CreatedBy" />
+        <AssociationConnector Association="formsModel1.FK_EntConfig_ModifiedBy" />
+        <AssociationConnector Association="formsModel1.FK_uas_EntConfig_uas_Enterprise" />
+        <AssociationConnector Association="formsModel1.FK_uas_EntGrpAddress_uas_Enterprise" />
+        <AssociationConnector Association="formsModel1.FK_uas_EntGrpEmail_uas_Enterprise" />
+        <AssociationConnector Association="formsModel1.FK_uas_EntGrpPhone_uas_Enterprise" />
+        <AssociationConnector Association="formsModel1.FK_uas_GroupType_uas_Enterprise" />
+        <AssociationConnector Association="formsModel1.FK_uas_License_uas_Enterprise" />
+        <AssociationConnector Association="formsModel1.FK_uas_PasswordRestriction_uas_Enterprise" />
+        <AssociationConnector Association="formsModel1.FK_uas_UserLoginActivity_uas_Enterprise" />
+        <AssociationConnector Association="formsModel1.FK_EntGrpAddress_CreatedBy" />
+        <AssociationConnector Association="formsModel1.FK_EntGrpAddress_ModifiedBy" />
+        <AssociationConnector Association="formsModel1.FK_uas_EntGrpAddress_uas_Group" />
+        <AssociationConnector Association="formsModel1.FK_EntGrpEmail_CreatedBy" />
+        <AssociationConnector Association="formsModel1.FK_EntGrpEmail_ModifiedBy" />
+        <AssociationConnector Association="formsModel1.FK_uas_EntGrpEmail_uas_Group" />
+        <AssociationConnector Association="formsModel1.FK_EntGrpPhone_CreatedBy" />
+        <AssociationConnector Association="formsModel1.FK_EntGrpPhone_ModifiedBy" />
+        <AssociationConnector Association="formsModel1.FK_uas_EntGrpPhone_uas_Group" />
+        <AssociationConnector Association="formsModel1.FK_uas_Group_uas_GroupType" />
+        <AssociationConnector Association="formsModel1.FK_uas_License_uas_Group" />
+        <AssociationConnector Association="formsModel1.FK_uas_UserLoginActivity_uas_Group" />
+        <AssociationConnector Association="formsModel1.FK_GroupType_CreatedBy" />
+        <AssociationConnector Association="formsModel1.FK_GroupType_ModifiedBy" />
+        <AssociationConnector Association="formsModel1.FK_License_CreatedBy" />
+        <AssociationConnector Association="formsModel1.FK_License_ModifiedBy" />
+        <AssociationConnector Association="formsModel1.FK_uas_License_uas_User" />
+        <AssociationConnector Association="formsModel1.FK_PasswordRestriction_CreatedBy" />
+        <AssociationConnector Association="formsModel1.FK_PasswordRestriction_ModifiedBy" />
+        <AssociationConnector Association="formsModel1.FK_uas_UserLoginActivity_uas_Role" />
+        <AssociationConnector Association="formsModel1.FK_uas_UserLoginActivity_uas_User" />
+        <AssociationConnector Association="formsModel1.FK_UserLoginActivity_CreatedBy" />
+        <AssociationConnector Association="formsModel1.FK_UserLoginActivity_ModifiedBy" />
+        <EntityTypeShape EntityType="formsModel1.uas_AppEnt" Width="1.5" PointX="13" PointY="2.375" />
+        <EntityTypeShape EntityType="formsModel1.uas_Application" Width="1.5" PointX="11" PointY="8.875" />
+        <EntityTypeShape EntityType="formsModel1.uas_PermissionCodes" Width="1.5" PointX="16" PointY="5.375" />
+        <EntityTypeShape EntityType="formsModel1.uas_PermissionGroup" Width="2" PointX="16" PointY="0.5" />
+        <EntityTypeShape EntityType="formsModel1.uas_RoleType" Width="1.5" PointX="6.875" PointY="8.5" />
+        <EntityTypeShape EntityType="formsModel1.uas_SystemConfig" Width="1.75" PointX="13.75" PointY="8.625" />
+        <AssociationConnector Association="formsModel1.FK_AppEnt_CreatedBy" />
+        <AssociationConnector Association="formsModel1.FK_AppEnt_ModifiedBy" />
+        <AssociationConnector Association="formsModel1.FK_uas_AppEnt_uas_Application" />
+        <AssociationConnector Association="formsModel1.uas_AppEnt_uas_Enterprise_FK1" />
+        <AssociationConnector Association="formsModel1.FK_Application_CreatedBy" />
+        <AssociationConnector Association="formsModel1.FK_Application_ModifiedBy" />
+        <AssociationConnector Association="formsModel1.FK_uas_Application_uas_Application" />
+        <AssociationConnector Association="formsModel1.FK_uas_EntAppConfig_uas_Application" />
+        <AssociationConnector Association="formsModel1.FK_uas_GroupUserAppPermissions_uas_Application" />
+        <AssociationConnector Association="formsModel1.FK_uas_PermissionCodes_uas_Application" />
+        <AssociationConnector Association="formsModel1.FK_uas_PermissionGroup_uas_Application" />
+        <AssociationConnector Association="formsModel1.FK_uas_SystemConfig_uas_Application" />
+        <AssociationConnector Association="formsModel1.FK_uas_UserLoginActivity_uas_Application" />
+        <AssociationConnector Association="formsModel1.FK_uas_RoleType_uas_Config" />
+        <AssociationConnector Association="formsModel1.FK_PermissionCodes_CreatedBy" />
+        <AssociationConnector Association="formsModel1.FK_PermissionCodes_ModifiedBy" />
+        <AssociationConnector Association="formsModel1.FK_uas_PermissionCodes_uas_PermissionGroup" />
+        <AssociationConnector Association="formsModel1.FK_PermissionGroup_CreatedBy" />
+        <AssociationConnector Association="formsModel1.FK_PermissionGroup_ModifiedBy" />
+        <AssociationConnector Association="formsModel1.FK_uas_Role_uas_RoleType" />
+        <AssociationConnector Association="formsModel1.FK_RoleType_CreatedBy" />
+        <AssociationConnector Association="formsModel1.FK_RoleType_ModifiedBy" />
+        <AssociationConnector Association="formsModel1.FK_SystemConfig_CreatedBy" />
+        <AssociationConnector Association="formsModel1.FK_SystemConfig_ModifiedBy" />
+        <EntityTypeShape EntityType="formsModel1.vEnrollmentSite" Width="1.5" PointX="3.375" PointY="0.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

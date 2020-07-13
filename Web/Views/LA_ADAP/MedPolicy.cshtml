@@ -1,0 +1,333 @@
+﻿@model Assmnts.Models.GeneralForm
+@using Assmnts.Models;
+@{
+    Layout = "LA_AdapAppLayout.cshtml";
+}
+
+@section AddtoHead{
+    <link rel="stylesheet" type="text/css" href="/Content/adap/css/ADAPForms.css" />
+    <script src="~/Content/js/ADAPLookupSelects.js"></script>
+    <script src="~/Scripts/jquery.inputmask/inputmask.js"></script>
+    <script src="~/Scripts/jquery.inputmask/jquery.inputmask.js"></script>
+    <script src="~/Scripts/Validate.js"></script>
+    <link href="~/stylesheets/Validate.css" rel="stylesheet" />
+    <script>
+        $(document).ready(function () {
+            $('.class_dob_input').inputmask("99/99/9999");
+
+            @foreach (string letter in new string[] { "B", "C", "D", "Supp" })
+
+        {
+            string identifier = "LA_ADAP_Med" + letter + "_Asst";
+            @:populateLookupSelect('@identifier', '@identifier', '@Model.rspValues[identifier]');
+                    }
+            populateLookupSelect('LA_ADAP_LIS_Status', 'LA_ADAP_LIS_Status', '@Model.rspValues["LA_ADAP_LIS_Status"]');
+
+            setApplicationProgressIndicator(7);
+
+        $('.class_nextscreen').click(function () {
+
+            var nextScreenIdentifier;
+
+            //If any of the "What type of Medicare do you have?" checkboxes (except for "Part A only") are checked...
+            if ($('#LA_ADAP_MedPolicy_TypeAB').is(':checked') || $('#LA_ADAP_MedPolicy_TypeB').is(':checked') || $('#LA_ADAP_MedPolicy_TypeC').is(':checked') || $('#LA_ADAP_MedPolicy_TypeD').is(':checked') || $('#LA_ADAP_MedPolicy_TypeSupp').is(':checked'))
+                nextScreenIdentifier = '@(((TemplateAdapNavMenu)Model.navMenuModel).sectionIds["LA_ADAP_MedPrem"])';    //...the next screen is Medicare Premium.                            
+
+            else if ($('#LA_ADAP_HaveInsNotMed').val() == "true")                                                       //Otherwise, if "Yes.  I have one or more..." was checked...
+                nextScreenIdentifier = '@(((TemplateAdapNavMenu)Model.navMenuModel).sectionIds["LA_ADAP_InsPolicy"])';  //...the next screen is Insurance Policy.
+
+            else if ($('#LA_ADAP_HaveInsNotHealth').val() == "true")                                                    //Otherwise, if "Yes.  I have dental..." was checked...
+                nextScreenIdentifier = '@(((TemplateAdapNavMenu)Model.navMenuModel).sectionIds["LA_ADAP_DentPolicy"])'; //...the next screen is Dental Policy.
+
+            else
+                nextScreenIdentifier = '@(((TemplateAdapNavMenu)Model.navMenuModel).sectionIds["LA_ADAP_Diagnosis"])';  //Otherwise, the next screen is Diagnosis.
+
+            SubmitForm('@(((TemplateAdapNavMenu)Model.navMenuModel).adapPartId)', nextScreenIdentifier);
+
+        });
+
+        });
+    </script>
+}
+
+@{int i = 1;}
+
+<div style="display:none">
+    @Helpers.TextInput(Model, "LA_ADAP_HaveInsNotMed", new { @class = "form-control" })
+    @Helpers.TextInput(Model, "LA_ADAP_HaveInsNotHealth", new { @class = "form-control" })
+</div>
+<div class="panel panel-default">
+    <div class="panel-body">
+        <p><strong>@(i++). @Model.sctTitles["LA_ADAP_MedPolicy_Type"]</strong>
+            @Helpers.ToolTipFromItemPrompt(Model, "LA_ADAP_MedPolicy_TypeAB_item", new { @class = "pointer fa fa-question-circle text-primary fa-1x" })</p>
+        <div class="form-group">
+            @foreach (string suffix in new string[] { "AB", "A", "B", "C", "D", "Supp" })
+            {
+                <div class="col-md-12">
+                    @Helpers.LabeledCheckboxInput(Model, "LA_ADAP_MedPolicy_Type" + suffix)
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="form-group">
+            <div class="col-md-5">
+                <p><strong>@(i++). @Model.sctTitles["LA_ADAP_MedPolicy_LIS"]</strong>
+                    @Helpers.ToolTipFromItemPrompt(Model, "LA_ADAP_LIS_Status_item", new { @class = "pointer fa fa-question-circle text-primary fa-1x col-md-4" })</p>
+            </div>
+            <div class="col-md-7">
+                @Helpers.DropDownList(Model, "LA_ADAP_LIS_Status_item", "LA_ADAP_LIS_Status")
+            </div>
+        </div>
+
+        <div class="form-group lisAppliedToggle">
+            <div class="col-md-9 col-md-offset-5">
+                @Helpers.FileUpload(Model, "LA_ADAP_LIS_AppliedProof")
+            </div>
+        </div>
+
+        <div class="form-group lisDeniedToggle">
+            <div class="col-md-9 col-md-offset-5">
+                @Helpers.FileUpload(Model, "LA_ADAP_LIS_DeniedProof")
+        </div>
+        </div>
+
+        <script>
+            $(document).ready(function () {
+                updateHispanic();
+                $("#LA_ADAP_LIS_Status").change(updateHispanic);
+            });
+
+            function updateHispanic() {
+                var val = $("#LA_ADAP_LIS_Status").val();
+                $(".lisAppliedToggle").toggle(val == 1);
+                $(".lisDeniedToggle").toggle(val == 2);
+            };
+        </script>
+    </div>
+</div>
+
+@{ //classes used for form elements below
+    string labelClass = "col-md-6 control-label",
+        rspClass = "col-md-4";
+}
+
+<div class="panel panel-default toggleMedB">
+    <div class="panel-body">
+        <p><strong>@(i++). @Model.sctTitles["LA_ADAP_MedPolicy_MedB"]</strong>
+            @Helpers.ToolTipFromItemPrompt(Model, "LA_ADAP_MedB_Asst_item", new { @class = "pointer fa fa-question-circle text-primary fa-1x" })</p>
+        <div class="form-group" id="toggleMedBAsst">
+            @Helpers.LabelSpan(Model, "LA_ADAP_MedB_Asst_item", new { @class = labelClass })
+            <div class="@rspClass">
+                @Helpers.DropDownList(Model, "LA_ADAP_MedB_Asst_item", "LA_ADAP_MedB_Asst")
+            </div>
+        </div>
+        <div class="form-group">
+            @Helpers.LabelSpan(Model, "LA_ADAP_MedAB_Num_item", new { @class = labelClass })
+            <div class="@rspClass">
+                @Helpers.TextInput(Model, "LA_ADAP_MedAB_Num", new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group togglePartADate">
+            @Helpers.LabelSpan(Model, "ADAP_I3_PartADate_item", new { @class = labelClass })
+            <div class="@rspClass">
+                <div class="input-group date">
+                    @Helpers.TextInput(Model, "ADAP_I3_PartADate", new { @class = "form-control class_dob_input", placeholder = "mm/dd/yyyy" })
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group togglePartBDate">
+            @Helpers.LabelSpan(Model, "LA_ADAP_I3_PartBDate_item", new { @class = labelClass })
+            <div class="@rspClass">
+                <div class="input-group date">
+                    @Helpers.TextInput(Model, "LA_ADAP_I3_PartBDate", new { @class = "form-control class_dob_input", placeholder = "mm/dd/yyyy" })
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            updateMedB();
+            $("#LA_ADAP_MedPolicy_TypeA").change(updateMedB);
+            $("#LA_ADAP_MedPolicy_TypeB").change(updateMedB);
+            $("#LA_ADAP_MedPolicy_TypeAB").change(updateMedB);
+        });
+
+        function updateMedB() {
+
+            //Show the "Medicare Part B Info..." if "Part A", "Part B" or "Part A and B" is seleced.
+            $(".toggleMedB").toggle($("#LA_ADAP_MedPolicy_TypeA").get(0).checked || $("#LA_ADAP_MedPolicy_TypeB").get(0).checked || $("#LA_ADAP_MedPolicy_TypeAB").get(0).checked);
+
+            //Hide the Medicare Part A Effective Date unless Part A is specified.
+            $(".togglePartADate").toggle($("#LA_ADAP_MedPolicy_TypeA").get(0).checked || $("#LA_ADAP_MedPolicy_TypeAB").get(0).checked);
+
+            //Hide the Medicare Part B Effective Date unless Part B is specified.
+            $(".togglePartBDate").toggle($("#LA_ADAP_MedPolicy_TypeB").get(0).checked || $("#LA_ADAP_MedPolicy_TypeAB").get(0).checked);
+
+            //Hide the type-of-assistance question unless Part B is specified.
+            $("#toggleMedBAsst").toggle($("#LA_ADAP_MedPolicy_TypeB").get(0).checked || $("#LA_ADAP_MedPolicy_TypeAB").get(0).checked);
+
+        };
+    </script>
+</div>
+
+<div class="panel panel-default toggleMedC">
+    <div class="panel-body">
+        <p><strong>@(i++). @Model.sctTitles["LA_ADAP_MedPolicy_MedC"]</strong></p>
+        <div class="form-group">
+            @Helpers.LabelSpan(Model, "LA_ADAP_MedC_Asst_item", new { @class = labelClass })
+            <div class="@rspClass">
+                @Helpers.DropDownList(Model, "LA_ADAP_MedC_Asst_item", "LA_ADAP_MedC_Asst")
+            </div>
+        </div>
+        <div class="form-group">
+            @Helpers.LabelSpan(Model, "LA_ADAP_MedC_Plan_item", new { @class = labelClass })
+            <div class="@rspClass">
+                @Helpers.TextInput(Model, "LA_ADAP_MedC_Plan", new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Helpers.LabelSpan(Model, "LA_ADAP_MedC_ID_item", new { @class = labelClass })
+            <div class="@rspClass">
+                @Helpers.TextInput(Model, "LA_ADAP_MedC_ID", new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Helpers.LabelSpan(Model, "LA_ADAP_MedC_Group_item", new { @class = labelClass })
+            <div class="@rspClass">
+                @Helpers.TextInput(Model, "LA_ADAP_MedC_Group", new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Helpers.LabelSpan(Model, "LA_ADAP_MedC_Date_item", new { @class = labelClass })
+            <div class="@rspClass">
+                <div class="input-group date">
+                    @Helpers.TextInput(Model, "LA_ADAP_MedC_Date", new { @class = "form-control class_dob_input", placeholder = "mm/dd/yyyy" })
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            @Helpers.LabelSpan(Model, "LA_ADAP_MedC_PartD_item", new { @class = labelClass })
+            @Helpers.ToolTipFromItemPrompt(Model, "LA_ADAP_MedC_ID_item", new { @class = "pointer fa fa-question-circle text-primary fa-1x", @style = "float:left" })
+            @Helpers.YesNoRadioButtons(Model, "LA_ADAP_MedC_PartD")
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            updateMedC();
+            $("#LA_ADAP_MedPolicy_TypeC").change(updateMedC);
+        });
+
+        function updateMedC() {
+            $(".toggleMedC").toggle($("#LA_ADAP_MedPolicy_TypeC").get(0).checked);
+        };
+    </script>
+</div>
+
+<div class="panel panel-default toggleMedD">
+    <div class="panel-body">
+        <p><strong>@(i++). @Model.sctTitles["LA_ADAP_MedPolicy_MedD"]</strong></p>
+        <div class="form-group">
+            @Helpers.LabelSpan(Model, "LA_ADAP_MedD_Asst_item", new { @class = labelClass })
+            <div class="@rspClass">
+                @Helpers.DropDownList(Model, "LA_ADAP_MedD_Asst_item", "LA_ADAP_MedD_Asst")
+            </div>
+        </div>
+        <div class="form-group">
+            @Helpers.LabelSpan(Model, "LA_ADAP_MedD_Plan_item", new { @class = labelClass })
+            <div class="@rspClass">
+                @Helpers.TextInput(Model, "LA_ADAP_MedD_Plan", new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Helpers.LabelSpan(Model, "LA_ADAP_MedD_ID_item", new { @class = labelClass })
+            <div class="@rspClass">
+                @Helpers.TextInput(Model, "LA_ADAP_MedD_ID", new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Helpers.LabelSpan(Model, "LA_ADAP_MedD_Group_item", new { @class = labelClass })
+            <div class="@rspClass">
+                @Helpers.TextInput(Model, "LA_ADAP_MedD_Group", new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Helpers.LabelSpan(Model, "LA_ADAP_MedD_Date_item", new { @class = labelClass })
+            <div class="@rspClass">
+                <div class="input-group date">
+                    @Helpers.TextInput(Model, "LA_ADAP_MedD_Date", new { @class = "form-control class_dob_input", placeholder = "mm/dd/yyyy" })
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            updateMedD();
+            $("#LA_ADAP_MedPolicy_TypeD").change(updateMedD);
+        });
+
+        function updateMedD() {
+            $(".toggleMedD").toggle($("#LA_ADAP_MedPolicy_TypeD").get(0).checked);
+        };
+    </script>
+</div>
+
+<div class="panel panel-default toggleMedSupp">
+    <div class="panel-body">
+        <p><strong>@(i++). @Model.sctTitles["LA_ADAP_MedPolicy_MedSupp"]</strong></p>
+        <div class="form-group">
+            @Helpers.LabelSpan(Model, "LA_ADAP_MedSupp_Asst_item", new { @class = labelClass })
+            <div class="@rspClass">
+                @Helpers.DropDownList(Model, "LA_ADAP_MedSupp_Asst_item", "LA_ADAP_MedSupp_Asst")
+            </div>
+        </div>
+        <div class="form-group">
+            @Helpers.LabelSpan(Model, "LA_ADAP_MedSupp_Plan_item", new { @class = labelClass })
+            <div class="@rspClass">
+                @Helpers.TextInput(Model, "LA_ADAP_MedSupp_Plan", new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Helpers.LabelSpan(Model, "LA_ADAP_MedSupp_ID_item", new { @class = labelClass })
+            <div class="@rspClass">
+                @Helpers.TextInput(Model, "LA_ADAP_MedSupp_ID", new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Helpers.LabelSpan(Model, "LA_ADAP_MedSupp_Group_item", new { @class = labelClass })
+            <div class="@rspClass">
+                @Helpers.TextInput(Model, "LA_ADAP_MedSupp_Group", new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Helpers.LabelSpan(Model, "LA_ADAP_MedSupp_Date_item", new { @class = labelClass })
+            <div class="@rspClass">
+                <div class="input-group date">
+                    @Helpers.TextInput(Model, "LA_ADAP_MedSupp_Date", new { @class = "form-control class_dob_input", placeholder = "mm/dd/yyyy" })
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            @Helpers.LabelSpan(Model, "LA_ADAP_EmpRetirePolicy_item", new { @class = labelClass })
+            @Helpers.YesNoRadioButtons(Model, "LA_ADAP_EmpRetirePolicy")
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            updateMedSupp();
+            $("#LA_ADAP_MedPolicy_TypeSupp").change(updateMedSupp);
+        });
+
+        function updateMedSupp() {
+            $(".toggleMedSupp").toggle($("#LA_ADAP_MedPolicy_TypeSupp").get(0).checked);
+        };
+    </script>
+</div>

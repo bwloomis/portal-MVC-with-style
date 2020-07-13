@@ -1,0 +1,97 @@
+﻿@model Assmnts.Models.GeneralForm
+@{
+    Layout = "BaseAppLayout.cshtml";
+}
+
+<script type="text/javascript">
+    function SubmitForm(targetPartId, targetSectionId) {
+        document.getElementById('navPartId').setAttribute('value', targetPartId);
+        document.getElementById('navSectionId').setAttribute('value', targetSectionId);
+        $("#btnSubmit").click();
+    }
+
+    $(document).ready(function () {
+        $('.class_submit').click(function () {
+            SubmitForm('43', '734');
+        });
+
+        //$('.class_prevscreen').hide();
+        $('.class_prevscreen').click(function () {
+            window.location = "/AdapCa/ClientProfile";
+        });
+        $('.class_nextscreen').hide();
+        $('#certify').hide();
+        $('#checkErrors').hide();
+    });
+</script>
+
+<link href="~/stylesheets/jquery.growl.css" rel="stylesheet" />
+<script src="~/javascripts/jquery.growl.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".navbar-nav").find("li").each(function () {
+            $(this).click(function () {
+                $.ajax({
+                    url: '@Url.Action("PageLoadEvents","Results")',
+                });
+            });
+        });
+        $("button").click(function () {
+            $.ajax({
+                url: '@Url.Action("PageLoadClickEvents", "Results")',
+            });
+        });
+
+        var Notify = '@ViewBag.Notify';
+        var NotifyMessage = '@ViewBag.NotifyMessage';
+        if (Notify == "Saved") {
+            console.log("notify start");
+            if (NotifyMessage != '')
+                $.growl.notice({ title: "Save", message: NotifyMessage });
+            else
+                $.growl.notice({ title: "Save", message: "Application Save successfully" });
+
+        }
+        else if (Notify == "Cancel") {
+            if (NotifyMessage != '')
+                $.growl.error({ title: "Error", message: NotifyMessage });
+            else
+                $.growl.error({ title: "Error", message: "Internal server error:Review the logs" });
+        }
+    });
+</script>
+
+
+
+<div class="container">
+
+    <div class="panel panel-default" id="attach-document">
+        <div class="panel-body" style="background-color:#f8f8f8">
+            <div class="form-group">
+                <div class="col-md-3">
+                    @Helpers.LabelSpan(Model, "C1_ProfileDocumentTitle_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-6">
+                    @Helpers.TextInput(Model, "C1_ProfileDocumentTitle", new { @class = "form-control" })
+                </div>
+            </div>
+            <hr>
+            <div class="form-group">
+                <div class="col-md-3">
+                    @Helpers.LabelSpan(Model, "C1_ProfileDocument_item", new { @class = "control-label" })
+                </div>
+                @Helpers.FileUpload(Model, "C1_ProfileDocument")
+            </div>
+            <hr>
+            <div class="form-group">
+                <div class="col-md-3">
+                    @Helpers.LabelSpan(Model, "C1_ProfileDocumentComments_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-6">
+                    <textarea type="text" rows="10" class="form-control" name="C1_ProfileDocumentComments" id="C1_ProfileDocumentComments">@Model.rspValues["C1_ProfileDocumentComments"]</textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

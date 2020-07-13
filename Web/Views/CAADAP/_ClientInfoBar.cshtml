@@ -1,0 +1,89 @@
+﻿<link rel="stylesheet" href="~/Content/adap/css/ClientInfoBar.css" />
+@if (Model != null && Model.formResultUser != null)
+{
+    <div class="section">
+        <div class="row">
+            <div class="container nav-client-container">
+                <div class="alert nav-client-info fade in">
+                    <div class="row">
+
+                        <div class="col-md-6 padding-left-0px">
+                            @if (!String.IsNullOrEmpty(@Model.formResultUser.FirstName))
+                            {
+                                <span class="item-padding-right" data-toggle="tooltip" data-placement="top" title="Client Name">@Model.formResultUser.FirstName @Model.formResultUser.LastName</span>
+                            }
+
+                            @if (!String.IsNullOrEmpty(@Model.clientId))
+                            {
+                                <span class="item-padding-right" data-toggle="tooltip" data-placement="top" title="Client ID">@Model.clientId</span>
+                            }
+                            @if (!String.IsNullOrEmpty(@Model.EligibilityEnddate))
+                            {
+                                <span class="item-padding-right" data-toggle="tooltip" data-placement="top" title="Eligibility End Date">@Model.EligibilityEnddate</span>
+                            }
+
+                        </div>
+
+                        <div class="col-md-6 padding-left-0px ">
+
+                            <div class="pull-right">
+                                @if (!String.IsNullOrEmpty(@Model.FormVariantTitle))
+                                {
+                                    <span class="item-padding-right" data-toggle="tooltip" data-placement="top" title="Form Type">@Model.FormVariantTitle</span>
+                                }
+
+                                @if (!String.IsNullOrEmpty(@Model.formSatusText))
+                                {
+                                    string status = Model.formSatusText;
+
+                                    if (Model.formSatusText.Contains("-"))
+                                    {
+                                        status = Model.formSatusText.Split('-')[0].Trim() + "...";
+                                    }
+                                    else if(Model.formSatusText.Length > 21)
+                                    {
+                                        status = Model.formSatusText.Substring(0, 21) + "...";
+
+                                    }
+
+
+                                    <span class="item-padding-right" >
+                                    <span data-toggle="tooltip" data-placement="top" title="Form Status : @Model.formSatusText">@status</span>
+                                        @if (Model.CanUserChangeStatus)
+                                        {
+                                            var onclikcRedirect = "StatusRedirect('/AdapCa/UpdateStatus'," + @Model.formResultId + ")";
+                                            <span class="status-link" onclick=@onclikcRedirect ><i class="fa fa-pencil-square fa-lg" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Change Status"></i></span>
+                                        }
+
+                                    </span>
+                                    
+                                }
+                                @if (@Model.updatedDate != null )
+                                {
+                                    <span class="item-padding-right" data-toggle="tooltip" data-placement="top" title="Updated Date">@Model.updatedDate</span>
+                                }
+
+
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<style>
+
+    .status-link{
+
+        cursor : pointer;
+    }
+
+    .status-link:hover{
+
+        color : #2e6da4;
+    }
+
+</style>

@@ -1,0 +1,123 @@
+﻿body, td, textarea {color: #000000; font-family:verdana, Helvetica,sans-serif; font-size: 14px; margin: 0px 0px 0px 0px;}
+
+.logoText {font-size: 16px;}
+
+button {font-size: 14px;}
+
+a:link {color: #314778; font-family:verdana, Helvetica,sans-serif; font-size: 14px; text-decoration:none;}
+a:visited {color: #314778; font-family:verdana, Helvetica,sans-serif; font-size: 14px; text-decoration:none;}
+a:link {color: #314778; font-family:verdana, Helvetica,sans-serif; font-size: 14px; text-decoration:none;}
+a:hover {color: #314778; font-family:verdana, Helvetica,sans-serif; font-size: 14px; text-decoration:underline;}
+a {font-size: 14px;}
+
+a.number:link {color: #314778; font-family:verdana, Helvetica,sans-serif; font-size: 14px; text-decoration:none;}
+a.number:visited {color: #314778; font-family:verdana, Helvetica,sans-serif; font-size: 14px; text-decoration:none;}
+a.number:alink {color: #314778; font-family:verdana, Helvetica,sans-serif; font-size: 14px; text-decoration:none;}
+a.number:hover {color: #314778; font-family:verdana, Helvetica,sans-serif; font-size: 14px; text-decoration:none;}
+
+.stdFont{color: #000000; font-family:verdana, Helvetica,sans-serif; font-size: 14px; margin: 0px 0px 0px 0px; text-decoration:none}
+
+.titleorange {color: #be411e; font-family:verdana, Helvetica,sans-serif; font-size: 15px; font-weight:bold}
+.titleblack {color: #000000; font-family:verdana, Helvetica,sans-serif; font-size: 15px; font-weight:bold}
+.titlewhite {color: #ffffff; font-family:verdana, Helvetica,sans-serif; font-size: 15px; font-weight:bold}
+
+.whitelarge {color: #ffffff; font-family: Verdana, Arial,Helvetica,sans-serif; font-size: 12px;font-weight:bold}
+
+.tdleft{border-left:solid #000000 2px;background-repeat: no-repeat;background-position: center center;}
+
+.tableborder{border-left:solid #999999 1px;border-right:solid #999999 1px;border-bottom:solid #999999 1px;border-top:solid #999999 1px;}
+.tableborderg{border-left:solid #d5d5d5 1px;border-right:solid #d5d5d5 1px;border-bottom:solid #d5d5d5 1px;border-top:solid #d5d5d5 1px;}
+
+.questionTD{background-repeat: no-repeat;background-position: center center;}
+.tdques{background-repeat: no-repeat;background-position: center center;}    
+
+/* the width may need to be changed to accomodate a larger text box, if people want absurd session timeout limits */
+.timerTextBox{background-color:#f4f4f4;color:red;width:30px;border-style:none;font-family:verdana, Helvetica,sans-serif; font-size: 14px;}
+.sectionTextBox{font-family:Arial,Geneva,Verdana;font-size:15px;width:18px;border-color:#7b7b7b;border-width:1px;border-style:solid;}
+.3CharTextBox{font-family:Arial,Geneva,Verdana;font-size:14px;width:22px;border-color:#7b7b7b;border-width:1px;border-style:solid;}
+.passwordIndicator{font-family:Arial,Geneva,Verdana;font-size:14px; color:#FFFFFF; background-color:#be411e; vertical-align:middle; padding-bottom:2px; padding-left:2px; padding-right:2px; padding-top:2px;}
+.control{font-family: Arial,Geneva,Verdana;font-size: 14px; border-color: #7b7d7b; border-width: 1px; border-style: solid}
+
+.tdborderblack_topbottom {border-bottom:solid #999999 1px;border-top:solid #999999 1px;}
+.tdborderblack_top {border-top:solid #999999 1px;}
+
+/* Lines below are for the tool tip, don't remove them unless you want a preview of the end of the world */
+#dhtmlpointer{position:absolute;left: -300px;z-index: 101;visibility: hidden;}
+#dhtmltooltip{ position: absolute; left: -300px; width: 150px; border: 1px solid black; padding: 2px; background-color: #FFFFE1; visibility: hidden; z-index: 100;}
+/*Line below is for shadowing, add to #dhtmltooptip
+	filter: progid:DXImageTransform.Microsoft.Shadow(color=gray,direction=135);*/
+a.media {  }
+div.media { text-align: center; }
+div.questionHeader { background-color: #d5d5d5; padding: 5px 0px 0px 15px; border: solid 1px Black; }
+div.question { border: solid 1px Black; padding-bottom: 10px; }
+div.questionContent { margin-left: 15px; } 
+div.subQuestions { margin-left: 32px; } 
+div.notes { display: inline; background-color: #ffffe0; }
+div.questInstruct { margin-right: 50px }
+div.questSubInstruct { margin-left: 32px; }
+div.topQuestion { text-align: right; margin-right: 1.0em; }
+.questionText { width: 350px; }
+.questionDesc { width: 460px; }
+.questionSubDesc { width: 150px; }
+.topQuestionDesc {  font-family:Arial,Geneva,Verdana;font-size:16px; margin-left: 0.25em; text-align: left;  }
+div.border { border: solid 1px Black; }
+div.section { padding-bottom: 5px; }
+.sectionHeaderDesc { color: #ffffff; font-family:verdana, Helvetica,sans-serif; font-size: 11px; font-weight:bold; margin-left: 0.25em; }
+div.sectionHeader { border: solid 1px Black; padding: 5px; background-color: #be411c; }
+ol.subQuestionsL1 { list-style-type: lower-alpha; }
+ol.subQuestionsL2 { list-style-type: lower-roman; }
+.spellChecker {}
+.time { width: 70px; }
+input[type=text] { font-family: Arial,Geneva,Verdana; font-size: 14px; border-color: #7b7d7b; border-width: 1px; border-style: solid; }
+label { font-family: Arial,Geneva,Verdana; font-size: 14px; }
+.calPopUp { vertical-align: top; }
+.toolTip { cursor:hand; cursor:pointer; /*display: block;*/ }
+.subQuestions li { vertical-align: top; }
+.required { color: red; }
+select.combo { font-family: Arial,Geneva,Verdana; font-size: 14px; width: 190px; border-color: #7b7d7b; border-width: 1px; border-style: solid; }
+.error { color: Red; font-weight: bold;  } 
+label.required,span.required { color: Red; }             
+.fieldError { background-color: #FC7474; }
+input.dateInput {font-family:Arial,Geneva,Verdana;font-size:8pt;width:65px;border-color:#7b7d7b;border-width:1px;border-style: solid; color: Black;}
+label.date { font-family: Arial,Geneva,Verdana; font-size: 14px; margin-right: 15px; color: Black; }
+.bold { font-weight: bold; }
+.important { color: Red; font-weight: bold; }
+input.textCounter {font-family:Arial,Geneva,Verdana;font-size:14px;width:30px;border-color:#7b7b7b;border-width:1px;border-style:solid; }
+div.content { /*margin-left: 40px; margin-right: 40px;*/ width: 950px; }
+.hidden { position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden; }
+.noScriptToolTip { font-size: 1.0em; }
+.clickable { cursor: hand; cursor: pointer; }
+.showstate { display: inherit; }
+.questionLabel {}
+.hideAll { display: none; visibility: hidden; }
+.switchcontent { display: none; }
+div.footer {  background-color: #F4F4F4; height: 2.5ex; }
+div.footerTrim { background-color: #be411e; height: 3ex; }
+div.footer a { margin-left: 40px; }
+label.date.required { color: Red;}
+
+
+
+span.number
+{
+	color: #BE411E;
+	font-size: 13px;
+	font-family: verdana,Helvetica,sans-serif;
+	cursor:pointer;
+	font-weight:bold;
+}
+
+
+.comboSupCode {    border-color: #7B7D7B;
+    border-style: solid;
+    border-width: 1px;
+    font-family: Arial,Geneva,Verdana;
+    font-size: 8pt; }
+    
+    .comboSupName
+    
+    {    border-color: #7B7D7B;
+    border-style: solid;
+    border-width: 1px;
+    font-family: Arial,Geneva,Verdana;
+    font-size: 8pt; }

@@ -1,0 +1,106 @@
+﻿@using Assmnts;
+@model dynamic
+<script>
+    $(document).ready(function () {
+        $("#hideAddDetailForm").hide();
+        $("#showAddDetailForm").click(function () {
+            $("#showAddDetailForm").hide();
+            $("#hideAddDetailForm").show();
+            $("#addDetails").show();
+        });
+        $("#hideAddDetailForm").click(function () {
+            $("#hideAddDetailForm").hide();
+            $("#showAddDetailForm").show();
+            $("#addDetails").hide();
+        });
+        $("#backToMasters").click(function () {
+            $("#lookupDetails").hide();
+            $("#lookupMasters").show();
+            editingDetails = false;
+        });
+        postData = {
+            "masterId": "@Model.masterId",
+            "entId": $("#enterpriseID").val(),
+            "grpId": $("#groupID").val()
+        };
+        $('#dtDetail').dataTable({
+            "processing": true,
+            "serverSide": true,
+            "ajax": {
+                url: "/Def3Maint/DataTableDetails",
+                data: postData,
+                type: "POST"
+            },
+            "ordering": false,
+            "dom": 'lriptip'
+        });
+    });
+</script>
+
+
+    <input type="button" id="showAddDetailForm" class="btn btn-success" value="Add a Lookup Detail" />
+    <input type="button" id="hideAddDetailForm" class="btn btn-danger" value="Cancel Lookup Detail" />
+    <input type="button" id="backToMasters" class="btn btn-success" value="Return to Lookup Masters" />
+    
+    @*<table class="table grid">
+    <tr>
+        <th>Data Value</th>
+        <th>Display Order</th>
+        <th></th>
+        <th></th>
+        <th></th>
+    </tr>
+
+    <tr id="addDetails" hidden="hidden">
+        <td><input type="text" name="addDataValue" class="form-control" id="addData" /></td>
+        <td><input type="text" id="displayOrder" class="form-control" name="displayOrder" /></td>
+        <td><input type="button" class="createButton btn btn-default" value="Create" onclick="createDetail()" /></td>
+    </tr>
+
+    @{int itmCnt = 0;}
+
+    @foreach (def_LookupDetail detail in Model.LookupDetails)
+     {
+         itmCnt++;
+         string bgColor = (itmCnt % 2) == 0 ? "#d5d5d5" : "#ffffff";
+
+        <tr bgcolor="@{@bgColor}">
+            <td id="dataValue[@detail.lookupDetailId]">@detail.dataValue</td>
+            
+
+            <td id="order[@detail.lookupDetailId]">@detail.displayOrder</td>
+
+            <td id="editDetail[@detail.lookupDetailId]"><a href="#" onclick="editDetail(@detail.lookupDetailId)">Edit</a></td>
+            <td id="textDetail[@detail.lookupDetailId]"><a href="#" onclick="textDetail(@detail.lookupDetailId, '@HttpUtility.JavaScriptStringEncode(detail.dataValue)')">View Text </a></td>
+            <td id="deleteDetail[@detail.lookupDetailId]"><a href="#" onclick="deleteDetail(@detail.lookupDetailId, '@HttpUtility.JavaScriptStringEncode(detail.dataValue)')">Delete</a></td>
+            <td id="saveDetail[@detail.lookupDetailId]" hidden="hidden"><a href="#" onclick="saveDetail(@detail.lookupDetailId)">Save </a></td>
+            <td id="cancelDetail[@detail.lookupDetailId]" hidden="hidden"><a href="#" onclick="cancelDetail(@detail.lookupDetailId)">Cancel </a></td>
+        </tr>
+    }
+
+</table>*@
+<br /><br />
+<div id="addDetails" hidden="hidden">
+    <form class="form-inline">
+        <span><label for="addDataValue">Data Value</label><input type="text" name="addDataValue" class="form-control" id="addData" /></span>
+        <span><label for="displayOrder">Display Order</label><input type="text" id="displayOrder" class="form-control" name="displayOrder" /></span>
+        <span><input type="button" class="btn btn-success" value="Create" onclick="createDetail()" /></span>
+    </form>
+</div>
+<table id="dtDetail" class="table table-bordered table-striped" cellpadding="0" cellspacing="0" border="0">
+    <thead>
+        <tr>
+            <th>Data Value</th>
+            <th>Display Order</th>
+            <th>English Text</th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+</table>
+
+
+
+
+

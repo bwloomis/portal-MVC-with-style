@@ -1,0 +1,597 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+    <meta name="author" content="">
+    <meta name="description" content="">
+    <!--<link rel="shortcut icon" href="../../favicon.ico">-->
+
+    <title>Demographics Information</title>
+
+    <!--jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+    <!-- date picker TODO: move to CDN -->
+    <script src="js/bootstrap-datepicker.js"></script>
+    <link href="css/bootstrap-datepicker3.css" rel="stylesheet" />
+
+    <!-- file upload -->
+    <script src="js/fileinput.min.js"></script>
+    <link href="css/fileinput.min.css" rel="stylesheet" />
+
+    <!-- custom bootstrap nav css -->
+    <link href="css/bootstrap.nav.custom.css" rel="stylesheet" type="text/css">
+    <link href="css/global.css" rel="stylesheet" type="text/css">
+
+    <!-- sticky footer css -->
+    <link href="css/sticky-footer-navbar.css" rel="stylesheet">
+
+    <script>
+    $(document).ready(function () {
+        $('.input-group.date').datepicker({
+            autoclose: true,
+            format: 'mm/dd/yyyy'
+        });
+    });
+    </script>
+    <script>
+    $(document).ready(function () {
+        //setup certain elements to be visible iff a certain checkbox is checked
+            $('#AsianAncestry').toggle($('#ADAP_D3_Asian').get(0).checked);
+            $('#ADAP_D3_Asian').change(function () { $('#AsianAncestry').toggle($(this).get(0).checked); });
+
+			$('#PIAncestry').toggle($('#ADAP_D3_NativeHPI').get(0).checked);
+            $('#ADAP_D3_NativeHPI').change(function () { $('#PIAncestry').toggle($(this).get(0).checked); });
+    });
+    </script>
+
+</head>
+<body>
+    <!-- Fixed navbar -->
+    <nav id="custom-bootstrap-menu" class="navbar navbar-default navbar-static-top" style="margin:0; border-bottom: 1px solid #d5d5d5">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="home.html" class="logo pull-left"><img src="img/ca_small.png" class="img-responsive" alt="CDPH" /></a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li class="dropdown active">
+                        <a href="" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-copy"></i> Placeholder<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="">Placeholder</a></li>
+                            <li class="divider"></li>
+                            <li><a href="">Placeholder</a></li>
+                            <li class="divider"></li>
+                            <li><a href="">Placeholder</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href=""><i class="glyphicon glyphicon-book"></i> Placeholder</a>
+                    </li>
+                    <li>
+                        <a href=""><i class="glyphicon glyphicon-credit-card"></i> Placeholder</a>
+                    </li>
+                    <li>
+                        <a href=""><i class="glyphicon glyphicon-comment"></i> Placeholder</a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-user"></i> Bill Maas<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="">Profile Information</a></li>
+                            <li class="divider"></li>
+                            <li><a href="">Logout</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="" style="color:#eaa002"><i class="glyphicon glyphicon-cog"></i> Administration</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container" style="padding-top:0">
+        <div id="ADAPHeader">
+            <div id="ADAPHeaderText"><h3>Demographics Information</h3> </div>
+            <hr class="hr-dark">
+            <!-- this is used for large forms that need to seperated into multiple pages -->
+            <!--<div class="row">
+                <div class="col-md-5 hidden-xs hidden-sm">
+                <strong><small><em>Application Progress: Page X of X</em></small></strong>
+                    <div class="progress" style="height:10px">
+                      <div class="progress-bar progress-bar-striped active" role="progressbar"
+                      aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" style="width:30%">
+                      </div>
+                    </div>
+                </div>
+            <div class="col-md-3 pull-right">
+                                    <select class="form-control" name="genre">
+                                        <option value="">Jump to Section</option>
+                                        <option value="">Part 1</option>
+                                        <option value="">Part 2</option>
+                                    </select>
+            </div>
+              <div class="col-md-4 pull-right">
+                <button type="button" class="btn btn-danger btn-sm pull-right class_prevornextscreen class_nextscreen" style="margin-left:5px">
+                    Next Section <span class="glyphicon glyphicon-arrow-right"></span>
+                </button>
+                <button type="button" class="btn btn-danger btn-sm pull-right class_prevornextscreen class_nextscreen">
+                    <span class="glyphicon glyphicon-arrow-left"></span> Prev Section
+                </button>
+                </div>
+            </div> -->
+        </div>
+    </div>
+    <div class="container" style="padding-bottom:75px; padding-top:15px;">
+        <form class="form-horizontal" id="adapForm" role="form">
+            <div class="panel panel-default" id="demographic-name">
+                <div class="panel-body" style="background-color:#f8f8f8">
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <label class="control-label">D1. Full Legal Name</label>
+                        </div>
+                        <div class="col-md-1">
+                            <div class=" pull-right">
+                                <label class="control-label" for="ADAP_D1_LastName">Last</label>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <input type="text" class="form-control" name="ADAP_D1_LastName" id="ADAP_D1_LastName" maxlength="60" />
+                        </div>
+                        <div class="col-md-1">
+                            <div class=" pull-right">
+                                <label class="control-label" for="ADAP_D1_FirstName">First</label>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <input type="text" class="form-control" name="ADAP_D1_FirstName" id="ADAP_D1_FirstName" maxlength="60" />
+                        </div>
+                        <div class="col-md-1">
+                            <div class=" pull-right">
+                                <label class="control-label" for="ADAP_D1_MiddleIntl">M.I.</label>
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <input type="text" class="form-control" name="ADAP_D1_MiddleIntl" id="ADAP_D1_MiddleIntl" maxlength="1" />
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <label class="control-label" for="ADAP_D1_Maiden">Maiden Name <span class="small muted">(if any)</span></label>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" name="ADAP_D1_Maiden" id="ADAP_D1_Maiden" maxlength="60" />
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <label class="control-label" for="ProofOfLegalName">Attach Proof of Legal Name</label>
+                        </div>
+                        <div class="col-md-5">
+                            <!-- change ProofName ID/Name to whatever, name not given in original screen data dictionary -->
+                            <input type="file" class="file" id="ProofOfLegalName" name="ProofOfLegalName" data-show-preview="false" data-show-upload="false" maxlength="75">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default" id="demographic-dob">
+                <div class="panel-body" style="background-color:#f8f8f8">
+                    <div class="form-group">
+                        <div class="col-md-2">
+                            <label class="control-label" for="ADAP_D2_DOB">D2. Date of Birth</label>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="input-group date">
+                                <input type="text" class="form-control" id="ADAP_D2_DOB" name="ADAP_D2_DOB" placeholder="mm/dd/yyyy" maxlength="" />
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default" id="demographic-race">
+                <div class="panel-body" style="background-color:#f8f8f8">
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            <label class="control-label">
+                                D3. What is your race? <span class="muted small">(Check all that apply)</span>
+                            </label>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" id="ADAP_D3_White" name="ADAP_D3_White">White
+                                </label>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" id="ADAP_D3_NativeHPI" name="ADAP_D3_NativeHPI">Native Hawaiian/Pacific Islander
+                                </label>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" id="ADAP_D3_Asian" name="ADAP_D3_Asian">Asian
+                                </label>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" id="ADAP_D3_Black" name="ADAP_D3_Black">Black or African American
+                                </label>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" id="ADAP_D3_Indian" name="ADAP_D3_Indian">American Indian or Alaska Native
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- only display if native hawaiian/pacific islander is checked -->
+                    <div id="PIAncestry">
+                        <div class="form-group">
+                            <div class="col-md-10">
+                                <label class="control-label">
+                                    If you answered Native Hawaiian/Pacific Islander, how would you identify?  <span class="muted small">(Check all that apply)</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-offset-1 col-md-3">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" id="ADAP_D3_NativeH" name="ADAP_D3_NativeH">Native Hawaiian
+                                    </label>
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" id="ADAP_D3_Guam" name="ADAP_D3_Guam">Guamanian or Chamorro
+                                    </label>
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" id="ADAP_D3_Samoan" name="ADAP_D3_Samoan">Samoan
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" id="ADAP_D3_Fijian" name="ADAP_D3_Fijian">Fijian
+                                    </label>
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" id="ADAP_D3_Tongan" name="ADAP_D3_Tongan">Tongan
+                                    </label>
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" id="ADAP_D3_OtherPI" name="ADAP_D3_OtherPI">Other Pacific Islander
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- only display if asian is slected above -->
+                    <div id="AsianAncestry">
+                        <div class="form-group">
+                            <div class="col-md-8">
+                                <label class="control-label">
+                                    If you answered Asian, how would you identify? <span class="muted small">(Check all that apply)</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-offset-1 col-md-2">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" id="ADAP_D3_Filipino" name="ADAP_D3_Filipino">Filipino
+                                    </label>
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" id="ADAP_D3_Korean" name="ADAP_D3_Korean">Korean
+                                    </label>
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" id="ADAP_D3_Chinese" name="ADAP_D3_Chinese">Chinese
+                                    </label>
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" id="ADAP_D3_Japanese" name="ADAP_D3_Japanese">Japanese
+                                    </label>
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" id="ADAP_D3_Vietnamese" name="ADAP_D3_Vietnamese">Vietnamese
+                                    </label>
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" id="ADAP_D3_Laotian" name="ADAP_D3_Laotian">Laotian
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" id="ADAP_D3_Cambodian" name="ADAP_D3_Cambodian">Cambodian
+                                    </label>
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" id="ADAP_D3_Bangladeshi" name="ADAP_D3_Bangladeshi">Bangladeshi
+                                    </label>
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" id="ADAP_D3_Hmong" name="ADAP_D3_Hmong">Hmong
+                                    </label>
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" id="ADAP_D3_Indonesian" name="ADAP_D3_Indonesian">Indonesian
+                                    </label>
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" id="ADAP_D3_Malaysian" name="ADAP_D3_Malaysian">Malaysian
+                                    </label>
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" id="ADAP_D3_Pakistani" name="ADAP_D3_Pakistani">Pakistani
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" id="ADAP_D3_SriLankan" name="ADAP_D3_SriLankan">Sri Lankan
+                                    </label>
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" id="ADAP_D3_Taiwanese" name="ADAP_D3_Taiwanese">Taiwanese
+                                    </label>
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" id="ADAP_D3_Thai" name="ADAP_D3_Thai">Thai
+                                    </label>
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" id="ADAP_D3_Burmese" name="ADAP_D3_Burmese">Burmese
+                                    </label>
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" id="ADAP_D3_Singaporean" name="ADAP_D3_Singaporean">Singaporean
+                                    </label>
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" id="ADAP_D3_OtherAsian" name="ADAP_D3_OtherAsian">Other Asian
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-default" id="demographic-ethnicity">
+                <div class="panel-body" style="background-color:#f8f8f8">
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <label class="control-label" for="ADAP_D4_EthnicDrop">D4. What is your ethnicity?</label>
+                        </div>
+                        <div class="col-md-4">
+                            <select class="form-control" name="ADAP_D4_EthnicDrop" id="ADAP_D4_EthnicDrop">
+                                <option value="" selected=selected>Choose one</option>
+                                <option value="">Hispanic/Latino/a</option>
+                                <option value="">Non-Hispanic</option>
+                                <option value="">Unknown</option>
+                            </select>
+                        </div>
+                    </div>
+                    <!-- only display if hispanic/latino(a) is slected above -->
+                    <div id="HispanicAncestry">
+                        <div class="form-group">
+                            <div class="col-md-8">
+                                <label class="control-label">
+                                    If you answered Hispanic/Latino/a, how would you identify? <span class="muted small">(Check all that apply)</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-offset-1 col-md-5">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" id="ADAP_D4_Mexican" name="ADAP_D4_Mexican">Mexican or Mexican American, Chicano/a
+                                    </label>
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" id="ADAP_D4_Puerto" name="ADAP_D4_Puerto">Puerto Rican
+                                    </label>
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" id="ADAP_D4_Cuban" name="ADAP_D4_Cuban">Cuban
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-default" id="demographic-language">
+                <div class="panel-body" style="background-color:#f8f8f8">
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            <label class="control-label" for="ADAP_D5_LangDrop">D5. What is your preferred language?</label>
+                        </div>
+                        <div class="col-md-4">
+                            <select class="form-control" name="ADAP_D5_LangDrop" id="ADAP_D5_LangDrop">
+                                <option value="" selected=selected>Choose one</option>
+                                <option value="">English</option>
+                                <option value="">Spanish</option>
+                                <option value="">Tagalog</option>
+                                <option value="">Chinese/Mandarin</option>
+                                <option value="">Other (please specify below)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <!-- only display if Other (please specify below) is selected for preferred/language -->
+                    <div class="form-group">
+                        <div class="col-md-4 col-md-offset-4">
+                            <input type="text" class="form-control" name="ADAP_D7_LangOther" id="ADAP_D7_LangOther" maxlength="25" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default" id="demographic-gender">
+                <div class="panel-body" style="background-color:#f8f8f8">
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <label class="control-label" for="ADAP_D6_CurrGender">D6. What is your gender?</label>
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-control" name="ADAP_D6_CurrGender" id="ADAP_D6_CurrGender">
+                                <option value="" selected=selected>Choose one</option>
+                                <option value="">Male</option>
+                                <option value="">Female</option>
+                                <option value="">Transgender, Male to Female</option>
+                                <option value="">Transgender, Female to Male</option>
+                                <option value="">Unknown</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="pull-right">
+                                <label class="control-label" for="ADAP_D6_BirthGender">What was your sex at birth?</label>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <select class="form-control" name="ADAP_D6_BirthGender" id="ADAP_D6_BirthGender">
+                                <option value="" selected=selected>Choose one</option>
+                                <option value="">Male</option>
+                                <option value="">Female</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-default" id="demographic-ramsell">
+                <div class="panel-body" style="background-color:#f8f8f8">
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            <label class="control-label" for="ADAP_D7_Ramsell">D7. What is your member ID? <span class="small muted" maxlength="">(If known)</span></label>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control" name="ADAP_D7_Ramsell" id="ADAP_D7_Ramsell" maxlength="20" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-default" id="demographic-ssn">
+                <div class="panel-body" style="background-color:#f8f8f8">
+                    <div class="form-group">
+                        <div class="col-md-6">
+                            <label class="control-label" for="ADAP_D8_SSN">D8. What is your social security number? <span class="small muted">(If you have one)</span></label>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control" name="ADAP_D8_SSN" id="ADAP_D8_SSN" maxlength="11" />
+                        </div>
+                    </div>
+                    <hr>
+                    <!--
+                            <div class="form-group">
+                              <div class="col-md-4">
+                                  <label class="control-label" for="SSNIneligible">Are you an ineligible immigrant?</label>
+                              </div>
+                                <div class="col-md-1">
+                                        <div class="radio">
+                                            <label>
+                                                <input type="radio" id="SSNIneligible" name="SSNIneligible">
+                                                Yes
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <div class="radio">
+                                            <label>
+                                                <input type="radio" id="SSNIneligible" name="SSNIneligible">
+                                                No
+                                            </label>
+                                        </div>
+                                    </div>
+                            </div>
+                            -->
+                    <div class="form-group">
+                        <div class="checkbox left-buffer-15">
+                            <label class="control-label" for="SSNIneligible">
+                                <input type="checkbox" id="SSNIneligible" name="SSNIneligible">Check if you are an ineligible immigrant
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default" id="demographic-itin">
+                <div class="panel-body" style="background-color:#f8f8f8">
+                    <div class="form-group">
+                        <div class="col-md-5">
+                            <label class="control-label" for="ADAP_D9_ITIN">
+                                D9. What is your ITIN? <span class="small muted">(If you have one)</span>
+                            </label>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control" name="ADAP_D9_ITIN" id="ADAP_D9_ITIN" maxlength="20" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!-- //container -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-5">
+                    <img id="profile-img" class="img-responsive" src="img/lifia_logo-sm.png" alt="lifia" />
+                </div>
+                <div class="col-md-7 top-buffer-5">
+                    <p class="text-right">
+                        <span class="text-muted small" style="color:#d5d5d5">Copyright &copy; 2012-2016 A.J. Boggs & Co. <br /> All rights reserved.</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

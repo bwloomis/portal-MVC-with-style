@@ -1,0 +1,538 @@
+﻿@model Assmnts.Models.GeneralForm
+@{
+    Layout = "LA_AdapAppLayout.cshtml";
+}
+
+@section AddtoHead{
+    <link rel="stylesheet" type="text/css" href="/Content/adap/css/ADAPForms.css" />
+    <script src="~/Content/js/ADAPLookupSelects.js"></script>
+    <script src="~/Scripts/jquery.inputmask/inputmask.js"></script>
+    <script src="~/Scripts/jquery.inputmask/jquery.inputmask.js"></script>
+    <script src="~/Scripts/Validate.js"></script>
+    <link href="~/stylesheets/Validate.css" rel="stylesheet" />
+    <script src="~/Content/js/ssn-candy.js"></script>
+    <script>
+        $(document).ready(function () {
+            @foreach (string identifier in new string[] { "LA_ADAP_NameSuffix", "ADAP_D7_LangDrop", "LA_ADAP_ResidMailYN" })
+        {
+            @:populateLookupSelect('@identifier', '@identifier', '@Model.rspValues[identifier]');
+                    }
+
+            @foreach (string shortName in new string[] { "C3_Phone1_Type", "C3_Phone2_Type" })
+        {
+            string identifier = "ADAP_" + shortName;
+            @:populateLookupRadio('@identifier', '@identifier', '@Model.rspValues[identifier]', 1);
+                            }
+
+            $('.class_prevscreen').hide();
+            $('#ADAP_C1_State').val('LA');
+            $('#ADAP_C2_State').val('LA');
+            $('.class_phone_input').inputmask("(999)999-9999");
+            $('.class_dob_input').inputmask("99/99/9999");
+
+            $("#ADAP_C1_Zip").inputmask("99999[-9999]");
+            $("#ADAP_C2_Zip").inputmask("99999[-9999]");
+
+            //special case for "Suffix" dropdown
+            $('#LA_ADAP_NameSuffix>option[value=""]').html("");
+
+            $('.alignright').css("text-align", "right");
+
+            setApplicationProgressIndicator(1);
+        });
+    </script>
+}
+
+@{int i = 1;}
+
+<div class="panel panel-default">
+    <div class="panel-body">
+        <span class="required">
+            <p><strong>@(i++). @Model.sctTitles["LA_ADAP_Contact_Name"]</strong></p>
+        </span>
+        <div class="form-group">
+            <div class="col-md-3">
+                @Helpers.LabelSpan(Model, "ADAP_D1_FirstName_item", new { @class = "control-label required" })
+                @Helpers.ToolTipFromItemPrompt(Model, "ADAP_D1_FirstName_item", new { @class = "pointer fa fa-question-circle text-primary fa-1x" })
+                @Helpers.TextInput(Model, "ADAP_D1_FirstName", new { @class = "form-control" })
+            </div>
+            <div class="col-md-2">
+                @Helpers.LabelSpan(Model, "ADAP_D1_MiddleIntl_item", new { @class = "control-label required" })
+                @Helpers.TextInput(Model, "ADAP_D1_MiddleIntl", new { @class = "form-control" })
+            </div>
+            <div class="col-md-3">
+                @Helpers.LabelSpan(Model, "ADAP_D1_LastName_item", new { @class = "control-label required" })
+                @Helpers.ToolTipFromItemPrompt(Model, "ADAP_D1_LastName_item", new { @class = "pointer fa fa-question-circle text-primary fa-1x" })
+                @Helpers.TextInput(Model, "ADAP_D1_LastName", new { @class = "form-control" })
+            </div>
+            <div class="col-md-2">
+                @Helpers.LabelSpan(Model, "LA_ADAP_NameSuffix_item", new { @class = "control-label" })
+                @Helpers.DropDownList(Model, "LA_ADAP_NameSuffix_item", "LA_ADAP_NameSuffix")
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="form-group">
+            <span class="col-md-4 control-label" style="font-weight: bold; text-align: left;">
+                @(i++). @Model.sctTitles["LA_ADAP_Contact_Maiden"]
+                @Helpers.ToolTipFromItemPrompt(Model, "LA_ADAP_MaidenName_item", new { @class = "pointer fa fa-question-circle text-primary fa-1x" })
+            </span>
+            <div class="col-md-3">
+                @Helpers.TextInput(Model, "LA_ADAP_MaidenName", new { @class = "form-control" })
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="form-group">
+            <span class="col-md-5 control-label required" style="font-weight: bold; text-align: left;">
+                @(i++). @Model.fldLabels["LA_ADAP_NameChgYN_item"]
+                @Helpers.ToolTipFromItemPrompt(Model, "LA_ADAP_NameChgYN_item", new { @class = "pointer fa fa-question-circle text-primary fa-1x" })
+            </span>
+            @Helpers.YesNoRadioButtons(Model, "LA_ADAP_NameChgYN")
+        </div>
+        <div class="form-group toggleNameChg">
+            @Helpers.LabelSpan(Model, "LA_ADAP_NameChgFirst_item", new { @class = "col-md-4 control-label" })
+            <div class="col-md-3">
+                @Helpers.TextInput(Model, "LA_ADAP_NameChgFirst", new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group toggleNameChg">
+            @Helpers.LabelSpan(Model, "LA_ADAP_NameChgLast_item", new { @class = "col-md-4 control-label" })
+            <div class="col-md-3">
+                @Helpers.TextInput(Model, "LA_ADAP_NameChgLast", new { @class = "form-control" })
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            updateNameChg();
+            $("#LA_ADAP_NameChgYN_YesOption").change(updateNameChg);
+            $("#LA_ADAP_NameChgYN_NoOption").change(updateNameChg);
+        });
+
+        function updateNameChg() {
+            $(".toggleNameChg").toggle($("#LA_ADAP_NameChgYN_YesOption").get(0).checked);
+        };
+    </script>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="form-group">
+            <span class="col-md-4 control-label required" style="font-weight: bold; text-align: left;">
+                @(i++). @Model.sctTitles["LA_ADAP_Contact_DOB"]
+            </span>
+            <div class="col-md-3">
+                <div class="input-group date">
+                    @Helpers.TextInput(Model, "ADAP_D2_DOB", new { @class = "form-control class_dob_input", placeholder = "mm/dd/yyyy" })
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $("#ADAP_D2_DOB").off('change').on('change', function () {
+                    var dob = $('#ADAP_D2_DOB').val();
+                    var dobSplit = dob.split("/");
+                    var DobYear = parseInt(dobSplit[2]);
+                    var currentYear = (new Date).getFullYear();
+                    debugger;
+                    if (DobYear > (currentYear - 18)) {
+                        alert('You must be 18 years or older. Enter your correct date of birth.');
+                        $("#ADAP_D2_DOB").val('');
+
+                    } else if ((DobYear < (currentYear - (116)))) {
+                        alert('You must be 116 years or younger. Enter your correct date of birth.');
+                        $("#ADAP_D2_DOB").val('');
+
+                    }
+
+
+                });
+
+
+            });
+        </script>
+
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="form-group">
+            <span class="col-md-4 control-label required" style="font-weight: bold; text-align: left;">
+                @(i++). @Model.sctTitles["LA_ADAP_Contact_SSN"]
+                @Helpers.ToolTipFromItemPrompt(Model, "LA_ADAP_NoSSN_item", new { @class = "pointer fa fa-question-circle text-primary fa-1x" })
+            </span>
+            <div class="col-md-6">
+                @Helpers.LabeledCheckboxInput(Model, "LA_ADAP_NoSSN")
+            </div>
+        </div>
+        <div class="form-group toggleSSN">
+            <div class="col-md-3 col-md-offset-4">
+                <div style="display:none">
+                    @Helpers.TextInput(Model, "ADAP_D10_SSN", new { @class = "form-control" })
+                </div>
+                <input type='text' id='VisibleSSN' class='form-control input-mask ssn-candy-mask'>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $("label[for='LA_ADAP_NoSSN']")
+                .css("margin-bottom", "0px")
+                .css("padding-top", "7px");
+            showSSN();
+            $("#LA_ADAP_NoSSN").change(showSSN);
+
+            $("#VisibleSSN").val($("#ADAP_D10_SSN").val());
+
+            $("#VisibleSSN").blur();
+
+            $("#VisibleSSN").on('blur', updateSSN);
+
+        });
+
+        function showSSN() {
+            $(".toggleSSN").toggle(!$("#LA_ADAP_NoSSN").get(0).checked);
+        };
+
+        function updateSSN() {
+            $("#ADAP_D10_SSN").val($("#VisibleSSN").ssnValue());
+            $("#VisibleSSN").on('blur', updateSSN);
+        };
+
+
+    </script>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="form-group">
+            <span class="col-md-4 control-label required" style="font-weight: bold; text-align: left;">
+                @(i++). @Model.sctTitles["LA_ADAP_Contact_Language"]
+            </span>
+            <div class="col-md-3">
+                @Helpers.DropDownList(Model, "ADAP_D7_LangDrop_item", "ADAP_D7_LangDrop")
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-3 col-md-offset-4" id="langOtherToggle">
+                @Helpers.TextInput(Model, "ADAP_D7_LangOther", new { @class = "form-control" })
+            </div>
+        </div>
+        <script>
+            $(document).ready(function () {
+                updateLangOther();
+                $("#ADAP_D7_LangDrop").change(updateLangOther);
+            });
+            function updateLangOther() {
+                $("#langOtherToggle").toggle($("#ADAP_D7_LangDrop").val() == 17);
+            };
+        </script>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="form-group">
+            <span class="col-md-4 control-label required" style="font-weight: bold; text-align: left;">
+                @(i++). @Model.sctTitles["LA_ADAP_Contact_Homeless"]
+                @Helpers.ToolTipFromItemPrompt(Model, "LA_ADAP_Homeless_item", new { @class = "pointer fa fa-question-circle text-primary fa-1x" })
+            </span>
+            @Helpers.YesNoRadioButtons(Model, "LA_ADAP_Homeless")
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="form-group">
+            <span class="col-md-8 control-label required" style="font-weight: bold;">
+                @(i++). @Model.sctTitles["LA_ADAP_Contact_ResidAddr"]
+                @Helpers.ToolTipFromItemPrompt(Model, "ADAP_C1_Address_item", new { @class = "pointer fa fa-question-circle text-primary fa-1x" })
+            </span>
+        </div>
+        <div class="form-group">
+            @Helpers.LabelSpan(Model, "ADAP_C1_Address_item", new { @class = "col-md-2 control-label" })
+            <div class="col-md-4">
+                @Helpers.TextInput(Model, "ADAP_C1_Address", new { @class = "form-control" })
+            </div>
+            <div class="col-md-2">
+                @Helpers.LabelSpan(Model, "LA_ADAP_AddrAptNum_item", new { @class = "control-label" })
+            </div>
+            <div class="col-md-2">
+                @Helpers.TextInput(Model, "LA_ADAP_AddrAptNum", new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group">
+
+            @Helpers.LabelSpan(Model, "ADAP_C1_City_item", new { @class = "col-md-1 control-label" })
+            <div class="col-md-3 col-md-offset-1">
+                @Helpers.TextInput(Model, "ADAP_C1_City", new { @class = "form-control" })
+            </div>
+
+            @Helpers.LabelSpan(Model, "ADAP_C1_State_item", new { @class = "col-md-1 control-label" })
+            <div class="col-md-1">
+                @Helpers.TextInput(Model, "ADAP_C1_State", new { @class = "form-control", @readonly = "readonly" })
+            </div>
+            <div class="col-md-1">
+                @Helpers.LabelSpan(Model, "ADAP_C1_Zip_item", new { @class = "control-label" })
+            </div>
+            <div class="col-md-2">
+                @Helpers.TextInput(Model, "ADAP_C1_Zip", new { @class = "form-control class_zip_code", datavalidate = "true", datavalidationmessage = "Enter Valid Zip Code", datadv = "zipCode" })
+                <span class="icon"></span>
+                <label class="lbl-error error"></label>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="form-group">
+            <span class="col-md-7 control-label required" style="font-weight: bold; text-align: left;">
+                @(i++). @Model.sctTitles["LA_ADAP_Contact_ResidMail"]
+                @Helpers.ToolTipFromItemPrompt(Model, "LA_ADAP_ResidMailYN_item", new { @class = "pointer fa fa-question-circle text-primary fa-1x" })
+            </span>
+            <div class="col-md-5">
+                @Helpers.DropDownList(Model, "LA_ADAP_ResidMailYN_item", "LA_ADAP_ResidMailYN")
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-default toggleMailAddr">
+    <div class="panel-body">
+        <div class="form-group">
+            <span class="col-md-8 control-label required" style="font-weight: bold;">
+                @(i++). @Model.sctTitles["LA_ADAP_Contact_MailAddr"]
+                @Helpers.ToolTipFromItemPrompt(Model, "ADAP_C2_Address_item", new { @class = "pointer fa fa-question-circle text-primary fa-1x" })
+            </span>
+        </div>
+        <div class="form-group">
+            @Helpers.LabelSpan(Model, "ADAP_C2_Address_item", new { @class = "col-md-2 control-label" })
+            <div class="col-md-4">
+                @Helpers.TextInput(Model, "ADAP_C2_Address", new { @class = "form-control" })
+            </div>
+
+            @Helpers.LabelSpan(Model, "LA_ADAP_MailAptNum_item", new { @class = "col-md-2 control-label" })
+            <div class="col-md-2">
+                @Helpers.TextInput(Model, "LA_ADAP_MailAptNum", new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group">
+
+            @Helpers.LabelSpan(Model, "ADAP_C2_City_item", new { @class = "col-md-1 control-label" })
+            <div class="col-md-3 col-md-offset-1">
+                @Helpers.TextInput(Model, "ADAP_C2_City", new { @class = "form-control" })
+            </div>
+
+            @Helpers.LabelSpan(Model, "ADAP_C2_State_item", new { @class = "col-md-1 control-label" })
+            <div class="col-md-1">
+                @Helpers.TextInput(Model, "ADAP_C2_State", new { @class = "form-control", @readonly = "readonly" })
+            </div>
+            <div class="col-md-1">
+                @Helpers.LabelSpan(Model, "ADAP_C2_Zip_item", new { @class = "control-label" })
+            </div>
+            <div class="col-md-2">
+                @Helpers.TextInput(Model, "ADAP_C2_Zip", new { @class = "form-control class_zip_code", datavalidate = "true", datavalidationmessage = "Enter Valid Zip Code", datadv = "zipCode" })
+                <span class="icon"></span>
+                <label class="lbl-error error"></label>
+            </div>
+
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            updateMailAddr();
+            $("#LA_ADAP_ResidMailYN").change(updateMailAddr);
+        });
+
+        function updateMailAddr() {
+            $(".toggleMailAddr").toggle($("#LA_ADAP_ResidMailYN").val() == "0");
+        };
+    </script>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="form-group">
+            <span class="col-md-4 control-label required" style="font-weight: bold; text-align: left;">
+                @(i++). @Model.sctTitles["LA_ADAP_Contact_Phone1"]
+                @Helpers.ToolTipFromItemPrompt(Model, "ADAP_C3_Phone1_Num_item", new { @class = "pointer fa fa-question-circle text-primary fa-1x" })
+            </span>
+            <div class="col-md-7">
+                @Helpers.LabeledCheckboxInput(Model, "LA_ADAP_NoPhone")
+            </div>
+        </div>
+        <div class="form-group togglePhone">
+            <div class="col-md-3 col-md-offset-4">
+                @Helpers.TextInput(Model, "ADAP_C3_Phone1_Num", new { @class = "form-control class_phone_input", datavalidate = "true", datavalidationmessage = "Enter Valid Phone Number", datadv = "phone" })
+                <span class="icon"></span><label class="lbl-error error"></label>
+            </div>
+        </div>
+        <div class="form-group togglePhone">
+            @Helpers.LabelSpan(Model, "ADAP_C3_Phone1_Type_item", new { @class = "col-md-5 control-label" })
+            <div id="ADAP_C3_Phone1_Type"></div>
+        </div>
+        <div class="form-group togglePhone">
+            @Helpers.LabelSpan(Model, "LA_ADAP_Phone1_MayCallYN_item", new { @class = "col-md-5 control-label" })
+            @Helpers.YesNoRadioButtons(Model, "LA_ADAP_Phone1_MayCallYN")
+        </div>
+        <div class="form-group togglePhone">
+            @Helpers.LabelSpan(Model, "ADAP_C3_Phone1_MayMsgYN_item", new { @class = "col-md-5 control-label" })
+            @Helpers.ToolTipFromItemPrompt(Model, "ADAP_C3_Phone1_MayMsgYN_item", new { @class = "pointer fa fa-question-circle text-primary fa-1x", @style = "float:left" })
+            @Helpers.YesNoRadioButtons(Model, "ADAP_C3_Phone1_MayMsgYN")
+        </div>
+        <div class="form-group togglePhone">
+            @Helpers.LabelSpan(Model, "LA_ADAP_Phone1_MayTextYN_item", new { @class = "col-md-5 control-label" })
+            @Helpers.ToolTipFromItemPrompt(Model, "LA_ADAP_Phone1_MayTextYN_item", new { @class = "pointer fa fa-question-circle text-primary fa-1x", @style = "float:left" })
+            @Helpers.YesNoRadioButtons(Model, "LA_ADAP_Phone1_MayTextYN")
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $("label[for='LA_ADAP_NoPhone']")
+                .css("margin-bottom", "0px")
+                .css("padding-top", "7px");
+            updatePhone();
+            $("#LA_ADAP_NoPhone").change(updatePhone);
+        });
+
+        function updatePhone() {
+            $(".togglePhone").toggle(!$("#LA_ADAP_NoPhone").get(0).checked);
+        };
+    </script>
+</div>
+
+<div class="panel panel-default togglePhone">
+    <div class="panel-body">
+        <div class="form-group">
+            <span class="col-md-4 control-label required" style="font-weight: bold; text-align: left;">
+                @(i++). @Model.fldLabels["ADAP_C3_Phone2_Num_item"]
+                @Helpers.ToolTipFromItemPrompt(Model, "ADAP_C3_Phone2_Num_item", new { @class = "pointer fa fa-question-circle text-primary fa-1x" })
+            </span>
+            <div class="col-md-7">
+                @Helpers.LabeledCheckboxInput(Model, "LA_ADAP_NoSecondPhone")
+            </div>
+        </div>
+        <div class="form-group togglePhone2">
+            <div class="col-md-3 col-md-offset-4">
+                @Helpers.TextInput(Model, "ADAP_C3_Phone2_Num", new { @class = "form-control class_phone_input", datavalidate = "true", datavalidationmessage = "Enter Valid Phone Number", datadv = "phone" })
+                <span class="icon"></span><label class="lbl-error error"></label>
+            </div>
+        </div>
+        <div class="togglePhone2">
+            <div class="form-group">
+                @Helpers.LabelSpan(Model, "ADAP_C3_Phone2_Type_item", new { @class = "col-md-5 control-label" })
+
+                <div id="ADAP_C3_Phone2_Type"></div>
+
+            </div>
+            <div class="form-group">
+                @Helpers.LabelSpan(Model, "LA_ADAP_Phone2_MayCallYN_item", new { @class = "col-md-5 control-label" })
+                @Helpers.YesNoRadioButtons(Model, "LA_ADAP_Phone2_MayCallYN")
+            </div>
+            <div class="form-group">
+                @Helpers.LabelSpan(Model, "ADAP_C3_Phone2_MayMsgYN_item", new { @class = "col-md-5 control-label" })
+                @Helpers.ToolTipFromItemPrompt(Model, "ADAP_C3_Phone2_MayMsgYN_item", new { @class = "pointer fa fa-question-circle text-primary fa-1x", @style = "float:left" })
+                @Helpers.YesNoRadioButtons(Model, "ADAP_C3_Phone2_MayMsgYN")
+            </div>
+            <div class="form-group">
+                @Helpers.LabelSpan(Model, "LA_ADAP_Phone2_MayTextYN_item", new { @class = "col-md-5 control-label" })
+                @Helpers.ToolTipFromItemPrompt(Model, "LA_ADAP_Phone2_MayTextYN_item", new { @class = "pointer fa fa-question-circle text-primary fa-1x", @style = "float:left" })
+                @Helpers.YesNoRadioButtons(Model, "LA_ADAP_Phone2_MayTextYN")
+            </div>
+        </div>
+        <script>
+
+            $(document).ready(function () {
+                updatePhone2();
+                $("#LA_ADAP_NoSecondPhone").change(updatePhone2);
+            });
+            function updatePhone2() {
+                $(".togglePhone2").toggle(!$("#LA_ADAP_NoSecondPhone").get(0).checked);
+            };
+        </script>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="form-group">
+            <span class="col-md-4 control-label required" style="font-weight: bold; text-align: left;">
+                @(i++). @Model.sctTitles["LA_ADAP_Contact_Email"]
+                @Helpers.ToolTipFromItemPrompt(Model, "LA_ADAP_Email_Adr_item", new { @class = "pointer fa fa-question-circle text-primary fa-1x" })
+            </span>
+            <div class="col-md-3">
+                @Helpers.TextInput(Model, "LA_ADAP_Email_Adr", new { @class = "form-control", datavalidate = "true", datavalidationmessage = "Enter valid email", datadv = "email" })
+                <span class="icon"></span><label class="lbl-error error"></label>
+            </div>
+        </div>
+        <div class="form-group">
+            @Helpers.LabelSpan(Model, "LA_ADAP_MayEmailYN_item", new { @class = "col-md-6 control-label" })
+            @Helpers.ToolTipFromItemPrompt(Model, "LA_ADAP_MayEmailYN_item", new { @class = "pointer fa fa-question-circle text-primary fa-1x", @style = "float:left" })
+            @Helpers.YesNoRadioButtons(Model, "LA_ADAP_MayEmailYN")
+        </div>
+        <div class="form-group">
+            @Helpers.LabelSpan(Model, "LA_ADAP_EmailUpdatesYN_item", new { @class = "col-md-6 control-label" })
+            @Helpers.ToolTipFromItemPrompt(Model, "LA_ADAP_EmailUpdatesYN_item", new { @class = "pointer fa fa-question-circle text-primary fa-1x", @style = "float:left" })
+            @Helpers.YesNoRadioButtons(Model, "LA_ADAP_EmailUpdatesYN")
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-body">
+        <p><strong>@(i++). @Model.sctTitles["LA_ADAP_Contact_AltContact"]</strong></p>
+        @Helpers.ToolTipFromItemPrompt(Model, "LA_ADAP_AltContact_Reln_item", new { @class = "pointer fa fa-question-circle text-primary fa-1x" })
+        <div class="form-group">
+            <div class="col-md-12">
+                @Helpers.YesNoRadioButtons(Model, "ADAP_C4_MayCallYN")
+            </div>
+        </div>
+
+        <div class="form-group toggleAltContact">
+            @Helpers.LabelSpan(Model, "ADAP_C4_Name_item", new { @class = "col-md-4 control-label" })
+            <div class="col-md-3">
+                @Helpers.TextInput(Model, "ADAP_C4_Name", new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group toggleAltContact">
+            @Helpers.LabelSpan(Model, "LA_ADAP_AltContact_Reln_item", new { @class = "col-md-4 control-label" })
+            <div class="col-md-3">
+                @Helpers.TextInput(Model, "LA_ADAP_AltContact_Reln", new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group toggleAltContact">
+            @Helpers.LabelSpan(Model, "ADAP_C4_Phone_item", new { @class = "col-md-4 control-label" })
+            <div class="col-md-3">
+                @Helpers.TextInput(Model, "ADAP_C4_Phone", new { @class = "form-control class_phone_input", datavalidate = "true", datavalidationmessage = "Enter Valid Alternate contact's phone number", datadv = "phone" })
+                <span class="icon"></span><label class="lbl-error error"></label>
+            </div>
+        </div>
+
+        <script>
+            $(document).ready(function () {
+                updateAltContact();
+                $("#ADAP_C4_MayCallYN_YesOption").change(updateAltContact);
+                $("#ADAP_C4_MayCallYN_NoOption").change(updateAltContact);
+            });
+            function updateAltContact() {
+                $(".toggleAltContact").toggle($("#ADAP_C4_MayCallYN_YesOption").get(0).checked);
+            };
+        </script>
+    </div>
+</div>

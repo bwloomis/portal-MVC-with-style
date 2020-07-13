@@ -1,0 +1,138 @@
+﻿@model Assmnts.Models.GeneralForm
+@using Assmnts.Models;
+@{
+    Layout = "LA_AdapAppLayout.cshtml";
+}
+
+@section AddtoHead{
+    <link rel="stylesheet" type="text/css" href="/Content/adap/css/ADAPForms.css" />
+    <script src="~/Content/js/ADAPLookupSelects.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            @foreach (string shortName in new string[] { "IsDependent", "IsMinor" })
+        {
+            string identifier = "LA_ADAP_TaxStatus_" + shortName;
+            @:populateLookupRadio('@identifier', '@identifier', '@Model.rspValues[identifier]', 1);
+                                @:$('input[name=@(identifier)]').parent().parent().removeClass('col-md-1').addClass('col-md-12');
+                            }
+
+            updateToggles();
+            $("input").change(updateToggles);
+
+            setApplicationProgressIndicator(3);
+
+        });
+
+        function updateToggles() {
+            var willFileYes = $("#LA_ADAP_TaxStatus_WillFileYN_YesOption").get(0).checked;
+            var willFileNo = $("#LA_ADAP_TaxStatus_WillFileYN_NoOption").get(0).checked;
+
+            $('.willFileYesToggle').toggle(willFileYes);
+            $('.willFileNoToggle').toggle(willFileNo);
+
+            $(".isMinorToggle").toggle(willFileNo && $("[name=LA_ADAP_TaxStatus_IsDependent][value=1]").get(0).checked ||
+                willFileYes && $("#LA_ADAP_TaxStatus_AlsoDependentYN_YesOption").get(0).checked);
+
+            var nextSectionId = updateConclusion();
+            if (nextSectionId == -1) {
+                $(".class_nextscreen").hide();
+                $('#conclusionText').css('color', 'red');
+            } else {
+                $(".class_nextscreen").show();
+                $('.class_nextscreen').click(function () {
+                    SubmitForm('@(((TemplateAdapNavMenu)Model.navMenuModel).adapPartId)', nextSectionId);
+                });
+                $('#conclusionText').css('color', 'green');
+            }
+        }
+
+        function updateConclusion() {
+
+            var willFileYes = $("#LA_ADAP_TaxStatus_WillFileYN_YesOption").get(0).checked;
+            var willFileNo = $("#LA_ADAP_TaxStatus_WillFileYN_NoOption").get(0).checked;
+            var alsoDepYes = $("#LA_ADAP_TaxStatus_AlsoDependentYN_YesOption").get(0).checked;
+            var alsoDepNo = $("#LA_ADAP_TaxStatus_AlsoDependentYN_NoOption").get(0).checked;
+
+            if ((!willFileYes && !willFileNo) ||
+                (willFileYes && !alsoDepYes && !alsoDepNo) ||
+                (willFileNo && $('input[name=LA_ADAP_TaxStatus_IsDependent]:checked').length == 0) ||
+                (willFileNo && $("#LA_ADAP_TaxStatus_IsDependent1").get(0).checked && $('input[name=LA_ADAP_TaxStatus_IsMinor]:checked').length == 0) ||
+                (willFileYes && alsoDepYes && $('input[name=LA_ADAP_TaxStatus_IsMinor]:checked').length == 0)) {
+                $('#conclusionText').html("You must check one of the radios above");
+                return -1;
+            }
+
+            if (willFileYes && alsoDepNo) {
+                $('#conclusionText').html("LA HAP will ask you about your household as a TAX FILER");
+                $('#LA_ADAP_Household_IsNonFiler').val(0);
+                return @(((TemplateAdapNavMenu)Model.navMenuModel).sectionIds["LA_ADAP_HouseholdTaxFiler"]);
+            }
+
+            else if (((willFileYes && alsoDepYes) || (willFileNo && $("#LA_ADAP_TaxStatus_IsDependent0").get(0).checked)) && $("[name=LA_ADAP_TaxStatus_IsMinor][value=3]").get(0).checked) {
+                $('#conclusionText').html("LA HAP will ask you about your household as a TAX DEPENDENT");
+                $('#LA_ADAP_Household_IsNonFiler').val(0);
+                return @(((TemplateAdapNavMenu)Model.navMenuModel).sectionIds["LA_ADAP_HouseholdTaxDependent"]);
+            }
+
+            else {
+                $('#conclusionText').html("LA HAP will ask you about your household as a NON-FILER");
+                $('#LA_ADAP_Household_IsNonFiler').val(1);
+                return @(((TemplateAdapNavMenu)Model.navMenuModel).sectionIds["LA_ADAP_HouseholdTaxNonFiler"]);
+            }
+        }
+    </script>
+}
+
+<input hidden name="LA_ADAP_Household_IsNonFiler" id="LA_ADAP_Household_IsNonFiler" value="@Model.rspValues["LA_ADAP_Household_IsNonFiler"]" />
+
+<div class="panel panel-default">
+    <div class="panel-body" style="background-color:#f8f8f8">
+        <div class="form-group">
+            <div class="col-md-5">
+                @Helpers.LabelSpan(Model, "LA_ADAP_TaxStatus_WillFileYN_item", new { @class = "control-label" })
+            </div>
+            @Helpers.YesNoRadioButtons(Model, "LA_ADAP_TaxStatus_WillFileYN", false)
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-default willFileYesToggle">
+    <div class="panel-body" style="background-color:#f8f8f8">
+        <div class="form-group ">
+            <div class="col-md-5">
+                @Helpers.LabelSpan(Model, "LA_ADAP_TaxStatus_AlsoDependentYN_item", new { @class = "control-label" })
+            </div>
+            @Helpers.YesNoRadioButtons(Model, "LA_ADAP_TaxStatus_AlsoDependentYN", false)
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-default willFileNoToggle">
+    <div class="panel-body" style="background-color:#f8f8f8">
+        <div class="form-group ">
+            @Helpers.LabelSpan(Model, "LA_ADAP_TaxStatus_IsDependent_item", new { @class = "col-md-5 control-label" })
+            <div id="LA_ADAP_TaxStatus_IsDependent"></div>
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-default isMinorToggle">
+    <div class="panel-body" style="background-color:#f8f8f8">
+        <div class="form-group">
+            @Helpers.LabelSpan(Model, "LA_ADAP_TaxStatus_IsMinor_item", new { @class = "col-md-3 control-label" })
+            <div id="LA_ADAP_TaxStatus_IsMinor"></div>
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-default conclusionToggle">
+    <div class="panel-body" style="background-color:#f8f8f8">
+        <div class="form-group">
+            <span id="conclusionText" class="col-md-12 control-label" style="font-weight: bold; text-align: left;">
+
+            </span>
+        </div>
+    </div>
+</div>
+

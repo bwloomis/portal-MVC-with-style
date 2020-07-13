@@ -1,0 +1,273 @@
+@{
+    ViewBag.Title = "Interview and Profile";
+    Layout = "~/Views/Shared/LoginLayout.cshtml";
+    Validator.Required("The field is required.");
+    string sisOnlineURL = System.Configuration.ConfigurationManager.AppSettings["SISOnlineURL"];
+}
+
+@section HeadContent {
+
+    <link rel="stylesheet" type="text/css" href="/Content/css/sitewide.css">
+    <link rel="alternate stylesheet" type="text/css" media="screen" title="medium" href="/Content/css/sitewide2.css">
+    <link rel="alternate stylesheet" type="text/css" media="screen" title="large" href="/Content/css/sitewide3.css">
+    <script src="/Content/js/textchanger.js" type="text/javascript"></script>
+    <script src="/Scripts/spin.min.js" type="text/javascript"></script>
+
+    <style>
+        .textfield {
+            height: 15px;
+            width: 150px;
+            border: 1px solid #7b7d7b;
+        }
+
+        /*change top and left below to effect the way the
+         right-side elements overlap with the logo*/
+        .offset {
+            position: relative;
+            left: 80px;
+            top: 30px;
+        }
+
+        #logo {
+            width: 665px;
+            height: auto;
+        }
+
+        #logoTd{
+            position: relative;
+        }
+
+        .logoText{
+            position: absolute;
+            top: 125px;
+            left: 150px;
+            width: 75%;
+        }
+
+        #sisAsisCLogos {
+            font-size: 10px;
+            position: relative;
+            top: 60px;
+        }
+
+        .box {
+            display: inline-block;
+        }
+
+        #sisALogo {
+            width: 200px;
+        }
+
+        #sisCLogo {
+            width: 200px;
+        }
+
+        #text {
+            position: relative;
+            top: 100px;
+            width: 450px;
+        }
+
+        .heading {
+            height: 40px;
+        }
+
+        #forgotPassword, #forgotUsername {
+            font-size: 13px;
+        }
+    </style>
+
+
+
+}
+
+<table border="0" cellpadding="0" cellspacing="0" style="background-color: #106296">
+    <tr>
+        <td style="height: 26px" align="left" valign="middle">
+            <table border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td>
+                        <span class="whitelarge">&nbsp;&nbsp;American Association on Intellectual and Developmental Disabilities (AAIDD)</span>
+                    </td>
+                    <td id="ctl00_celTopMenu" style="width: 200px"></td>
+
+                    <td>
+                        <table border="0" cellpadding="0" cellspacing="0" style="background-color: #106296">
+                            <tr>
+                                <td style="height: 17px">&nbsp;</td>
+                                <td style="width: 17px" align="right">
+                                    <a href="javascript:chooseStyle('none', 60)">
+                                        <img src="/Content/images/font-small.gif" alt="Small font" style="border-width: 0px" />
+                                    </a>
+                                </td>
+                                <td style="width: 4px"></td>
+                                <td style="width: 17px" align="right">
+                                    <a href="javascript:chooseStyle('medium', 60)">
+                                        <img src="/Content/images/font-medium.gif" alt="Medium font" style="border-width: 0px" />
+                                    </a>
+                                </td>
+                                <td style="width: 4px"></td>
+                                <td style="width: 17px" align="right">
+                                    <a href="javascript:chooseStyle('large', 60)">
+                                        <img src="/Content/images/font-large.gif" alt="Large font" style="border-width: 0px" />
+                                    </a>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr><td style="background-color: #ffffff; height: 1px"></td></tr>
+    <tr><td style="background-color: #d5d5d5; height: 8px"></td></tr>
+    <tr><td style="background-color: #999999; height: 1px"></td></tr>
+</table>
+<div class="content">
+    <br />
+    <table id="tblData" cellpadding="0" cellspacing="0" style="height: 100%; ">
+        <tr>
+            <td id="logoTd">                
+                <img id="logo" src="../../Content/images/SISVenture_7-10-2015.jpg" />
+                <div class="logoText">
+                    SIS Venture is an application installed on your local computer, that allows SISOnline users to collect assessment data
+                    locally, without needing to be connected to the Internet.  It is easier to use than a web page, as it avoids problems by saving
+                    your data when exiting or changing pages.  Interviewers typically run it on their notebook computer, and upload the data to SISOnline when done.
+                </div>
+            </td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>
+                @using (Html.BeginForm("LoginVenture", "Account", FormMethod.Post, new { id = "frmLogin" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <div id="sisLogin">
+                        <table style="width: 400px; height: 250px" border="0" cellpadding="5" cellspacing="0" class="tableborder offset content">
+                            <tr class="heading" style="background-color: #d3d3d3;">
+                                <td style="width:20px"><img style="width:20px" alt="Login" src="/Content/images/login.gif" /></td>
+                                <td><span style="font-size:13px;" class="titleblack">Login to the SIS System</span></td>
+                            </tr>
+                            <tr style="background-color:white">
+                                <td colspan="2">
+                                    <table cellpadding="4" cellspacing="0" border="0">
+                                        <tr><td colspan="2"></td></tr>
+                                        <tr>
+                                            <td colspan="2">
+                                                <span style="color:red" id="errors" tabindex="0">@ViewBag.ErrorMessage</span>
+                                            </td>
+                                        </tr>
+                                        <tr><td colspan="2"></td></tr>
+                                        <tr>
+                                            <td width="50">Username:</td>
+                                            <td align="left" width="600">
+                                                <input style="height:20px; width: 200px; font-size:13px;" type="text" name="userName" class="textfield" />
+                                            </td>
+                                        </tr>
+                                        <tr><td colspan="2"></td></tr>
+                                        <tr>
+                                            <td width="50">Password:</td>
+                                            <td align="left" width="600">
+                                                <input style="height:20px; width: 200px; font-size:13px;" type="password" name="pwrd" maxlength="23" class="textfield" />
+                                            </td>
+                                        </tr>
+                                        <tr><td colspan="2"></td></tr>
+                                        <tr>
+                                            <td style="display:none" colspan="2">
+                                                Initial Visibility is false. pnlCaptcha<br />
+                                                <script type="text/javascript"
+                                                        src="https://www.google.com/recaptcha/api/challenge?k=6Le8VfISAAAAAOQymgAdVgb_nCWxQ7RFFZBtDo1t">
+                                                </script>
+                                                <noscript>
+                                                    <iframe src="https://www.google.com/recaptcha/api/noscript?k=6Le8VfISAAAAAOQymgAdVgb_nCWxQ7RFFZBtDo1t"
+                                                            height="300" width="500" frameborder="0"></iframe><br />
+                                                    <textarea name="recaptcha_challenge_field" rows="3" cols="40"></textarea>
+                                                    <input type="hidden" name="recaptcha_response_field"
+                                                           value="manual_challenge">
+                                                </noscript>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2"><input style="width:60px; height:30px;" type="submit" value="Login" /></td>
+                                        </tr>
+
+
+
+                                    </table>
+                                    <br />
+                                    <div style="display:inline-block; position:relative; left: 10px;">Version @ViewBag.Version</div>
+                                    
+                                    <br />
+                                    <div style="display:inline-block; position:relative; left: 10px;"><a href="@sisOnlineURL/Account/VentureForgotPassword" target="_blank" id="forgotPassword">Forgot Your Password?</a> </div>
+                                 </td>
+                            </tr>
+
+                        </table>
+                    </div>
+
+                    <br />
+                    
+                    
+                    <table id="forgotTable" style="width: 100%" border="0" cellpadding="5" cellspacing="0" class="tableborder offset content" hidden="hidden">
+                        <tr class="heading" style="background-color: #d3d3d3;">
+                            <td><span class="titleblack">Forgotten Password</span></td>
+                        </tr>
+                        <tr>
+                            <td><div id="forgotPartialView"></div></td>
+                        </tr>
+                    </table>
+                    <br />
+
+
+
+                }
+
+            </td>
+
+
+
+        </tr>
+
+    </table>
+    <div id="sisAsisCLogos">
+        <div id="sisA" class="box">
+            <img id="sisALogo" src="~/Content/images/SIS-A_logo_Small.jpg" />
+            <br />
+            SUPPORTS INTENSITY SCALE-ADULT VERSION&#8482;
+        </div>
+
+        <div id="sisC" class="box">
+            <img id="sisCLogo" src="~/Content/images/SIS-C_logo_Small.jpg" /> <br />
+
+            SUPPORTS INTENSITY SCALE-CHILDREN'S VERSION&#8482;
+        </div>
+
+    </div>
+    <div id="text">
+
+        Supports Intensity Scale and SISOnline are published by the American Association on Intellectual and Developmental Disabilities.
+
+        Copyright &#0169; 2004 by the American Association on Intellectual and Developmental Disabilities.
+        All rights reserved.
+        May not be reproduced in whole or part in any form or by any means without the written permission of the American Association on Intellectual and Developmental Disabilities.
+    </div>
+</div>
+<script type="text/javascript">
+    var RecaptchaOptions = {
+        theme: 'clean'
+    };
+
+    $("#frmLogin").submit(function () {
+        var opts = {
+            length: 20, // The length of each line
+            width: 10, // The line thickness
+            radius: 30, // The radius of the inner circle
+            color: '#106296', // #rgb or #rrggbb or array of colors
+            trail: 60, // Afterglow percentage
+            shadow: false, // Whether to render a shadow
+            hwaccel: false, // Whether to use hardware acceleration
+        };
+        var target = document.getElementById('sisLogin');
+        var spinner = new Spinner(opts).spin(target);
+    });
+</script>

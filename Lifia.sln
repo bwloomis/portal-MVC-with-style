@@ -1,0 +1,39 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30204.135
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web", "Web\Web.csproj", "{93F79CCA-D3BD-4E11-8A73-AC1974A1CDDF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{28D6C1E8-ED03-450A-9A17-7A0EBBDA3ACF}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		CD_ROM|Any CPU = CD_ROM|Any CPU
+		Debug|Any CPU = Debug|Any CPU
+		DVD-5|Any CPU = DVD-5|Any CPU
+		Release|Any CPU = Release|Any CPU
+		SingleImage|Any CPU = SingleImage|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{93F79CCA-D3BD-4E11-8A73-AC1974A1CDDF}.CD_ROM|Any CPU.ActiveCfg = Release|Any CPU
+		{93F79CCA-D3BD-4E11-8A73-AC1974A1CDDF}.CD_ROM|Any CPU.Build.0 = Release|Any CPU
+		{93F79CCA-D3BD-4E11-8A73-AC1974A1CDDF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93F79CCA-D3BD-4E11-8A73-AC1974A1CDDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93F79CCA-D3BD-4E11-8A73-AC1974A1CDDF}.DVD-5|Any CPU.ActiveCfg = Debug|Any CPU
+		{93F79CCA-D3BD-4E11-8A73-AC1974A1CDDF}.DVD-5|Any CPU.Build.0 = Debug|Any CPU
+		{93F79CCA-D3BD-4E11-8A73-AC1974A1CDDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93F79CCA-D3BD-4E11-8A73-AC1974A1CDDF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{93F79CCA-D3BD-4E11-8A73-AC1974A1CDDF}.SingleImage|Any CPU.ActiveCfg = Release|Any CPU
+		{93F79CCA-D3BD-4E11-8A73-AC1974A1CDDF}.SingleImage|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7509E4C3-F9D8-4FB6-BC9E-573396EEF240}
+	EndGlobalSection
+EndGlobal

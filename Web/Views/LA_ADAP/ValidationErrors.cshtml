@@ -1,0 +1,125 @@
+@model Assmnts.Models.AdapValidationErrorsModel
+@using Data.Abstract
+@using Assmnts
+@{
+    ViewBag.Title = Resources.Validation.ValidationErrors;
+    Layout = "LA_AdapAppLayout.cshtml";
+    IFormsRepository formsRepo = DependencyResolver.Current.GetService(typeof(IFormsRepository)) as IFormsRepository;
+}
+
+@section AddToHead{
+    <script>
+        $(document).ready(function () {
+            $('.class_submit').attr('disabled', 'disabled');
+            $('#quickValidationMessages').hide();
+            $('.class_prevornextscreen').hide();
+            $('#ADAPHeaderText>h3').html("@Resources.Validation.ValidationErrors");
+        });
+    </script>
+}
+
+@if ((Model.missingItemVariablesBySectionByPart.Count == 0) && (Model.validationMessages.Count == 0))
+{
+    <div class="panel panel-default">
+        <div class="panel-heading">@Resources.Validation.ValidPassed</div>
+    </div>
+}
+else
+{
+    if (Model.missingItemVariablesBySectionByPart.Count() > 0)
+    { 
+        <div class="panel panel-default">
+            <div class="panel-heading"><b>@Resources.Validation.SctMissingReqRsps</b></div>
+            <table class="table">                
+                @foreach (int prtId in Model.titlesOfMissingSubsectionsBySectionByPart.Keys)
+                {
+                    def_Parts prt = formsRepo.GetPartById(prtId);
+                    foreach (int sctId in Model.titlesOfMissingSubsectionsBySectionByPart[prtId].Keys)
+                    {
+                        def_Sections sct = formsRepo.GetSectionById(sctId);
+                        <tr>
+                            <td>
+                                <table>
+                                    <tr>
+                                        <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                        <td>
+                                            <a style="color:rgb(190, 65, 54);font-weight:bold;" href="#"
+                                               onclick="SubmitForm('@prt.partId','@sct.sectionId')">@sct.title</a>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        foreach (string subsectionTitle in Model.titlesOfMissingSubsectionsBySectionByPart[prtId][sctId])
+                        {
+                            <tr>
+                                <td>
+                                    <table>
+                                        <tr>
+                                            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                            <td>@subsectionTitle</td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        }
+                    }
+                }
+            </table>
+        </div>
+    }
+
+    @*divide validation messages into errors and warnings*@
+    List<string> errorMessages = new List<string>();
+    List<string> warningMessages = new List<string>();
+    string warningPrefix = Resources.Validation.WARNING + ":";
+    foreach( string msg in Model.validationMessages ){
+        if (msg.StartsWith(warningPrefix))
+        {
+            warningMessages.Add(msg.Replace(warningPrefix, "").Trim());
+        }
+        else
+        {
+            errorMessages.Add(msg);
+        }
+    }
+    
+    if (errorMessages.Count > 0)
+    {
+
+        <div class="panel panel-default">
+            <div class="panel-heading"><b>@Resources.Validation.OtherValProblems</b></div>
+            <table class="table">
+                @{
+                    //display other validation messages
+                    foreach (string message in errorMessages)
+                    {
+                        <tr>
+                            <td>@message</td>
+                        </tr>
+                    }
+                }
+            </table>
+        </div>
+    }
+
+    if (warningMessages.Count > 0)
+    {
+
+        <div class="panel panel-default">
+            <div class="panel-heading">@Html.Raw(Resources.Validation.WarningsHeader)</div>
+            <p></p>
+            <table class="table">
+                @{
+                    //display other validation messages
+                    foreach (string message in warningMessages)
+                    {
+                        <tr>
+                            <td>@message</td>
+                        </tr>
+                    }
+                }
+            </table>
+        </div>
+    }
+}

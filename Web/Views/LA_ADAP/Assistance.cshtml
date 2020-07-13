@@ -1,0 +1,68 @@
+﻿@model Assmnts.Models.GeneralForm
+@using Assmnts.Models;
+@{
+    Layout = "LA_AdapAppLayout.cshtml";
+}
+
+@section AddtoHead{
+    <link rel="stylesheet" type="text/css" href="/Content/adap/css/ADAPForms.css" />
+    <script src="~/Content/js/ADAPLookupSelects.js"></script>
+
+    <script>
+        $(document).ready(function () {
+
+            setApplicationProgressIndicator(6);
+        });
+
+    </script>
+}
+
+@{int i = 1;}
+
+<div class="panel panel-default">
+    <div class="panel-body">
+        <p><strong>@(i++). @Model.sctTitles["LA_ADAP_Assistance_HaveIns"]</strong>
+        @Helpers.ToolTipFromItemPrompt(Model, "LA_ADAP_HaveInsNo_item", new { @class = "pointer fa fa-question-circle text-primary fa-1x" })</p>
+        <div class="form-group">            
+            @foreach (string suffix in new string[] { "No", "Med", "NotMed", "NotHealth" })
+            {
+                <div class="col-md-12">
+                    @Helpers.LabeledCheckboxInput(Model, "LA_ADAP_HaveIns" + suffix)
+                </div>
+            }
+        </div>
+        <script>
+            $(document).ready(function () {
+                UpdateNext();
+                $('#LA_ADAP_HaveInsMed').change(UpdateNext);
+                $('#LA_ADAP_HaveInsNotMed').change(UpdateNext);
+                $('#LA_ADAP_HaveInsNotHealth').change(UpdateNext);
+                $('#LA_ADAP_HaveInsNo').change(UpdateNext);
+            });
+
+            function UpdateNext() {
+
+                var nextScreenIdentifier;
+
+                if ($('#LA_ADAP_HaveInsMed').is(':checked')) {                                                              //If "Yes.  I have Medicare..." is the topmost checked...
+                    nextScreenIdentifier = '@(((TemplateAdapNavMenu)Model.navMenuModel).sectionIds["LA_ADAP_MedPolicy"])';  //...the next sceen is Medicare Policy.
+                }
+                else if ($('#LA_ADAP_HaveInsNotMed').is(':checked')) {                                                      //If "Yes.  I have one or more..." is the topmost checked...
+                    nextScreenIdentifier = '@(((TemplateAdapNavMenu)Model.navMenuModel).sectionIds["LA_ADAP_InsPolicy"])';  //...the next screen is Insurance Policy.
+                }
+                else if ($('#LA_ADAP_HaveInsNotHealth').is(':checked')) {                                                   //If "Yes.  I have dental..." is the topmost checked...
+                    nextScreenIdentifier = '@(((TemplateAdapNavMenu)Model.navMenuModel).sectionIds["LA_ADAP_DentPolicy"])'; //...the next screen is Dental Policy.
+                }
+                else {                                                                                                      //Otherwise, the next screen is Diagnosis.
+                    nextScreenIdentifier = '@(((TemplateAdapNavMenu)Model.navMenuModel).sectionIds["LA_ADAP_Diagnosis"])';  //ASSUMES something is checked, if only "No. I am requesting..."
+                }
+
+                $('.class_nextscreen').click(function () {
+                    SubmitForm('@(((TemplateAdapNavMenu)Model.navMenuModel).adapPartId)', nextScreenIdentifier);
+                });
+
+            };
+
+        </script>
+    </div>
+</div>

@@ -1,0 +1,137 @@
+﻿@model Assmnts.Models.DataSync
+
+@{
+    ViewBag.Title = "Upload Single";
+    Layout = "~/Views/Shared/SISVentureLayout.cshtml";
+}
+
+<script>
+       function toggle(id) {
+            var state = document.getElementById(id).style.display;
+            document.getElementById(id).style.display = (state == 'block') ? 'none' : 'block';
+        }
+
+    var uniqueId = '<%= @Guid.NewGuid().ToString() %>';
+
+   var percentComplete = 0;
+   var conversionPercent = 10;
+	function updPrcnt() {
+		var pcnt = percentComplete.toString() + '%';
+		$('#pbar').width(pcnt);
+		$('#pbar').text(pcnt);
+	}
+
+    function initDataUpload() {
+        percentComplete = 0;
+        updPrcnt();
+        $('#overallStatus').text('Local data being exported and uploaded.');
+        $("#overallStatus").removeClass("alert-danger");
+        $("#overallStatus").addClass("alert-success");
+        document.getElementById('status').innerHTML = "";
+        ExportData();
+	}
+
+    function ExportData() {
+        $('#overallStatus').text('Assessment being converted to JSON.');
+        $.ajax({
+            type: "POST",
+            url: "/DataSync/CreateFormResultJSON",
+            data: { formResultId: @Model.ID },
+            async: true,
+            cache: false,
+            success: function (response) {
+                $('#overallStatus').text('Conversion to JSON complete.');
+                percentComplete += conversionPercent;
+                updPrcnt();
+
+                UploadResponse();
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                //alert("ERROR: " + thrownError);
+                document.getElementById('status').innerHTML = "Validate xhr:  " + xhr.status + "   thrownError: " + thrownError + "</br>";
+            }
+
+        });
+    }
+
+
+    function UploadResponse() {
+        $('#overallStatus').text('Uploading assessment.');
+        $.ajax({
+            type: "POST",
+            url: "/DataSync/UploadSingleJson",
+            async: true,
+            cache: false,
+            success: function (response) {
+                if (response == "True") {
+                    percentComplete = 100;
+                    updPrcnt();
+                    $('#overallStatus').text('Upload complete.');
+                    MarkSingleUploaded();
+                }
+                else {
+                    document.getElementById('status').innerHTML = "Error uploading assessment.";
+                    DisplayConnectionError();
+                    
+                }
+
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                //alert("ERROR: " + thrownError);
+                document.getElementById('status').innerHTML = "Validate xhr:  " + xhr.status + "   thrownError: " + thrownError + "</br>";
+                DisplayConnectionError();
+            }
+
+        });
+
+    }
+
+
+    function MarkSingleUploaded() {
+        $.ajax({
+                type: "POST",
+                url: "/DataSync/MarkSingleUploaded",
+                data: { formResultId: @Model.ID},
+                async: true,
+                cache: false,
+                success: function (response) {
+
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    //alert("ERROR: " + thrownError);
+                    document.getElementById('status').innerHTML = "Validate xhr:  " + xhr.status + "   thrownError: " + thrownError + "</br>";
+                    return;
+                }
+
+            });
+    }
+
+    function DisplayConnectionError() {
+       $("#overallStatus").html("The upload failed due to an connection error. Please try again. <br /> You might need to wait a little while until the Internet connection is fixed, or contact the SIS Help Desk for support.");
+       $("#overallStatus").removeClass("alert-success");
+       $("#overallStatus").addClass("alert-danger");
+    }
+
+</script>
+
+
+<h2>Export and Upload Single Assessment From Venture</h2>
+
+    <div class="row">
+
+        <div class="col-md-3 col-sm-3">
+            <b>&nbsp;&nbsp;Assessment Data - SIS ID: @Model.ID</b>
+        </div>
+
+        <div class="col-md-3 col-sm-3">
+            <input type="button" id="startProcess" value="Upload" onclick="initDataUpload()" />
+        </div>
+        <div title="Sync Status Information" class="col-md-6 col-sm-6">
+            <span class=" glyphicon glyphicon-info-sign"></span><a id="status"></a>
+        </div>
+    </div>
+
+    <div class="progress progress-striped active">
+        <div id="pbar" aria-valuemax="100" aria-valuemin="0" aria-valuenow="20" class="progress-bar" role="progressbar" style="width: 2%">0%</div>
+    </div>
+    <div id="overallStatus" class="alert alert-success">Overall Status</div>

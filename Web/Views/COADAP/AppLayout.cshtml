@@ -1,0 +1,412 @@
+﻿@using Assmnts.Infrastructure;
+@using Data.Abstract;
+@{
+    IFormsRepository formsRepo = DependencyResolver.Current.GetService(typeof(IFormsRepository)) as IFormsRepository;
+    int sctId = SessionHelper.SessionForm.sectionId;
+    Dictionary<string, int> sectionIds = new Dictionary<string, int>();
+    foreach (string identifier in new string[]{
+        "ADAP_demographic",
+        "ADAP_contact",
+        "ADAP_medical",
+        "ADAP_health",
+        "ADAP_household",
+        "ADAP_income",
+        "ADAP_cert"
+    }){
+        Assmnts.def_Sections sct = formsRepo.GetSectionByIdentifier(identifier);
+        if (sct == null)
+        {
+            throw new Exception("could not find section with identifier \"" + identifier + "\"");
+        }
+        sectionIds.Add(identifier, sct.sectionId);
+    }
+    int adapFormId = SessionHelper.SessionForm.formResultId;
+    string firstName = "";
+    Assmnts.def_ResponseVariables firstNameRV = formsRepo.GetResponseVariablesByFormResultIdentifier(adapFormId, "ADAP_D1_FirstName");
+
+    if (firstNameRV != null) {
+        firstName = firstNameRV.rspValue;
+    }
+
+    string lastName = "";
+    Assmnts.def_ResponseVariables lastNameRV = formsRepo.GetResponseVariablesByFormResultIdentifier(adapFormId, "ADAP_D1_LastName");
+
+    if (lastNameRV != null)
+    {
+        lastName = lastNameRV.rspValue;
+    }
+
+    int adapPartId = SessionHelper.SessionForm.partId;
+    bool access = UAS.Business.UAS_Business_Functions.hasPermission(0, "RptsExpts");
+    bool readOnly = SessionHelper.SessionForm.readOnlyMode;
+}
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+    <meta name="author" content="" />
+    <meta name="description" content="" />
+    <!--<link rel="shortcut icon" href="../../favicon.ico">-->
+
+    <title>ADAP Application</title>
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400italic,700italic,400,700" rel="stylesheet" type="text/css" />
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+    <!--jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" />
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
+    <!-- custom bootstrap nav css -->
+    <link href="~/Content/adap/css/bootstrap.nav.custom.css" rel="stylesheet" type="text/css" />
+
+    <!-- sticky footer css -->
+    <link href="~/Content/adap/css/sticky-footer-navbar.css" rel="stylesheet" />
+
+    <!-- date picker -->
+    <script src="~/Content/adap/js/bootstrap-customdatepicker.js"></script>
+    <link href="~/Content/adap/css/bootstrap-datepicker3.css" rel="stylesheet" />
+
+    <!-- file upload -->
+    <script src="~/Content/adap/js/fileinput.min.js"></script>
+    <link href="~/Content/adap/css/fileinput.min.css" rel="stylesheet" />
+
+    <script>
+    $(document).ready(function () {
+
+            document.getElementById('navPartId').setAttribute('value', '@Model.nextScreenPartId');
+            document.getElementById('navSectionId').setAttribute('value', '@Model.nextScreenSectionId');
+			
+            $('.class_nextscreen').click(function () { SubmitForm('@Model.nextScreenPartId', '@Model.nextScreenSectionId'); });
+            $('.class_prevscreen').click(function () { SubmitForm('@Model.prevScreenPartId', '@Model.prevScreenSectionId'); });
+			$('.class_submit').click(
+				function () { 
+					var partId = @adapPartId;
+					var sectId = @sctId;
+					SubmitForm(partId, sectId);
+				}
+			);
+			
+            $('.class_cert').click(function () {
+                $('form').attr('action', '/COADAP/Validate');
+                SubmitForm('@adapPartId', '@sectionIds["ADAP_cert"]');
+            });
+			
+            $('.class_check').click(function () {
+                $('form').attr('action', '/COADAP/Validate');
+                SubmitForm('@adapPartId', '@sctId');
+            });
+
+            $('.input-group.date').datepicker({
+                autoclose: true,
+                format: 'mm/dd/yyyy'
+            });
+
+            $("#hsDOB").click(function () {
+                $("#dvDOBPrev").toggle();
+            });
+
+            $("#hsName").click(function () {
+                $("#dvNamePrev").toggle();
+            });
+
+            //$('span.required').each(function () {
+            //    if ($(this).text().trim().length == 0)
+            //        $(this).append("Required");
+            //}).append("<span style='color:red'>*</span>");
+            $('[required]').removeAttr('required');
+            $('span.control-label').css("font-weight", "bold");
+            $('span.control-label').css("text-align", "left");
+
+            //$(document).on('change', '.btn-file :file', function () {
+            //    var input = $(this),
+            //        numFiles = input.get(0).files ? input.get(0).files.length : 1,
+            //        label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+            //    input.trigger('fileselect', [numFiles, label]);
+            //});
+
+            //$('.btn-file :file').on('fileselect', function (event, numFiles, label) {
+
+            //    var input = $(this).parents('.input-group').find(':text');
+            //    var log = (numFiles > 1) ? numFiles + ' files selected' : label;
+
+            //    if (input.length) {
+            //        input.val(log);
+            //    } else {
+            //        if (log) alert(log);
+            //    }
+
+            //});
+
+            // $('.datepicker').datepicker();
+            //.after("<span class=\"input-group-addon\"><span class=\"glyphicon glyphicon-calendar\"></span></span>");
+
+            // $('.date>.input-group-addon').datepicker();
+            //$('.date>.input-group-addon').click(function () {
+            //    $(this).siblings('.datepicker').click();
+        //});
+
+        // Hides the colored buttons on the top right of each panel
+        // Remove when a working solution is implemented.
+            $('.prevAppBtn').hide();
+        });
+
+        function SubmitForm(targetPartId, targetSectionId) {
+            document.getElementById('navPartId').setAttribute('value', targetPartId);
+            document.getElementById('navSectionId').setAttribute('value', targetSectionId);
+            $("#btnSubmit").click();
+        }
+        
+    </script>
+
+    @RenderSection("AddToHead", required: false)
+</head>
+<body>
+
+    <!-- Fixed navbar -->
+    <nav id="custom-bootstrap-menu" class="navbar navbar-default navbar-static-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="/" class="logo pull-left"><img src="~/Content/adap/images/co_graphic_2.png" class="img-responsive" /></a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="/Adap/Index"><i class="glyphicon glyphicon-copy"></i> ADAP Application</a></li>
+                    @if (access)
+                    {
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-list"></i> Reports <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><b>&nbsp;Applicants</b></li>
+                                <li><a href="/Adap/Report1">Applicant Reports</a></li>
+                                <li class="divider"></li>
+                                <li><a href="/Adap/ApplicationsPending">Applications Pending</a></li>
+                                <li class="divider"></li>
+                                <li><a href="/Adap/ReCertsDue">Re-Certifications Due</a></li>
+                                <li class="divider"></li>
+                                <li><b>&nbsp;Dashboards</b></li>
+                                <li><a href="/Adap/AppOverview">Overview of All Applicant Records</a></li>
+                                <li class="divider"></li>
+                                <li><a href="/Adap/AppsPending">New Applications Pending</a></li>
+                                <li class="divider"></li>
+                                <li><a href="/Adap/CurrentNewApps">Current New Applicants</a></li>
+                                <li class="divider"></li>
+                                <li><a href="/Adap/DashboardReCerts">Re-certifications Due</a></li>
+                                <li class="divider"></li>
+                                <li><a href="/Adap/ProcessSummary">Process Summary</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="/Adap/UpdateStatus?formResultId=@adapFormId"><i class="glyphicon glyphicon-cog"></i> Update App Status</a></li>
+
+                        <li><a href="/Adap/Clinic"><i class="glyphicon glyphicon-cog"></i> Clinics</a></li>
+                        @*<li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-cog"></i> Administration<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/Adap/Clinic">Clinic Reports</a></li>
+                            </ul>
+                            <!--
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a href="http://staging.lifia.org/site/AdmLogin" target="_blank"><span class="color-green"><i class="glyphicon glyphicon-user"></i> User Administration</span></a>
+                                    </li>
+                                </ul>
+                            -->
+                            </li>*@
+                    }
+                    <!--
+                    <li>
+                        <a href="http://localhost:49166/Account/Login" target="_blank"><i class="glyphicon glyphicon-envelope"></i> Secure Email </a>
+                    </li>
+                      -->
+                    <li>
+                        <a href="/Account/SsoLogout">@Resources.AdapAppNavMenu.ExitToPortalMenu</a>
+                    </li>
+                <!--    <li>
+                        <a class="nohover"><i class="glyphicon glyphicon-user"></i> @(Model.ActiveUserName)</a>
+                    </li> -->
+                </ul>
+            </div><!--/.nav-collapse -->
+        </div>
+    </nav>
+
+    <div class="container" style="padding-top:0">
+        <div id="ADAPHeader">
+            <h3>ADAP Application: @firstName @lastName</h3>
+
+            <input type="button" id="id_BuildReport" value="Click Here to Build a PDF Report" />
+            <script>
+                $('#id_BuildReport').click(function () {
+                    window.location.href = '../COADAP/BuildPDFReport';
+                });
+            </script>
+
+            <hr class="hr-dark" />
+
+
+            <div class="col-md-12">
+                <!---->
+                <button type="button" class="btn @(sctId == sectionIds["ADAP_demographic"]  ? "btn-success" : "btn-default") btn-s" 
+                        onclick="SubmitForm('@adapPartId','@sectionIds["ADAP_demographic"]')">Demographic Information</button>
+
+                <button type="button" class="btn @(sctId == sectionIds["ADAP_contact"]      ? "btn-success" : "btn-default") btn-s" 
+                        onclick="SubmitForm('@adapPartId', '@sectionIds["ADAP_contact"]')">Contact Information</button>
+
+                <button type="button" class="btn @(sctId == sectionIds["ADAP_medical"]      ? "btn-success" : "btn-default") btn-s" 
+                        onclick="SubmitForm('@adapPartId', '@sectionIds["ADAP_medical"]')">Medical Information</button>
+
+                <button type="button" class="btn @(sctId == sectionIds["ADAP_health"]       ? "btn-success" : "btn-default") btn-s" 
+                        onclick="SubmitForm('@adapPartId', '@sectionIds["ADAP_health"]')">Health Insurance</button>
+
+                <button type="button" class="btn @(sctId == sectionIds["ADAP_household"]    ? "btn-success" : "btn-default") btn-s" 
+                        onclick="SubmitForm('@adapPartId', '@sectionIds["ADAP_household"]')">Household</button>
+
+                <button type="button" class="btn @(sctId == sectionIds["ADAP_income"]       ? "btn-success" : "btn-default") btn-s" 
+                        onclick="SubmitForm('@adapPartId', '@sectionIds["ADAP_income"]')">Household Income</button>
+                <!-- <button type="button" class="btn btn-primary btn-s pull-right" style="vertical-align:middle">
+            <span class="glyphicon glyphicon-floppy-saved"></span> Save Application Data
+            </button>-->
+            </div>
+            <br />
+            <br />
+            <div class="col-md-12">
+                @{
+                    if (readOnly) 
+                    {
+                        <button type="button" class="btn btn-primary btn-s class_submit" disabled><span class="glyphicon glyphicon-floppy-open"></span> Save Application</button>
+                    }
+                    else 
+                    {
+                        <button type="button" class="btn btn-primary btn-s class_submit" ><span class="glyphicon glyphicon-floppy-open"></span> Save Application</button>
+                    }
+                }
+                
+                <button type="button" class="btn btn-primary btn-s class_check"  ><span class="glyphicon glyphicon-question-sign"></span> Check for Errors</button>
+                
+                @{
+                    if (readOnly)
+                    {
+                        <button type="button" class="btn btn-primary btn-s class_cert" disabled><span class="glyphicon glyphicon-check"></span> Certify and Submit</button>
+                    }
+                    else
+                    {
+                        <button type="button" class="btn btn-primary btn-s class_cert"><span class="glyphicon glyphicon-check"></span> Certify and Submit</button>
+                    }
+                }
+            </div>
+            <br />
+            <br />
+            <br />
+        </div>        
+        
+        <!-- the div below is for small numbers of messages to appear within the application screens, and should be made hidden in the validation errors screen-->
+        <div id="quickValidationMessages" >
+            @if (Model.validationMessages != null)
+            {
+                foreach (string message in Model.validationMessages)
+                {
+                    <div class="alert alert-success alert-dismissible" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close" style="top:-5px;"><span aria-hidden="true">&times;</span></button>
+                        @message
+                    </div>
+                }
+            }
+        </div>
+        
+        <form class="form-horizontal" action="/Results/Save" method="post" id="form-id" enctype="multipart/form-data">
+
+            <input type="hidden" id="navPartId" name="navPartId" />
+            <input type="hidden" id="navSectionId" name="navSectionId" />
+            <input type="hidden" id="navSectionId" name="UseThisControllerForTemplate" value="COADAP" />
+
+            @RenderBody()
+
+            <hr class="hr-dark" />
+
+            <div class="col-md-12">
+                <button type="button" class="btn btn-danger btn-s class_prevornextscreen class_prevscreen">
+                    <span class="glyphicon glyphicon-arrow-left"></span> Previous Section
+                </button>
+
+                <button type="button" class="btn btn-danger btn-s pull-right class_prevornextscreen class_nextscreen" onclick="window.location.href='adap_app_medical_info.html'">
+                    Next Section <span class="glyphicon glyphicon-arrow-right"></span>
+                </button>
+                @{
+                    if (readOnly)
+                    {
+                        <button type="button" class="btn btn-primary btn-s pull-right class_cert" style="margin-right:5px" disabled><span class="glyphicon glyphicon-check"></span> Certify and Submit</button>
+                    }
+                    else
+                    {
+                        <button type="button" class="btn btn-primary btn-s pull-right class_cert" style="margin-right:5px"><span class="glyphicon glyphicon-check"></span> Certify and Submit</button>
+                    }
+                }
+                <button type="button" class="btn btn-primary btn-s pull-right class_check" style="margin-right:5px"><span class="glyphicon glyphicon-question-sign"></span> Check for Errors</button>
+                @{
+                    if (readOnly)
+                    {
+                        <button type="button" class="btn btn-primary btn-s pull-right class_submit" style="margin-right:5px" disabled><span class="glyphicon glyphicon-floppy-open"></span> Save Application</button>
+                    }
+                    else
+                    {
+                        <button type="button" class="btn btn-primary btn-s pull-right class_submit" style="margin-right:5px"><span class="glyphicon glyphicon-floppy-open"></span> Save Application</button>
+                    }
+                }
+            </div>
+
+            <input style="display:none" type="submit" value="Save" id="btnSubmit" />
+
+            @*<div class="col-md-12">
+
+                    <button type="button" class="btn btn-primary btn-s pull-right" onclick="window.location.href='adap_app_contact_info.html'">
+                        Next Section <span class="glyphicon glyphicon-arrow-right"></span>
+                    </button>
+
+                    <button type="button" class="btn btn-success btn-s pull-right" style="margin-right:5px" onclick="window.location.href='adap_app_household.html'">
+                        <span class="glyphicon glyphicon-check"></span> Submit Application
+                    </button>
+
+                    <button type="button" class="btn btn-primary btn-s pull-right" style="margin-right:5px" onclick="window.location.href='adap_app_household.html'">
+                        <span class="glyphicon glyphicon-check"></span> Save Application
+                    </button>
+
+                    <button type="button" class="btn btn-danger btn-s pull-right" style="margin-right:5px" onclick="window.location.href='adap_app_household.html'">
+                        <span class="glyphicon glyphicon-question-sign"></span> Validate Application
+                    </button>
+                </div>
+                <br /><br /><br />*@
+        </form>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <p class="text-right">
+                        <span class="text-muted" style="color:white">Hosted by LIFIA (logo here)</span> <!-- <img id="profile-img" class="img-responsive" src="img/lifia_small.png" /> -->
+                    </p>
+                </div>
+                <div class="col-md-7">
+                    <p class="text-right">
+                        <span class="text-muted" style="color:white"><small>Copyright &copy; 2012-2015 A.J. Boggs & Co. <br /> All rights reserved.</small></span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,224 @@
+﻿@model Assmnts.Models.GeneralForm
+@using Assmnts.Models;
+@{
+    Layout = "LA_AdapAppLayout.cshtml";
+}
+
+@section AddtoHead{
+    <link rel="stylesheet" type="text/css" href="/Content/adap/css/ADAPForms.css" />
+    <script src="~/Content/js/ADAPLookupSelects.js"></script>
+
+    <script>
+    $(document).ready(function () {
+        @foreach (string identifier in new string[] { "LA_ADAP_TaxDependent_FilerReln" })
+        {
+            @:populateLookupRadio('@identifier', '@identifier', '@Model.rspValues[identifier]', 1);
+        }
+
+        $('.class_prevscreen').click(function () {
+            SubmitForm('@(((TemplateAdapNavMenu)Model.navMenuModel).adapPartId)', '@(((TemplateAdapNavMenu)Model.navMenuModel).sectionIds["LA_ADAP_HouseholdTaxStatus"])');
+        });
+
+        updateToggles();
+        $("input[type=radio]").change(updateToggles);
+        $(".dependentCount").keyup(function () { updateToggles(); });
+
+        setApplicationProgressIndicator(3);
+
+    });
+
+    function updateToggles() {
+        var parentOrSpouse = $("[name=LA_ADAP_TaxDependent_FilerReln][value=1]").get(0).checked || $("[name=LA_ADAP_TaxDependent_FilerReln][value=2]").get(0).checked;
+        var a = parentOrSpouse && $("#LA_ADAP_TaxStatus_IsMarriedYN_YesOption").get(0).checked && $("#LA_ADAP_TaxDependent_FilerMarriedYN_YesOption").get(0).checked;
+        var b = parentOrSpouse && $("#LA_ADAP_TaxStatus_IsMarriedYN_YesOption").get(0).checked && $("#LA_ADAP_TaxDependent_FilerMarriedYN_NoOption").get(0).checked;
+        var c = parentOrSpouse && $("#LA_ADAP_TaxStatus_IsMarriedYN_NoOption").get(0).checked && $("#LA_ADAP_TaxDependent_FilerMarriedYN_YesOption").get(0).checked;
+        var d = parentOrSpouse && $("#LA_ADAP_TaxStatus_IsMarriedYN_NoOption").get(0).checked && $("#LA_ADAP_TaxDependent_FilerMarriedYN_NoOption").get(0).checked;
+        var dependentCount = -1;
+        $('.dependentCount').each(function () {
+            if ($(this).val())
+                dependentCount = parseInt($(this).val(), 10);
+        });;
+
+        $(".toggleParentOrSpouse").toggle(parentOrSpouse);
+        $(".toggleA").toggle(a)
+        $(".toggleB").toggle(b)
+        $(".toggleC").toggle(c)
+        $(".toggleD").toggle(d)
+
+        if (!a) $("[name=LA_ADAP_TaxDependent_OtherDepCntA]").val('');
+        if (!b) $("[name=LA_ADAP_TaxDependent_OtherDepCntB]").val('');
+        if (!c) $("[name=LA_ADAP_TaxDependent_OtherDepCntC]").val('');
+        if (!d) $("[name=LA_ADAP_TaxDependent_OtherDepCntD]").val('');
+
+        var nextSectionId = updateConclusion(a, b, c, d, dependentCount);
+
+        if (nextSectionId == -1) {
+            $(".class_nextscreen").hide();
+            $('#conclusionText').css('color', 'red');
+        } else {
+            $(".class_nextscreen").show();
+            $('.class_nextscreen').click(function () {
+                SubmitForm('@(((TemplateAdapNavMenu)Model.navMenuModel).adapPartId)', nextSectionId);
+            });
+            $('#conclusionText').css('color', 'green');
+        }
+    }
+
+    @{int membersSectionId = (((TemplateAdapNavMenu)Model.navMenuModel).sectionIds["LA_ADAP_HouseholdMembers"]);}
+
+    function updateConclusion(a, b, c, d, dependentCount) {
+        if ($("[name=LA_ADAP_TaxDependent_FilerReln][value=3]").get(0).checked) {
+            $('#conclusionText').html("Oops! Back to non-filer rules.");
+            return -1;
+        }
+
+        if (!a && !b && !c && !d) {
+            $('#conclusionText').html("You must select a radio above.");
+            return -1;
+        }
+
+        if (isNaN(dependentCount) || dependentCount < 0) {
+            $('#conclusionText').html("You must enter a non-negative number above.");
+            return -1;
+        }
+
+        else if (a)
+        {
+            if (dependentCount == 0)
+            {
+                $('#conclusionText').html("You will need to enter income information for YOURSELF, your SPOUSE, the TAX FILER, and the TAX FILER’S SPOUSE.  Click Next Section to continue.");
+                $('#LA_ADAP_Household_MembersCount').val(4);
+            }
+            else
+            {
+                $('#conclusionText').html("You will need to enter income information for YOURSELF, your SPOUSE, the TAX FILER, the TAX FILER’S SPOUSE, and the TAX FILER’S " + dependentCount + " OTHER DEPENDENTS.  Click Next Section to continue.");
+                $('#LA_ADAP_Household_MembersCount').val(4 + dependentCount);
+            }
+            return @membersSectionId;
+        }
+
+        else if (b)
+        {
+            if (dependentCount == 0)
+            {
+                $('#conclusionText').html("You will need to enter income information for YOURSELF, your SPOUSE and the TAX FILER.  Click Next Section to continue.");
+                $('#LA_ADAP_Household_MembersCount').val(3);
+            }
+            else 
+            {
+                $('#conclusionText').html("You will need to enter income information for YOURSELF, your SPOUSE, the TAX FILER, and the TAX FILER’S " + dependentCount + " OTHER DEPENDENTS.  Click Next Section to continue.");
+                $('#LA_ADAP_Household_MembersCount').val(3 + dependentCount);
+            }
+            return @membersSectionId;
+        }
+
+        else if (c)
+        {
+            if (dependentCount == 0)
+            {
+                $('#conclusionText').html("You will need to enter income information for YOURSELF, the TAX FILER, and the TAX FILER’S SPOUSE.  Click Next Section to continue.");
+                $('#LA_ADAP_Household_MembersCount').val(3);
+            }
+            else 
+            {
+                $('#conclusionText').html("You will need to enter income information for YOURSELF, the TAX FILER, the TAX FILER’s SPOUSE, and the TAX FILER’S " + dependentCount + " OTHER DEPENDENTS.  Click Next Section to continue.");
+                $('#LA_ADAP_Household_MembersCount').val(3 + dependentCount);
+            }
+            return @membersSectionId;
+        }
+
+        else if (d)
+        {
+            if (dependentCount == 0)
+            {
+                $('#conclusionText').html("You will need to enter income information for YOURSELF and the TAX FILER.  Click Next Section to continue.");
+                $('#LA_ADAP_Household_MembersCount').val(2);
+            }
+            else 
+            {
+                $('#conclusionText').html("You will need to enter income information for YOURSELF, the TAX FILER, and the TAX FILER’S " + dependentCount + " OTHER DEPENDENTS.  Click Next Section to continue.");
+                $('#LA_ADAP_Household_MembersCount').val(2 + dependentCount);
+            }
+            return @membersSectionId;
+        }
+    }
+    </script>
+}
+
+<input hidden name="LA_ADAP_Household_MembersCount" id="LA_ADAP_Household_MembersCount" value="@Model.rspValues["LA_ADAP_Household_MembersCount"]" />
+
+<div class="panel panel-default">
+    <div class="panel-body" style="background-color:#f8f8f8">
+        <div class="form-group ">
+            @Helpers.LabelSpan(Model, "LA_ADAP_TaxDependent_FilerReln_item", new { @class = "col-md-4 control-label" })
+            <div id="LA_ADAP_TaxDependent_FilerReln"></div>
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-default toggleParentOrSpouse">
+    <div class="panel-body" style="background-color:#f8f8f8">
+        <div class="form-group">
+            @Helpers.LabelSpan(Model, "LA_ADAP_TaxStatus_IsMarriedYN_item", new { @class = "col-md-5 control-label" })
+            @Helpers.YesNoRadioButtons(Model, "LA_ADAP_TaxStatus_IsMarriedYN", false)
+        </div>
+        <div class="form-group">
+            @Helpers.LabelSpan(Model, "LA_ADAP_TaxDependent_FilerMarriedYN_item", new { @class = "col-md-5 control-label" })
+            @Helpers.YesNoRadioButtons(Model, "LA_ADAP_TaxDependent_FilerMarriedYN", false)
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-default toggleA">
+    <div class="panel-body" style="background-color:#f8f8f8">
+        <div class="form-group">
+            @Helpers.LabelSpan(Model, "LA_ADAP_TaxDependent_OtherDepCntA_item", new { @class = "col-md-8 control-label" })
+            <div class="col-md-1">
+                @Helpers.TextInput(Model, "LA_ADAP_TaxDependent_OtherDepCntA", new { @class = "form-control dependentCount" })
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-default toggleB">
+    <div class="panel-body" style="background-color:#f8f8f8">
+        <div class="form-group">
+            @Helpers.LabelSpan(Model, "LA_ADAP_TaxDependent_OtherDepCntB_item", new { @class = "col-md-7 control-label" })
+            <div class="col-md-1">
+                @Helpers.TextInput(Model, "LA_ADAP_TaxDependent_OtherDepCntB", new { @class = "form-control dependentCount" })
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-default toggleC">
+    <div class="panel-body" style="background-color:#f8f8f8">
+        <div class="form-group">
+            @Helpers.LabelSpan(Model, "LA_ADAP_TaxDependent_OtherDepCntC_item", new { @class = "col-md-8 control-label" })
+            <div class="col-md-1">
+                @Helpers.TextInput(Model, "LA_ADAP_TaxDependent_OtherDepCntC", new { @class = "form-control dependentCount" })
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-default toggleD">
+    <div class="panel-body" style="background-color:#f8f8f8">
+        <div class="form-group">
+            @Helpers.LabelSpan(Model, "LA_ADAP_TaxDependent_OtherDepCntD_item", new { @class = "col-md-9 control-label" })
+            <div class="col-md-1">
+                @Helpers.TextInput(Model, "LA_ADAP_TaxDependent_OtherDepCntD", new { @class = "form-control dependentCount" })
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-default conclusionToggle">
+    <div class="panel-body" style="background-color:#f8f8f8">
+        <div class="form-group">
+            <span id="conclusionText" class="col-md-12 control-label" style="font-weight: bold; text-align: left; color: green;">
+
+            </span>
+        </div>
+    </div>
+</div>

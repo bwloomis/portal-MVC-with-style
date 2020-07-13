@@ -1,0 +1,175 @@
+﻿@model Assmnts.Models.AdapApplicantRpt1
+@{
+    Layout = "BaseAppLayout.cshtml";
+}
+
+@section AddToHead {
+    
+    <!-- dataTables -->
+<script src="https://cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.11/js/dataTables.bootstrap.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.0.2/js/dataTables.responsive.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.0.2/js/responsive.bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.11/css/dataTables.bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.0.2/css/responsive.bootstrap.min.css">
+
+
+
+<style>
+    thead th {
+        background-color: #BFDFFF;
+    }
+
+    #heading {
+        font-size: large;
+    }
+
+    /*.dataTables_wrapper .dataTables_paginate .paginate_button.current {
+        margin: 0em;
+        padding: 0em;
+        border: 0em;
+    }*/
+
+    .indent {
+        margin-left: 3em;
+    }
+</style>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $('#ADAPHeader').hide(true);
+            $('#ADAPFooter').hide(true);
+
+            filterData = {
+                "formResultId": "@Model.formResultId"
+            }
+            $('#DTgridComments').DataTable({
+                "bPaginate": true,
+                "bFilter": false,
+                "bInfo": true,
+                "responsive": true,
+                "processing": true,
+                "serverSide": true,
+                "ajax": {
+                    url: "/Adap/DataTableCommentsList",
+                    data: filterData,
+                    type: "POST"
+                },
+                "ordering": false,
+                "dom": '<lr<"row"<"col-md-6"i><"col-md-6"p>><t><"row"<"col-md-6"i><"col-md-6"p>>>'
+            });
+            $('#DTSubHistory').DataTable({
+                "bPaginate": true,
+                "bFilter": false,
+                "bInfo": true,
+                "responsive": true,
+                "processing": true,
+                "serverSide": true,
+                "ajax": {
+                    url: "/Adap/DataTableSubmissionHistory",
+                    data: filterData,
+                    type: "POST"
+                },
+                "ordering": false,
+                "dom": '<lr<"row"<"col-md-6"i><"col-md-6"p>><t><"row"<"col-md-6"i><"col-md-6"p>>>'
+            });
+        });
+    </script>
+}
+
+
+    @{ string memberId = Model.MemberId.Equals("0") ? "No ADAP ID" : Model.MemberId.ToString(); }
+    <h3>Status History for @memberId&#58; <span class="text-primary">@Model.FirstName @Model.LastName</span></h3>
+
+    @if ( (Model.errorMessage != null) && (Model.errorMessage.Trim().Length > 0) )
+    {
+        <div class="alert alert-danger alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close" style="top:-5px;"><span aria-hidden="true">&times;</span></button>
+            @Model.errorMessage
+        </div>
+    } 
+
+    <div class="form-group">
+        <div class="col-sm-2" style="display:none;">
+            <input type="button" id="id_UpdateStatus" class="btn btn-sm btn-success btn-block" style="margin-top:.25em" value="Update Status" onclick="window.location='UpdateStatus?formResultId=@Model.formResultId'" />
+        </div>
+        <div class="col-sm-2">
+            <input type="button" id="id_Cancel" class="btn btn-sm btn-danger btn-block" style="margin-top:.25em" value="Return to Applicant List" onclick="window.location='/ADAP/Report1'" />
+        </div>
+        @*<div class="col-sm-2">
+            <input type="text" id="s_fName" class="textfield form-control" placeholder="First Name" />
+        </div>
+        <div class="col-sm-2">
+            <input type="text" id="s_lName" class="textfield form-control" placeholder="Last Name" />
+        </div>*@
+    </div>
+    <h4>Records are sorted from newest to oldest status change.</h4>
+    @*<div class="form-group">
+        <div class="col-sm-3">
+            <label for="d_Team">Team Color</label>
+            <select id="d_Team" class="form-control" name="d_Team">
+                <option value="" disabled @(Model.TeamDDL != null && Model.TeamDDL.Count > 0 ? String.Empty : "selected")>Team Colors</option>
+                @foreach (Assmnts.UasServiceRef.Group g in Model.TeamDDL)
+                {
+                    if (!String.IsNullOrEmpty(@Model.setTeam) && @Model.setTeam.Equals(@g.GroupName))
+                    {
+                        <option value="@g.GroupName" selected="selected">@g.GroupName</option>
+                    }
+                    else
+                    {
+                        <option value="@g.GroupName">@g.GroupName</option>
+                    }
+                }
+            </select>
+        </div>
+        <div class="col-sm-3">
+            <label for="d_Status">Status</label>
+            <select id="d_Status" class="form-control" name="d_Status">
+                <option value="" disabled @(Model.StatusDDL != null && Model.StatusDDL.Count > 0 ? String.Empty : "selected")>Status</option>
+                @foreach (string s in Model.StatusDDL)
+                {
+                    if (!String.IsNullOrEmpty(@Model.setStatus) && @Model.setStatus.Equals(@s))
+                    {
+                        <option value="@s" selected="selected">@s</option>
+                    }
+                    else
+                    {
+                        <option value="@s">@s</option>   
+                    }
+                }
+            </select>
+        </div>
+        <div class="col-sm-3">
+            <label for="d_Date">Date</label>
+            <select id="d_Date" class="form-control" name="d_Date">
+                <option value="" disabled @(Model.DateDDL != null && Model.DateDDL.Count > 0 ? String.Empty : "selected")>Dates</option>
+                @foreach (string s in Model.DateDDL)
+                {
+                    if (!String.IsNullOrEmpty(@Model.setDate) && @Model.setDate.Equals(@s))
+                    {
+                        <option value="@s" selected="selected">@s</option>
+                    }
+                    else
+                    {
+                        <option value="@s">@s</option>   
+                    }
+                }
+            </select>
+        </div>
+    </div>*@
+
+    <div id="context" class="context" data-toggle="context" data-target="#context-menu">
+        <table id="DTgridComments" class="table table-bordered table-striped" cellpadding="0" cellspacing="0" border="0">
+            <thead>
+                <tr>
+                    <th>Date Updated</th>
+                    <th>Changed by</th>
+                    <th>Status From</th>
+                    <th>Status To</th>
+                    <th>Comment</th>
+                    <th>PDF Snapshot</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>

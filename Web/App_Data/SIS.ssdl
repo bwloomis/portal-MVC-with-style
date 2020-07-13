@@ -1,0 +1,235 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="formsModel.Store" Provider="System.Data.VistaDB5" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Address">
+    <Key>
+      <PropertyRef Name="AddressID" />
+    </Key>
+    <Property Name="ent_id" Type="int" />
+    <Property Name="AddressID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ContactID" Type="bigint" />
+    <Property Name="ProviderIntID" Type="int" />
+    <Property Name="AddressType" Type="nvarchar" MaxLength="50" />
+    <Property Name="Address1" Type="nvarchar" MaxLength="128" />
+    <Property Name="Address2" Type="nvarchar" MaxLength="128" />
+    <Property Name="City" Type="nvarchar" MaxLength="128" />
+    <Property Name="State" Type="nvarchar" MaxLength="50" />
+    <Property Name="StateCode" Type="nvarchar" MaxLength="4" />
+    <Property Name="StateRegion" Type="nvarchar" MaxLength="20" />
+    <Property Name="Zip" Type="nvarchar" MaxLength="12" />
+    <Property Name="ZipExt" Type="nvarchar" MaxLength="12" />
+    <Property Name="County" Type="nvarchar" MaxLength="128" />
+    <Property Name="CtyCode" Type="nvarchar" MaxLength="3" />
+    <Property Name="Directions" Type="nvarchar" MaxLength="256" />
+    <Property Name="Created" Type="datetime" />
+    <Property Name="CreatedBy" Type="nvarchar" MaxLength="128" />
+    <Property Name="Updated" Type="datetime" />
+    <Property Name="UpdatedBy" Type="nvarchar" MaxLength="128" />
+    <Property Name="Sts" Type="nvarchar" MaxLength="12" />
+  </EntityType>
+  <EntityType Name="Contact">
+    <Key>
+      <PropertyRef Name="ContactID" />
+    </Key>
+    <Property Name="ent_id" Type="int" />
+    <Property Name="ContactID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ContactTypeID" Type="int" />
+    <Property Name="FirstName" Type="nvarchar" MaxLength="128" />
+    <Property Name="LastName" Type="nvarchar" MaxLength="128" />
+    <Property Name="MiddleName" Type="nvarchar" MaxLength="50" />
+    <Property Name="UserName" Type="nvarchar" MaxLength="128" />
+    <Property Name="Suffix" Type="nvarchar" MaxLength="4" />
+    <Property Name="Created" Type="datetime" />
+    <Property Name="CreatedBy" Type="nvarchar" MaxLength="128" />
+    <Property Name="Updated" Type="datetime" />
+    <Property Name="UpdatedBy" Type="nvarchar" MaxLength="128" />
+    <Property Name="Sts" Type="nvarchar" MaxLength="12" />
+  </EntityType>
+  <EntityType Name="Recipient">
+    <Key>
+      <PropertyRef Name="Recipient_ContactID" />
+    </Key>
+    <Property Name="ent_id" Type="int" Nullable="false" />
+    <Property Name="Recipient_ContactID" Type="bigint" Nullable="false" />
+    <Property Name="ClientID" Type="int" />
+    <Property Name="MedExtNum" Type="nvarchar" MaxLength="128" />
+    <Property Name="ID" Type="nvarchar" MaxLength="256" />
+    <Property Name="Lst4" Type="nvarchar" MaxLength="4" />
+    <Property Name="DOB" Type="datetime" />
+    <Property Name="Gender" Type="nvarchar" MaxLength="2" />
+    <Property Name="HasGuardian" Type="bit" />
+    <Property Name="OtherName" Type="nvarchar" MaxLength="128" />
+    <Property Name="NativeLang" Type="nvarchar" MaxLength="128" />
+    <Property Name="InterpreterNeeded" Type="bit" />
+    <Property Name="sub_id" Type="int" />
+    <Property Name="RecordType" Type="nvarchar" MaxLength="50" />
+    <Property Name="Created" Type="datetime" />
+    <Property Name="CreatedBy" Type="nvarchar" MaxLength="128" />
+    <Property Name="Updated" Type="datetime" />
+    <Property Name="UpdatedBy" Type="nvarchar" MaxLength="128" />
+    <Property Name="RecipientStatusId" Type="int" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'forms.dbo.vSearchGrid' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vSearchGrid">
+    <Key>
+      <PropertyRef Name="formResultId" />
+      <PropertyRef Name="formId" />
+      <PropertyRef Name="deleted" />
+      <PropertyRef Name="locked" />
+      <PropertyRef Name="archived" />
+      <PropertyRef Name="Rank" />
+    </Key>
+    <Property Name="ent_id" Type="int" />
+    <Property Name="sub_id" Type="int" />
+    <Property Name="Recipient_ContactID" Type="bigint" />
+    <Property Name="formResultId" Type="int" Nullable="false" />
+    <Property Name="formId" Type="int" Nullable="false" />
+    <Property Name="assigned" Type="int" />
+    <Property Name="deleted" Type="bit" Nullable="false" />
+    <Property Name="locked" Type="bit" Nullable="false" />
+    <Property Name="archived" Type="bit" Nullable="false" />
+    <Property Name="FirstName" Type="nvarchar" MaxLength="128" />
+    <Property Name="LastName" Type="nvarchar" MaxLength="128" />
+    <Property Name="MedicaidNumber" Type="varchar" MaxLength="8000" />
+    <Property Name="TrackingNumber" Type="varchar" MaxLength="8000" />
+    <Property Name="Lst4" Type="nvarchar" MaxLength="4" />
+    <Property Name="InterviewDate" Type="datetime" />
+    <Property Name="InterviewerLoginID" Type="varchar" MaxLength="100" />
+    <Property Name="Status" Type="varchar" MaxLength="11" />
+    <Property Name="reviewStatus" Type="varchar" MaxLength="3" />
+    <Property Name="CheckedOutTo" Type="varchar" MaxLength="8000" />
+    <Property Name="Rank" Type="int" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'forms.dbo.vSISAssessmentsForSearch' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vSISAssessmentsForSearch">
+    <Key>
+      <PropertyRef Name="formResultID" />
+      <PropertyRef Name="GroupID" />
+      <PropertyRef Name="EnterpriseID" />
+    </Key>
+    <Property Name="formResultID" Type="int" Nullable="false" />
+    <Property Name="formId" Type="int" />
+    <Property Name="GroupID" Type="int" Nullable="false" />
+    <Property Name="EnterpriseID" Type="int" Nullable="false" />
+    <Property Name="StatusText" Type="varchar" MaxLength="11" />
+    <Property Name="deleted" Type="bit" />
+    <Property Name="locked" Type="bit" />
+    <Property Name="archived" Type="bit" />
+    <Property Name="subject" Type="int" />
+    <Property Name="interviewer" Type="int" />
+    <Property Name="assigned" Type="int" />
+    <Property Name="sis_cl_last_nm" Type="varchar" MaxLength="8000" />
+    <Property Name="sis_cl_first_nm" Type="varchar" MaxLength="8000" />
+    <Property Name="sis_cl_middle_nm" Type="varchar" MaxLength="8000" />
+    <Property Name="sis_cl_ssn" Type="varchar" MaxLength="8000" />
+    <Property Name="sis_track_num" Type="varchar" MaxLength="8000" />
+    <Property Name="sis_cl_medicaidNum" Type="varchar" MaxLength="8000" />
+    <Property Name="sis_completed_dt" Type="varchar" MaxLength="8000" />
+    <Property Name="reviewStatus" Type="tinyint" />
+    <Property Name="sis_checked_out_to_LoginID" Type="varchar" MaxLength="8000" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'forms.dbo.vSisDefRaw' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vSisDefRaw">
+    <Key>
+      <PropertyRef Name="formResultId" />
+    </Key>
+    <Property Name="formResultId" Type="int" Nullable="false" />
+    <Property Name="identifier" Type="varchar" MaxLength="256" />
+    <Property Name="rspInt" Type="int" />
+    <Property Name="rspFloat" Type="float" />
+    <Property Name="rspDate" Type="smalldatetime" />
+    <Property Name="rspValue" Type="varchar" MaxLength="8000" />
+  </EntityType>
+  <Association Name="FK_Recipient_Contact">
+    <End Role="Contact" Type="Self.Contact" Multiplicity="1" />
+    <End Role="Recipient" Type="Self.Recipient" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Contact">
+        <PropertyRef Name="ContactID" />
+      </Principal>
+      <Dependent Role="Recipient">
+        <PropertyRef Name="Recipient_ContactID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="spSearchGrid" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="getAllRecords" Type="bit" Mode="In" />
+    <Parameter Name="getAllAssessments" Type="bit" Mode="In" />
+    <Parameter Name="detailSearch" Type="bit" Mode="In" />
+    <Parameter Name="ids" Type="xml" Mode="In" />
+    <Parameter Name="ent_id" Type="int" Mode="In" />
+    <Parameter Name="sub_id" Type="int" Mode="In" />
+    <Parameter Name="searchWords" Type="varchar" Mode="In" />
+    <Parameter Name="searchNumbers" Type="xml" Mode="In" />
+    <Parameter Name="searchDates" Type="xml" Mode="In" />
+  </Function>
+  <EntityContainer Name="formsModelStoreContainer">
+    <EntitySet Name="Address" EntityType="Self.Address" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Contact" EntityType="Self.Contact" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Recipient" EntityType="Self.Recipient" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="vSearchGrid" EntityType="Self.vSearchGrid" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vSearchGrid].[ent_id] AS [ent_id], 
+    [vSearchGrid].[sub_id] AS [sub_id], 
+    [vSearchGrid].[Recipient_ContactID] AS [Recipient_ContactID], 
+    [vSearchGrid].[formResultId] AS [formResultId], 
+    [vSearchGrid].[formId] AS [formId], 
+    [vSearchGrid].[assigned] AS [assigned], 
+    [vSearchGrid].[deleted] AS [deleted], 
+    [vSearchGrid].[locked] AS [locked], 
+    [vSearchGrid].[archived] AS [archived], 
+    [vSearchGrid].[FirstName] AS [FirstName], 
+    [vSearchGrid].[LastName] AS [LastName], 
+    [vSearchGrid].[MedicaidNumber] AS [MedicaidNumber], 
+    [vSearchGrid].[TrackingNumber] AS [TrackingNumber], 
+    [vSearchGrid].[Lst4] AS [Lst4], 
+    [vSearchGrid].[InterviewDate] AS [InterviewDate], 
+    [vSearchGrid].[InterviewerLoginID] AS [InterviewerLoginID], 
+    [vSearchGrid].[Status] AS [Status], 
+    [vSearchGrid].[reviewStatus] AS [reviewStatus], 
+    [vSearchGrid].[CheckedOutTo] AS [CheckedOutTo], 
+    [vSearchGrid].[Rank] AS [Rank]
+    FROM [dbo].[vSearchGrid] AS [vSearchGrid]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="vSISAssessmentsForSearch" EntityType="Self.vSISAssessmentsForSearch" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vSISAssessmentsForSearch].[formResultID] AS [formResultID], 
+    [vSISAssessmentsForSearch].[formId] AS [formId], 
+    [vSISAssessmentsForSearch].[GroupID] AS [GroupID], 
+    [vSISAssessmentsForSearch].[EnterpriseID] AS [EnterpriseID], 
+    [vSISAssessmentsForSearch].[StatusText] AS [StatusText], 
+    [vSISAssessmentsForSearch].[deleted] AS [deleted], 
+    [vSISAssessmentsForSearch].[locked] AS [locked], 
+    [vSISAssessmentsForSearch].[archived] AS [archived], 
+    [vSISAssessmentsForSearch].[subject] AS [subject], 
+    [vSISAssessmentsForSearch].[interviewer] AS [interviewer], 
+    [vSISAssessmentsForSearch].[assigned] AS [assigned], 
+    [vSISAssessmentsForSearch].[sis_cl_last_nm] AS [sis_cl_last_nm], 
+    [vSISAssessmentsForSearch].[sis_cl_first_nm] AS [sis_cl_first_nm], 
+    [vSISAssessmentsForSearch].[sis_cl_middle_nm] AS [sis_cl_middle_nm], 
+    [vSISAssessmentsForSearch].[sis_cl_ssn] AS [sis_cl_ssn], 
+    [vSISAssessmentsForSearch].[sis_track_num] AS [sis_track_num], 
+    [vSISAssessmentsForSearch].[sis_cl_medicaidNum] AS [sis_cl_medicaidNum], 
+    [vSISAssessmentsForSearch].[sis_completed_dt] AS [sis_completed_dt], 
+    [vSISAssessmentsForSearch].[reviewStatus] AS [reviewStatus], 
+    [vSISAssessmentsForSearch].[sis_checked_out_to_LoginID] AS [sis_checked_out_to_LoginID]
+    FROM [dbo].[vSISAssessmentsForSearch] AS [vSISAssessmentsForSearch]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="vSisDefRaw" EntityType="Self.vSisDefRaw" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vSisDefRaw].[formResultId] AS [formResultId], 
+    [vSisDefRaw].[identifier] AS [identifier], 
+    [vSisDefRaw].[rspInt] AS [rspInt], 
+    [vSisDefRaw].[rspFloat] AS [rspFloat], 
+    [vSisDefRaw].[rspDate] AS [rspDate], 
+    [vSisDefRaw].[rspValue] AS [rspValue]
+    FROM [dbo].[vSisDefRaw] AS [vSisDefRaw]</DefiningQuery>
+    </EntitySet>
+    <AssociationSet Name="FK_Recipient_Contact" Association="Self.FK_Recipient_Contact">
+      <End Role="Contact" EntitySet="Contact" />
+      <End Role="Recipient" EntitySet="Recipient" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

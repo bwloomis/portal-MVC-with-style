@@ -1,0 +1,36 @@
+﻿<style>
+    #title {
+        font-size: x-large;
+    }
+
+    body {
+        background-color: #FFAD99;
+    }
+
+    #errorBox {
+        margin: auto;
+        width: 50%;
+        border: groove red 30px;
+        padding: 5px;
+        margin-top: 10%;
+        min-height: 300px;
+        background-color: #FFD6CC;
+    }
+
+    #errorMessageBox {
+        margin-top: 20px;
+    }
+</style>
+<body>
+    <div id="errorBox">
+        <div id="title">
+            Server Error
+        </div>
+        <div id="errorMessageBox">
+            <div id="errorMessage">
+                @ViewBag.ErrorMessage
+            </div>
+        </div>
+
+    </div>
+</body>

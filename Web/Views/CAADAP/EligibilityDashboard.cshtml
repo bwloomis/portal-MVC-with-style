@@ -1,0 +1,355 @@
+﻿@model Assmnts.Models.GeneralForm
+@using UAS.Business;
+@using Data.Concrete;
+@{
+    Layout = "AdapDshBrdLayout.cshtml";
+}
+
+@section AddToHead{
+    <link rel="stylesheet" type="text/css" href="/Content/adap/css/ADAPForms.css" />
+     <script src="/Content/js/jquery.maskedinput.min.js"></script>
+    <script src="~/Content/js/ADAPLookupSelects.js"></script>
+    <link href="~/stylesheets/jquery.growl.css" rel="stylesheet" />
+    <script src="~/javascripts/jquery.growl.js"></script>
+    <script>
+
+        $(document).ready(function () {
+
+
+            $('.class_submit').click(function () {
+                // @* SubmitForm('@Model.adapPartId', '@Model.sctId'); *@
+                SubmitForm('45', '756');
+            });
+
+            $(".navbar-nav").find("li").each(function () {
+                $(this).click(function () {
+                    $.ajax({
+                        url: '@Url.Action("PageLoadEvents","Results")',
+                    });
+                });
+            });
+
+            $("button").click(function () {
+                $.ajax({
+                    url: '@Url.Action("PageLoadClickEvents", "Results")',
+                });
+            });
+
+            var Notify = '@ViewBag.Notify';
+            var NotifyMessage = '@ViewBag.NotifyMessage';
+            if (Notify == "Saved") {
+                console.log("notify start");
+                if (NotifyMessage != '')
+                    $.growl.notice({ title: "Save", message: NotifyMessage });
+                else
+                    $.growl.notice({ title: "Save", message: "Application Save successfully" });
+
+            }
+            else if (Notify == "Cancel") {
+                if (NotifyMessage != '')
+                    $.growl.error({ title: "Error", message: NotifyMessage });
+                else
+                    $.growl.error({ title: "Error", message: "Internal server error:Review the logs" });
+            }
+
+        });
+    </script>
+}
+<!-- Eligibility details -->
+<br /><br />
+<hr class="hr-dark" />
+
+@*$$$ Start - Added for Contractor readonly role - Disabling the Next/previous buttons for Contractors in SHOW Next/Previous permission is not present for them*@
+@if (UAS.Business.UAS_Business_Functions.hasPermission(PermissionConstants.SHOW_NP, PermissionConstants.ASSMNTS))
+{
+    @* Hide the Previous / Next buttons if on the validation screen. *@
+    <div class="col-md-12">
+        <button type="button" class="btn btn-info btn-s class_prevornextscreen class_prevscreen">
+            <span class="glyphicon glyphicon-arrow-left"></span> @Resources.AdapAppLayout.PrevSection
+        </button>
+        <button type="button" class="btn btn-info btn-s pull-right class_prevornextscreen class_nextscreen">
+            @Resources.AdapAppLayout.NextSection <span class="glyphicon glyphicon-arrow-right"></span>
+        </button>
+
+    </div>
+}
+@*//$$$ End - Added for Contractor readonly role - Disabling the Next/previous buttons for Contractors in SHOW Next/Previous permission is not present for them*@
+<br/><br/>
+<div class="panel panel-default">
+    <div class="panel-body">
+        @*<div class="pull-right prevAppBtn"><button data-prevdiv="PreviousM1" class="btn" type="button"></button></div>*@
+        <div class="pull-right"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CmntModal" data-label="M1. @Model.sctTitles["CA-ADAP-Eligibility-1_sub"]"><span class="glyphicon glyphicon-comment"></span></button></div>
+        <div class="form-group">
+            <div class="col-md-4">
+                @Helpers.LabelSpan(Model, "C1_MemberIdentifier_item", new { @class = "control-label" })
+            </div>
+            <div class="col-md-4">
+                @Helpers.TextInput(Model, "C1_MemberIdentifier", new { @class = "form-control", @readonly="readonly" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-4">
+                @Helpers.LabelSpan(Model, "C1_ProgramEligibilityStatus_item", new { @class = "control-label" })
+            </div>
+            <div class="col-md-4">
+                @Helpers.TextInput(Model, "C1_ProgramEligibilityStatus", new { @class = "form-control" })
+            </div>
+        </div>
+        <hr />
+
+        <div class="form-group">
+            <div class="col-md-2">
+                @Helpers.LabelSpan(Model, "C1_MemberFirstName_item", new { @class = "control-label" })
+                </div>
+            <div class="col-md-4">
+                @Helpers.TextInput(Model, "C1_MemberFirstName", new { @class = "form-control" })
+            </div>
+            <div class="col-md-2">
+                @Helpers.LabelSpan(Model, "C1_MemberLastName_item", new { @class = "control-label" })
+                </div>
+            <div class="col-md-4">
+                @Helpers.TextInput(Model, "C1_MemberLastName", new { @class = "form-control" })
+            </div>
+        </div>
+        <hr />
+        <div class="form-group">
+            <div class="col-md-4">
+                @Helpers.LabelSpan(Model, "C1_MemberMiddleInitial_item", new { @class = "control-label" })
+            </div>
+            <div class="col-md-4">
+                @Helpers.TextInput(Model, "C1_MemberMiddleInitial", new { @class = "form-control" })
+            </div>
+        </div>
+        <hr />
+        <div class="form-group">
+            <div class="col-md-4">
+                @Helpers.LabelSpan(Model, "C1_MemberSelectedEnrollmentSite_item", new { @class = "control-label" })
+            </div>
+            <div class="col-md-4">
+                @Helpers.TextInput(Model, "C1_MemberSelectedEnrollmentSite", new { @class = "form-control" })
+            </div>
+        </div>
+        <hr />
+        <div class="form-group">
+            <div class="col-md-4">
+                @Helpers.LabelSpan(Model, "C1_MemberDateOfBirth_item", new { @class = "control-label" })
+            </div>
+            <div class="col-md-4">
+                <div class="input-group date">
+                    @Helpers.TextInput(Model, "C1_MemberDateOfBirth", new { @class = "form-control", placeholder = "mm/dd/yyyy" })
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                </div>
+            </div>
+        </div>
+        <hr />
+        <div class="form-group">
+            <div class="col-md-4">
+                @Helpers.LabelSpan(Model, "C1_MemberSocSecNumber_item", new { @class = "control-label" })
+            </div>
+            <div class="col-md-4">
+                @Helpers.TextInput(Model, "C1_MemberSocSecNumber", new { @class = "form-control" })
+            </div>
+        </div>
+        <hr />
+        <div class="form-group">
+            <div class="col-md-4">
+                @Helpers.LabelSpan(Model, "C1_NextAnnualRecertDate_item", new { @class = "control-label" })
+            </div>
+            <div class="col-md-4">
+                <div class="input-group date">
+                    @Helpers.TextInput(Model, "C1_NextAnnualRecertDate", new { @class = "form-control", placeholder = "mm/dd/yyyy" })
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                </div>
+            </div>
+            </div>
+        <div class="form-group">
+            <div class="col-md-4">
+                @Helpers.LabelSpan(Model, "C1_Next6MonthRecertDate_item", new { @class = "control-label" })
+            </div>
+            <div class="col-md-4">
+                <div class="input-group date">
+                    @Helpers.TextInput(Model, "C1_Next6MonthRecertDate", new { @class = "form-control", placeholder = "mm/dd/yyyy" })
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                </div>
+            </div>
+        </div>
+        <hr />
+        <div class="form-group">
+            <div class="col-md-4">
+                @Helpers.LabelSpan(Model, "C1_ProgramEligibleStartDate_item", new { @class = "control-label" })
+            </div>
+            <div class="col-md-4">
+                <div class="input-group date">
+                    @Helpers.TextInput(Model, "C1_ProgramEligibleStartDate", new { @class = "form-control", placeholder = "mm/dd/yyyy" })
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                </div>
+            </div>
+            </div>
+        <div class="form-group">
+            <div class="col-md-4">
+                @Helpers.LabelSpan(Model, "C1_ProgramEligibleEndDate_item", new { @class = "control-label" })
+            </div>
+            <div class="col-md-4">
+                <div class="input-group date">
+                    @Helpers.TextInput(Model, "C1_ProgramEligibleEndDate", new { @class = "form-control", placeholder = "mm/dd/yyyy" })
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                </div>
+            </div>
+        </div>
+        <hr />
+        <div class="form-group">
+            <div class="col-md-4">
+                @Helpers.LabelSpan(Model, "C1_HIPPStartDate_item", new { @class = "control-label" })
+            </div>
+            <div class="col-md-4">
+                <div class="input-group date">
+                    @Helpers.TextInput(Model, "C1_HIPPStartDate", new { @class = "form-control", placeholder = "mm/dd/yyyy" })
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-4">
+                @Helpers.LabelSpan(Model, "C1_HIPPEndDate_item", new { @class = "control-label" })
+            </div>
+            <div class="col-md-4">
+                <div class="input-group date">
+                    @Helpers.TextInput(Model, "C1_HIPPEndDate", new { @class = "form-control", placeholder = "mm/dd/yyyy" })
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                </div>
+            </div>
+        </div>
+        <hr />
+        <div class="form-group">
+            <div class="col-md-4">
+                @Helpers.LabelSpan(Model, "C1_MedicalLastPaymentDate_item", new { @class = "control-label" })
+            </div>
+            <div class="col-md-4">
+                <div class="input-group date">
+                    @Helpers.TextInput(Model, "C1_MedicalLastPaymentDate", new { @class = "form-control", placeholder = "mm/dd/yyyy" })
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                </div>
+            </div>
+        </div>
+        <hr />
+
+        <div class="form-group">
+            <div class="col-md-4">
+                @Helpers.LabelSpan(Model, "C1_DentalLastPaymentDate_item", new { @class = "control-label" })
+            </div>
+            <div class="col-md-4">
+                <div class="input-group date">
+                    @Helpers.TextInput(Model, "C1_DentalLastPaymentDate", new { @class = "form-control", placeholder = "mm/dd/yyyy" })
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                </div>
+            </div>
+        </div>
+        <hr />
+        <div class="form-group">
+            <div class="col-md-4">
+                @Helpers.LabelSpan(Model, "C1_PartDLastPaymentDate_item", new { @class = "control-label" })
+            </div>
+            <div class="col-md-4">
+                <div class="input-group date">
+                    @Helpers.TextInput(Model, "C1_PartDLastPaymentDate", new { @class = "form-control", placeholder = "mm/dd/yyyy" })
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                </div>
+            </div>
+        </div>
+        <hr />
+
+        <div class="form-group">
+            <div class="col-md-4">
+                @Helpers.LabelSpan(Model, "C1_MDPPEndDate_item", new { @class = "control-label" })
+            </div>
+            <div class="col-md-4">
+                <div class="input-group date">
+                    @Helpers.TextInput(Model, "C1_MDPPEndDate", new { @class = "form-control", placeholder = "mm/dd/yyyy" })
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                </div>
+            </div>
+        </div>
+
+        <hr />
+        @*<div class="form-group">
+            <div class="col-md-4">
+                @Helpers.LabelSpan(Model, "C1_RamsellPlan_item", new { @class = "control-label" })
+            </div>
+            <div class="col-md-4">
+                @Helpers.TextInput(Model, "C1_RamsellPlan", new { @class = "form-control" })
+            </div>
+        </div>
+        <hr />*@
+        @*<div class="form-group">
+            <div class="col-md-4">
+                @Helpers.LabelSpan(Model, "C1_RamsellGroup_item", new { @class = "control-label" })
+            </div>
+            <div class="col-md-4">
+                @Helpers.TextInput(Model, "C1_RamsellGroup", new { @class = "form-control" })
+            </div>
+        </div>
+        <hr />*@
+        <div class="form-group">
+
+            @*<div class="col-md-4">
+                    @Helpers.LabelSpan(Model, "C1_RamsellPlan_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-4">
+                    @Helpers.TextInput(Model, "C1_RamsellPlan", new { @class = "form-control" })
+                </div>*@
+
+            <div class="col-md-4">
+                @Helpers.LabelSpan(Model, "C1_MagellanGroupCode_item", new { @class = "control-label" })
+            </div>
+            <div class="col-md-4">
+                @Helpers.TextInput(Model, "C1_MagellanGroupCode", new { @class = "form-control" })
+            </div>
+        </div>
+        <hr />
+        <div class="form-group">
+            <div class="col-md-4">
+                @Helpers.LabelSpan(Model, "C1_LegacyApprovalDate_item", new { @class = "control-label" })
+            </div>
+            <div class="col-md-4">
+                <div class="input-group date">
+                    @Helpers.TextInput(Model, "C1_LegacyApprovalDate", new { @class = "form-control", placeholder = "mm/dd/yyyy" })
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                </div>
+            </div>
+        </div>
+        <hr />
+        <div class="form-group" style="margin-left:15px">
+            <div class="col-md-7">
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "C1_IsTemporaryInProgram")
+                </div>
+            </div>
+        </div>
+        <hr />
+        <div class="form-group">
+            <div class="col-md-5">
+                @Helpers.LabelSpan(Model, "C1_TemporaryInProgramEndDate_item", new { @class = "control-label" })
+            </div>
+            <div class="col-md-4">
+                <div class="input-group date">
+                    @Helpers.TextInput(Model, "C1_TemporaryInProgramEndDate", new { @class = "form-control", placeholder = "mm/dd/yyyy" })
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                </div>
+            </div>
+        </div>
+
+        <hr />
+        @*<div class="form-group">
+                <div class="col-md-4">
+                    @Helpers.LabelSpan(Model, "C1_EligibilityNotes_Item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-4">
+                    @Helpers.TextInput(Model, "C1_EligibilityNotes", new { @class = "form-control" })
+                </div>
+            </div>*@
+
+    </div>
+</div>
+
+<!-- Comments Modal -->
+@Html.Partial("_AdapCommentModal", Model)

@@ -1,0 +1,154 @@
+﻿@model Assmnts.Models.PreferenceModel
+@{
+
+    Layout = null;
+}
+
+<link rel="stylesheet" type="text/css" href="~/Content/css/pref.css" />
+<script>
+
+    
+    $(document).ready(function () {
+        $("#submit").click(function () {
+
+           /*
+            var first = $("#FirstName").val();
+            var middle = $("#MiddleName").val();
+            var last = $("#LastName").val();
+            var phone = $("#PhoneNumber").val();
+            var ext = $("#Extension").val();
+            var position = $("#Position").val();
+            var address = $("#Address").val();
+            var stateProvince = $("#StateProvince").val();
+            var city = $("#City").val();
+            var zip = $("#Zip").val();
+            var email = $("#Email").val();
+            var organization = $("#Organization").val();
+			*/
+			
+			//var frm = $("#userProfile");
+			//var serializedFormData = frm.serialize();
+	
+
+            var valDict = {}
+
+            var inputs = $("form input[type=text]").each(function() {
+                valDict[this.name] = this.value;
+            
+            });
+            			
+			$.post("@Url.Action("Save", "Preferences")", valDict, function (result) {
+			    if (result == "success") {
+			        alert("Your changes have been saved.");
+			        close();
+			    }
+			    else {
+			        alert("Your changes may not have been saved.");
+			        $("#errorMessage").html(result);
+			        $("#errorMessage").show();
+			    }
+			});
+			//$.ajax({
+            //    type: "POST",
+            //    url: "/Preferences/Save",
+			//	data: serializedFormData,	
+            //    // data: { first: first, middle: middle, last: last, phone: phone, ext: ext, position: position, organization: organization, address: address, city: city, stateProvince: stateProvince, zip: zip, email: email },
+            //    async: false,
+            //    cache: false,
+            //    success: function (response) {
+
+            //        if (response == "success") {
+            //            alert("Your changes have been saved.");
+            //            close();
+            //        }
+            //        else {
+            //            $("#errorMessage").html(response);
+            //            $("#errorMessage").show();
+            //        }
+            //    },
+            //    error: function (xhr, ajaxOptions, thrownError) {
+            //       alert("Your changes may not have been saved. " + xhr.status + "  Error: " + thrownError);
+            //    }
+            //});
+        });
+        $("#cancel").click(function(){
+            close();
+        });
+    });
+    function close() {
+        window.location.href = '/Search/Index';
+    }
+</script>
+<div class="top">Update Profile</div>
+<div class="content">
+    <div id="prefDialog2" class="prefDialog" title="Update Profile">
+        <form name="userProfile" id="userProfile" method="post">
+            <fieldset>
+                <div id="errorMessage" hidden="hidden"></div>
+                <div class="column1" style="float: left;">
+                    <div class="form-group">
+                        <label class="label" for="user.FirstName">First Name</label>
+                        <input type="text" class="nameInput input" id="FirstName" value="@Model.user.FirstName" name="user.FirstName" />
+                    </div>
+                    <div class="form-group">
+                        <label class="label" for="user.LastName">Last Name</label>
+                        <input type="text" class="nameInput input" id="LastName" value="@Model.user.LastName" name="user.LastName" />
+                    </div>
+                    <div class="form-group">
+                        <label class="label" for="phone.PhoneNumber">Phone Number</label>
+                        <input type="text" class="phoneInput input" id="PhoneNumber" value="@Model.phone.PhoneNumber" name="phone.PhoneNumber" />
+                    </div>
+                    <div class="form-group">
+                        <label class="label" for="user.Title">Position</label>
+                        <input type="text" class="positionInput input" id="Position" value="@Model.user.Title" name="user.Title" />
+                    </div>
+                    <div class="form-group">
+                        <label class="label" for="address.Address1">Address</label>
+                        <input type="text" class="addressInput input" id="Address1" value="@Model.address.Address1" name="address.Address1" />
+                    </div>
+                    <div class="form-group">
+                        <label class="label" class="" for="address.State">State/Province</label>
+                        <input type="text" class="stateInput input" id="StateProvince" value="@Model.address.StateProvince" name="address.StateProvince" />
+                    </div>
+
+                    <div>
+                        
+                        <input type="checkbox" id="noInfo" style="display:inline;" /> 
+                        <label for="noInfo">Don't send me AAIDD information.</label>
+                       
+                    </div>
+
+                    <input type="button" id="submit" value="Save & Close" />
+                    <input type="button" id="cancel" value="Cancel" />
+                </div>
+                <div class="column2">
+                    <div class="form-group">
+                        <label class="label" for="user.MiddleName">Middle name</label>
+                        <input type="text" class="nameInput input" id="MiddleName" value="@Model.user.MiddleName" name="user.MiddleName" />
+                    </div>
+                    <div class="form-group">
+                        <label class="label" for="email.EmailAddress">Email</label>
+                        <input type="text" class="emailInput input" id="Email" value="@Model.email.EmailAddress" name="email.EmailAddress" />
+                    </div>
+                    <div class="form-group">
+                        <label class="label" for="phone.Extension">Extension</label>
+                        <input type="text" class="extensionInput input" id="Extension" value="@Model.phone.Extension" name="phone.Extension" />
+                    </div>
+                    <div class="form-group">
+                        <label class="label" for="user.Area">Organization</label>
+                        <input type="text" class="organizationInput input" id="Organization" value="@Model.user.Area" name="user.Area" />
+                    </div>
+                    <div class="form-group">
+                        <label class="label" for="address.City">City</label>
+                        <input type="text" class="cityInput input" id="City" value="@Model.address.City" name="address.City" />
+                    </div>
+                    <div class="form-group">
+                        <label class="label" for="address.PostalCode">Zip/Postal Code</label>
+                        <input type="text" class="zipInput input" id="Zip" value="@Model.address.PostalCode" name="address.PostalCode" />
+                    </div>
+
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>

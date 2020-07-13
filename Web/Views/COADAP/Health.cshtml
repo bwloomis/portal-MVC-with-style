@@ -1,0 +1,247 @@
+﻿@model Assmnts.Models.GeneralForm
+@{
+    Layout = "AdapAppLayout.cshtml";
+}
+
+@section AddToHead{
+    <link rel="stylesheet" type="text/css" href="/Content/adap/css/ADAPForms.css" />    
+    <script src="~/Content/js/ADAPLookupSelects.js"></script>  
+    <script>
+    $(document).ready(function () {
+        @foreach (string shortName in new string[] { "I2_AffCareOpt", "I4_InsSourceOpt" })
+        {
+            string identifier = "ADAP_" + shortName;
+            @:populateLookupSelect('@identifier', '@identifier', '@Model.rspValues[identifier]');
+        }
+        @foreach (string shortName in new string[] { "I1_AppStatusOpt" })
+        {
+            string identifier = "ADAP_" + shortName;
+            @:populateLookupRadio('@identifier', '@identifier', '@Model.rspValues[identifier]');
+        }
+    });
+    </script>  
+}
+
+<!-- Form Name --><!-- I1 applied for medicaid -->
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="pull-right prevAppBtn"><button data-prevdiv="PreviousI1" class="btn" type="button"></button></div>
+        <div class="pull-right"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CmntModal" data-label="I1. @Model.sctTitles["ADAP_I1"]"><span class="glyphicon glyphicon-comment"></span></button></div>
+        <strong>I1. @Model.sctTitles["ADAP_I1"]</strong>
+        <div class="form-group" style="margin-left:25px">
+            <div class="col-md-12">
+                <div class="checkbox">
+                    @Helpers.LabeledCheckboxInput(Model, "ADAP_I1_Med_Yes")
+                </div>
+                <div class="checkbox">
+                    @Helpers.LabeledCheckboxInput(Model, "ADAP_I1_Med_Denied")
+                </div>
+                <div class="checkbox">
+                    @Helpers.LabeledCheckboxInput(Model, "ADAP_I1_Med_No")
+                </div>
+                <div class="checkbox">
+                    @Helpers.LabeledCheckboxInput(Model, "ADAP_I1_Med_Waiting")
+                </div>
+                <div class="checkbox">
+                    @Helpers.LabeledCheckboxInput(Model, "ADAP_I1_Med_DontKnow")
+                </div>
+            </div>
+        </div>
+        <hr class="hr-dark">
+
+        @Helpers.LabelSpan(Model, "ADAP_I1_DeniedReason_item", new { @class = "col-md-12 control-label I1_denied_toggle" })
+        <div class="form-group I1_denied_toggle" style="margin-left:25px">
+            @Helpers.TextInput(Model, "ADAP_I1_DeniedReason", new { @class = "form-control" })
+        </div>
+
+        @Helpers.LabelSpan(Model, "ADAP_I1_NotAppliedReason_item", new { @class = "col-md-12 control-label I1_notapplied_toggle" })
+        <div class="form-group I1_notapplied_toggle" style="margin-left:25px">
+            @Helpers.TextInput(Model, "ADAP_I1_NotAppliedReason", new { @class = "form-control" })
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            updateI1();
+            $("#ADAP_I1_Med_Denied").change(updateI1);
+            $("#ADAP_I1_Med_No").change(updateI1);
+        });
+        function updateI1() {
+            $(".PREVIOUS_I1_denied_toggle").toggle($("#PREVIOUS_ADAP_I1_Med_Denied").get(0).checked);
+            $(".PREVIOUS_I1_notapplied_toggle").toggle($("#PREVIOUS_ADAP_I1_Med_No").get(0).checked);
+            $(".I1_denied_toggle").toggle($("#ADAP_I1_Med_Denied").get(0).checked);
+            $(".I1_notapplied_toggle").toggle($("#ADAP_I1_Med_No").get(0).checked);
+        };
+    </script>
+</div>
+
+<!-- I2 enrolled -->
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="pull-right prevAppBtn"><button data-prevdiv="PreviousI2" class="btn" type="button"></button></div>
+        <div class="pull-right"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CmntModal" data-label="I2. @Model.sctTitles["ADAP_I2"]"><span class="glyphicon glyphicon-comment"></span></button></div>
+        <p><strong>I2. @Model.sctTitles["ADAP_I2"]</strong></p>
+        <div class="form-group" style="margin-left:25px">
+            <div class="col-md-5">
+                @Helpers.DropDownList(Model, "ADAP_I2_AffCareOpt_item", "ADAP_I2_AffCareOpt")
+            </div>
+        </div>
+        <div id="I2Toggle_Yes">
+            <p>
+                @Model.fldLabels["ADAP_I2_InvoiceLabel_item"]
+                <div class="form-group" style="margin-left:25px">
+                    @Helpers.LabelSpan(Model, "ADAP_I2_InvoiceYN_item", new { @class = "col-md-12 control-label" })
+                    <div class="col-md-12">
+                        @Helpers.YesNoRadioButtons(Model, "ADAP_I2_InvoiceYN")
+                    </div>
+                    <div class="form-group" id="toggleUploadI2" style="margin-left:25px">
+                        @Helpers.LabelSpan(Model, "ADAP_I2_Invoice_item", new { @class = "col-md-4 control-label" })
+                        @Helpers.FileUpload(Model, "ADAP_I2_Invoice")
+                    </div>
+                </div>
+            </p>
+        </div>   
+        <div class="col-md-10" id="I2Toggle_Other">
+            @Helpers.TextInput(Model, "ADAP_I2_AffCareOther", new { @class = "form-control" })
+        </div>
+        <script>
+            $(document).ready(function () {
+                updateI2();
+                $("#ADAP_I2_AffCareOpt").change(updateI2);
+                $("#ADAP_I2_InvoiceYN_YesOption").change(updateI2);
+                $("#ADAP_I2_InvoiceYN_NoOption").change(updateI2);
+            });
+            function updateI2() {
+                var val = $("#PREVIOUS_ADAP_I2_AffCareOpt").val();
+                $("#PREVIOUS_I2Toggle_Yes").toggle(val === "0");
+                $("#PREVIOUS_I2Toggle_Other").toggle(val === "2");
+                $("#PREVIOUS_toggleUploadI2").toggle($("#PREVIOUS_ADAP_I2_InvoiceYN_YesOption").get(0).checked);
+                var val = $("#ADAP_I2_AffCareOpt").val();
+                $("#I2Toggle_Yes").toggle(val === "0");
+                $("#I2Toggle_Other").toggle(val === "2");
+                $("#toggleUploadI2").toggle($("#ADAP_I2_InvoiceYN_YesOption").get(0).checked);
+            };
+        </script>
+
+    </div>
+</div>
+
+<!-- I3 medicare -->
+<div class="panel panel-default">
+    <div class="panel-body" id="dvMedicare">
+        <div class="pull-right prevAppBtn"><button data-prevdiv="PreviousI3" class="btn" type="button"></button></div>
+        <div class="pull-right"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CmntModal" data-label="I3. @Model.sctTitles["ADAP_I3"]"><span class="glyphicon glyphicon-comment"></span></button></div>
+        <p><strong>I3. @Model.sctTitles["ADAP_I3"]</strong></p>
+        <div class="form-group" style="margin-left:25px">
+            @Helpers.LabelSpan(Model, "ADAP_I3_MedicareYN_item", new { @class = "col-md-12 control-label" })
+            <div class="col-md-12">
+                @Helpers.YesNoRadioButtons(Model, "ADAP_I3_MedicareYN")
+            </div>
+        </div>
+
+        <div class="form-group" id="toggleI3" style="margin-left:25px">
+            @Helpers.LabelSpan(Model, "ADAP_I3_MedNumber_item", new { @class = "col-md-4 control-label" })
+            <div class="col-md-5">
+                @Helpers.TextInput(Model, "ADAP_I3_MedNumber", new { @class = "form-control" })
+            </div>
+            @Helpers.LabelSpan(Model, "ADAP_I3_PartsLabel_item", new { @class = "col-md-12 control-label" })
+            <div class="form-group" id="toggleI3" style="margin-left:25px">
+                <div class="col-md-3">
+                    <div class="checkbox">
+                        @Helpers.LabeledCheckboxInput(Model, "ADAP_I3_PartAYN")
+                    </div>
+                </div>
+
+                @Helpers.LabelSpan(Model, "ADAP_I3_PartADate_item", new { @class = "col-md-3 control-label" })
+                <div class="col-md-3">
+                    <div class="input-group date">
+                        @Helpers.TextInput(Model, "ADAP_I3_PartADate", new { @class = "form-control", placeholder = "mm/dd/yyyy" })
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                    </div>
+                </div>
+                <p class="form-group" style="margin-left:25px">
+                    <div class="col-md-3">
+                        <div class="checkbox">
+                            @Helpers.LabeledCheckboxInput(Model, "ADAP_I3_PartBYN")
+                        </div>
+                    </div>
+                    @Helpers.LabelSpan(Model, "ADAP_I3_PartBDate_item", new { @class = "col-md-3 control-label" })
+                    <div class="col-md-3">
+                        <div class="input-group date">
+                            @Helpers.TextInput(Model, "ADAP_I3_PartBDate", new { @class = "form-control", placeholder = "mm/dd/yyyy" })
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                        </div>
+                    </div>
+                </p>
+            </div>
+        </div>
+        <p>
+            @Model.fldLabels["ADAP_I3_BottomLabel_item"]
+        </p>
+        <p id="toggleI3">
+            @Model.fldLabels["ADAP_I2_InvoiceLabel_item"]
+            
+        </p>
+
+        <div class="form-group" id="toggleI3b" style="margin-left:25px">
+            @Helpers.LabelSpan(Model, "ADAP_I3_InvoiceYN_item", new { @class = "col-md-12 control-label" })
+            <div class="col-md-12">
+                @Helpers.YesNoRadioButtons(Model, "ADAP_I3_InvoiceYN")
+            </div>
+            <div class="form-group" id="toggleUploadI3" style="margin-left:25px">
+                @Helpers.LabelSpan(Model, "ADAP_I3_Invoice_item", new { @class = "col-md-4 control-label" })
+                @Helpers.FileUpload(Model, "ADAP_I3_Invoice")
+            </div>
+        </div>
+
+        <script>
+            $(document).ready(function () {
+                updateI3();
+                $("#ADAP_I3_MedicareYN_YesOption").change(updateI3);
+                $("#ADAP_I3_MedicareYN_NoOption").change(updateI3);
+                $("#ADAP_I3_InvoiceYN_YesOption").change(updateI3);
+                $("#ADAP_I3_InvoiceYN_NoOption").change(updateI3);
+            });
+
+            function updateI3() {
+                $("#PREVIOUS_toggleI3").toggle($("#PREVIOUS_ADAP_I3_MedicareYN_YesOption").get(0).checked);
+                $("#PREVIOUS_toggleI3b").toggle($("#PREVIOUS_ADAP_I3_MedicareYN_YesOption").get(0).checked);
+                $("#PREVIOUS_toggleUploadI3").toggle($("#PREVIOUS_ADAP_I3_InvoiceYN_YesOption").get(0).checked);
+                $("#toggleI3").toggle($("#ADAP_I3_MedicareYN_YesOption").get(0).checked);
+                $("#toggleI3b").toggle($("#ADAP_I3_MedicareYN_YesOption").get(0).checked);
+                $("#toggleUploadI3").toggle($("#ADAP_I3_InvoiceYN_YesOption").get(0).checked);
+            };
+        </script>
+    </div>
+</div>
+
+<!-- I4 Other insurance -->
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="pull-right prevAppBtn"><button data-prevdiv="PreviousI4" class="btn" type="button"></button></div>
+        <div class="pull-right"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CmntModal" data-label="I4. @Model.sctTitles["ADAP_I4"]"><span class="glyphicon glyphicon-comment"></span></button></div>
+        <p><strong>I4. @Model.sctTitles["ADAP_I4"]</strong></p>
+        <div class="form-group" style="margin-left:25px">
+            <div class="col-md-5">
+                @Helpers.DropDownList(Model, "ADAP_I4_InsSourceOpt_item", "ADAP_I4_InsSourceOpt")
+            </div>
+        </div>
+        <div class="col-md-10 I4Toggle_Other">
+            @Helpers.TextInput(Model, "ADAP_I4_InsSourceOther", new { @class = "form-control" })
+        </div>
+        <script>
+            $(document).ready(function () {
+                updateI4();
+                $("#ADAP_I4_InsSourceOpt").change(updateI4);
+            });
+            function updateI4() {
+                $(".PREVIOUS_I4Toggle_Other").toggle($("#PREVIOUS_ADAP_I4_InsSourceOpt").val() == 4);
+                $(".I4Toggle_Other").toggle($("#ADAP_I4_InsSourceOpt").val() == 4);
+            };
+        </script>
+
+    </div>
+</div>
+
+        <!-- Comments Modal -->
+@Html.Partial("_AdapCommentModal", Model)

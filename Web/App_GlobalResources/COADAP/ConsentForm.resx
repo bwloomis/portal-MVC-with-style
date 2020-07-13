@@ -1,0 +1,129 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ConsentHeader" xml:space="preserve">
+    <value>Applicant Consent to Participate and Consent to Release Personal and Medical Information</value>
+  </data>
+  <data name="ConsentText" xml:space="preserve">
+    <value>&lt;p&gt;The AIDS Drug Assistance Program (ADAP) is a subsidy program administered by the California Department of Public Health (CDPH) to provide prescription drug treatments and other health services to persons infected with human immunodeficiency virus (HIV). ADAP includes prescription drug assistance and insurance assistance programs. Individuals applying for ADAP services must meet eligibility standards. Services are only available to persons who reside in California, are uninsured or underinsured, are not fully covered by Medi-Cal and have a modified adjusted gross income up to 500 percent of federal poverty level, based on family size and household income. To verify eligibility for this program, CDPH or its agents may be required to obtain personal information from other agencies or health care providers. If you decide to enroll in ADAP, the enrolling agency will collect personal information including your name, date of birth, address, social security number, medical history (including viral load and CD4 count records), and financial eligibility for the program. The information will be considered confidential, but may be exchanged with health care providers, CDPH staff, ADAP enrollment workers, the Department of Health Care Services (DHCS), Franchise Tax Board (FTB), Covered California, CDPH contractors associated with the administration of the program, the Surveillance, Research &amp; Evaluation Branch of CDPH, and other governmental or public agencies as necessary for the limited purposes of administering the program and determining program eligibility. Information that you provide for your ADAP application may also be made available to your local health department for statistical and research purposes. This information includes, but is not limited to, gender, ethnicity, zip code, diagnosis status, and date of birth. This information may also be used for research and professional writings under strict assurances that all identifying information including, name and social security number, is deleted. Any professional or research reports that may be published will not use your name nor any personal identifying information. Confidentiality agreements are in place which keep client information confidential except with specific client consent or as otherwise allowed by law.&lt;/p&gt;&lt;p&gt;For those specifically enrolled in, or applying for, the insurance assistance programs within ADAP, which provides health insurance premium payment and medical out-of-pocket cost payment assistance to eligible ADAP clients, CDPH or its agents may also be required to obtain and exchange personal and medical information, as described in the above paragraph, with health insurance plans, Consolidated Omnibus Budget Reconciliation Act (COBRA) administrators, employers and employer administered health insurance plans as necessary to determine your eligibility and for the purpose of administering the program.&lt;/p&gt;</value>
+  </data>
+  <data name="ConsentTextFooter" xml:space="preserve">
+    <value>&lt;p&gt;This consent shall remain in effect for two (2) years from the date of my signature below. A photocopy of this consent shall be considered as valid as the original.&lt;p&gt;</value>
+  </data>
+</root>

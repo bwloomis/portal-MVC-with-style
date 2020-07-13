@@ -1,0 +1,29 @@
+﻿@model Assmnts.Models.PreferenceModel
+@{
+
+    Layout = null;
+}
+@{string styleSheetName = "sisa.css";}
+<link rel="stylesheet" type="text/css" href="/Content/css/@styleSheetName" />	
+<link rel="stylesheet" type="text/css" href="~/Content/css/pref.css" />
+
+<div class="top">Search Preferences</div>
+<div class="content">
+    <div id="prefDialog1" class="prefDialog" title="Search Preferences">
+        @using (Html.BeginForm("ChangeNum", "Preferences", FormMethod.Post))
+        {
+            <div class="form-group">
+                @Html.LabelFor(m => m.numAssmnts)
+                @Html.TextBoxFor(m => m.numAssmnts)
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.numRecords)
+                @Html.TextBoxFor(m => m.numRecords)
+            </div>
+
+            <input type="submit" value="Save" />
+			<input type="button" id="cancel" onClick="window.location.href='/Search/Index';" value="Cancel" />
+        }
+
+    </div>
+</div>

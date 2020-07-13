@@ -1,0 +1,66 @@
+﻿@model System.Web.Mvc.HandleErrorInfo
+
+@{
+    ViewBag.Title = "Error";
+    Layout = "~/Views/Shared/SISLayout.cshtml";
+}
+<style>
+    #title {
+        font-size: x-large;
+    }
+
+    #errorBox {
+        margin: auto;
+        padding: 5px;
+        
+        margin-top:5%;
+        background-color: #e1e9f8;
+    }
+
+    #errorMessageBox {
+        margin-top: 20px;
+    }
+</style>
+<body>
+    
+        
+        <div>
+            Sorry but we ran into a significant system error. <br /> <br />
+
+            You can help us fix it quickly by emailing the error message details below, along with any other information about what just happened, as best you can, to aaidd@ajboggs.com <br /> <br />
+
+            Are you able to replicate the issue, and if so, how? <br /> <br />
+
+            Here is some other information can be helpful:
+            <ul>
+                <li>What page you were on just before the error occurred? </li>
+                <li>Were you using Venture or SISOnline website?</li>
+                <li>What browser were you using (Chrome, Internet Explorer, Safari)?</li>
+                <li>The operating system (is it a Windows 7, 8, Mac?).</li>
+                <li>The model of the computer you using.</li>
+            </ul>
+            <br />
+            Thanks for your help. <br /> <br />
+
+            A.J. Boggs' SISOnline Support Team
+
+        </div>
+
+    <div id="errorBox">
+        <div id="title">
+            Error
+        </div>
+        <div id="errorMessageBox">
+            <div id="NamesOfControllerAction">
+                Controller: @Model.ControllerName,     Action: @Model.ActionName
+            </div>
+            <div id="errorMessage">
+                Message: @Model.Exception.Message
+            </div>
+            <div id="innerMessage">
+                Inner Exception: @((Model.Exception.InnerException != null && Model.Exception.InnerException.Message != null) ? Model.Exception.InnerException.Message : "None")
+            </div>
+        </div>
+
+    </div>
+</body>

@@ -1,0 +1,680 @@
+﻿@model Assmnts.Models.GeneralForm
+@{
+    Layout = "AdapAppLayout.cshtml";
+}
+
+@if (Model.validationMessages != null && Model.validationMessages.Any() && Model.validationMessages[0].Contains("Submitted with TAP"))
+{
+    ViewBag.ShowModal = true;
+}
+else
+{
+    ViewBag.ShowModal = false;
+}
+
+@section AddToHead{
+    <link rel="stylesheet" type="text/css" href="/Content/adap/css/ADAPForms.css" />
+    <script src="~/Content/js/ADAPLookupSelects.js"></script>
+    <script src="/Scripts/jquery.form.min.js"></script>
+    <link href="~/stylesheets/jquery.growl.css" rel="stylesheet" />
+    <script src="~/javascripts/jquery.growl.js"></script>
+<script src="~/Content/adap/js/bootstrap-combobox.js"></script>
+<link href="~/Content/adap/css/bootstrap-combobox.css" rel="stylesheet" />
+<script src="~/Content/js/CAADAP/PeoplePickerConsent.js"></script>
+<script>
+
+
+    $(document).ready(function () {
+
+
+        ComboBoxActivities();
+
+
+        //initialize the tooltips
+        
+
+        var showModal = '@ViewBag.ShowModal';
+        if (showModal == "True") {
+            $("#myModal").modal('show');
+        }
+
+        $('.class_prevscreen').click(function () { SubmitForm('45', '757', '18'); });
+
+        $(".navbar-nav").find("li").each(function () {
+            $(this).click(function () {
+                $.ajax({
+                    url: '@Url.Action("PageLoadEvents","Results")',
+                });
+            });
+        });
+
+        $("button").click(function () {
+            $.ajax({
+                url: '@Url.Action("PageLoadClickEvents", "Results")',
+            });
+        });
+
+        $('.class_nextscreen').hide();
+
+        var Notify = '@ViewBag.Notify';
+        var NotifyMessage = '@ViewBag.NotifyMessage';
+        if (Notify == "Saved") {
+            console.log("notify start");
+            if (NotifyMessage != '')
+                $.growl.notice({ title: "Save", message: NotifyMessage });
+            else
+                $.growl.notice({ title: "Save", message: "Application Save successfully" });
+
+        }
+        else if (Notify == "Cancel") {
+            if (NotifyMessage != '')
+                $.growl.error({ title: "Error", message: NotifyMessage });
+            else
+                $.growl.error({ title: "Error", message: "Internal server error:Review the logs" });
+        }
+
+        //hide the next section button, because this is the last section
+        $('.class_nextscreen').hide();
+
+        $('.uploadForm').ajaxForm(function () {
+            //Originally intended to fire a post response method, but the dynamic population of records forces identification via class.
+            //Find a way to get the formResultId of the upload button clicked then call by identifier for this method to work.
+            //see http://malsup.com/jquery/form/#ajaxSubmit for more info.
+            //$('#UploadFORMRESULTID').ajaxSubmit(options);
+            viewFiles();
+            //alert("File Uploaded");
+            $("#uploadFile").text('');
+            $(".spinner").remove();
+            //return false;
+        });
+
+        $("#upload").click(function () {
+            //alert('upload clicked');
+            //var that = $("#fileContent input[type='file']");
+            //var input = $("#frmUploadForm input[type='file']");
+            //if (input.length > 0) {
+            //    // replace
+            //    $("#frmUploadForm input[type='file']").replaceWith(that);
+            //}
+            //else {
+            //    $("#frmUploadForm").append(that)
+            //}
+            //$("#fileContent").append($(that)[0].outerHTML);
+            //$("#frmUploadForm input[type='file']").hide();
+        });
+
+        $("body").on('change', "input[type='file']", function () {
+            //alert('file changed!');
+            var that = $("#fileContent input[type='file']");
+            var input = $("#frmUploadForm input[type='file']");
+            if (input.length > 0) {
+                // replace
+                $("#frmUploadForm input[type='file']").replaceWith(that);
+            }
+            else {
+                $("#frmUploadForm").append(that)
+            }
+            $("#fileContent").append($(that)[0].outerHTML);
+            $("#frmUploadForm input[type='file']").hide();
+            $("#uploadFile").text($(that).val());
+        });
+
+        viewFiles();
+    });
+
+    function viewFiles() {
+        var ids = $(".viewFiles").map(function (index) {
+            return this.id;
+        });
+
+        for (i = 0; i < ids.length; i++) {
+            frid = ids[i].substring(4);
+            postdata = {
+                'formResultId': frid
+            }
+            $.ajax({
+                type: 'GET',
+                url: '/Search/hasFiles',
+                data: postdata,
+                async: false,
+                cache: false,
+                success: function (result) {
+                    if (result == 'True') {
+                        $('#' + ids[i]).show();
+                    } else {
+                        $('#' + ids[i]).hide();
+                    }
+                },
+                error: function () {
+                    alert('Error checking file count for form ' + frid + '.');
+                }
+            });
+        }
+    }
+
+
+
+
+    function downloadAttach(formResultId) {
+        var postdata = {
+            'formResultId': formResultId
+        }
+
+        // Populate the Attachment drop down, which is the same in both download and delete options.
+        $.ajax({
+            type: 'GET',
+            url: '/Search/getFileDisplayText',
+            data: postdata,
+            async: false,
+            cache: false,
+            success: function (result) {
+                $('.AttachDDL' + formResultId).html(result);
+            },
+            error: function () {
+                alert('Error retrieving file list.');
+            }
+        });
+
+        $('#attachment1' + formResultId).hide();
+        $('#attachment3' + formResultId).hide();
+        $('#attachment2' + formResultId).show();
+    }
+
+    // Downloads the selected file.
+    function downloadFile(formResultId) {
+        // Make sure the drop down was populated.
+        if ($('#dwnldDDL' + formResultId).html().indexOf('<option') !== -1) {
+            var DDL = $('#dwnldDDL' + formResultId).children('.filesDDL' + formResultId);
+            var fileId = DDL.attr('selected', true).val();
+
+            window.location.href = '/Search/DownloadFile?fileId=' + fileId;
+        } else {
+            alert('No files selected');
+        }
+    }
+
+    // Returns to the file attach option.
+    function cancelAttach(formResultId) {
+        $('#attachment2' + formResultId).hide();
+        $('#attachment1' + formResultId).show();
+    }
+
+    // Shows the attachment delete option.
+    function deleteAttach(formResultId) {
+        $('#attachment2' + formResultId).hide();
+        $('#attachment3' + formResultId).show();
+    }
+
+    // Deletes the selected file.
+    function deleteFile(formResultId) {
+        // Make sure the drop down was populated.
+        if ($('#dltDDL' + formResultId).html().indexOf('<option') !== -1) {
+            var DDL = $('#dltDDL' + formResultId).children('select.filesDDL' + formResultId);
+            var fileId = DDL.attr('selected', true).val();
+            var postdata = {
+                'formResultId': formResultId,
+                'fileId': fileId
+            }
+
+            $.ajax({
+                type: 'GET',
+                url: '/AdapCa/DeleteFile',
+                data: postdata,
+                async: false,
+                cache: false,
+                success: function (result) {
+                    alert('File deleted');
+                    downloadAttach(formResultId);
+                },
+                error: function () {
+                    alert('File not found.');
+                }
+            });
+        } else {
+            alert('No files selected');
+        }
+    }
+</script>
+
+}
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">ADAP Enrollment Form Successfully Submitted</h4>
+            </div>
+            <div class="modal-body">
+                @*<h3>ADAP Enrollment Form Successfully Submitted</h3>*@
+                <p>We have received your ADAP enrollment application.  You are eligible for a temporary access period (TAP) for 30 days of ADAP benefits, including prescription drug coverage.  Your TAP eligibility is through @DateTime.Now.AddDays(30).ToShortDateString()  </p>
+                <p>Based upon the information provided, you may be extended for additional ADAP coverage and/or extended eligibility dates.  If further information is required, your enrollment worker will contact you directly.</p>
+                <p>For information on your prescription drug coverage, please visit <a target="_blank" href="https://cdph.magellanrx.com/member/publicPharmacylocator">Magellan Prescription Benefits & Pharmacy Locator</a> or call A. J. Boggs Client Support Team at (844) 550-3944 or email to support@camedassist.org .  You can also go to camedassist.org and select Enrollment Sites and Forms for more program information.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-body">
+        @*<div class="pull-right">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CmntModal" data-label="C1. @Model.sctTitles["CA-ADAP-Consent"]">
+                    <span class="glyphicon glyphicon-comment"></span>
+                </button>
+            </div>*@
+
+
+        @*<p><strong>
+                 <ul style="font-weight:normal">
+                    @Html.Raw(Resources.ConsentForm.ConsentHeader)
+                </ul>
+                </strong>
+            </p>*@
+
+        <!--TextLabel 1-->
+        <div class="form-group">
+            <div class="col-md-12"><strong>Note that you must provide a complete and signed AIDS Drug Assistance Program Consent Form. If it is not completed and signed then you will not be eligible for the AIDS Drug Assistance Program (ADAP).</strong></div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-6">
+                @Helpers.LabelSpan(Model, "C1_ConsentSignatureDoc_item")
+            </div>
+            @Helpers.FileUpload(Model, "C1_ConsentSignatureDoc")
+        </div>
+        <hr />
+
+        <!--TextLabel 2-->
+        <div class="form-group">
+            <div class="col-md-12"><strong>If you are a new applicant or an existing ADAP client with missing information, you may be eligible for a 30 day Temporary Access Period (TAP).  You must provide a complete and signed Temporary Access Period Request Form to receive temporary eligibility for the AIDS Drug Assistance Program (ADAP).</strong></div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-6">
+                @Helpers.LabelSpan(Model, "C1_TAPDoc_item")
+            </div>
+            @Helpers.FileUpload(Model, "C1_TAPDoc")
+        </div>
+
+
+        <hr />
+
+        <!--TextLabel 3-->
+        <div class="form-group">
+            <div class="col-md-12"><strong>ADAP clients who knowingly provide inaccurate or false documentation may be in violation of various Penal Code laws and the California False Claims Act.</strong></div>
+        </div>
+        <div class="form-group" style="margin-left:15px">
+            <div class="checkbox checkbox-info">
+                @Helpers.LabeledCheckboxInput(Model, "C1_TrueAndAccurateSignature")
+            </div>
+        </div>
+        <hr />
+
+        <div class="form-group">
+            <div class="col-md-12">
+                <strong>
+                    @Html.Raw(Resources.ConsentForm.ConsentHeader)
+                </strong>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-12">
+                @Html.Raw(Resources.ConsentForm.ConsentText)
+            </div>
+        </div>
+        @*<p>
+                <ul style=" font-weight:normal">
+                @Html.Raw(Resources.ConsentForm.ConsentText)
+                </ul>
+            </p>*@
+        <div class="form-group style=" margin-left:25px"">
+            <div class="col-md-offset-1 col-md-11">
+                @*@<div class="col-md-1">
+                    @<div class="pull-right">
+                        <input type="checkbox" id="" name="">
+                    </div>*@
+                <div class="checkbox checkbox-info">
+                    @Helpers.LabeledCheckboxInput(Model, "C1_MemberSignatureCheckbox")
+                </div>
+
+            </div>
+        </div>
+        @*<p>
+                <ul style="font-weight:normal">
+                    @Html.Raw(Resources.ConsentForm.ConsentTextFooter)
+                </ul>
+            </p>*@
+        <div class="form-group">
+            <div class="col-md-12">
+                @Html.Raw(Resources.ConsentForm.ConsentTextFooter)
+            </div>
+        </div>
+        <hr />
+        <div class="form-group">
+            <div class="col-md-6">
+                @Helpers.LabelSpan(Model, "C1_MemberUsedEnrollmentSite_item", new { @class = "control-label" })
+            </div>
+            @Helpers.YesNoRadioButtons(Model, "C1_MemberUsedEnrollmentSite")
+        </div>
+        <script type="text/javascript">
+    $(function () {
+        function ShoworhidePrimeEW() {
+            if ($("#C1_MemberUsedEnrollmentSite_YesOption").prop("checked") === true) {
+                // show section
+                $(".divprimaryEW").hide();
+                $(".yesEW").show();
+            }
+            else {
+                // hide section
+                $(".divprimaryEW").show();
+                $(".yesEW").hide();
+            }
+        }
+
+        ShoworhidePrimeEW();
+
+        $("#C1_MemberUsedEnrollmentSite_YesOption").change(function (e) {
+            ShoworhidePrimeEW();
+        }).change();
+        $("#C1_MemberUsedEnrollmentSite_NoOption").change(function (e) {
+            ShoworhidePrimeEW();
+        }).change();
+    });
+        </script>
+
+        <div class="">
+            <div class="form-group">
+                <div class="col-md-6 divprimaryEW">
+                    @Helpers.LabelSpan(Model, "C1_FormSubmitEnrollmentSiteName_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-6 yesEW" style="color:red">
+                    @Helpers.LabelSpan(Model, "C1_YesFormSubmitEnrollmentSiteName_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-6">
+                    @Helpers.GroupsDropDownList(Model, "C1_FormSubmitEnrollmentSiteName_item", "C1_FormSubmitEnrollmentSiteName", Assmnts.Constants.CAADAP.ENROLLMENT_SITES_GROUPTYPE_ID)
+                </div>
+            </div>
+
+                <div class="form-group">
+                    <div class="col-md-6 divprimaryEW">
+                        @Helpers.LabelSpan(Model, "C1_FormSubmitEnrollmentWorkerName_item", new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-6 yesEW" style="color:red">
+                        @Helpers.LabelSpan(Model, "C1_YesFormSubmitEnrollmentWorkerName_item", new { @class = "control-label" })
+                    </div>
+                   
+                    <div class="col-md-6" id="divComboParent">
+                        <div class="combobox-container" id="cointainerEnWorker">
+                            <input type="hidden" />
+                            <div class="input-group" id="EnWorkerDrpParent">
+                                @Helpers.TextInput(Model, "C1_FormSubmitEnrollmentWorkerName", new { @class = "form-control", autocomplete = "off", placeholder = "Choose your Enrollment Worker"})
+                                <span class="input-group-addon dropdown-toggle" data-dropdown="dropdown">
+                                    <span class="caret"></span>
+                                    <span class="glyphicon glyphicon-remove-circle"></span>
+                                </span>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+                            </div>
+                            <select class="combobox form-control" id="ComboBoxSelect">
+                                <option></option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @*<div class="form-group">
+                <div class="col-md-6">
+                    @Helpers.LabelSpan(Model, "C1_AdditionalDocs_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-6" id="fileUpload">
+                    <div id="fileContent">
+                        <input type="file" id="file@(Model.formResultId)" name="file@(Model.formResultId)">
+                    </div>
+                    <div id="fileToUpload">
+                        <span>File to upload:</span><span id="uploadFile"></span>
+                    </div>
+                    <a id="upload" href="#" onclick="$('#btnFileSubmit').click()">Upload</a>
+                    <a href="#" class="viewFiles" id="view@(Model.formResultId)" onclick="downloadAttach(@Model.formResultId)">View Files</a>
+
+                    <div id="attachment2@(Model.formResultId)">
+                        <span id="dwnldDDL@(Model.formResultId)" class="AttachDDL@(Model.formResultId)" style="min-width:10px"></span> <a href="#" onclick="downloadFile(@Model.formResultId)">Download</a>&nbsp;&nbsp;&nbsp;
+                        <a href="#" onclick="deleteAttach(@Model.formResultId)">Delete Files</a>&nbsp;&nbsp;&nbsp;<a href="#" onclick="cancelAttach(@Model.formResultId)">Cancel</a>
+                    </div>
+
+                    <div id="attachment3@(Model.formResultId)" hidden="hidden">
+                        <span id="dltDDL@(Model.formResultId)" class="AttachDDL@(Model.formResultId)"></span> <a href="#" onclick="deleteFile(@Model.formResultId)">Delete</a>&nbsp;&nbsp;&nbsp;
+                        <a href="#" onclick="downloadAttach(@Model.formResultId)">Cancel</a>
+                    </div>
+                </div>
+            </div>*@
+
+            <!-- Additional Doc 1-->
+
+            <div class="form-group">
+                <div class="col-md-6">
+                    @Helpers.LabelSpan(Model, "C1_ConsentAttach1_item")
+                </div>
+                @Helpers.FileUpload(Model, "C1_ConsentAttach1")
+            </div>
+            <div class="form-group">
+                <div class="col-md-6">
+                    @Helpers.LabelSpan(Model, "C1_ConsentAttach1Title_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-5">
+                    @Helpers.TextInput(Model, "C1_ConsentAttach1Title", new { @class = "form-control" })
+                </div>
+            </div>
+            <!--YesNo1-->
+            <div class="YesNo1">
+                <div class="form-group">
+                    <div class="col-md-6">
+                        @Helpers.LabelSpan(Model, "C1_ExtraDoc1_item", new { @class = "control-label" })
+                    </div>
+                    @Helpers.YesNoRadioButtons(Model, "C1_ExtraDoc1")
+                </div>
+            </div>
+
+            <!-- Additional Doc 2-->
+            <div class="AdditionalDoc2">
+                <div class="form-group">
+                    <div class="col-md-6">
+                        @Helpers.LabelSpan(Model, "C1_ConsentAttach2_item")
+                    </div>
+                    @Helpers.FileUpload(Model, "C1_ConsentAttach2")
+                </div>
+                <div class="form-group">
+                    <div class="col-md-6">
+                        @Helpers.LabelSpan(Model, "C1_ConsentAttach2Title_item", new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-5">
+                        @Helpers.TextInput(Model, "C1_ConsentAttach2Title", new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+            <!--YesNo2-->
+            <div class="YesNo2">
+                <div class="form-group">
+                    <div class="col-md-6">
+                        @Helpers.LabelSpan(Model, "C1ExtraDoc2_item", new { @class = "control-label" })
+                    </div>
+                    @Helpers.YesNoRadioButtons(Model, "C1ExtraDoc2")
+                </div>
+            </div>
+
+            <!-- Additional Doc 3-->
+            <div class="AdditionalDoc3">
+                <div class="form-group">
+                    <div class="col-md-6">
+                        @Helpers.LabelSpan(Model, "C1_ConsentAttach3_item")
+                    </div>
+                    @Helpers.FileUpload(Model, "C1_ConsentAttach3")
+                </div>
+                <div class="form-group">
+                    <div class="col-md-6">
+                        @Helpers.LabelSpan(Model, "C1_ConsentAttach3Title_item", new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-5">
+                        @Helpers.TextInput(Model, "C1_ConsentAttach3Title", new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+            <!--YesNo3-->
+            <div class="YesNo3">
+                <div class="form-group">
+                    <div class="col-md-6">
+                        @Helpers.LabelSpan(Model, "C1_ExtraDoc2_item", new { @class = "control-label" })
+                    </div>
+                    @Helpers.YesNoRadioButtons(Model, "C1_ExtraDoc2")
+                </div>
+            </div>
+
+            <!-- Additional Doc 4-->
+            <div class="AdditionalDoc4">
+                <div class="form-group">
+                    <div class="col-md-6">
+                        @Helpers.LabelSpan(Model, "C1_ConsentAttach4_item")
+                    </div>
+                    @Helpers.FileUpload(Model, "C1_ConsentAttach4")
+                </div>
+                <div class="form-group">
+                    <div class="col-md-6">
+                        @Helpers.LabelSpan(Model, "C1_ConsentAttach4Title_item", new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-5">
+                        @Helpers.TextInput(Model, "C1_ConsentAttach4Title", new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+            <!--YesNo4-->
+            <div class="YesNo4">
+                <div class="form-group">
+                    <div class="col-md-6">
+                        @Helpers.LabelSpan(Model, "C1ExtraDoc3_item", new { @class = "control-label" })
+                    </div>
+                    @Helpers.YesNoRadioButtons(Model, "C1ExtraDoc3")
+                </div>
+            </div>
+            <!-- Additional Doc 5-->
+            <div class="AdditionalDoc5">
+                <div class="form-group">
+                    <div class="col-md-6">
+                        @Helpers.LabelSpan(Model, "C1_ConsentAttach5_item")
+                    </div>
+                    @Helpers.FileUpload(Model, "C1_ConsentAttach5")
+                </div>
+                <div class="form-group">
+                    <div class="col-md-6">
+                        @Helpers.LabelSpan(Model, "C1_ConsentAttach5Title_item", new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-5">
+                        @Helpers.TextInput(Model, "C1_ConsentAttach5Title", new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+
+            <script type="text/javascript">
+                $(function () {
+
+                    function ShowOrHideAdditionalDocuments() {
+
+                        if ($("#C1_ExtraDoc1_YesOption").prop("checked") === true) {
+                            // show section
+                            $(".AdditionalDoc2").show();
+                            $(".YesNo1").hide();
+                            $(".YesNo2").show();
+                        }
+                        if ($("#C1ExtraDoc2_YesOption").prop("checked") === true) {
+                            // show section
+                            $(".AdditionalDoc3").show();
+                            $(".YesNo2").hide();
+                            $(".YesNo3").show();
+                        }
+                        if ($("#C1_ExtraDoc2_YesOption").prop("checked") === true) {
+                            // show section
+                            $(".AdditionalDoc4").show();
+                            $(".YesNo3").hide();
+                            $(".YesNo4").show();
+                        }
+                        if ($("#C1ExtraDoc3_YesOption").prop("checked") === true) {
+                            // show section
+                            $(".AdditionalDoc5").show();
+                            $(".YesNo4").hide();
+                        }
+                    }
+
+                    $(".AdditionalDoc1").show();
+                    $(".YesNo1").show();
+                    $(".AdditionalDoc2").hide();
+                    $(".YesNo2").hide();
+                    $(".AdditionalDoc3").hide();
+                    $(".YesNo3").hide();
+                    $(".AdditionalDoc4").hide();
+                    $(".YesNo4").hide();
+                    $(".AdditionalDoc5").hide();
+                    ShowOrHideAdditionalDocuments();
+
+                    $("#C1_ExtraDoc1_YesOption").change(function (e) {
+                        ShowOrHideAdditionalDocuments();
+                    });
+                    $("#C1_ExtraDoc1_NoOption").change(function (e) {
+                        ShowOrHideAdditionalDocuments();
+                    });
+
+                    $("#C1ExtraDoc2_YesOption").change(function (e) {
+                        ShowOrHideAdditionalDocuments();
+                    });
+                    $("#C1ExtraDoc2_NoOption").change(function (e) {
+                        ShowOrHideAdditionalDocuments();
+                    });
+
+                    $("#C1_ExtraDoc2_YesOption").change(function (e) {
+                        ShowOrHideAdditionalDocuments();
+                    });
+                    $("#C1_ExtraDoc2_NoOption").change(function (e) {
+                        ShowOrHideAdditionalDocuments();
+                    });
+
+                    $("#C1ExtraDoc3_YesOption").change(function (e) {
+                        ShowOrHideAdditionalDocuments();
+                    });
+                    $("#C1ExtraDoc3_NoOption").change(function (e) {
+                        ShowOrHideAdditionalDocuments();
+                    });
+                });
+            </script>
+            @*<div class="form-group">
+                <div class="col-md-6">
+                    @Helpers.LabelSpan(Model, "C1_GenComment_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-5">
+                    @Helpers.TextInput(Model, "C1_GenComment", new { @class = "form-control" })
+                </div>
+            </div>*@
+            <div class="form-group">
+                <div class="col-md-6">
+                    @Helpers.LabelSpan(Model, "C1_GenComment_item", new { @class = "control-label" })
+                </div>
+                @*<label for="C1_GenComment_item"></label>*@
+                <div class="col-md-5">
+                    @Helpers.TextAreaInput(Model, "C1_GenComment", new { @class = "form-control" })
+
+                    @*@Helpers.TextInput(Model, "C1_GenComment", new { @class = "form-control" })*@
+
+                    @*<textarea class="form-control" rows="5" id="C1_GenComment" name="C1_GenComment"></textarea>*@
+                    @*<textarea class="form-control" rows="5" id="C1_GenComment"></textarea>*@
+                    @*@Helpers.TextInput(Model, "C1_ConsentAttach5Title", new { @class = "form-control" })*@
+                </div>
+            </div>
+
+        </div>
+</div>
+
+@section AfterForm{
+    <form id="frmUploadForm" class="uploadForm" action="/AdapCa/UploadFile" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="formResultId" value="@(Model.formResultId)" />
+        &nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;<input type="submit" id="btnFileSubmit" value="Upload" hidden="hidden" />
+    </form>
+}

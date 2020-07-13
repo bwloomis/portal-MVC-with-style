@@ -1,0 +1,93 @@
+@model Assmnts.Models.TemplateFormParts
+@{
+    ViewBag.Title = "Parts List";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+@section HeadContent {
+@*<style>
+    .left_border {
+        border-left: double;
+        border-left-color: black;
+    }
+
+    .right_border {
+        border-right: double;
+        border-right-color: black;
+    }
+</style>*@
+    <script>
+        //function downloadTemplate(href) {
+        //    $.ajax({
+        //        type: "GET",
+        //        url: "/Export/getViewTemplate",
+        //        data: { "templatePath": href },
+        //        success: function (data) {
+        //            //alert("SUCCESS: " + data);
+        //            document.getElementById('msg').innerHTML = data;
+        //        },
+        //        error: function (xhr, ajaxOptions, thrownError) {
+        //            //alert("ERROR: " + thrownError);
+        //            document.getElementById('msg').innerHTML = "download template error:  " + thrownError + "</br>";
+        //        },
+        //        complete: function (data) {
+        //            //alert("COMPLETE: " + data);
+        //        }
+        //    });
+        //}
+        $(document).ready(function () {
+            @*postdata = {
+                "sIden":"@Model.nextScreenTitle"
+            }*@
+
+            $('#dtFormParts').dataTable({
+                //"columnDefs": [
+                //    { targets: [6], className: "cell-border" },
+                //    { targets: [7], className: "cell-border" },
+                //],
+                "processing": true,
+                "serverSide": true,
+                "ajax": {
+                    url: "/Templates/DataTableFormParts",
+                    //data: postdata,
+                    type: "POST"
+                },
+                "ordering": false,
+                "dom": 'lriptip',
+            });
+        });
+    </script>
+}
+
+<input type="button" class="return btn btn-primary" value="Return to Forms" onclick="window.location='Index'" />
+<h2>Parts for Form: <span class="text-primary">@Model.thisScreenTitle</span></h2>
+
+<div class="col-sm-2">
+    <input type="button" class="btn btn-success" value="Add New Part" style="width:100%" onclick="window.location='FormPartEdit'" />
+</div>
+@*<div class="col-sm-2">
+    <input type="button" class="btn btn-success" value="Add New Part" style="width:100%" onclick="window.location='PartEdit'" />
+</div>*@
+<br /> <br />
+<table id="dtFormParts" class="table table-bordered table-striped datatable" cellpadding="0" cellspacing="0" border="0">
+    <thead>
+        <tr>
+            <th>Form Part Id</th>
+            <th>Part Id</th>
+            <th>Part Identifier</th>
+            <th>Part Title</th>
+            <th>Order</th>
+            <th>Edit</th>
+            <th>View</th>
+        </tr>
+        @*<tr hidden="hidden">
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>*@
+    </thead>
+</table>
+	<!-- End of Section List -->

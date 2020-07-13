@@ -1,0 +1,430 @@
+﻿@using Assmnts;
+@using Assmnts.Models;
+@using Data.Abstract;
+@using System.Linq;
+@using Assmnts.UasServiceRef;
+@using Assmnts.Infrastructure;
+
+@functions {
+	public static System.Web.Mvc.HtmlHelper<object> HHtml = ((System.Web.Mvc.WebViewPage)WebPageContext.Current.Page).Html;
+	private const string PREVIOUS_PREFIX = "PREVIOUS_";
+
+	private static string GetBaseIdentifier(string ivIdentifier) {
+		if (String.IsNullOrWhiteSpace(ivIdentifier)) {
+			return ivIdentifier;
+		}
+		return (ivIdentifier.Length >= @PREVIOUS_PREFIX.Length && ivIdentifier.Substring(0, @PREVIOUS_PREFIX.Length) == @PREVIOUS_PREFIX)
+			? ivIdentifier.Substring(@PREVIOUS_PREFIX.Length, ivIdentifier.Length - @PREVIOUS_PREFIX.Length) : ivIdentifier;
+	}
+}
+
+@helper Label(TemplateItems model, string itemIdentifier, object extraAttributes = null)
+{
+bool required = model.fldRequired.ContainsKey(itemIdentifier) && model.fldRequired[itemIdentifier];
+if (!model.fldLabels.ContainsKey(itemIdentifier))
+{
+    throw new Exception("unrecognized field identifier \"" + itemIdentifier + "\"");
+}
+    <Label @{object attributesToMerge = required ? new { @class = "required" } : null;}
+          @RenderAttributes(extraAttributes, attributesToMerge)>
+        @(model.fldLabels[itemIdentifier])
+    </Label>
+}
+
+
+@helper LabelSpan(TemplateItems model, string itemIdentifier, object extraAttributes = null) {
+bool required = model.fldRequired.ContainsKey(itemIdentifier) && model.fldRequired[itemIdentifier];
+if (!model.fldLabels.ContainsKey(itemIdentifier)) {
+	throw new Exception("unrecognized field identifier \"" + itemIdentifier + "\"");
+}
+	<span @{object attributesToMerge = required ? new { @class = "required" } : null;}
+				@RenderAttributes(extraAttributes, attributesToMerge)>
+		@(model.fldLabels[itemIdentifier])
+	</span>
+}
+
+@helper FileUpload(TemplateItems model, string itemVariableIdentifier) {
+string previousUploadPath = model.rspValues[itemVariableIdentifier];
+bool recoveryError = false;
+string previousUploadShortName = null;
+bool showDownloadButton = false;
+if (previousUploadPath != null && previousUploadPath.Trim().Length > 0) {
+	if (File.Exists(previousUploadPath)) {
+		showDownloadButton = true;
+		previousUploadShortName = Path.GetFileName(previousUploadPath);
+	}
+	else {
+		recoveryError = true;
+	}
+}
+	<div class="col-md-5" id="div_@itemVariableIdentifier" @(showDownloadButton ? "style=display:none" : "")>
+		<input type="file" class="file" id="@itemVariableIdentifier" name="@itemVariableIdentifier"
+					 data-show-preview="false"
+					 data-show-upload="false">
+	</div>
+if (recoveryError) {
+		<input type="text" class="form-control" readonly value="There was an error recovering your previous upload" />
+}
+if (showDownloadButton) {
+		<div class="btn-group" id="@(itemVariableIdentifier)_group">
+			<button type="button" id="@(itemVariableIdentifier)_delete" class="btn btn-danger" name="@(itemVariableIdentifier)_delete">Delete "@(previousUploadShortName)"</button>
+			<button type="button" id="@(itemVariableIdentifier)_download" class="btn btn-primary" name="@(itemVariableIdentifier)_download">Download "@(previousUploadShortName)"</button>
+		</div>
+				<script>
+					$('#@(itemVariableIdentifier)_delete').off('click').on('click', function () {
+						if( confirm( 'Are you sure you want to delete your previous upload "@previousUploadShortName"?')){
+							$('#div_@itemVariableIdentifier').show();
+							$('#@(itemVariableIdentifier)_group').hide();
+							$('#div_@itemVariableIdentifier').prepend( '<input hidden name="DELETE_RESPONSE_FROM_DB_@(itemVariableIdentifier)" />')
+						}
+					});
+
+					$('#@(itemVariableIdentifier)_download').click(function () {
+						window.location.href = '../COADAP/DownloadAttachment?ivIdent=@itemVariableIdentifier&formResultId=@model.formResultId';
+					});
+				</script>
+}
+}
+
+@*
+	explaination for parameter "html":
+	http://stackoverflow.com/questions/5282655/why-is-the-htmlhelper-instance-null-in-a-razor-declarative-helper-method/5283244#5283244
+*@
+@helper RadioList(TemplateItems model, System.Web.Mvc.HtmlHelper html, string itemIdent, string itemVariableIdent, object labelAttr = null, object radioLabelAttr = null, int labelColMd = 9, int colMdPerRadio = 4, bool defaultToLastOption = false) {
+	<div class="col-md-@labelColMd">
+		@LabelSpan(model, itemIdent, labelAttr)
+	</div>
+if (!model.itmPrompts.ContainsKey(itemIdent) || model.itmPrompts[itemIdent] == null) {
+    throw new Exception("could not find prompt for item with identifier \"" + itemIdent + "\"");
+}
+string[] optionText = model.itmPrompts[itemIdent].Split(';');
+int selectedIndex = -1;
+Int32.TryParse(model.rspValues[itemVariableIdent], out selectedIndex);
+
+string classRadio = "class_" + itemVariableIdent;
+
+//iterate through the options contained in the item prompt
+for (int i = 1; i <= optionText.Length; i++) {
+    //check for "special" content surrounded by curly braces
+    string text = optionText[i - 1];
+    string special = null;
+    if (text.Contains("{")) {
+        int j = text.IndexOf("{");
+        special = text.Substring(j + 1);
+        text = text.Substring(0, j);
+    }
+    string idRadio = itemVariableIdent + i;
+    bool selectedOption = false;
+    if (i == selectedIndex || (i == optionText.Length && selectedIndex == -1 && defaultToLastOption)) {
+            selectedOption = true;
+    }
+    //append html for the radio button corresponding to this option
+    <div class="col-md-@colMdPerRadio">
+		<div class="radio radio-inline">
+			<input type="radio" class="@classRadio" name="@itemVariableIdent" style="margin-left:1px" id="@idRadio" value="@i" @(selectedOption ? " checked" : "")>
+			<label for="@idRadio" @RenderAttributes(radioLabelAttr)><span></span>@html.Raw(text)</label><br>
+
+
+            @if (special != null) {
+            //handle special content
+            if (special.EndsWith("}")) {
+                special = special.Substring(0, special.Length - 1);
+            }
+            string[] parts = special.Split(':');
+            switch (parts[0]) {
+                case "textinput":
+                    string iv = parts[1];
+                    string classTogglee = "togglee_" + iv;
+                    string fctUpdate = "update_" + iv;
+
+                        //add a text area
+                        <textarea cols="35" wrap="soft" rows="4" class="@classTogglee" name="@iv">@model.rspValues[iv]</textarea>
+							<br class="@classTogglee" />
+
+						//add javasript to make the text area visible only when the radio button is checked
+						<script>
+							$(document).ready(function(){
+								@(fctUpdate)();
+								$(".@classRadio").change(@fctUpdate);
+            function @(fctUpdate)() {
+                if ($("#@idRadio").prop("checked"))
+										$(".@classTogglee").show();
+									else
+										$(".@classTogglee").hide();
+            }
+        })
+						</script>
+
+						break;
+
+					default:
+						throw new Exception("unrecognized key \"" + parts[0] +
+								"\" (only \"textinput:[itemVariableIdentifier]\" supported)");
+    }
+}
+		</div>
+	</div>
+}
+}
+
+
+@helper DropDownList(TemplateItems model, string itemIdent, string itemVariableIdent, bool getLookupValues = false) {
+    string prompt = model.itmPrompts[itemIdent];
+    bool hasOptionsInPrompt = !String.IsNullOrWhiteSpace(prompt);
+    string[] optionText = hasOptionsInPrompt ? prompt.Split(';') : null;
+    string selectedValue = "-1";
+    if (model.rspValues.ContainsKey(itemVariableIdent)) {
+        selectedValue = model.rspValues[itemVariableIdent];
+    }
+    def_LookupMaster master = null;
+    if (getLookupValues && !hasOptionsInPrompt) {
+        var formsRepository = System.Web.Mvc.DependencyResolver.Current.GetService(typeof(IFormsRepository)) as IFormsRepository;
+        if (formsRepository == null) {
+            throw new InvalidOperationException("Failed to get IFormsRepository service from DependencyResolver.");
+        }
+        master = formsRepository.GetLookup(itemVariableIdent);
+    }
+
+    <select class="form-control" name="@itemVariableIdent" id="@itemVariableIdent">
+        @*This repeats the field label ex. "What is your name?" as the first option in drop list*@
+        @if (!String.IsNullOrWhiteSpace(model.fldLabels[itemIdent])) {
+            <option value="" @((!hasOptionsInPrompt && selectedValue == "-1") ? "selected=selected" : "")>Select One</option>
+        }
+        @*If options are in prompt field split by semicolon and use them*@
+        @if (String.IsNullOrWhiteSpace(model.fldLabels[itemIdent]) && hasOptionsInPrompt) {
+            for (int i = 1; i <= optionText.Length; i++) {
+                <option value="@i" @(i.ToString() == selectedValue ? "selected=selected" : "")>Select One</option>
+            }
+        }
+        @*If master not null render options*@
+        @if (master != null && master.def_LookupDetail != null) {
+            foreach (def_LookupDetail option in master.def_LookupDetail) {
+                var lookupText = option.def_LookupText.FirstOrDefault();
+                if (lookupText != null) {
+                    <option value="@option.dataValue" @(option.dataValue == selectedValue ? "selected=selected" : "")>@lookupText.displayText</option>
+                }
+            }
+        }
+    </select>
+}
+
+@helper GroupsDropDownList(TemplateItems model, string itemIdent, string itemVariableIdent, int groupTypeId)
+{
+string prompt = model.itmPrompts[itemIdent];
+string selectedValue = "-1";
+if (model.rspValues.ContainsKey(itemVariableIdent))
+{
+    selectedValue = model.rspValues[itemVariableIdent];
+}
+List<Group> groups = null;
+var authClient = System.Web.Mvc.DependencyResolver.Current.GetService(typeof(IAuthentication)) as IAuthentication;
+if (authClient == null)
+{
+    throw new InvalidOperationException("Failed to get IAuthentication service from DependencyResolver.");
+}
+
+int groupid;
+bool hasNumber = Int32.TryParse(selectedValue, out groupid);
+
+if (hasNumber && groupid != -1)
+{
+    groups = authClient.GetActiveGroupsByGroupTypeIDIncludingSelectedInactive(groupTypeId, groupid)
+    .OrderBy(x => x.GroupDescription)
+    .ThenBy(x => x.GroupName)
+    .ToList();
+}
+else
+{
+
+    groups = authClient.GetActiveGroupsByGroupTypeID(groupTypeId)
+.OrderBy(x => x.GroupDescription)
+.ThenBy(x => x.GroupName)
+.ToList();
+}
+
+    <select class="form-control" name="@itemVariableIdent" id="@itemVariableIdent">
+        @*This repeats the field label ex. "What is your name?" as the first option in drop list*@
+        @if (!String.IsNullOrWhiteSpace(model.fldLabels[itemIdent]))
+        {
+
+            <option value="" @((selectedValue == "-1") ? "selected=selected" : "")>Select One</option>
+        }
+        @if (groups != null)
+        {
+            foreach (Group group in groups)
+            {
+                var groupDisplayText = String.Format("{0} ({1})", group.GroupDescription, group.GroupName);
+                if (groupDisplayText.Length > Constants.GROUP_DESCRIPTION_MAX_LENGTH_FOR_DROP_DOWN_LIST_DISPLAY)
+                {
+                    groupDisplayText = String.Format("{0}...({1})", group.GroupDescription.Substring(0, Math.Min(group.GroupDescription.Length, Constants.GROUP_DESCRIPTION_MAX_LENGTH_FOR_DROP_DOWN_LIST_DISPLAY - 9)), group.GroupName);
+                }
+                if (!String.IsNullOrWhiteSpace(groupDisplayText))
+                {
+                    <option value="@group.GroupID" @(group.GroupID.ToString().Equals(selectedValue, StringComparison.OrdinalIgnoreCase) ? "selected=selected" : "")>@groupDisplayText</option>
+
+                }
+            }
+        }
+    </select>
+}
+
+@helper DebugTable(TemplateItems model) {
+	<table>
+
+		<tr><td colspan="2" style="text-align: center">fldLabels</td></tr>
+
+		@foreach (string key in model.fldLabels.Keys) {
+			<tr><td>@key</td><td>@model.fldLabels[key]</td></tr>
+		}
+
+		<tr><td colspan="2" style="text-align: center">rspValues:</td></tr>
+
+		@foreach (string key in model.rspValues.Keys) {
+			<tr><td>@key</td><td>@model.rspValues[key]</td></tr>
+		}
+
+	</table>
+}
+
+
+@helper TextInput_SetNameOnChange(TemplateItems model, string rspvIdentifier, object extraAttributes = null) {
+try {
+	string htmlOut = "<input type='text' id='" + rspvIdentifier + "' onchange='this.name=this.id;' value='" + model.rspValues[rspvIdentifier] + "' " + RenderAttributes(extraAttributes) + @" />";
+		@HHtml.Raw(htmlOut);
+} catch (KeyNotFoundException) {
+	throw new Exception("the itemVariable Identifier \"" + rspvIdentifier + "\" could not be found");
+}
+}
+
+
+@helper TextInput(TemplateItems model, string rspvIdentifier, object extraAttributes = null) {
+try {
+	string baseRspvIdentifier = GetBaseIdentifier(rspvIdentifier);
+   // string value = model.rspValues[rspvIdentifier];
+    string value =Newtonsoft.Json.JsonConvert.SerializeObject(model.rspValues[rspvIdentifier]);
+    //string value = model.rspValues[rspvIdentifier] == null ? "" : model.rspValues[rspvIdentifier];
+	string itemIdentifier = baseRspvIdentifier + "_item";
+	bool required = model.fldRequired.ContainsKey(itemIdentifier) && model.fldRequired[itemIdentifier];
+	string htmlOut = "<input type='text'" +
+			(required ? "required" : "") +
+			" name='" + rspvIdentifier + "'" +
+			" id='" + rspvIdentifier + "'" +
+			//" value='" + model.rspValues[rspvIdentifier] + "' " +                
+			//RenderAttributes(extraAttributes) + @" />";
+            
+            RenderAttributes(extraAttributes) +
+           " value=" + value + " " + @" >";
+		@HHtml.Raw(htmlOut);
+} catch (KeyNotFoundException) {
+	throw new Exception("the itemVariable Identifier \"" + rspvIdentifier + "\" could not be found");
+}
+
+}
+
+@helper TextAreaInput(TemplateItems model, string rspvIdentifier, object extraAttributes = null)
+{
+    try
+    {
+        string baseRspvIdentifier = GetBaseIdentifier(rspvIdentifier);
+        string value = model.rspValues[rspvIdentifier];
+        //string value = model.rspValues[rspvIdentifier] == null ? "" : model.rspValues[rspvIdentifier];
+        string itemIdentifier = baseRspvIdentifier + "_item";
+        bool required = model.fldRequired.ContainsKey(itemIdentifier) && model.fldRequired[itemIdentifier];
+        string htmlOut = "<textarea rows='3' cols='3' " +
+                (required ? "required" : "") +
+                " name='" + rspvIdentifier + "'" +
+                " id='" + rspvIdentifier + "'" +
+            //" value='" + model.rspValues[rspvIdentifier] + "' " +
+            //RenderAttributes(extraAttributes) + @" />";
+
+                RenderAttributes(extraAttributes) + ">" + value;
+        @HHtml.Raw(htmlOut);
+        @HHtml.Raw("</textarea>");
+    }
+    catch (KeyNotFoundException)
+    {
+        throw new Exception("the itemVariable Identifier \"" + rspvIdentifier + "\" could not be found");
+    }
+
+}
+
+
+@helper LabeledCheckboxInput(TemplateItems model, string ivIdentifier, object htmlAttributes = null) {
+string baseIvIdentifier = GetBaseIdentifier(ivIdentifier);
+string itemIdentifier = baseIvIdentifier + "_item";
+if (!model.fldLabels.ContainsKey(itemIdentifier)) {
+    throw new Exception("model.fldLabels does not contain key \"" + itemIdentifier + "\"");
+}
+	@LabeledCheckboxInput(model, ivIdentifier, model.fldLabels[itemIdentifier], htmlAttributes);
+
+
+}
+
+@helper LabeledCheckboxInput(TemplateItems model, string ivIdentifier, string label, object htmlAttributes = null) {
+	<input type='checkbox' value='1'
+				 @{string rspv = model.rspValues[ivIdentifier].ToLower();}
+				 @if (rspv != null && !rspv.Trim().IsEmpty() && !rspv.Equals("false") && !rspv.Equals("0")) { @: checked='@rspv'
+				 						             }
+				 name='@ivIdentifier'
+				 id='@ivIdentifier'
+				 @RenderAttributes(htmlAttributes) />
+						<label for='@ivIdentifier'><span></span>@label</label>
+}
+
+@helper RenderAttributes(object htmlAttributes, object attributesToMerge = null) {
+//convert objects to dictionaries
+System.Web.Routing.RouteValueDictionary dict =
+		htmlAttributes == null ? new System.Web.Routing.RouteValueDictionary() :
+		HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes);
+System.Web.Routing.RouteValueDictionary merge =
+		attributesToMerge == null ? new System.Web.Routing.RouteValueDictionary() :
+		HtmlHelper.AnonymousObjectToHtmlAttributes(attributesToMerge);
+
+//merge attributes
+foreach (string key in merge.Keys) {
+	if (dict.ContainsKey(key)) {
+		dict[key] += " " + merge[key];
+	}
+	else {
+		dict[key] = merge[key];
+	}
+}
+
+//render
+foreach (string key in dict.Keys) {
+		@:@key="@dict[key]"
+    }
+}
+
+@helper YesNoRadioButtons(TemplateItems model, string rspvIdentifier, bool defaultToNo = true) {
+string rspv = model.rspValues[rspvIdentifier];
+bool yes = false;
+bool no = false;
+if (rspv != null) {
+	yes = rspv == "true" || rspv == "1";
+	no = rspv == "false" || rspv == "0";
+	if (!yes && !no && defaultToNo) {
+		no = true;
+	}
+}
+	<div class="col-md-1">
+		<div class="radio radio-inline">
+			@if (!defaultToNo) {
+				<input type="radio" hidden id="@(rspvIdentifier)_UnansweredOption" value="unanswered" name="@rspvIdentifier" @(!yes && !no ? "checked" : "")>
+			}
+			<input type="radio" id="@(rspvIdentifier)_YesOption" value="1" name="@rspvIdentifier" @(yes ? "checked" : "")>
+			<label>@Resources.SimpleText.Yes</label>
+		</div>
+	</div>
+			<div class="col-md-1">
+				<div class="radio radio-inline">
+					<input type="radio" id="@(rspvIdentifier)_NoOption" value="0" name="@rspvIdentifier" @(no ? "checked" : "")>
+					<label>@Resources.SimpleText.No</label>
+				</div>
+			</div>
+}
+
+@helper ToolTipFromItemPrompt(TemplateItems model, string identifier, object htmlAttributes = null)
+{ 
+    <span data-toggle="tooltip" data-placement="top" data-original-title="@model.itmPrompts[identifier]" aria-hidden="true" @RenderAttributes(htmlAttributes)></span>
+    }

@@ -1,0 +1,169 @@
+﻿@using UAS.Business;
+@using Data.Concrete;
+@model dynamic
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+    <meta name="author" content="" />
+    <meta name="description" content="" />
+    <!--<link rel="shortcut icon" href="../../favicon.ico">-->
+
+    <title>ADAP Application</title>
+
+    <!--jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+    <!--global css -->
+    <link href="~/Content/adap/css/global.css" rel="stylesheet" type="text/css" />
+
+    <!-- custom bootstrap nav css -->
+    <link href="~/Content/adap/css/bootstrap.nav.custom.css" rel="stylesheet" type="text/css" />
+
+    <!-- sticky footer css -->
+    <link href="~/Content/adap/css/sticky-footer-navbar.css" rel="stylesheet" />
+
+    <!-- date picker -->
+    <script src="~/Content/adap/js/bootstrap-customdatepicker.js"></script>
+    <link href="~/Content/adap/css/bootstrap-datepicker3.css" rel="stylesheet" />
+
+    <!-- file upload -->
+    <script src="~/Content/adap/js/fileinput.min.js"></script>
+    <link href="~/Content/adap/css/fileinput.min.css" rel="stylesheet" />
+
+    <script>
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+
+            $('.input-group.date').datepicker({
+                autoclose: true,
+                format: 'mm/dd/yyyy'
+
+            });
+        });
+
+        function StatusRedirect(url, id) {
+            try {
+
+                $("#formResultId").val(id);
+
+                $("#applicationContext").attr('action', url);
+                $("#applicationContext").submit();
+            }
+            catch (ex) {
+
+            }
+        }
+    </script>
+
+    @RenderSection("AddToHead", required: false)
+</head>
+<body>
+    <form id="applicationContext" method="post">
+        <input type="hidden" id="formResultId" name="formResultId" />
+    </form>
+    <!-- Fixed navbar -->
+    <nav id="custom-bootstrap-menu" class="navbar navbar-default navbar-static-top" style="margin:0; border-bottom: 1px solid #d5d5d5">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="" class="logo pull-left"><img src="~/Content/adap/images/california.png" class="img-responsive" /></a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="/AdapCa/Index"><i class="glyphicon glyphicon-copy"></i> ADAP Application</a></li>
+                    @*$$$ Start - Added for Contractor readonly role - Disabling the Reports menu if Only the default ADAP Report is present for them*@
+
+                    @if (!UAS.Business.UAS_Business_Functions.hasPermission(PermissionConstants.ONLY_ADAP, PermissionConstants.ASSMNTS))
+                    {
+
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-list"></i> Reports <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><b>&nbsp;Applicants</b></li>
+                            <li><a href="/Adap/Report1">Applicant Reports</a></li>
+                            <li class="divider"></li>
+                            <li><a href="/AdapCa/ClientProfile">Applications Pending</a></li>
+                            <li class="divider"></li>
+
+                        </ul>
+                    </li>
+                    }
+
+                    @*$$$ End - Added for Contractor readonly role - Disabling the Reports menu if Only the default ADAP Report is present for them*@
+    
+                    @if (UAS.Business.UAS_Business_Functions.hasPermission(UAS.Business.PermissionConstants.APPROVE, UAS.Business.PermissionConstants.ASSMNTS))
+                    {
+                        <li>
+                            <a class="dropdown-toggle" data-toggle="dropdown" style="cursor:pointer" ;=;><i class="glyphicon glyphicon-cog"></i>Sites<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/AdapCa/Jurisdiction">Jurisdiction</a></li>
+                                <li class="divider"></li>
+                                <li><a href="/AdapCa/EnrollmentSite">Enrollment Sites</a></li>
+                            </ul>
+                        </li>
+                    }
+                    <li>
+                        <a href="/Account/SsoLogout"><i class="glyphicon glyphicon-off"></i> Return to Portal Menu</a>
+                    </li>
+                </ul>
+            </div><!--/.nav-collapse -->
+        </div>
+    </nav>
+
+
+    <!-- $$$ Start for Client Info Bar-->
+    @if (Model is Assmnts.Models.GeneralForm)
+    {
+        @Html.Partial("~/Views/CAAdap/_clientinfobar.cshtml")
+    }
+    <!-- $$$ End for Client Info Bar-->
+
+    <div class="container" style="padding-bottom:75px; padding-top:0px;">
+
+        <form class="form-horizontal" action="/Results/Save" method="post" id="form-id" enctype="multipart/form-data">
+
+            <input type="hidden" id="navPartId" name="navPartId" />
+            <input type="hidden" id="navSectionId" name="navSectionId" />
+            <input type="hidden" id="navRedirect" name="navRedirect" />
+            <input type="hidden" id="navSectionId" name="UseThisControllerForTemplate" value="COADAP" />
+
+            @RenderBody()
+
+            <hr class="hr-dark" />
+
+            <div id="ADAPFooter" class="col-md-12">
+
+                <button type="button" class="btn btn-danger btn-s class_prevornextscreen class_prevscreen">
+                    <span class="glyphicon glyphicon-arrow-left"></span> Previous Section
+                </button>
+                <button type="button" class="btn btn-danger btn-s pull-right class_prevornextscreen class_nextscreen" onclick="window.location.href='adap_app_medical_info.html'">
+                    Next Section <span class="glyphicon glyphicon-arrow-right"></span>
+                </button>
+                <button type="button" id="certify" class="btn btn-primary btn-s pull-right" disabled=disabled disabled=disabled disabled=disabled disabled=disabled disabled=disabled disabled=disabled disabled=disabled disabled=disabled style="margin-right:5px"><span class="glyphicon glyphicon-check"></span> Certify and Submit</button>
+                <button type="button" id="checkErrors" class="btn btn-primary btn-s pull-right" disabled=disabled disabled=disabled disabled=disabled disabled=disabled disabled=disabled disabled=disabled disabled=disabled disabled=disabled style="margin-right:5px"><span class="glyphicon glyphicon-question-sign"></span> Check for Errors</button>
+                <button type="button" id="btnsave" class="btn btn-primary btn-s pull-right class_submit" style="margin-right:5px"><span class="glyphicon glyphicon-floppy-open"></span> Save Application</button>
+            </div>
+
+            <input style="display:none" type="submit" value="Save" id="btnSubmit" />
+        </form>
+    </div>
+
+    @Html.Partial("~/Views/Templates/Adap/AdapFooter.cshtml")
+
+</body>
+</html>

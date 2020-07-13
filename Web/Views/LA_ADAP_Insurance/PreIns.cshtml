@@ -1,0 +1,112 @@
+﻿@model Assmnts.Models.GeneralForm
+@{
+    Layout = "LA_AdapPreInsLayout.cshtml";
+}
+
+@section AddtoHead{
+    <link rel="stylesheet" type="text/css" href="/Content/adap/css/ADAPForms.css" />
+    <script>
+        $(document).ready(function () {
+            $('.class_check').hide();
+            $('.class_cert').hide();
+
+            updatePolicyTypeOther();
+            $("#LA_ADAP_InsTypeOther").change(updatePolicyTypeOther);
+        });
+
+        function updatePolicyTypeOther() {
+            $(".togglePolicyOther").toggle($("#LA_ADAP_InsTypeOther").get(0).checked);
+        };
+    </script>
+}
+
+<div class="panel panel-default">
+    <div class="panel-body">
+
+        <div class="form-group row">
+            <label class="col-md-8 col-md-offset-1 control-label" style="text-align:left" for="">@Model.sctTitles["LA_ADAP_PreInsAsst"]</label>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-md-offset-2  col-md-2 ">
+                @Helpers.LabeledCheckboxInput(Model, "LA_ADAP_AsstHealthPrem")
+            </div>
+            <div class="col-md-3">
+                @Helpers.LabeledCheckboxInput(Model, "LA_ADAP_AsstHealthCopay")
+            </div>
+            <div class="col-md-3">
+                @Helpers.LabeledCheckboxInput(Model, "LA_ADAP_AsstDrugCopay")
+            </div>
+            <div class="col-md-offset-2 col-md-2">
+                @Helpers.LabeledCheckboxInput(Model, "LA_ADAP_AsstDentalPrem")
+            </div>
+            <div class="col-md-6">
+                @Helpers.LabeledCheckboxInput(Model, "LA_ADAP_AsstDentalCopay")
+            </div>
+            <div class="col-md-offset-2 col-md-2">
+                @Helpers.LabeledCheckboxInput(Model, "LA_ADAP_AsstVisionPrem")
+            </div>
+            <div class="col-md-7">
+                @Helpers.LabeledCheckboxInput(Model, "LA_ADAP_AsstVisionCopay")
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-body" style="background-color:#f8f8f8">
+
+        <div class="form-group row">
+            <label class="col-md-8 col-md-offset-1  control-label" style="text-align:left" for="">@Model.sctTitles["LA_ADAP_PreInsType"]</label>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-md-offset-1 col-md-3">
+                @Helpers.LabeledCheckboxInput(Model, "LA_ADAP_InsTypeMrkt")
+            </div>
+            <div class="col-md-3">
+                @Helpers.LabeledCheckboxInput(Model, "LA_ADAP_InsTypeIndvidual")
+            </div>
+            <div class="col-md-3">
+                @Helpers.LabeledCheckboxInput(Model, "LA_ADAP_InsTypeGroup")
+            </div>
+            <div class="col-md-2">
+                @Helpers.LabeledCheckboxInput(Model, "LA_ADAP_InsTypeCOBRA")
+            </div>
+            <div class="col-md-offset-1 col-md-3">
+                @Helpers.LabeledCheckboxInput(Model, "LA_ADAP_InsTypeDental")
+            </div>
+            <div class="col-md-2">
+                @Helpers.LabeledCheckboxInput(Model, "LA_ADAP_InsTypeVision")
+            </div>
+            <div class="col-md-3">
+                @Helpers.LabeledCheckboxInput(Model, "LA_ADAP_InsTypeMedA")
+            </div>
+            <div class="col-md-3">
+                @Helpers.LabeledCheckboxInput(Model, "LA_ADAP_InsTypeMedB")
+            </div>
+            <div class="col-md-offset-1 col-md-3">
+                @Helpers.LabeledCheckboxInput(Model, "LA_ADAP_InsTypeMedC")
+            </div>
+            <div class="col-md-2">
+                @Helpers.LabeledCheckboxInput(Model, "LA_ADAP_InsTypeMedD")
+            </div>
+            <div class="col-md-3">
+                @Helpers.LabeledCheckboxInput(Model, "LA_ADAP_InsTypeMedSup")
+            </div>
+            <div class="col-md-3">
+                @Helpers.LabeledCheckboxInput(Model, "LA_ADAP_InsTypeRetire")
+            </div>
+            <div class="col-md-offset-1 col-md-5">
+                @Helpers.LabeledCheckboxInput(Model, "LA_ADAP_InsTypePublic")
+            </div>
+            <div class="col-md-3">
+                @Helpers.LabeledCheckboxInput(Model, "LA_ADAP_InsTypeOther")
+            </div>
+            <div class="togglePolicyOther col-md-offset-1 col-md-10">
+                @Helpers.TextInput(Model, "LA_ADAP_InsTypeOtherSpec", new { @class = "form-control" })
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,61 @@
+﻿<!-- Comments Modal -->
+<!-- parameter is the full 'amt' -->
+
+@{
+    // Get the Comment text for this screen
+    string cmmntHtml = "";
+    bool cmmntExists = Model.rspValues.TryGetValue("ADAP_Application_Comments_txt", out cmmntHtml);
+    if (!cmmntExists)
+    { 
+        cmmntHtml = "";
+    }
+}
+
+<style>
+    .modal-backdrop {background: none;}
+</style>
+
+<script>
+    //when the user cliks a subsection's comments button, 
+    //automatically append the subsection label to the comments text
+    $(document).ready(function () {
+        $('[data-target=#CmntModal]').click(function () {
+            var label = $(this).attr('data-label');
+            if (label) {
+                $('#txtComments').val(function (_, val) {
+                    return val + '\n' + label + '\n\t';
+                });
+            }
+        });
+    });
+</script>
+
+<div class="modal fade" id="CmntModal" tabindex="-1" role="dialog" aria-labelledby="CmntModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="CmntModalLabel">
+                    <b><span id="Title">Comments</span></b>
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <textarea id="txtComments" name="ADAP_Application_Comments_txt" style="min-height: 15em; height: 100%; width: 100%">@cmmntHtml</textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CmntModal"><span class="glyphicon glyphicon-remove"></span></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+		// set focus when modal is opened
+		$('#CmntModal').on('shown.bs.modal', function () {
+			$("#txtComments").focus();
+		});
+    });
+</script>

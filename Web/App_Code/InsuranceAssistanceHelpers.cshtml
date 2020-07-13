@@ -1,0 +1,735 @@
+﻿@using Assmnts.Models;
+
+<!-- RegEx for matching data identifier (not previous, not _item) "(C1_[A-Za-z0-9]+)" use the quotes,
+    replace with "PREVIOUS_$1" use the quotes -->
+<!--IA1: Request for Insurance Assistance-->
+@helper PreviousIA1(GeneralForm Model, System.Web.Mvc.HtmlHelper Html) {
+    <div class="panel panel-default previous-response" id="PreviousIA1">
+        <!-- BEGIN PASTE -->
+        <div class="panel-body">
+            <div class="pull-right prevAppBtn"><button data-prevdiv="PreviousIA1" class="btn" type="button"></button></div>
+            <div class="pull-right"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CmntModal" data-label="I1. @Model.sctTitles["CA-ADAP-InsAssist-1_sub"]"><span class="glyphicon glyphicon-comment"></span></button></div>
+            <div class="form-group">
+                @Helpers.RadioList(Model, @Html, "C1_MemberRequestsHIPP3_item", "PREVIOUS_C1_MemberRequestsHIPP3", labelAttr: new { style = "font-weight:bold" }, labelColMd: 10, colMdPerRadio: 12)
+            </div>
+            <div class="hipp">
+                <hr />
+                <div class="form-group">
+                    <div class="col-md-9">
+                        @Helpers.LabelSpan(Model, "C1_MemberHIPPEnrollPgm_item", new { @class = "control-label" })
+                    </div>
+                </div>
+                <div class="form-group" style="margin-left:25px">
+
+                    <div class="checkbox checkbox-info">
+                        @Helpers.LabeledCheckboxInput(Model, "PREVIOUS_C1_MemberHIPPEnrollPgm1")
+                    </div>
+
+                    <div class="checkbox checkbox-info">
+                        @Helpers.LabeledCheckboxInput(Model, "PREVIOUS_C1_MemberHIPPEnrollPgm2")
+                    </div>
+
+                    <div class="checkbox checkbox-info">
+                        @Helpers.LabeledCheckboxInput(Model, "PREVIOUS_C1_MemberHIPPEnrollPgm3")
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END PASTE -->
+    </div>
+}
+
+<!--IA2: Covered California and private medical insurance-->
+@helper PreviousIA2(GeneralForm Model) {
+    <div class="panel panel-default previous-response hipp medical" id="PreviousIA2">
+        <!-- BEGIN PASTE -->
+        <div class="panel-body">
+            <div class="pull-right prevAppBtn"><button data-prevdiv="PreviousIA2" class="btn" type="button"></button></div>
+            <div class="pull-right"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CmntModal" data-label="I1. @Model.sctTitles["CA-ADAP-InsAssist-2_sub"]"><span class="glyphicon glyphicon-comment"></span></button></div>
+            <div class="hipp medical">
+                <div class="form-group">
+                    <div class="col-md-4">
+                        @Helpers.LabelSpan(Model, "C1_MemberMedicalPlanType_item", new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-4">
+                        @Helpers.DropDownList(Model, "C1_MemberMedicalPlanType_item", "PREVIOUS_C1_MemberMedicalPlanType", true)
+                    </div>
+                </div>
+            </div>
+            <div class="form-group hipp medical medical-plan-type-other">
+                <div class="col-md-4">
+                    @Helpers.LabelSpan(Model, "C1_MemberMedicalPlanOther_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-4">
+                    @Helpers.TextInput(Model, "PREVIOUS_C1_MemberMedicalPlanOther", new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="hipp medical-dental">
+                <hr />
+                <div class="form-group">
+                    <div class="col-md-4">
+                        @Helpers.LabelSpan(Model, "C1_MemberMedicalPlanCoverage_item", new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-4">
+                        @Helpers.DropDownList(Model, "C1_MemberMedicalPlanCoverage_item", "PREVIOUS_C1_MemberMedicalPlanCoverage", true)
+                    </div>
+                </div>
+            </div>
+            <div class="form-group hipp medical-dental plan-coverage-family">
+                <div class="col-md-6">
+                    @Helpers.LabelSpan(Model, "C1_MemberMedicalPlanCoverageDoc_item", new { @class = "control-label" })
+                </div>
+                @Helpers.FileUpload(Model, "PREVIOUS_C1_MemberMedicalPlanCoverageDoc")
+            </div>
+            <!-- Only Show for Covered CA-->
+            <div class="hipp medical medical-plan-type-covered-ca">
+                <div class="form-group">
+                    <div class="col-md-6">
+                        @Helpers.LabelSpan(Model, "C1_CoveredCAMedicalPlanType_item", new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-4">
+                        @Helpers.DropDownList(Model, "C1_CoveredCAMedicalPlanType_item", "PREVIOUS_C1_CoveredCAMedicalPlanType", true)
+                    </div>
+                </div>
+                <hr />
+                <div class="form-group">
+                    <div class="col-md-6">
+                        @Helpers.LabelSpan(Model, "C1_CoveredCAMedicalPayee_item", new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-4">
+                        @Helpers.TextInput(Model, "PREVIOUS_C1_CoveredCAMedicalPayee", new { @class = "form-control" })
+                    </div>
+                </div>
+                <hr />
+                <div class="form-group">
+                    <div class="col-md-6">
+                        @Helpers.LabelSpan(Model, "C1_CoveredCAAPTCAmount_item", new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-2">
+                        @Helpers.TextInput(Model, "PREVIOUS_C1_CoveredCAAPTCAmount", new { @class = "form-control" })
+                    </div>
+                </div>
+                <hr />
+                <div class="form-group">
+                    <div class="col-md-6">
+                        @Helpers.LabelSpan(Model, "C1_CoveredCAAPTCAmountDoc_item", new { @class = "control-label" })
+                    </div>
+                    @Helpers.FileUpload(Model, "PREVIOUS_C1_CoveredCAAPTCAmountDoc")
+                </div>
+                <hr class="hipp medical medical-plan-type-covered-ca" />
+                <div class="form-group">
+                    <div class="col-md-7">
+                        @Helpers.LabelSpan(Model, "C1_CoveredCAPremiumBeforeAPTC_item", new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-4">
+                        @Helpers.TextInput(Model, "PREVIOUS_C1_CoveredCAPremiumBeforeAPTC", new { @class = "form-control" })
+                    </div>
+                </div>
+                <hr class"hipp medical medical-plan-type-covered-ca" />
+                <div class="form-group">
+                    <div class="col-md-7">
+                        @Helpers.LabelSpan(Model, "C1_CoveredCAPremiumAfterAPTC_item", new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-4">
+                        @Helpers.TextInput(Model, "PREVIOUS_C1_CoveredCAPremiumAfterAPTC", new { @class = "form-control" })
+                    </div>
+                </div>
+                <hr class="hipp medical medical-plan-type-covered-ca" />
+                <div class="form-group">
+                    <div class="col-md-4">
+                        @Helpers.LabelSpan(Model, "C1_CoveredCAPremiumDue_item", new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-4">
+                        @Helpers.DropDownList(Model, "C1_CoveredCAPremiumDue_item", "PREVIOUS_C1_CoveredCAPremiumDue", true)
+                    </div>
+                </div>
+            </div>
+            <!-- End Only Show for Covered CA-->
+            <!-- Begin Only Show for Non-Covered CA -->
+            <div class="hipp medical medical-plan-type-non-covered-ca">
+                <div class="form-group">
+                    <div class="col-md-4">
+                        @Helpers.LabelSpan(Model, "C1_MemberMedicalNetPremium_item", new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-4">
+                        @Helpers.TextInput(Model, "PREVIOUS_C1_MemberMedicalNetPremium", new { @class = "form-control" })
+                    </div>
+                </div>
+                <hr />
+                <div class="form-group">
+                    <div class="col-md-4">
+                        @Helpers.LabelSpan(Model, "C1_MemberMedicalPremiumFreqDue_item", new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-4">
+                        @Helpers.DropDownList(Model, "C1_MemberMedicalPremiumFreqDue_item", "PREVIOUS_C1_MemberMedicalPremiumFreqDue", true)
+                    </div>
+                </div>
+            </div>
+            <!-- End Only Show for Non-Covered CA -->
+            <!-- Show for All -->
+            <hr />
+            <div class="form-group">
+                <div class="col-md-4">
+                    @Helpers.LabelSpan(Model, "C1_MemberMedicalPlanSubscriberID_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-4">
+                    @Helpers.TextInput(Model, "PREVIOUS_C1_MemberMedicalPlanSubscriberID", new { @class = "form-control" })
+                </div>
+            </div>
+            <hr />
+            <div class="form-group">
+                <div class="col-md-4">
+                    @Helpers.LabelSpan(Model, "C1_MemberMedicalPlanAccountIDYesNo_item", new { @class = "control-label" })
+                </div>
+                @Helpers.YesNoRadioButtons(Model, "PREVIOUS_C1_MemberMedicalPlanAccountIDYesNo", true)
+            </div>
+            <div class="hipp medical account-number-yes">
+                <hr />
+                <div class="form-group">
+                    <div class="col-md-4">
+                        @Helpers.LabelSpan(Model, "C1_MemberMedicalPlanAccountID_item", new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-4">
+                        @Helpers.TextInput(Model, "PREVIOUS_C1_MemberMedicalPlanAccountID", new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <div class="form-group">
+                <div class="col-md-4">
+                    @Helpers.LabelSpan(Model, "C1_MemberMedicalPlanPolicyID_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-4">
+                    @Helpers.TextInput(Model, "PREVIOUS_C1_MemberMedicalPlanPolicyID", new { @class = "form-control" })
+                </div>
+            </div>
+            <!-- End Show for All-->
+            <!-- Begin Show Only for Covered CA -->
+            <div class="hipp medical medical-plan-type-covered-ca">
+                <hr />
+                <div class="form-group">
+                    <div class="col-md-4">
+                        @Helpers.LabelSpan(Model, "C1_CoveredCAPlanStartDate_item", new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-group date">
+                            @Helpers.TextInput(Model, "PREVIOUS_C1_CoveredCAPlanStartDate", new { @class = "form-control", placeholder = "mm/dd/yyyy" })
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                <div class="form-group">
+                    <div class="col-md-4">
+                        @Helpers.LabelSpan(Model, "C1_CoveredCAPlanEndDate_item", new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-group date">
+                            @Helpers.TextInput(Model, "PREVIOUS_C1_CoveredCAPlanEndDate", new { @class = "form-control", placeholder = "mm/dd/yyyy" })
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                <div class="form-group">
+                    <div class="col-md-4">
+                        @Helpers.LabelSpan(Model, "C1_CoveredCABillingDoc_item", new { @class = "control-label" })
+                    </div>
+                    @Helpers.FileUpload(Model, "PREVIOUS_C1_CoveredCABillingDoc")
+                </div>
+            </div>
+            <!-- End Show Only for Covered CA -->
+            <!-- Begin Show Only for non-Covered CA  -->
+            <div class="hipp medical medical-plan-type-non-covered-ca">
+                <hr />
+                <div class="form-group">
+                    <div class="col-md-4">
+                        @Helpers.LabelSpan(Model, "C1_MemberMedicalPlanStartDate_item", new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-group date">
+                            @Helpers.TextInput(Model, "PREVIOUS_C1_MemberMedicalPlanStartDate", new { @class = "form-control", placeholder = "mm/dd/yyyy" })
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                <div class="form-group">
+                    <div class="col-md-4">
+                        @Helpers.LabelSpan(Model, "C1_PrivateMedicalPlanEndDate_item", new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-group date">
+                            @Helpers.TextInput(Model, "PREVIOUS_C1_PrivateMedicalPlanEndDate", new { @class = "form-control", placeholder = "mm/dd/yyyy" })
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                <div class="form-group">
+                    <div class="col-md-5">
+                        @Helpers.LabelSpan(Model, "C1_NonCoveredCABillingDoc_item", new { @class = "control-label" })
+                    </div>
+                    @Helpers.FileUpload(Model, "PREVIOUS_C1_NonCoveredCABillingDoc")
+                </div>
+            </div>
+            <!-- End Show Only for non-Covered CA -->
+            <!-- Begin Show for All -->
+            <hr />
+            <div class="form-group">
+                <div class="col-md-6">
+                    @Helpers.LabelSpan(Model, "C1_CoveredCAProjectedStartHIPPDate_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-4">
+                    <div class="input-group date">
+                        @Helpers.TextInput(Model, "PREVIOUS_C1_CoveredCAProjectedStartHIPPDate", new { @class = "form-control", placeholder = "mm/dd/yyyy", @readonly = "readonly" })
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                    </div>
+                </div>
+            </div>
+            <!-- End Show for All -->
+        </div>
+        <!-- END PASTE -->
+    </div>
+}
+
+<!--IA3: Dental Insurance-->
+@helper PreviousIA3(GeneralForm Model) {
+    <div class="panel panel-default previous-response hipp dental" id="PreviousIA3">
+        <!-- BEGIN PASTE -->
+        <div class="panel-body">
+            <div class="pull-right prevAppBtn"><button data-prevdiv="PreviousIA3" class="btn" type="button"></button></div>
+            <div class="pull-right"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CmntModal" data-label="I1. @Model.sctTitles["CA-ADAP-InsAssist-3_sub"]"><span class="glyphicon glyphicon-comment"></span></button></div>
+            <!-- TODO I think we just want to consolidate/clean up the following two drop lists.
+            We are just trying to figure out if dental is included in medical or separate -->
+            <!-- Show All Dental -->
+            <div class="form-group">
+                <div class="col-md-6">
+                    @Helpers.LabelSpan(Model, "C1_MemberDentalPlanIncluded_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-4">
+                    @Helpers.DropDownList(Model, "C1_MemberDentalPlanIncluded_item", "PREVIOUS_C1_MemberDentalPlanIncluded", true)
+                </div>
+            </div>
+            <!-- End Show All Dental -->
+            <!-- Begin Show Only for Dental Separate -->
+            <div class="hipp dental dental-separate">
+                <hr />
+                <div class="form-group">
+                    <!-- TODO the label text uses "coverage" but should use "plan" -->
+                    <div class="col-md-4">
+                        @Helpers.LabelSpan(Model, "C1_MemberDentalPlanType_item", new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-4">
+                        @Helpers.DropDownList(Model, "C1_MemberDentalPlanType_item", "PREVIOUS_C1_MemberDentalPlanType", true)
+                    </div>
+                </div>
+                <div class="form-group hipp dental dental-plan-type-other">
+                    <div class="col-md-4">
+                        @Helpers.LabelSpan(Model, "C1_MemberDentalPlanTypeOther_item", new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-4">
+                        @Helpers.TextInput(Model, "PREVIOUS_C1_MemberDentalPlanTypeOther", new { @class = "form-control" })
+                    </div>
+                </div>
+                <hr />
+                <div class="form-group">
+                    <div class="col-md-4">
+                        @Helpers.LabelSpan(Model, "C1_DentalPayee_item", new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-4">
+                        @Helpers.TextInput(Model, "PREVIOUS_C1_DentalPayee", new { @class = "form-control" })
+                    </div>
+                </div>
+                <hr />
+                <div class="form-group">
+                    <div class="col-md-4">
+                        @Helpers.LabelSpan(Model, "C1_DentalPremium_item", new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-4">
+                        @Helpers.TextInput(Model, "PREVIOUS_C1_DentalPremium", new { @class = "form-control" })
+                    </div>
+                </div>
+                <hr />
+                <div class="form-group">
+                    <div class="col-md-4">
+                        @Helpers.LabelSpan(Model, "C1_MemberDentalPremiumFreqDue_item", new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-4">
+                        @Helpers.DropDownList(Model, "C1_MemberDentalPremiumFreqDue_item", "PREVIOUS_C1_MemberDentalPremiumFreqDue", true)
+                    </div>
+                </div>
+                <hr />
+                <div class="form-group">
+                    <div class="col-md-4">
+                        @Helpers.LabelSpan(Model, "C1_MemberDentalPlanSubscriberID_item", new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-4">
+                        @Helpers.TextInput(Model, "PREVIOUS_C1_MemberDentalPlanSubscriberID", new { @class = "form-control" })
+                    </div>
+                </div>
+                <hr />
+                <div class="form-group">
+                    <div class="col-md-4">
+                        @Helpers.LabelSpan(Model, "C1_MemberDentalPlanAccountID_item", new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-4">
+                        @Helpers.TextInput(Model, "PREVIOUS_C1_MemberDentalPlanAccountID", new { @class = "form-control" })
+                    </div>
+                </div>
+                <hr />
+                <div class="form-group">
+                    <div class="col-md-4">
+                        @Helpers.LabelSpan(Model, "C1_MemberDentalPlanPolicyID_item", new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-4">
+                        @Helpers.TextInput(Model, "PREVIOUS_C1_MemberDentalPlanPolicyID", new { @class = "form-control" })
+                    </div>
+                </div><hr />
+                <div class="form-group">
+                    <div class="col-md-4">
+                        @Helpers.LabelSpan(Model, "C1_DentalPlanStartDate_item", new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-group date">
+                            @Helpers.TextInput(Model, "PREVIOUS_C1_DentalPlanStartDate", new { @class = "form-control", placeholder = "mm/dd/yyyy" })
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                <div class="form-group">
+                    <div class="col-md-4">
+                        @Helpers.LabelSpan(Model, "C1_DentalPlanEndDate_item", new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-group date">
+                            @Helpers.TextInput(Model, "PREVIOUS_C1_DentalPlanEndDate", new { @class = "form-control", placeholder = "mm/dd/yyyy" })
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                <div class="form-group">
+                    <div class="col-md-4">
+                        @Helpers.LabelSpan(Model, "C1_DentalBillingDoc_item", new { @class = "control-label" })
+                    </div>
+
+                    @Helpers.FileUpload(Model, "PREVIOUS_C1_DentalBillingDoc")
+
+                </div>
+                <hr />
+                <div class="form-group">
+                    <div class="col-md-6">
+                        @Helpers.LabelSpan(Model, "C1_DentalProjectedStartHIPPDate_item", new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-group date">
+                            @Helpers.TextInput(Model, "PREVIOUS_C1_DentalProjectedStartHIPPDate", new { @class = "form-control", placeholder = "mm/dd/yyyy", @readonly = "readonly" })
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Show Only for Dental Separate -->
+            <!-- Begin Show Only for Dental Included -->
+            <div class="hipp dental dental-included">
+                <div class="form-group">
+                    <!-- TODO does this text label need to change? -->
+                    <div class="col-md-11">
+                        @Helpers.LabelSpan(Model, "C1_DentalIncludedWithMedicalLabel_item", new { @class = "control-label" })
+                    </div>
+                </div>
+                <hr />
+                <div class="form-group">
+                    <div class="col-md-6">
+                        @Helpers.LabelSpan(Model, "C1_DentalIncludedPremium_item", new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-4">
+                        @Helpers.TextInput(Model, "PREVIOUS_C1_DentalIncludedPremium", new { @class = "form-control" })
+                    </div>
+                </div>
+                <hr />
+                <div class="form-group">
+                    <div class="col-md-6">
+                        @Helpers.LabelSpan(Model, "C1_MemberIncludedDentalSubscriberID_item", new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-4">
+                        @Helpers.TextInput(Model, "PREVIOUS_C1_MemberIncludedDentalSubscriberID", new { @class = "form-control" })
+                    </div>
+                </div>
+                <hr />
+                <div class="form-group">
+                    <div class="col-md-4">
+                        @Helpers.LabelSpan(Model, "C1_MemberIncludedDentalAccountSame_item", new { @class = "control-label" })
+                    </div>
+                    @Helpers.YesNoRadioButtons(Model, "PREVIOUS_C1_MemberIncludedDentalAccountSame")
+                </div>
+                <div class="form-group hipp dental dental-included account-number-same-no">
+                    <div class="col-md-6">
+                        @Helpers.LabelSpan(Model, "C1_MemberIncludedDentalAccountID_item", new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-4">
+                        @Helpers.TextInput(Model, "PREVIOUS_C1_MemberIncludedDentalAccountID", new { @class = "form-control" })
+                    </div>
+                </div>
+                <hr />
+                <div class="form-group">
+                    <div class="col-md-4">
+                        @Helpers.LabelSpan(Model, "C1_MemberIncludedDentalPolicySame_item", new { @class = "control-label" })
+                    </div>
+                    @Helpers.YesNoRadioButtons(Model, "PREVIOUS_C1_MemberIncludedDentalPolicySame")
+                </div>
+                <div class="form-group hipp dental dental-included policy-number-same-no">
+                    <div class="col-md-6">
+                        @Helpers.LabelSpan(Model, "C1_MemberIncludedDentalPolicyID_item", new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-4">
+                        @Helpers.TextInput(Model, "PREVIOUS_C1_MemberIncludedDentalPolicyID", new { @class = "form-control" })
+                    </div>
+                </div>
+
+                <hr />
+                <div class="form-group">
+                    <div class="col-md-6">
+                        @Helpers.LabelSpan(Model, "C1_DentalIncludedBillingDoc_item", new { @class = "control-label" })
+                    </div>
+                    @Helpers.FileUpload(Model, "PREVIOUS_C1_DentalIncludedBillingDoc")
+                </div>
+                <hr />
+                <div class="form-group">
+                    <div class="col-md-11">
+                        @Helpers.LabelSpan(Model, "C1_DentalIncludedWithMedicalLabel2_item", new { @class = "control-label" })
+                    </div>
+                </div>
+            </div>
+            <!-- End Show Only for Dental Included -->
+        </div>
+        <!-- END PASTE -->
+    </div>
+}
+
+<!-- IA5: Vision Insurance (Label is IA4) -->
+@helper PreviousIA5(GeneralForm Model) {
+    <div class="panel panel-default previous-response hipp vision" id="PreviousIA5">
+        <!-- BEGIN PASTE -->
+        <div class="panel-body">
+            <div class="pull-right prevAppBtn"><button data-prevdiv="PreviousIA5" class="btn" type="button"></button></div>
+            <div class="pull-right"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CmntModal" data-label="I1. @Model.sctTitles["CA-ADAP-InsAssist-4_sub"]"><span class="glyphicon glyphicon-comment"></span></button></div>
+
+            <div class="form-group">
+                <div class="col-md-7">
+                    @Helpers.LabelSpan(Model, "C1_MemberVisionPlanIncluded_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-4">
+                    @Helpers.DropDownList(Model, "C1_MemberVisionPlanIncluded_item", "PREVIOUS_C1_MemberVisionPlanIncluded", true)
+                </div>
+            </div>
+            <hr />
+            <div class="form-group hipp vision vision-included-yes">
+                <div class="col-md-7">
+                    @Helpers.LabelSpan(Model, "C1_MemberVisionPremiumAmount_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-4">
+                    @Helpers.TextInput(Model, "PREVIOUS_C1_MemberVisionPremiumAmount", new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group hipp vision vision-included-no">
+                <div class="col-md-9">
+                    @Helpers.LabelSpan(Model, "C1_MemberVisionPlanIncludedLabel_item", new { @class = "control-label" })
+                </div>
+            </div>
+        </div>
+        <!-- END PASTE -->
+    </div>
+}
+
+<!-- IA51 -->
+@helper PreviousIA51(GeneralForm Model) {
+    <div class="panel panel-default previous-response hipp medical-dental" id="PreviousIA51">
+        <!-- BEGIN PASTE -->
+        <div class="panel-body">
+            <div class="form-group">
+                <div class="col-md-6">
+                    @Helpers.LabelSpan(Model, "C1_MedicareDHighPayments_item", new { @class = "control-label" })
+                </div>
+                @Helpers.YesNoRadioButtons(Model, "PREVIOUS_C1_MedicareDHighPayments")
+            </div>
+            <hr />
+            <div class="form-group">
+                <div class="col-md-6">
+                    @Helpers.LabelSpan(Model, "C1_MedicareDHighPaymentsDoc_item", new { @class = "control-label" })
+                </div>
+                @Helpers.FileUpload(Model, "PREVIOUS_C1_MedicareDHighPaymentsDoc")
+            </div>
+        </div>
+        <!-- END PASTE -->
+    </div>
+}
+
+<!--IA6: Medicare Part D-->
+@helper PreviousIA6(GeneralForm Model) {
+    <div class="panel panel-default previous-response medicare-part-d" id="PreviousIA6">
+        <!-- BEGIN PASTE -->
+        <div class="panel-body">
+            <div class="pull-right prevAppBtn"><button data-prevdiv="PreviousIA6" class="btn" type="button"></button></div>
+            <div class="pull-right"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CmntModal" data-label="I1. @Model.sctTitles["CA-ADAP-InsAssist-6_sub"]"><span class="glyphicon glyphicon-comment"></span></button></div>
+
+            <div class="form-group">
+                <div class="col-md-4">
+                    @Helpers.LabelSpan(Model, "C1_MedicareDPayee_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-4">
+                    @Helpers.TextInput(Model, "PREVIOUS_C1_MedicareDPayee", new { @class = "form-control" })
+                </div>
+            </div>
+            <hr />
+            <div class="form-group">
+                <div class="col-md-4">
+                    @Helpers.LabelSpan(Model, "C1_MemberMedicareDSubscriberID_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-4">
+                    @Helpers.TextInput(Model, "PREVIOUS_C1_MemberMedicareDSubscriberID", new { @class = "form-control" })
+                </div>
+            </div>
+            <hr />
+            <!-- TODO test this after the duplicate use of this variable is removed earlier in form -->
+            <div class="form-group">
+                <div class="col-md-4">
+                    @Helpers.LabelSpan(Model, "C1_MemberMedicareDAccountID_item", new { @class = "control-label" })
+                </div>
+                @Helpers.YesNoRadioButtons(Model, "PREVIOUS_C1_MemberMedicareDAccountID")
+            </div>
+            <!-- IN_SQL add variable to hold account number -->
+            <div class="form-group medicare-part-d account-number-yes">
+                <div class="col-md-4">
+                    @Helpers.LabelSpan(Model, "C1_MemberMedicareDAccountIDValue_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-4">
+                    @Helpers.TextInput(Model, "PREVIOUS_C1_MemberMedicareDAccountIDValue", new { @class = "form-control" })
+                </div>
+            </div>
+            <hr />
+            <div class="form-group medicare-part-d policy-number-yes">
+                <div class="col-md-4">
+                    @Helpers.LabelSpan(Model, "C1_MemberMedicareDPolicyID_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-4">
+                    @Helpers.TextInput(Model, "PREVIOUS_C1_MemberMedicareDPolicyID", new { @class = "form-control" })
+                </div>
+            </div>
+            <hr />
+            <div class="form-group">
+                <div class="col-md-4">
+                    @Helpers.LabelSpan(Model, "C1_MedicareDStartDate_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-4">
+                    <div class="input-group date">
+                        @Helpers.TextInput(Model, "PREVIOUS_C1_MedicareDStartDate", new { @class = "form-control", placeholder = "mm/dd/yyyy" })
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <div class="form-group">
+                <div class="col-md-7">
+                    @Helpers.LabelSpan(Model, "C1_MedicareDEndDate_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-4">
+                    <div class="input-group date">
+                        @Helpers.TextInput(Model, "PREVIOUS_C1_MedicareDEndDate", new { @class = "form-control", placeholder = "mm/dd/yyyy" })
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <div class="form-group">
+                <div class="col-md-5">
+                    @Helpers.LabelSpan(Model, "C1_MedicareDPremium_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-4">
+                    @Helpers.TextInput(Model, "PREVIOUS_C1_MedicareDPremium", new { @class = "form-control" })
+                </div>
+            </div>
+            <hr />
+            <div class="form-group">
+                <div class="col-md-5">
+                    @Helpers.LabelSpan(Model, "C1_MedicareDPremiumFreqDue_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-4">
+                    @Helpers.DropDownList(Model, "C1_MedicareDPremiumFreqDue_item", "PREVIOUS_C1_MedicareDPremiumFreqDue", true)
+                </div>
+            </div>
+            <hr />
+            <div class="form-group">
+                <div class="col-md-6">
+                    @Helpers.LabelSpan(Model, "C1_MedicareDInsCard_item", new { @class = "control-label" })
+                </div>
+
+                @Helpers.FileUpload(Model, "PREVIOUS_C1_MedicareDInsCard")
+
+            </div>
+            <hr />
+            <div class="form-group">
+                <div class="col-md-6">
+                    @Helpers.LabelSpan(Model, "C1_MedicareDBillingDoc_item", new { @class = "control-label" })
+                </div>
+
+                @Helpers.FileUpload(Model, "PREVIOUS_C1_MedicareDBillingDoc")
+
+            </div>
+            <hr />
+            <div class="form-group">
+                <div class="col-md-8">
+                    @Helpers.LabelSpan(Model, "C1_MedicareDProjectedStartHIPPDate_item", new { @class = "control-label" })
+                </div>
+                <div class="col-md-4">
+                    <div class="input-group date">
+                        @Helpers.TextInput(Model, "PREVIOUS_C1_MedicareDProjectedStartHIPPDate", new { @class = "form-control", placeholder = "mm/dd/yyyy", @readonly = "readonly" })
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END PASTE -->
+    </div>
+}
+
+<!--IA7: Enrollment Site Assistance-->
+@helper PreviousIA7(GeneralForm Model) {
+    <div class="panel panel-default previous-response enrollment-assistance" id="PreviousIA7">
+        <!-- BEGIN PASTE -->
+        <div class="panel-body">
+            <div class="pull-right prevAppBtn"><button data-prevdiv="PreviousIA7" class="btn" type="button"></button></div>
+            <div class="pull-right"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CmntModal" data-label="I1. @Model.sctTitles["CA-ADAP-InsAssist-7_sub"]"><span class="glyphicon glyphicon-comment"></span></button></div>
+
+            <div class="form-group">
+                <div class="col-md-4">
+                    @Helpers.LabelSpan(Model, "C1_InsuranceAssistEnrollSiteFlag_item", new { @class = "control-label" })
+                </div>
+                @Helpers.YesNoRadioButtons(Model, "PREVIOUS_C1_InsuranceAssistEnrollSiteFlag")
+            </div>
+            <div class="enrollment-assistance enrollment-assistance-yes">
+                <hr />
+                <div class="form-group">
+                    <div class="col-md-4">
+                        @Helpers.LabelSpan(Model, "C1_InsuranceAssistEnrollSite_item", new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-4">
+                        @Helpers.DropDownList(Model, "C1_InsuranceAssistEnrollSite_item", "PREVIOUS_C1_InsuranceAssistEnrollSite", true)
+                    </div>
+                </div>
+                <hr />
+                <div class="form-group">
+                    <div class="col-md-4">
+                        @Helpers.LabelSpan(Model, "C1_InsuranceAssistEnrollPerson_item", new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-4">
+                        @Helpers.TextInput(Model, "PREVIOUS_C1_InsuranceAssistEnrollPerson", new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END PASTE -->
+    </div>
+}

@@ -1,0 +1,111 @@
+﻿@model Assmnts.Models.GeneralForm
+@{
+    Layout = "LA_AdapAppLayout.cshtml";
+}
+@section AddtoHead{
+    <link rel="stylesheet" type="text/css" href="/Content/adap/css/ADAPForms.css" />
+    <script src="~/Content/js/ADAPLookupSelects.js"></script>
+    <script src="~/Scripts/jquery.inputmask/inputmask.js"></script>
+    <script src="~/Scripts/jquery.inputmask/jquery.inputmask.js"></script>
+    <script src="~/Scripts/Validate.js"></script>
+    <link href="~/stylesheets/Validate.css" rel="stylesheet" />
+
+    <script>
+        $(document).ready(function () {
+
+            $('.class_phone_input').inputmask("(999)999-9999");
+            //Set the placeholder text for all dropdowns, except the "Jump to Application Section" dropdown
+            $('select[name!=jumpSection] option[value=""]').html("Choose One");
+
+            setApplicationProgressIndicator(15);
+
+        });
+
+    </script>
+}
+<!DOCTYPE html>
+<html lang="en">
+<body>
+    <div class="panel panel-default" id="">
+        <div class="panel-body" style="background-color:#f8f8f8">
+            @Helpers.LabelSpan(Model, "LA_ADAP_Case_ProvYN_item", new { @class = "control-label" })
+            <div class="form-group">
+                @Helpers.YesNoRadioButtons(Model, "LA_ADAP_Case_ProvYN")
+            </div>
+        </div>
+    </div>
+    <div class="toggleCase">
+        @for (int i = 1; i < 3; i++)
+        {
+            <p><span class="label label-danger" style="font-size:15px;">@Model.sctTitles["LA_ADAP_Case_Prov" + i]</span></p>
+            <div class="panel panel-default" id="">
+                <div class="panel-body" style="background-color:#f8f8f8">
+                    <div class="form-group">
+                        <div class="col-md-3">
+
+
+                            @Helpers.LabelSpan(Model, "LA_ADAP_Case_Prov" + i + "FirstName_item", new { @class = "control-label" })
+
+
+
+                        </div>
+                        <div class="col-md-3">
+                            @Helpers.TextInput(Model, "LA_ADAP_Case_Prov" + i + "FirstName", new { @class = "form-control" })
+                        </div>
+                        <div class="col-md-2">
+
+
+                            @Helpers.LabelSpan(Model, "LA_ADAP_Case_Prov" + i + "LastName_item", new { @class = "control-label" })
+
+
+
+                        </div>
+                        <div class="col-md-3">
+                            @Helpers.TextInput(Model, "LA_ADAP_Case_Prov" + i + "LastName", new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            @Helpers.LabelSpan(Model, "LA_ADAP_Case_Prov" + i + "Agency_item", new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-3">
+                            @Helpers.TextInput(Model, "LA_ADAP_Case_Prov" + i + "Agency", new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="form-group">
+                        <div class="col-md-3">
+
+                            @Helpers.LabelSpan(Model, "LA_ADAP_Case_Prov" + i + "Phone_item", new { @class = "control-label" })
+
+                        </div>
+                        <div class="col-md-3">
+                            @Helpers.TextInput(Model, "LA_ADAP_Case_Prov" + i + "Phone", new { @class = "form-control class_phone_input", datavalidate = "true", datavalidationmessage = "Enter Valid Phone Number", datadv = "phone" })
+                            <span class="icon"></span><label class="lbl-error error"></label>
+                        </div>
+                        <div class="col-md-2">
+
+                            @Helpers.LabelSpan(Model, "LA_ADAP_Case_Prov" + i + "Ext_item", new { @class = "control-label" })
+
+                        </div>
+                        <div class="col-md-2">
+                            @Helpers.TextInput(Model, "LA_ADAP_Case_Prov" + i + "Ext", new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        <script>
+            $(document).ready(function () {
+                updateCase();
+                $("#LA_ADAP_Case_ProvYN_YesOption").change(updateCase);
+                $("#LA_ADAP_Case_ProvYN_NoOption").change(updateCase);
+            });
+            function updateCase() {
+                $(".toggleCase").toggle($("#LA_ADAP_Case_ProvYN_YesOption").get(0).checked);
+            };
+        </script>
+    </div>
+</body>
+</html>

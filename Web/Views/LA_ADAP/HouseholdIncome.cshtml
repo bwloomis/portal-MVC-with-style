@@ -1,0 +1,238 @@
+﻿@model Assmnts.Models.GeneralForm
+@using Assmnts.Models;
+@{
+    Layout = "LA_AdapAppLayout.cshtml";
+}
+@{
+    int nMembers = Convert.ToInt32(Model.rspValues["LA_ADAP_Household_MembersCount"]);
+}
+
+@section AddtoHead{
+    <link rel="stylesheet" type="text/css" href="/Content/adap/css/ADAPForms.css" />
+    <script src="~/Content/js/ADAPLookupSelects.js"></script>
+
+    <script>
+        $(document).ready(function () {
+
+            $('.class_prevscreen').click(function () {
+                SubmitForm('@(((TemplateAdapNavMenu)Model.navMenuModel).adapPartId)', '@(((TemplateAdapNavMenu)Model.navMenuModel).sectionIds["Global_ADAP_Demographic"])');
+            });
+
+            setApplicationProgressIndicator(3);
+            populateLookupSelect('LA_ADAP_Household_Members1_Reln', 'hiddenRelnSelect', '');
+
+            $('.relnCell').each(function () {
+                var intValue = $(this).attr('data-reln');
+                if(!( intValue === null || intValue.match(/^ *$/) !== null ) )
+                    var textValue = $('#hiddenRelnSelect option[value=' + intValue + ']').html()
+                $(this).html(textValue);
+            });
+
+            for (var i = 0; i < $('.magiLink').length; i++) {
+                $.ajax({
+                    url: '@(Url.Action("validMagi", "LAADAP"))',
+                    type: 'POST',
+                    data: { index: i },
+                    cache: false,
+                    async: false,
+                    success: function (result) {
+                        if (result == 'True') {
+                            $('#magCompleted' + i + 'No').hide();
+                        } else {
+                            $('#magCompleted' + i + 'Yes').hide();
+                        }
+                    },
+                    error: function(err, status, errorThrown) {
+                        console.log('xhr: ' + err.status);
+                        console.log('response text: ' + err.responseText);
+                        console.log('error: ' + errorThrown);
+                    }
+                });
+            }
+
+            $('.magiLink').click(function () {
+                var memberName = $(this).attr('data-name');
+                var index = $(this).attr('data-index');
+                $('.toggle').hide();
+                $.ajax({
+                    url: '@(Url.Action("RetrieveMagi", "LAADAP"))',
+                    type: 'POST',
+                    data: { index: index },
+                    cache: false,
+                    async: false,
+                    success: function (result) {
+                        $("#magiModalBody").html(result);
+                        $("#navSectionId").val("SubForm");
+                        // Populate the Frequency drop downs with a single database call.
+                        $.ajax({
+                            type: "GET",
+                            url: "/Defws/GetLookupADAP",
+                            data: param = { lkpCd: 'Frequency' },
+                            async: false,
+                            cache: false,
+                            success: function (result) {
+
+                                var obj = JSON.parse(result);
+
+                                var mySelect = $('.freq');
+                                for (var i = 0; i < obj.def_LookupDetail.length; i++) {
+                                    if (typeof obj.def_LookupDetail[i]["def_LookupText"][0] !== 'undefined') {
+                                        mySelect.append('<option value="' + obj.def_LookupDetail[i]["dataValue"] + '">' + obj.def_LookupDetail[i]["def_LookupText"][0]["displayText"] + '</option>');
+                                    }
+                                }
+
+                                for(var i = 0; i < 24; i++) {
+                                    var myDDL = $('#freq' + i);
+                                    var myDDLdata = $('#freq' + i + '_data')
+                                    myDDL.val(myDDLdata.attr('data'));
+                                }
+                            },
+                            error: function (xhr, status, err) {
+                                alert("Error loading drop down for Frequency.  Status: " + xhr.status + "  Message: " + err);
+                            }
+                        });
+
+                        // Populate the Proof drop downs with a single database call.
+                        $.ajax({
+                            type: "GET",
+                            url: "/Defws/GetLookupADAP",
+                            data: param = { lkpCd: 'Proof' },
+                            async: false,
+                            cache: false,
+                            success: function (result) {
+
+                                var obj = JSON.parse(result);
+
+                                var mySelect = $('.proof');
+                                for (var i = 0; i < obj.def_LookupDetail.length; i++) {
+                                    if (typeof obj.def_LookupDetail[i]["def_LookupText"][0] !== 'undefined') {
+                                        mySelect.append('<option value="' + obj.def_LookupDetail[i]["dataValue"] + '">' + obj.def_LookupDetail[i]["def_LookupText"][0]["displayText"] + '</option>');
+                                    }
+                                }
+
+                                for(var i = 0; i < 19; i++) {
+                                    var myDDL = $('#proof' + i);
+                                    var myDDLdata = $('#proof' + i + '_data')
+                                    myDDL.val(myDDLdata.attr('data'));
+                                }
+                            },
+                            error: function (xhr, status, err) {
+                                alert("Error loading drop down for Proof.  Status: " + xhr.status + "  Message: " + err);
+                            }
+                        });
+                        updateOtherIncComment();
+                        updateOtherDeducComment();
+                    },
+                    error: function(err, status, errorThrown) {
+                        console.log('xhr: ' + err.status);
+                        console.log('response text: ' + err.responseText);
+                        console.log('error: ' + errorThrown);
+                    }
+                });
+            });
+
+            // Save the Magi form when the Modal is closed
+            $('#magiModal').on('hidden.bs.modal', function () {
+                $("#btnSubmit").click();
+            });
+            updateMagiComplete();
+
+            //$('.magiInput').change(updateMagiComplete)
+        });
+
+        function updateMagiComplete() {
+            for( var i = 0 ; i < @nMembers ; i++ )
+            {
+                var magiText = $('input[name="LA_ADAP_Household_Members' + (i == 0 ? "Self" : i) + '_MAGI"]').val();
+                var magiComplete = !( magiText === null || magiText.match(/^ *$/) !== null )
+                $('#magCompleted' + i + 'Yes').toggle(magiComplete);
+                $('#magCompleted' + i + 'No').toggle(!magiComplete);
+            }
+        }
+
+        function updateOtherIncComment() {
+            $('.toggleOtherInc').toggle($("#LA_ADAP_MAGI_OtherInc_ChkBx").get(0).checked);
+        }
+
+        function updateOtherDeducComment() {
+            $('.toggleOtherDeduc').toggle($("#LA_ADAP_MAGI_OtherDeduc_ChkBx").get(0).checked);
+        }
+    </script>
+}
+
+<select hidden id="hiddenRelnSelect"></select>
+
+<div id="example_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+    <div class="row"><div class="col-sm-6"></div><div class="col-sm-6"></div></div><div class="row">
+        <div class="col-sm-12">
+            <table id="example" class="table table-striped table-hover table-bordered responsive no-wraps small dataTable no-footer dtr-inline" cellspacing="0" width="100%" role="grid" style="width: 100%;">
+                <thead style="background-color:#d9edf7">
+                    <tr role="row">
+                        <th tabindex="0" aria-controls="example" rowspan="1" colspan="1" style="width: 617.333px;" aria-label="What is the person's relationship to you?: activate to sort column ascending">What is the person's relationship to you?</th>
+                        <th tabindex="0" aria-controls="example" rowspan="1" colspan="1" style="width: 231.333px;" aria-label="Name: activate to sort column ascending">Name</th>
+                        <th rowspan="1" colspan="1" style="width: 212px;" aria-label="MAGI">MAGI</th>
+                        <th rowspan="1" colspan="1" style="width: 212px;" aria-label="MAGI">MAGI Completed?</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @for (int i = 0; i < nMembers; i++)
+                    {
+                        string memberName;
+
+                        <tr role="row" class="@(i%2==0?"even":"odd")">
+
+                            @if (i == 0)
+                            {
+                                <td>Yourself</td>
+                                memberName = ((TemplateAdapNavMenu)Model.navMenuModel).firstName + " " + ((TemplateAdapNavMenu)Model.navMenuModel).lastName;
+                            }
+                            else
+                            {
+                                <td tabindex="0" class="relnCell" data-reln="@Model.rspValues["LA_ADAP_Household_Members" + i + "_Reln"]"></td>
+                                memberName = Model.rspValues["LA_ADAP_Household_Members" + i + "_Name"];
+                            }
+
+                            <td>@memberName</td>
+                            <td>
+                                <a href="#" class="magiLink" data-toggle="modal" data-target="#magiModal" data-index="@i" data-name="@memberName">Enter MAGI</a>
+                            </td>
+                            <td>
+                                <i id="magCompleted@(i)Yes" hidden style="color:green" class="glyphicon glyphicon-check text-primary"></i>
+                                <i id="magCompleted@(i)No" style="color:red" class="glyphicon glyphicon-remove text-primary"></i>
+                                @if (i == 0)
+                                {
+                                    <span id="Magi@(i)" data-magi="@Model.rspValues["LA_ADAP_Household_MembersSelf_MAGI"]" hidden="hidden"></span>
+                                }
+                                else
+                                {
+                                    <span id="Magi@(i)" data-magi="@Model.rspValues["LA_ADAP_Household_Members" + i + "_MAGI"]" hidden="hidden"></span>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!--Magi Modal-->
+<div class="modal fade" id="magiModal" tabindex="-1" role="dialog" aria-labelledby="magiModalLabel">
+    <div class="modal-dialog" role="document" style="width:70%;height:90%;overflow:auto">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #337ab7; color:white;">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="magiModalLabel"><b><span id="cmmtHdr"></span></b>Enter MAGI for firstName, lastName</h4>
+            </div>
+            <div id="magiModalBody" class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+                <div class="pull-left">
+                    <button type="button" id="" class="btn btn-primary" data-dismiss="modal" data-toggle="modal" data-target="">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

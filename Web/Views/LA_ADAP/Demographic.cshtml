@@ -1,0 +1,189 @@
+﻿@model Assmnts.Models.GeneralForm
+@{
+    Layout = "LA_AdapAppLayout.cshtml";
+}
+
+@section AddtoHead{
+    <link rel="stylesheet" type="text/css" href="/Content/adap/css/ADAPForms.css" />
+    <script src="~/Content/js/ADAPLookupSelects.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            @foreach (string identifier in new string[] { "ADAP_D4_EthnicDrop", "ADAP_D8_CurrGenderDrop" })
+            {
+                @:populateLookupSelect('@identifier', '@identifier', '@Model.rspValues[identifier]');
+            }
+
+            setApplicationProgressIndicator(2);
+        });
+    </script>
+}
+
+@{int i = 1;}
+
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="form-group">
+            <span class="col-md-3 control-label required" style="font-weight: bold; text-align: left;">
+                @(i++). @Model.sctTitles["Global_ADAP_Demographic_Gender"]
+                @Helpers.ToolTipFromItemPrompt(Model, "ADAP_D8_CurrGenderDrop_item", new { @class = "pointer fa fa-question-circle text-primary fa-1x" })
+            </span>
+            <div class="col-md-4">
+                @Helpers.DropDownList(Model, "ADAP_D8_CurrGenderDrop_item", "ADAP_D8_CurrGenderDrop")
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-body">
+        <p><strong>@(i++). @Model.sctTitles["Global_ADAP_Demographic_Race"]</strong></p>
+        <div class="form-group">
+            @foreach (string suffix in new string[] { "White", "Native", "Asian", "Black", "Indian", "Other" })
+            {
+                <div class="col-md-6">
+                    @Helpers.LabeledCheckboxInput(Model, "ADAP_D3_" + suffix)
+                </div>
+            }
+            <div class="col-md-3 col-md-offset-6 toggleOtherRace">
+                @Helpers.TextInput(Model, "ADAP_D3_OtherText", new { @class = "form-control" })
+                @Helpers.ToolTipFromItemPrompt(Model, "ADAP_D3_OtherText_item", new { @class = "pointer fa fa-question-circle text-primary fa-1x" })
+            </div>
+        </div>
+        <script>
+            $(document).ready(function () {
+                updateOtherRace();
+                $("#ADAP_D3_Other").change(updateOtherRace);
+            });
+
+            function updateOtherRace() {
+                $(".toggleOtherRace").toggle($("#ADAP_D3_Other").get(0).checked);
+            };
+        </script>
+    </div>
+</div>
+
+<div class="panel panel-default toggleAsian">
+    <div class="panel-body">
+        <p><strong>@Model.sctTitles["Global_ADAP_Demographic_Asian"]</strong></p>
+        <div class="form-group">
+            @foreach (string suffix in new string[] { "Indian", "Filipino", "Korean", "Other", "Chinese", "Japanese", "Vietnamese" })
+            {
+                <div class="col-md-6">
+                    @Helpers.LabeledCheckboxInput(Model, "ADAP_D5_" + suffix)
+                </div>
+            }
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            updateAsian();
+            $("#ADAP_D3_Asian").change(updateAsian);
+        });
+
+        function updateAsian() {
+            $(".toggleAsian").toggle($("#ADAP_D3_Asian").get(0).checked);
+        };
+    </script>
+
+</div>
+
+<div class="panel panel-default toggleNative">
+    <div class="panel-body">
+        <p><strong>@Model.sctTitles["Global_ADAP_Demographic_Native"]</strong></p>
+        <div class="form-group">
+            @foreach (string suffix in new string[] { "Native", "Guam", "Samoan", "Other" })
+            {
+                <div class="col-md-6">
+                    @Helpers.LabeledCheckboxInput(Model, "ADAP_D6_" + suffix)
+                </div>
+            }
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            updateNative();
+            $("#ADAP_D3_Native").change(updateNative);
+        });
+
+        function updateNative() {
+            $(".toggleNative").toggle($("#ADAP_D3_Native").get(0).checked);
+        };
+    </script>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="form-group">
+            <span class="col-md-4 control-label required" style="font-weight: bold; text-align: left;">
+                @(i++). @Model.sctTitles["Global_ADAP_Demographic_Ethnic"]
+            </span>
+            <div class="col-md-4">
+                @Helpers.DropDownList(Model, "ADAP_D4_EthnicDrop_item", "ADAP_D4_EthnicDrop")
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-default hispanicToggle">
+    <div class="panel-body">
+        <p><strong>@Model.sctTitles["Global_ADAP_Demographic_Hisp"]</strong></p>
+        <div class="form-group">
+            @foreach (string suffix in new string[] { "Mexican", "Puerto", "NA", "Cuban", "Other" })
+            {
+                <div class="col-md-6">
+                    @Helpers.LabeledCheckboxInput(Model, "ADAP_D4_" + suffix)
+                </div>
+            }
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            updateHispanic();
+            $("#ADAP_D4_EthnicDrop").change(updateHispanic);
+        });
+
+        function updateHispanic() {
+            $(".hispanicToggle").toggle($("#ADAP_D4_EthnicDrop").val() == 1);
+        };
+    </script>
+
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-body">
+        <p><strong>@(i++). @Model.sctTitles["Global_ADAP_Demographic_RelnStatus"]</strong>
+            @Helpers.ToolTipFromItemPrompt(Model, "ADAP_RelnStatus_Single_item", new { @class = "pointer fa fa-question-circle text-primary fa-1x" })</p>
+        <div class="form-group">
+            @foreach (string suffix in new string[] { "Single", "MarriedHouse", "MarriedSep", "Unmarried", "Partnered", "Widow" })
+            {
+                <div class="col-md-12">
+                    @Helpers.LabeledCheckboxInput(Model, "ADAP_RelnStatus_" + suffix)
+                </div>
+            }
+        </div>
+        <script>
+            $(document).ready(function () {
+                $("[id^=ADAP_RelnStatus]").change(updateRelationship);
+            });
+
+            function updateRelationship() {
+                
+                //Ensure that Partnered/Separated, Partnered/Unmarried and Partnered/Widow are the only combinations allowed.
+
+                if ($("#ADAP_RelnStatus_Single, #ADAP_RelnStatus_MarriedHouse").is(":focus"))               //When Single or Married is checked or unchecked...
+
+                    $("[id^=ADAP_RelnStatus]:not(:focus)").attr("checked", false);                          //...uncheck every ADAP_RelnStatus checkbox except whatever has the focus.
+
+                else if ($("#ADAP_RelnStatus_Partnered").is(":focus"))                                      //Otherwise, when Partnered is checked or unchecked...
+
+                    $("#ADAP_RelnStatus_Single, #ADAP_RelnStatus_MarriedHouse").attr("checked", false);     //...uncheck Single or Married.
+
+                else   //When Separated, Unmarried or Widowed are checked or unchecked, uncheck every ADAP_RelnStatus checkbox except Partnered or whatever has the focus.
+
+                    $("[id^=ADAP_RelnStatus]:not(:focus, #ADAP_RelnStatus_Partnered)").attr("checked", false);
+
+            };
+        </script>
+    </div>
+</div>

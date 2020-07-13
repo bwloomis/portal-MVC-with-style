@@ -1,0 +1,238 @@
+﻿@model Assmnts.Models.AdapApplicantRpt1
+@{
+    Layout = "/Views/LA_ADAP/LA_AdapReportLayout.cshtml";
+}
+
+@section AddToHead {
+    <link rel="stylesheet" type="text/css" href="/Content/DataTables-1.10.7/media/css/jquery.dataTables.css" />
+    <script type="text/javascript" src="/Scripts/DataTables-1.10.7/media/js/jquery.dataTables.js"></script>
+    @*<script type="text/javascript" src="https://cdn.datatables.net/plug-ins/1.10.6/integration/bootstrap/3/dataTables.bootstrap.js"></script>*@
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $('.input-group.date').datepicker('remove');
+
+            $('.input-group.date').datepicker({
+                autoclose: true,
+                startDate: '+1d',
+                format: 'mm/dd/yyyy'
+
+            });
+
+            $('#ADAPHeader').hide(true);
+            $('#ADAPFooter').hide(true);
+
+            var radios = $('input[type=radio]');
+            var value = radios[0].value;
+            
+            if(value == 4)
+            {
+
+                $("#elgEndDateRow").show();
+            }
+            else
+            {
+                $("#elgEndDateRow").hide();
+            }
+
+            //alert($(".radio input:first-child").html());
+        });
+
+
+        function CheckApproved(selectedItem){
+
+            var currentValue = $(selectedItem).val()
+            
+            if(currentValue == 4)
+            {
+                $("#elgEndDateRow").show();
+            }
+            else
+            {
+                $("#elgEndDateRow").hide();
+            }
+        }
+
+        function SetError(id, msg) {
+
+
+            $(id).removeClass("hide").addClass("text-danger");
+            $(id).find("#msg").text(msg);
+
+            return false;
+        }
+
+        function SetSuccess(id, msg) {
+
+            $(id).removeClass("text-danger").addClass("hide");
+
+
+            return true;
+        }
+
+        function ValidateDate(){
+
+            var date = $("#elgEndDate").val().trim();
+
+            if (date == '') {
+                message = 'Eligibility End Date is a required field.';
+
+                return SetError("#helpElgDate", message);
+            }
+            else {
+
+                message = "";
+                return SetSuccess("#helpElgDate", message);
+
+            }
+        }
+        function statusUpdatedRedirect() {
+
+            var value = "";
+
+            var radios = $('input[type=radio]');
+            for (i = 0; i < radios.size() ; i++) {
+                if (radios[i].checked) {
+                    value = radios[i].value;
+                }
+            }
+
+            var isvalidDate = false;
+
+            if(value == 4){
+
+                isvalidDate = ValidateDate();
+            }
+
+            if((value == 4) && !isvalidDate)
+            {
+                return false;
+
+            }
+
+            var date = $("#elgEndDate").val().trim();
+
+            var check = $("input[type='checkbox']")[0].checked;
+
+            var url = '/ADAP/StatusUpdated';
+            //alert(check + ' ' + url);
+
+            textData = {
+                message: $('#infoText').val(),
+                formResultId: @Model.formResult,
+                status: value,
+                email: check,
+                eligibilityEndDate: date
+            };
+            post(url, textData )
+        }
+
+        //http://stackoverflow.com/questions/133925/javascript-post-request-like-a-form-submit
+        function post(path, params ) {
+            method = "post"; 
+
+            // The rest of this code assumes you are not using a library.
+            // It can be made less wordy if you use one.
+            var form = document.createElement("form");
+            form.setAttribute("method", method);
+            form.setAttribute("action", path);
+
+            for(var key in params) {
+                if(params.hasOwnProperty(key)) {
+                    var hiddenField = document.createElement("input");
+                    hiddenField.setAttribute("type", "hidden");
+                    hiddenField.setAttribute("name", key);
+                    hiddenField.setAttribute("value", params[key]);
+
+                    form.appendChild(hiddenField);
+                }
+            }
+
+            document.body.appendChild(form);
+            form.submit();
+        }
+    </script>
+}
+
+    @{ string memberId = Model.MemberId.Equals("0") ? "No Ramsell Id" : Model.MemberId.ToString(); }
+    <h3>Update Status for @memberId&#58; <span class="text-primary">@Model.FirstName @Model.LastName</span></h3>
+    <br />
+    <label for=".radio">Change the application status:</label>
+    <div class="radio" style="margin-top:-.2em">
+            @{bool first = true;}
+            @foreach (int statusSortOrder in Model.StatusDDL.Keys.OrderBy(i => i))
+            {
+                var attrChecked = first ? "checked" : String.Empty;
+                
+                <input type="radio" onclick="Javascript:CheckApproved(this);" name="Status" id="@("StatusRadio" + statusSortOrder)" value="@statusSortOrder" style="margin-left:1px" @attrChecked >
+                <label for="@("StatusRadio" + statusSortOrder)" class="small">@Model.StatusDDL[statusSortOrder]</label>
+                <br />
+                
+                first = false;
+            }
+    </div>
+@{
+
+
+    <div class="row" id="elgEndDateRow">
+        <div class="col-md-4">
+            <div class="form-group right-buffer-15px">
+                <div class="input-group claims  date" data-toggle="tooltip" data-placement="top" title="Date of Service">
+
+
+                    <div class="form-group right-buffer-15px">
+
+                        <label>Eligibility End Date</label>
+                        <div class="input-group claims  date" data-toggle="tooltip" data-placement="top" title="Date of Service">
+
+                            <input type="text" value="@Model.EigibilityEndDate" required class="form-control" id="elgEndDate" />
+
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+
+                        </div>
+                        <span id="helpElgDate" class="hide"><span class="glyphicon glyphicon-remove-circle"></span><span id="msg"></span></span>
+                    </div>
+
+
+
+
+                </div>
+                
+            </div>
+        </div>
+    </div>
+}
+    <div id="InfoField">
+        <br />
+        @{  // setTeam is being used for the Status Comment
+            if (Model.setTeam != null)
+            {
+                <p><b>Previous comment saved for this application:</b>
+                <br />
+                @Model.setTeam</p>
+            }
+        }
+        <button type="button" class="btn btn-success btn-sm" onclick="window.location='StatusHistory?formResultId=@Model.formResult'">Review Status History</button>
+        <br /><br />
+        <label for="infoText">Enter any comments to be saved here:</label>
+        <br />
+        <textarea id="infoText" class="text" rows="7" cols="50"> </textarea>
+        <br />
+        @{
+            if (@Model.StatusDDL.ContainsKey(1) && Model.setStatus.Equals(@Model.StatusDDL[1]))
+            {
+                <label for="emailCheck" class="small">Emails are sent automatically when status is changed from @Model.StatusDDL[1]</label>
+                <input type="checkbox" name="emailCheck" value="true" disabled/>
+            }
+            else
+            {
+                <label for="emailCheck" class="small">Email this message to the applicant?</label>
+                <input type="checkbox" name="emailCheck" />
+            }
+        }
+    </div>
+    <br />
+    <br />
+    <button type="button" class="btn btn-success btn-sm" onclick="statusUpdatedRedirect()">Submit</button>
+    <button type="button" class="btn btn-danger btn-sm" onclick="window.location='/ADAP/Report1'">Cancel</button>

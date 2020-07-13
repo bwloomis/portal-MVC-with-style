@@ -1,0 +1,311 @@
+﻿@model Assmnts.Models.MoveModel
+@{
+    Layout = null;
+}
+
+<style>
+    .table{
+        border-left: 1px solid #ebeaaf;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
+        vertical-align: middle;
+        border-right: 1px solid #ebeaaf;
+    }
+
+    .table > thead > tr > th {
+        background-color: #4A6096;
+        border-bottom: none;
+        color: white;
+    }
+
+    .table > thead > tr > th > div > a {
+        color: white;
+    }
+
+    .selectBox {
+        display:inline-block;
+        padding-right: 20px;
+
+    }
+
+    .selectBox > div, #selectBoxes > div {
+        display:inline-block;
+        padding-right: 10px;
+    }
+
+    #userList, #groupList, #entList {
+        padding-left:10px;
+    }
+    #buttons {
+        padding-top: 20px;
+        
+    }
+
+    #buttons > div {
+        display:inline-block;
+    }
+
+    #confirmButtons > div {
+        display: inline-block;
+    }
+</style>
+<div id="moveChoices">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>SIS ID</th>
+                <th>Recipient ID</th>
+                <th>Assigned</th>
+                <th>Group ID</th>
+                <th>Enterprise ID</th>
+            </tr>
+        </thead>
+        <tr>
+            <td>@Model.firstName</td>
+            <td>@Model.lastName</td>
+            <td id="formResultId">@Model.formResultId</td>
+            <td>@Model.recipientID</td>
+            <td>@Model.assigned</td>
+            <td>@Model.group</td>
+            <td>@Model.enterprise</td>
+
+        </tr>
+    </table>
+
+    
+    <div id="selectBoxes">
+        @if (Model.Enterprises != null)
+        {
+            <div class="selectBox">
+                <div>
+                    Enterprise:
+                </div>
+                @Html.DropDownListFor(model => model.newEnterpriseID, Model.Enterprises, new { @id = "entList", @class = "entList" })
+
+            </div>
+        }
+        <div id="selectsGroupContainer">
+            @Html.Partial("MoveGroup")
+        </div> 
+
+        <div id="selectsUserContainer">
+            @Html.Partial("MoveUser")
+        </div>
+    </div>
+    <div id="buttons">
+        <div>
+            <button id="submitButton" type="submit">Submit</button>
+        </div>
+        <div>
+            <button id="cancelButton" type="button">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<div id="moveConfirm" hidden="hidden">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Assigned</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Group ID</th>
+                <th>Enterprise ID</th>
+            </tr>
+        </thead>
+        <tr>
+            <td id="confirmUser"></td>
+            <td>@Model.firstName</td>
+            <td>@Model.lastName</td>
+            <td id="confirmGroup"></td>
+            <td id="confirmEnt"></td>
+
+        </tr>
+    </table>
+    <div id="confirmButtons">
+        <div>
+            <button type="submit" id="confirm">Confirm</button>
+        </div>
+        <div>
+            <button type="button" id="cancelConfirm">Cancel</button>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).on('change', ".groupList", function () {
+        var formResultId = $("#formResultId").html();
+        var groupId = $("#groupList option:selected").val();
+
+        if (groupId == "") {
+            groupId = -1;
+        }
+
+        var enterpriseId = -1;
+
+        if ($("#entList").length != 0) {
+            var enterpriseId = $("#entList option:selected").val();
+        }
+
+        $.ajax({
+            url: "@(Url.Action("ChangeGroupForUsers", "Search"))",
+            type: "POST",
+            data: { formResultId: formResultId, groupId: groupId, entId: enterpriseId },
+            cache: false,
+            async: false,
+            success: function (result) {
+                $("#selectsUserContainer").html(result);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert(textStatus + ": " + errorThrown);
+            }
+        });        
+    });
+
+    $(document).on('change', ".userList", function () {
+        var userId = $("#userList option:selected").val();
+
+        if (userId == "") {
+            userId = -1;
+        }
+
+        $.ajax({
+            url: "@(Url.Action("SelectGroupByUser", "Search"))",
+            type: "POST",
+        data: { userId: userId },
+        cache: false,
+        async: false,
+        success: function (result) {
+            if (result == -1) {
+                result = "";
+            }
+            $(".groupList").val(result);
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            alert(textStatus + ": " + errorThrown);
+        }
+    });  
+
+    });
+      
+ 
+    $(document).ready(function () {
+
+        if ($("#entList").length != 0) {
+            $(".entList").val(@Model.selectedEnterprise);
+        }
+        $(".entList").change(function () {
+            var formResultId = $("#formResultId").html();
+
+            var enterpriseId = -1;
+            if ($(".entList").length != 0) {
+                var enterpriseId = $(".entList option:selected").val();
+            }
+
+            $.ajax({
+                    url: "@(Url.Action("ChangeEnterpriseForGroups", "Search"))",
+                    type: "POST",
+                data: { formResultId: formResultId, entId: enterpriseId },
+                cache: false,
+                async: false,
+                success: function (result) {
+                    $("#selectsGroupContainer").html(result);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert(textStatus + ": " + errorThrown);
+                }
+            });
+
+            $.ajax({
+                url: "@(Url.Action("ChangeEnterpriseForUsers", "Search"))",
+                type: "POST",
+            data: { formResultId: formResultId, entId: enterpriseId },
+            cache: false,
+            async: false,
+            success: function (result) {
+                $("#selectsUserContainer").html(result);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert(textStatus + ": " + errorThrown);
+            }
+            });
+
+
+        });
+
+        $("#submitButton").click(function () {
+            $("#confirmUser").html($("#userList option:selected").text());
+            if ($("#groupList").length != 0) {
+               $("#confirmGroup").html($("#groupList option:selected").text());
+            } else {
+                $("#confirmGroup").html('@Model.group');
+            }
+            if ($("#entList").length != 0) {
+                $("#confirmEnt").html($("#entList option:selected").text());
+            } else {
+                $("#confirmEnt").html('@Model.enterprise');
+            }
+            
+            $("#moveChoices").hide();
+            $("#moveConfirm").show();
+        });
+
+        $("#cancelButton").click(function () {
+            close();
+        });
+
+        $("#cancelConfirm").click(function () {
+            $("#moveChoices").show();
+            $("#moveConfirm").hide();
+        });
+
+        $("#confirm").click(function () {
+            var formResultId = $("#formResultId").html();
+
+            var userId = $("#userList option:selected").val();
+            
+
+            if (userId == "" || !userId) {
+                userId = -1;
+            }
+        
+            var groupId = -1; // group display list not visible
+
+            var enterpriseId = -1;
+
+            if ($("#groupList").length != 0) {
+                var groupId = $("#groupList option:selected").val();
+            }
+
+            if (groupId == "" || !groupId) {
+                groupId = -2; // group display list visible but no group selected
+            }
+
+            if ($("#entList").length != 0) {
+                var enterpriseId = $("#entList option:selected").val();
+            }
+
+            $.ajax({
+                url: "@(Url.Action("MoveAssessment", "Search"))",
+                type: "POST",
+                data: { formResultId: formResultId, userId: userId, groupId: groupId, enterpriseId: enterpriseId },
+                cache: false,
+                async: false,
+                success: function (result) {
+                    alert(result);
+                    close();
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert(textStatus + ": " + errorThrown);
+                }
+            });
+        });
+    });
+    function close() {
+        window.location.href = '/Search/Index';
+    }
+
+</script>

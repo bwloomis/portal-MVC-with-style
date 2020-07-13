@@ -1,0 +1,80 @@
+@model Assmnts.Models.GeneralForm
+@{
+    ViewBag.Title = "Item Edit";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<style>
+    table, th, td {
+        padding: 5px;
+    }
+
+    .pageEdit {
+        padding-top: .6em;
+        font-size: small;
+    }
+</style>
+
+<h3>Item Edit</h3>
+<div class="form-group ">
+    <form action="/Templates/PostItem" method="post">
+        @Html.HiddenFor(model => model.items[0].itemId)
+        @Html.HiddenFor(model => model.prevScreenHref, new { @value = "item.cshtml" })
+        <div class="row">
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.items[0].identifier, @"Identifier", new { @class = "control-label pageEdit", @maxlength = "256" })
+            </div>
+            <div class="col-md-2">
+                @Html.TextBoxFor(model => model.items[0].identifier, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.items[0].title, @"Title", new { @class = "control-label pageEdit" })
+            </div>
+            <div class="col-md-2">
+                @Html.TextBoxFor(model => model.items[0].title, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.items[0].label, @"Label", new { @class = "control-label pageEdit" })
+            </div>
+            <div class="col-md-2">
+                @Html.TextAreaFor(model => model.items[0].label, new { @class = "form-control long-text-area" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.items[0].prompt, @"Prompt", new { @class = "control-label pageEdit" })
+            </div>
+            <div class="col-md-2">
+                @Html.TextAreaFor(model => model.items[0].prompt, new { @class = "form-control long-text-area" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.items[0].itemBody, @"Item Body", new { @class = "control-label pageEdit" })
+            </div>
+            <div class="col-md-2">
+                @Html.TextAreaFor(model => model.items[0].itemBody, new { @class = "form-control long-text-area" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.items[0].langId, @"Language Id", new { @class = "control-label pageEdit" })
+            </div>
+            <div class="col-md-2">
+                @Html.DropDownListFor(model => model.items[0].langId, Model.languages, "Language", new { @class = "form-control" })
+                @*@Html.TextAreaFor(model => model.items[0].langId, new { @class = "form-control" })*@
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <input type="submit" class="btn btn-success" value="Submit">
+                <input type="button" class="btn btn-danger" value="Cancel" onclick="window.location='@Model.prevScreenHref'">
+            </div>
+        </div>
+    </form>
+</div>
+        <!-- End of Form -->

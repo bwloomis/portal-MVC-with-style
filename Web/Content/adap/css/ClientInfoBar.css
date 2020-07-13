@@ -1,0 +1,46 @@
+﻿    .nav-client-container {
+        padding-bottom: 0px !important;
+    }
+
+    .nav-client-info {
+        background-color: #fcf8e3;
+        border: 1px solid #EFEFEF;
+        border-top: 0px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        border-radius: 0px 0px 5px 5px;
+        height: 40px;
+        margin-bottom: 0px !important;
+    }
+
+    .info-uppercase {
+        text-transform: Uppercase;
+    }
+
+    .nav-client-info-item {
+        display: block;
+        float: left;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .width-97percent {
+        width: 97%;
+    }
+
+    .padding-left-0px {
+        padding-left: 0px !important;
+    }
+    .item-padding-right{
+		padding-right: 10px;
+   }
+
+    #custom-bootstrap-menu{
+
+        margin-bottom : 0px !important;
+    }
+
+    .nav-client-info > .row {
+
+        margin-left : 0px !important;
+    }

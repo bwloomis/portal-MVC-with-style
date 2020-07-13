@@ -1,0 +1,228 @@
+@model Assmnts.Models.TemplateSisNavMenu
+   
+       <link rel="stylesheet" type="text/css" href="/Content/css/easyaspie.css"/>
+<style>
+     .topButton {
+            height: inherit;
+            vertical-align: middle;
+            background-color: white;
+            border-style: solid;
+            border-width: 1px;
+            border-color: #4A6096;
+            /*font-size:small;*/
+            color: #4D4B53; 
+        }
+</style>        
+
+<script src="/Content/js/superfish.js"async></script>
+<script src="/Content/js/easyaspie.js" async></script>
+
+
+<link rel="stylesheet" type="text/css" href="/Content/css/sitewide.css">
+<link rel="alternate stylesheet" type="text/css" media="screen" title="medium" href="/Content/css/sitewide2.css">
+<link rel="alternate stylesheet" type="text/css" media="screen" title="large" href="/Content/css/sitewide3.css">
+<script src="/content/js/textchanger.js" type="text/javascript" async></script>
+<script src="~/Content/js/jquery.sessionTimeout.js" async></script>
+<script src="~/Content/js/ReplaceText.js" async></script>
+<script async>
+var timeout = @Assmnts.Infrastructure.SessionHelper.SessionTotalTimeoutMinutes;
+</script>
+    
+<script src="~/Content/js/timeout.js" async></script>
+<script async>
+    $(document).ready(function () {
+        $('nav').easyPie();
+
+
+    });
+
+
+
+
+
+    // RRB 5/11/15 link to this function not working
+    // removed since it is also on the Search screen.
+    // function preferences() {
+    //     window.open("@(Url.Action("Index", "Preferences"))");
+    // }
+</script>
+
+
+       
+    <nav>
+    <div class="menubtn">Menu Button</div>
+        <ul id="nav">
+            <li>
+                <a class="nohover" href="#" id="assmntTitle" style="font-size:12px; color:white">@Model.assmntTitle&nbsp;<img style="align-self:center" class="class_prevornextscreen class_submit" src="~/Content/images/disk2.png" border="0" /></a>
+            </li>
+            @foreach (Assmnts.def_Parts prt in Model.sectionsByPart.Keys)
+            {
+                if (Model.ventureMode == false || prt.identifier != "Reports")
+                {
+                    if (prt.identifier != "Other")
+                    { 
+                    <li><a href="#" style="color:white">
+                    @{
+                        string str = prt.identifier;
+                        int i = str.IndexOf('.');
+                        if (i > 1)
+                        {
+                        @str.Substring(0, i)
+                        }
+                        else
+                        {
+                        @str
+                        }
+                    }
+                    </a><ul>                        
+                    @foreach (Assmnts.def_Sections s in Model.sectionsByPart[prt])
+                    {
+                        if (s.visible)
+                        { 
+                            <li>
+                                <a class="class_nav" style="color:white" onclick="SubmitForm('@prt.partId','@s.sectionId')">
+                                    @s.title
+                                </a>
+                            </li>
+                        }
+                    }
+                    </ul></li>
+                    }
+                }
+                else
+                {
+
+                    <li>
+                        <a class="class_nav" style="color:white" onclick="SubmitForm('6','143')">
+                            Validation
+                        </a>
+                    </li>
+                }
+            } 
+            <li><a href="#" style="color:white">Other</a>
+                <ul>
+                  <li><a class="class_nav class_search" style="color:white" href="#">Search Page</a></li>
+                  
+                  @if(Model.create && Model.forms != null && Model.forms.Count > 0)
+                  { 
+                      if (Model.forms.Count == 1)
+                      {
+                         <li><a class="class_new" onclick=SetNewFormId(@Model.forms.Keys.FirstOrDefault()) href="#" style="color:white">New Assessment</a></li>
+                      }
+                      else { 
+                          <li><a href="#" style="color:white">New Assessment</a>
+                            <ul>
+                                @foreach (KeyValuePair<int, string> entry in Model.forms) { 
+                                    <li><a class="class_new" onclick=SetNewFormId(@entry.Key) href="#" style="color:white">@entry.Value</a></li>
+                                }
+                            </ul>
+                      
+                          </li>
+                      }
+                   }
+                   
+                   @foreach (Assmnts.def_Parts prt in Model.sectionsByPart.Keys)
+                   {
+                       if (prt.identifier.Equals("Other"))
+                       {
+                           foreach (Assmnts.def_Sections s in Model.sectionsByPart[prt])
+                           {
+                            <li>
+                                <a class="class_nav" style="color:white" onclick="SubmitForm('@prt.partId','@s.sectionId')">
+                                    @s.title
+                                </a>
+                            </li>
+                           }
+                       }   
+                   }
+                  <li><a class="class_nav" style="color:white" href="/Results/Help">Help</a></li>
+                  <li><a href="#" style="color:white">Send Comments</a></li>
+                  <li><a class="class_nav class_logout" style="color:white" href="#">Sign Out</a></li>
+              </ul>
+            </li>
+            <li>
+                <button class="class_logout topButton">Logout</button>
+            </li>
+            <li>
+                <div>
+                    <a href="javascript:chooseStyle('none', 60)" style="float:left; padding-right:0px;">
+                        <img src="/Content/images/font-small.gif" alt="Small font" style="border-width: 0px" />
+                    </a>
+                    <a href="javascript:chooseStyle('medium', 60)" style="float:left; padding-left:0px; padding-right:0px;">
+                        <img src="/Content/images/font-medium.gif" alt="Medium font" style="border-width: 0px" />
+                    </a>
+                    <a href="javascript:chooseStyle('large', 60)" style="float:left; padding-left:0px;">
+                        <img src="/Content/images/font-large.gif" alt="Large font" style="border-width: 0px" />
+                    </a>
+                </div>
+            </li>
+        </ul>
+    </nav>
+
+    <style>
+        #infobar{
+            background-color: rgb(244, 244, 244);
+            height: 20px;
+            border-bottom: 1px solid rgb(209, 209, 209);
+            padding-top: 3px;
+        }
+
+        #infobar div{
+            display: inline;
+        }
+
+        #infobar .divider{
+            height: 14px;
+            margin: 3px 10px;
+            border-right: 1px solid rgb(209, 209, 209);
+        }
+    </style>
+    <div id="infobar">
+        <div style="color:black">&nbsp;Current User:</div>
+        <div style="color:red">@Model.currentUser</div>
+
+        <div class="divider"></div>
+
+        <div style="color:black">Viewing ID/<span id="trkNum">Tracking Number</span>:</div>
+        <div style="color:red">@Model.trackingNumber</div>
+
+        <div class="divider"></div>
+
+        <div style="color:black">Recipient Name:</div>
+        <div style="color:red">@Model.recipientName</div>
+
+        <div class="divider"></div>
+
+        <div style="color:black">Session Minutes Remaining:</div>
+        <input id="minutesRemaining" style="color:red; width:50px;" type="text" disabled value=""/>
+
+		<!--  RRB 5/11/15 - not working, is also on the Search page.
+        <div class="divider"></div>
+        <a style="color:rgb(190, 65, 54);font-weight:bold;" href="#" onclick="preferences()">Preferences</a>
+		-->
+    </div>
+<div id="dialog" hidden="hidden">
+
+</div>
+
+<script async>
+    ReplaceText("#trkNum", "trkNum");
+
+    function SetNewFormId(formId) {
+        $.ajax({
+            type: "GET",
+            url: "/Search/SetNewFormId",
+            data: param = { formId: formId },
+            async: false,
+            cache: false,
+            success: function (result) {
+
+                //     alert(result);
+            },
+            error: function () {
+                alert("Error setting new form ID.");
+
+            }
+        });
+    }
+</script>

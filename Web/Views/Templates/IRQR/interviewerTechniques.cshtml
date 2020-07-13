@@ -1,0 +1,323 @@
+@model Assmnts.Models.GeneralForm          
+@using Assmnts
+@{
+    ViewBag.Title = @Model.thisScreenCaption;
+    // ViewBag.Title = @Model.thisScreenTitle;
+    Layout = "~/Views/Shared/AssmntLayout.cshtml";
+}
+
+@section HeadContent {
+	
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min.js"></script>
+    <script type="text/javascript">
+
+        function expandcontent(id) {
+            s = document.getElementById(id).style;
+            showState = document.getElementById("showstate_" + id);
+            if (s.display == "block") {
+                s.display = "none";
+                if (showState != null)
+                    showState.src = "../Content/images/redPlus.gif";
+            } else {
+                s.display = "block";
+                if (showState != null)
+                    showState.src = "../Content/images/redminus.gif";
+            }
+        }
+
+        function ClickScore(td, QNum, valueField) {
+
+            //delect any other TDs for this item
+            for (var i = 0; i <= 3; i++) {
+                document.getElementById("td" + i + "_" + QNum + "_scr" ).style.backgroundImage = "";
+            }
+            
+            // Set selected TD background to selected image 
+            document.getElementById(td).style.backgroundImage = "url(/Content/images/selected.gif)";
+            document.getElementById(valueField).value = td.charAt(2);
+
+            //update the scores in the total row
+            UpdateTotals();
+        }
+
+        function TypeScore(valueField, QNum) {
+
+            //delect any other TDs for this item
+            for (var i = 0; i <= 3; i++) {
+                document.getElementById("td" + i + "_" + QNum + "_scr" ).style.backgroundImage = "";
+            }
+
+            // Set selected TD background to selected image 
+            document.getElementById("td" + document.getElementById(valueField).value + "_" + QNum + "_scr").style.backgroundImage = "url(/Content/images/selected.gif)";
+
+            //update scores in the total row
+            UpdateTotals();
+        }
+
+        function UpdateTotals() {
+            var totals = [0, 0, 0, 0];
+            for (var itm = 1 ; ; itm++) {
+                try{
+                    var scoreElem = document.getElementById('txts1a_' + itm + '_scr');
+                }catch( e ){
+                    break;
+                }
+                if (scoreElem == null)
+                    break;
+                var i = parseInt(scoreElem.value);
+                if (!isNaN(i))
+                    totals[i]++;
+            }
+            for (var i = 0 ; i < 4 ; i++)
+                document.getElementById("total_" + i).innerHTML = totals[i];
+        }
+
+        // Execute this code after the DOM has loaded.
+		$( document ).ready(function() {
+			// Handler for .ready() called.
+			// $("href[title]").tooltip();
+		    //TextCounterOnLoad();
+		    // SetupSection(null, 500);
+
+		    //circle scores based on loaded values
+		    for (var itm = 1 ; ; itm++) {
+		        try {
+		            var scoreElem = document.getElementById('txts1a_' + itm + '_scr');
+		        } catch (e) {
+		            break;
+		        }
+		        if (scoreElem == null)
+		            break;
+		        var s = parseInt(scoreElem.value);
+                if( !isNaN(s) && s>=0 && s<=3 )
+                    document.getElementById("td" + scoreElem.value + "_" + itm + "_scr").style.backgroundImage = "url(/Content/images/selected.gif)";
+		    }
+		    UpdateTotals();
+
+		    $(document).tooltip({
+		        track: true,
+		        content: function () {
+		            return $(this).prop('title');
+		        }
+		    });
+
+		    //necessary to display textareas properly on internet explorer
+		    //http://stackoverflow.com/questions/23139126/textarea-css-height-100-in-table-cell-div-ie
+		    $('.rspTextArea').each(function(){
+		        $(this).height( ($(this).parent().height()-7) );
+		    });
+
+		});
+    </script>
+}  
+
+<table id="tblData" border="0" cellpadding="0" cellspacing="0" style="height: 100%">
+    <tr>
+        <td style="width: 189px; background-color: #ffffff" valign="top" align="center">@Html.Partial("AssmntLeftPane")</td>
+        <td>
+            <br />
+            <table border="0" cellpadding="0" cellspacing="0" width="625">
+                <tr>
+                    <td align="left">
+<form id="form-id" action="/Results/Save" method="post">
+        <table border="0" width="900">
+            <tr>
+                <td align="left">
+					<!-- 
+                    <asp:Label ID="lblCheck" EnableViewState="False" ForeColor="red" Font-Bold="True"
+                        runat="Server" /><br />
+                    <asp:Label ID="lblError" EnableViewState="False" ForeColor="red" Font-Bold="True"
+                        runat="Server" /><br />
+					  -->
+					<br />
+                    <!-- start error table -->
+                    <table id="tblErrors" bgcolor="#000000" width="100%" border="0" visible="false" style="display:none"
+                        cellspacing="1" cellpadding="2">
+                        <tr id="trHeader">
+                            <td id="Td1" width="18" bgcolor="#d5d5d5">
+                                &nbsp;
+                            </td>
+                            <td id="Td2" width="70" bgcolor="#d5d5d5" align="center">
+                                <b>Item Errors</b>
+                            </td>
+                            <td id="Td3" bgcolor="#d5d5d5" align="center">
+                                <b>Error Description</b>
+                            </td>
+                        </tr>
+                        <tr id="trItem1">
+                            <td id="Td4" width="18" bgcolor="#ffffff">
+                                <img alt="Error" src="/Content/images/error.gif" />
+                            </td>
+                            <td id="Td5" width="70" bgcolor="#ffffff" align="center">
+                                Item One
+                            </td>
+                            <td id="Td6" bgcolor="#ffffff">
+								<!--
+                                <asp:Label ID="lblItemOneZeros" EnableViewState="False" ForeColor="red" runat="Server" />
+                                <asp:Label ID="lblItemOneFQYRange" EnableViewState="False" ForeColor="red" runat="server" />
+                                <asp:Label ID="lblItemOneDSTRange" EnableViewState="False" ForeColor="red" runat="server" />
+                                <asp:Label ID="lblItemOneTOSRange" EnableViewState="False" ForeColor="red" runat="server" />
+								  -->
+                            </td>
+                        </tr>
+                    </table>
+					<br />
+                    <!-- end error table -->
+                </td>
+            </tr>
+            <tr>
+                <td valign="top">
+                    <!-- start survey -->
+                    <table id="Table1" class="textAreaTable" border="0" cellpadding="0" cellspacing="1" bgcolor="#000000">
+                        <thead style="background-color:rgb(204,255,255)">
+                            <tr style="height: 21px">
+                                <td style="width:435px; vertical-align:middle; text-align:center">
+                                     <a href="#pS1a_title_ttip" id="s1a_title_ttip" class="toolTip"><span class="titleblack">&nbsp;@Model.thisScreenTitle</span></a>
+                                </td>
+                                <td style="width:150px; vertical-align:middle; text-align:center">
+                                    <span class="titleblack">Score</span>
+                                </td>
+                                <td  style="width:300px; vertical-align:middle; text-align:center; border-right:none">
+                                    <span class="titleblack">Comments</span>
+                                </td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        @{int itmCnt = 0;}
+                        @for (int sctCnt = 0; sctCnt < Model.subSections.Count(); sctCnt++)
+                        {
+                            def_Sections sctn = Model.subSections[sctCnt];
+                            if (!sctn.multipleItemsPerPage)     // Only process sections with multiple common items per screen
+                            {
+                                continue;
+                            }
+						    <tr style="height: 20px">
+                                <td colspan="20" class="titleblack" style="font-size:12px; text-align:center; border-top: 1px solid black; background-color: rgb(217,217,217);"><b>@sctn.title</b></td>
+						    </tr>
+                            <tr>
+                                <td colspan="2" >
+                                    <table style="border:none; border-spacing:0px">
+                                    @{List<def_SectionItems> siList = sctn.def_SectionItems.ToList();}
+						            @for (int subSectionItmCnt = 0; subSectionItmCnt + 1 < siList.Count(); subSectionItmCnt++)
+						            {
+                                        var itm = siList[subSectionItmCnt].def_Items;
+                                        List<def_ItemVariables> lstIv = itm.def_ItemVariables.ToList();
+							            itmCnt++;
+                                        string bgColor = (subSectionItmCnt % 2) == 0 ? "#FFFFFF" : "#FFFFFF";
+                                        string bordertop = @*subSectionItmCnt == 0 ? "none" :*@ "1px solid black";
+                                        <tr bgcolor="@bgColor" id="trs1a_@{@itmCnt}">
+                                            <td style="border-top: 1px solid black; width:450px;">
+                                                <span style="color:black; cursor:default; font-size: 12px; " class="toolTip" title="@itm.prompt" id="prompt@{@itmCnt}">@itm.label</span>
+                                            </td>
+											@{ string scrLbls = "NBQA"; }
+								            @for (int i = 0; i < 4; i++)
+								            {
+                                                bgColor = (i % 2) == 0 ? "rgb(217,217,217)" : "#FFFFFF";
+                                                <td valign="middle" align="center" style="font-size:12px; background-color:@bgColor; border-top:@bordertop; width:30px; 
+                                                border-left:1px solid black; background-position:center; cursor:pointer"  id="td@{@i}_@{@itmCnt}_scr"
+                                                    onclick="ClickScore('td@{@i}_@{@itmCnt}_scr',@{@itmCnt},'txts1a_@{@itmCnt}_scr')">
+                                                    @scrLbls[i]
+                                                </td>
+								            }
+                                            <td valign="middle" align="center" style="width:30px; border-left:1px solid black; border-top:@bordertop;" id="tds1a_1_scr">
+									            <!--
+                                                <asp:Label ID="lblS1a1Tos" Text="1a Item 1 Type of Support" CssClass="hidden" AssociatedControlID="txts1a_1_tos"
+                                                    runat="server" />
+									                -->
+                                                <input name="@lstIv[0].identifier" title="@lstIv[0].identifier" maxlength="1" tabindex="1" id="txts1a_@{@itmCnt}_scr" value='@Model.rspValues[@lstIv[0].identifier]'
+                                                        onchange="TypeScore('txts1a_@{@itmCnt}_scr',@{@itmCnt})"
+                                                        class="toolTip sectionTextBox" style="cursor:text" />
+                                            </td>
+                                        </tr>                                  
+						            }
+                      
+                                    @if (sctCnt == Model.subSections.Count() - 1)
+                                    //if this is the last section, add the total row
+                                    {
+                                        <tr style="height:30px; font-weight:bold; background-color:rgb(204,255,255)">
+                                            <td style="font-size:12px; border:1px solid black; border-top:2px solid black">Total number of items per qualification</td>
+                                            @for( int i = 0 ; i < 4 ; i++ ){
+                                                <td id="total_@i" style="font-size:12px; text-align:center; border:1px solid black; border-top:2px solid black"></td>
+                                            }
+                                            <td style="border:1px solid black; border-top:2px solid black; text-align:center; font-size:large">X</td>
+                                        </tr>
+                                    }  
+
+                                    </table>
+                                </td>
+                                <td style="width:150px" class="textAreaCell">
+                                    @{List<def_ItemVariables> listIv = siList[siList.Count()-1].def_Items.def_ItemVariables.ToList();
+                                      String ivIdent = listIv[0].identifier;}
+                                    <textarea name="@ivIdent" class="rspTextArea" style="width:98%; height:100%;">@Model.rspValues[ivIdent]</textarea>
+                                </td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                    <table id="Table2" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff" width="100%">
+                        <tr>
+                            <td>&nbsp;</td>
+                        </tr>
+                    </table>
+					<br /><br />
+					<input type="submit" value="Submit" id="btnSubmit" />
+                    <!-- end survey -->
+                </td>
+            </tr>
+            <tr>
+                <td align="right">
+                    @Html.Partial("AssmntNavPrevNext")
+
+                    <div class="copyright" style="text-align:center;font-size:smaller">
+                        <fieldset>
+                            <legend></legend>
+                            Copyright© 2014 by AAIDD   Supports Intensity Scale®   Revised July 2014
+                        </fieldset>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td height="10"> </td>
+            </tr>
+            <tr>
+                <td>
+                    <table border="0">
+                        <tr>
+                            <td>
+                                <table border="0" cellpadding="2" cellspacing="0" class="tableborderg" style="width: 300px; height: 80px">
+                                    <tr>
+                                        <td width="40%">
+                                            <span class="titleblack"><b>Scoring Key</b></span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td valign="top">
+                                            0 = Novice<br />
+                                            1 = Beginner<br />
+                                            2 = Qualified<br />
+                                            3 = Advanced
+                                        </td>
+                                    </tr>
+                                </table>
+                                <br />
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+	</form>
+	<!-- End of Form -->
+        </td>
+    </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0">
+    <tr>
+        <td style="height: 5px">&nbsp;</td>
+    </tr>
+</table>
+</td>
+    </tr>
+</table>
+<br />
+		

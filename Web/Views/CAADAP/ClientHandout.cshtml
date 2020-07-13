@@ -1,0 +1,172 @@
+﻿@model Assmnts.Models.ClientHandout1
+@{
+    Layout = null;
+}
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+        <meta name="author" content="" />
+        <meta name="description" content="" />
+        <!--<link rel="shortcut icon" href="../../favicon.ico">-->
+        <title>&nbsp;</title>
+        <script>
+            function Print() {
+                var printbtn = document.getElementById("printBtn");
+               // printbtn.style.display = "none";
+                window.print();
+                
+            }
+        </script>
+        <style media="print">
+
+            #printBtn{
+
+                display : none;
+            }
+
+        </style>
+        <style>
+
+            input, textarea{
+                border:1px solid black;
+            }
+
+            body{
+
+                font-family:Arial;
+            }
+
+        </style>
+
+    </head>
+    <body >
+
+        @*<center>*@
+    <div style="width:900px">
+        <table style="width:900px">
+            <tr>
+                <td style="font-size:22px">
+                    Important Information Regarding Your Prescription Coverage
+                </td>
+                <td>
+                    <img src="~/Content/adap/images/california.png" class="img-responsive" style="margin-right:35px;width:120px;height:80px" />
+                </td>
+            </tr>
+        </table>
+        <center style="font-weight:bold;font-size:20px;padding-top:20px;">Please keep this form in a safe place!</center>
+        <table style="width:900px;padding-top:20px;">
+            <tr>
+                <td style="width:250px;font-weight:bold">
+                    Enrollment Worker
+                </td>
+                <td>
+                    <input type="text" value="@Model.Enrollment_Worker" style="padding-left:5px;height:30px"/>
+                </td>
+                <td style="width: 136px;font-weight:bold">
+                    Phone Number
+                </td>
+                <td>
+                    <input type="text" value="@Model.Phone_Number" style="padding-left:5px;height:30px" />
+                </td>
+            </tr>
+
+        </table>
+        <table style="width:900px;padding-top:20px;">
+            <tr>
+                <td style="width:250px;font-weight:bold">
+                    Client ID
+                </td>
+                <td>
+                    <input type="text" value="@Model.MemberID" readonly="readonly" style="width:560px;height:30px;padding-left:5px" />
+                </td>
+            </tr>
+        </table>
+        <table style="width:900px;padding-top:20px;">
+            <tr>
+                <td style="width:250px;font-weight:bold">
+                   Website to access your profile
+                </td>
+                <td>
+                    <input type="text" value="www.CAmedAssist.org" readonly="readonly"  style="width:560px;height:30px;padding-left:5px" />
+                </td>
+            </tr>
+        </table>
+        <table style="width:900px;padding-top:20px;">
+            <tr>
+                <td style="width:250px;font-weight:bold">
+                    Your Login ID
+                </td>
+                <td>
+                    <input type="text" value="@Model.LoginId" readonly="readonly" style="width:560px;height:30px;padding-left:5px" />
+                </td>
+            </tr>
+        </table>
+        <table style="width:900px;padding-top:20px;">
+            <tr>
+                <td style="width:250px;font-weight:bold">
+                    Your next program
+                    <span style="display: block;">re-enrollment date</span>
+                </td>
+                <td>
+                    <input type="text" value="@Model.Re_Enrollment_Date"  style="width:560px;height:30px;padding-left:5px" />
+                </td>
+            </tr>
+        </table>
+        <center style="font-size:14px;padding-top:20px;"><b>As a reminder, you will receive a postcard in the mail from A.J. Boggs & Company 45 days before your eligibility ends.</b></center>
+        <table style="width:900px;padding-top:14px;">
+            <tr>
+                <td style="width:250px;font-weight:bold">
+                    You will receive a Self Verification Form (SVF) &nbsp;
+                    <span  style="display: block;">no later than</span>
+                </td>
+                <td>
+                    <input type="text" value="@Model.SVF_no_laterthan" style="width:560px;height:30px;padding-left:5px" />
+                </td>
+            </tr>
+        </table>
+        <center style="font-size:14px;padding-top:20px;"><b>You will receive your SVF in the mail from A.J. Boggs & Company.</b></center>
+        <table style="width:900px;padding-top:20px;">
+            <tr>
+                <td style="width:250px;font-weight:bold">
+                    Notes
+                </td>
+                <td>
+                    <textarea style="width:560px;height:100px;"></textarea>
+              
+                </td>
+            </tr>
+        </table>
+        <div style="width:900px;padding-top:20px;font-weight:bold">
+            For questions regarding program enrollment/eligibility, please contact <b style="color:blue">A.J. Boggs & Company:</b>
+             <span style="padding-left:10px;display:block">
+           
+                     <span>Phone Number: <b style="color:blue">(844) 550-3944</b> </span>
+                <br />
+                    <span>Fax Number: (844) 666-1411</span>
+                <br />
+                <span>Email: support@CAMedAssist.org</span>
+
+            </span>
+       </div>
+        <div style="width:900px;padding-top:20px;font-weight:bold">
+            For pharmacy/medication billing questions, please contact <b style="color:blue">Magellan Rx Management:</b>
+            <span style="padding-left:10px;display:block">
+
+                <span>Phone Number: <b style="color:blue">(800) 424-5906</b> </span>
+                <br />
+                <span>Fax Number: (800) 424-5927</span>
+
+            </span>
+        </div>
+        <a href="javascript:Print();" style="float:right;padding-right:80px" id="printBtn">Print</a>
+    </div>
+    
+ </body>
+</html>
+
+
+

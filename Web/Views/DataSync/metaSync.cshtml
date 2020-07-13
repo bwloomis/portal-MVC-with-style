@@ -1,0 +1,142 @@
+﻿@model Assmnts.Models.DataSync
+@{
+    ViewBag.Title = "Meta Sync";
+	Layout = "~/Views/Shared/SISVentureLayout.cshtml";
+}
+
+    <h2>Sync Form Data with Online SIS</h2>
+   
+    <div class="row">
+        <div class="col-md-3 col-sm-3">
+            <span id="rltPlusSign" title="Show Details" class="glyphicon glyphicon-tasks" onclick="toggle('RltTblDetail')"></span>
+            <b>&nbsp;&nbsp;Assessment Data</b>
+        </div>
+        
+        <div class="col-md-3 col-sm-3">
+            <input id="startProcess" type="button" value="Download" onclick="initImportTables()" />
+        </div>
+
+            <div title="Sync Status Information" class="col-md-6 col-sm-6">
+            <span class=" glyphicon glyphicon-info-sign"></span><a id="status"></a>
+        </div>
+    </div>
+   
+    <br />
+    <div id="RltTblDetail" class="container-fluid">
+        <div class="row">
+            <div class="col-xs-6 col-sm-3"><h4>File</h4></div><div class="visible-lg visible-md col-xs-6 col-sm-3"><h4>Venture Records</h4></div><div class="visible-lg visible-md col-xs-6 col-sm-3"><h4>SIS Records</h4></div><div class="col-xs-6 col-sm-3"><h4>Status</h4></div>
+        </div>
+        @{int rowCnt = 0; }
+        @foreach (var tbl in ViewBag.MetaTable)
+        {
+            <div class="row">
+                <div id="tableName_@{@rowCnt}" class="col-xs-6 col-sm-3">@tbl.tableName</div>
+				<div id="vtCntId_@{@rowCnt}" class="visible-lg visible-md col-xs-6 col-sm-3">@tbl.VentureCnt</div>
+				<div class="visible-lg visible-md col-xs-6 col-sm-3">@tbl.SISOnlineCnt</div>
+				<div id="syStatus_@{@rowCnt}" class="col-xs-6 col-sm-3">@tbl.SyncStatus</div>
+            </div>
+            rowCnt++;
+        }
+    </div>
+	<br />
+	<div class="progress progress-striped active"> 
+      <div id="pbar" aria-valuemax="100" aria-valuemin="0" aria-valuenow="20" class="progress-bar" role="progressbar" style="width: 2%">0%</div>
+    </div>
+	<div id="overallStatus" class="alert alert-success">Overall Status</div>
+	
+<script>
+    function toggle(id) {
+        var state = document.getElementById(id).style.display;
+        document.getElementById(id).style.display = (state == 'block') ? 'none' : 'block';
+    }
+
+    var uniqueId = '<%= @Guid.NewGuid().ToString() %>';
+
+    var percentComplete = 0;
+    function updPrcnt() {
+        var pcnt = Math.round(percentComplete).toString() + '%';
+        $('#pbar').width(pcnt);
+        $('#pbar').text(pcnt);
+    }
+
+    var filesToProcess = 19;
+    var currentFile = 0;
+
+    // Import tables in the reverse order of the Deletes
+    function initImportTables() {
+        $('#overallStatus').text('Remote data being downloaded and imported.');
+        currentFile = 0;	// It should already be zero anyway after the Deletes
+        var tableName = document.getElementById('tableName_' + currentFile.toString()).innerHTML;
+        ImportTable(tableName);
+    }
+
+    // Deletes the content of a table on the local version
+    function ImportTable(tblName) {
+        $.ajax({
+            type: "GET",
+            url: "/DataSync/DownloadMetaTable",
+            data: param = { fileId: currentFile.toString(), tableName: tblName },
+            async: true,
+            cache: false,
+            success: function (response) {
+                var tagStatus = '#syStatus_' + currentFile.toString();
+
+                if ($.isNumeric(response)) {
+                    var tagVntCnt = '#vtCntId_' + currentFile.toString();
+                    $(tagVntCnt).html(response);
+                    $(tagStatus).html("Records Downloaded.");
+                }
+                else		// Must've been an error so display the message.
+                {
+                    $(tagStatus).html(response);
+                }
+
+                percentComplete += 100 / filesToProcess;
+                updPrcnt();
+
+                // Process the next table
+                currentFile++;
+                if (currentFile < filesToProcess) {
+                    var nextTableName = document.getElementById('tableName_' + currentFile.toString()).innerHTML;
+                    ImportTable(nextTableName);
+                } else {
+                    $('#overallStatus').text('Synchronization process has been completed.');
+                    percentComplete = 100;
+                    updPrcnt();
+                }
+                // Update the Progress bar
+                $('.progress').removeClass('active');
+                $('.progress').removeClass('progress-striped');
+                // $('.progress-bar').text('Complete');
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                document.getElementById('status').innerHTML = "Validate xhr:  " + xhr.status + "   thrownError: " + thrownError + "</br>";
+            }
+        });
+
+    }
+
+    function getVentureTblCnt() {
+        $.ajax({
+            type: "POST",
+            url: "/DataSync/GetMetaTblCnt",
+            data: param = { index: totalTbl },
+            async: false,
+            cache: false,
+            success: function (response) {
+                var tagString = '#vtCntId_' + totalTbl;
+                $(tagString).html(response);
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                document.getElementById('status').innerHTML = "Validate xhr:  " + xhr.status + "   thrownError: " + thrownError + "</br>";
+            }
+        });
+
+    }
+
+
+    function isNumeric(obj) {
+        return obj - parseFloat(obj) >= 0;
+    }
+
+</script>

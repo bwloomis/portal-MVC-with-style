@@ -1,0 +1,169 @@
+﻿@{
+    ViewBag.Title = "Interview and Profile";
+    Layout = "~/Views/Shared/AssmntLayout.cshtml";
+    Validator.Required("The field is required.");
+}
+
+@section HeadContent {
+
+    <link rel="stylesheet" type="text/css" href="/Content/css/sitewide.css">
+    <link rel="alternate stylesheet" type="text/css" media="screen" title="medium" href="/Content/css/sitewide2.css">
+    <link rel="alternate stylesheet" type="text/css" media="screen" title="large" href="/Content/css/sitewide3.css">
+    <script language="JavaScript" src="/content/js/textchanger.js" type="text/javascript"></script>
+
+    <style>
+        .textfield {
+            height: 15px;
+            width: 150px;
+            border: 1px solid #7b7d7b;
+        }
+
+        /*change top and left below to effect the way the
+         right-side elements overlap with the logo*/
+        .offset {
+            position: relative;
+            top: -50px;
+            left: -160px;
+        }
+    </style>
+
+    <script type="text/javascript">
+    var RecaptchaOptions = {
+        theme: 'clean'
+    };
+    </script>
+
+
+}
+
+<table border="0" cellpadding="0" cellspacing="0" style="background-color: #106296">
+    <tr>
+        <td style="height: 26px" align="left" valign="middle">
+            <table border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td>
+                        <span class="whitelarge">&nbsp;&nbsp;American Association on Intellectual and Developmental Disabilities (AAIDD)</span>
+                    </td>
+                    <td id="ctl00_celTopMenu" style="width: 200px"></td>
+
+                    <td>
+                        <table border="0" cellpadding="0" cellspacing="0" style="background-color: #106296">
+                            <tr>
+                                <td style="height: 17px">&nbsp;</td>
+                                <td style="width: 17px" align="right">
+                                    <a href="javascript:chooseStyle('none', 60)">
+                                        <img src="/Content/images/font-small.gif" alt="Small font" style="border-width: 0px" />
+                                    </a>
+                                </td>
+                                <td style="width: 4px"></td>
+                                <td style="width: 17px" align="right">
+                                    <a href="javascript:chooseStyle('medium', 60)">
+                                        <img src="/Content/images/font-medium.gif" alt="Medium font" style="border-width: 0px" />
+                                    </a>
+                                </td>
+                                <td style="width: 4px"></td>
+                                <td style="width: 17px" align="right">
+                                    <a href="javascript:chooseStyle('large', 60)">
+                                        <img src="/Content/images/font-large.gif" alt="Large font" style="border-width: 0px" />
+                                    </a>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr><td style="background-color: #ffffff; height: 1px"></td></tr>
+    <tr><td style="background-color: #d5d5d5; height: 8px"></td></tr>
+    <tr><td style="background-color: #999999; height: 1px"></td></tr>
+</table>
+<div class="content">
+    <br />
+    <table id="tblData" cellpadding="0" cellspacing="0" style="height: 100%; ">
+        <tr>
+            <td>
+                <img src="~/content/images/sisonline%20logo.jpg" />
+            </td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <table style="width: 100%" border="0" cellpadding="5" cellspacing="0" class="tableborder offset content">
+                    <tr class="heading" style="background-color: #d3d3d3;">
+                        <td colspan="2"><span class="titleblack">Help</span></td>
+                    </tr>
+                    <tr style="background-color:white;">
+                        <td width="16" valign="middle" align="middle">
+                            <a target="_blank" href="~/Content/docs/SIS-A_Administration_FAQs.pdf">
+                                <img src="~/Content/images/pdf.gif" border="0" />
+                            </a>
+                        </td>
+                        <td align="left">
+                            <a target="_blank" href="~/Content/docs/SIS-A_Administration_FAQs.pdf">
+                                SIS-A Interviewer FAQ
+                            </a>
+                        </td>
+                    </tr>
+                    <tr style="background-color:white;">
+                        <td width="16" valign="middle" align="middle">
+                            <a target="_blank" href="~/Content/docs/SIS-A guidelines for interviewing corrected final 4-21-15.pdf">
+                                <img src="~/Content/images/pdf.gif" border="0" />
+                            </a>
+                        </td>
+                        <td align="left">
+                            <a target="_blank" href="~/Content/docs/SIS-A guidelines for interviewing corrected final 4-21-15.pdf">
+                                Guidelines for Interviewing
+                            </a>
+                        </td>
+                    </tr>
+                    <tr style="background-color:white;">
+                        <td width="16" valign="middle" align="middle">
+                            <a target="_blank" href="#">
+                                <img src="~/Content/images/pdf.gif" border="0" />
+                            </a>
+                        </td>
+                        <td align="left">
+                            <a target="_blank" href="~/Content/docs/SIS-A%20guidelines%20for%20interviewing%20corrected%20final%204-21-15.pdf">
+                                SISOnline 2015 User Guide
+                            </a>
+                        </td>
+                    </tr>
+                    <tr style="background-color:white;">
+                        <td colspan="2">
+                            If you encounter any technical problems or have any questions while using SIS-A or Venture, contact the SIS-A Help Desk:<br /><br />Email: help@sis-online.org or phone: 202.387.1968 ext. 211. <br />Hours: Monday through Friday, 9 a.m. – 5 p.m. (Eastern Time)
+                        </td>
+                    </tr>
+                </table>
+                <br />
+                <table border="0" cellpadding="5" cellspacing="0" class="tableborder content consumerReport offset">
+                    <tr class="heading" style="background-color: #d3d3d3;">
+                        <td style="width:16px"><img alt="Information" src="/Content/images/infoicon.gif" /></td>
+                        <td><span class="titleblack">Supports Intensity Scale: Computer Report&#0153;</span></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <table cellpadding="4" cellspacing="0" border="0">
+                                <tr>
+                                    <td colspan="2"></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <br />
+                                        Supports Intensity Scale and SISOnline are published by the American Association on Intellectual and Developmental Disabilities.
+                                        <br /><br />
+                                        <center>Copyright &#0169; 2015 by the American Association on Intellectual and Developmental Disabilities.</center>
+                                        <center>All rights reserved.</center><br />
+                                        <center>May not be reproduced in whole or part in any form or by any means without the written permission of the American Association on Intellectual and Developmental Disabilities.</center><br />
+
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</div>

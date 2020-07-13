@@ -1,0 +1,58 @@
+﻿#prefDialog1 label {
+    width: 60%;
+}
+
+input[type=text] {
+    height: 1.5em;
+    float: right;
+}
+
+
+input[type=password] {
+    float: right;
+    margin-right: 40%;
+}
+
+.column2 {
+    float:right;
+}
+
+#prefDialog2 label {
+    margin-right: 10px;
+}
+
+#prefDialog2 .form-group {
+    line-height: 70%;
+}
+
+#prefDialog3 {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+
+#prefDialog3 .form-group {
+    line-height: 70%;
+}
+
+.form-group label {
+    color: black;
+    font-size: 1.15em;
+    font-weight: normal;
+}
+
+input[type=checkbox] {
+    margin-left: 20px;
+}
+
+label {
+    color: black;
+    font-size: 1.15em;
+    font-weight: normal;
+}
+
+#errorMessage {
+    padding: 5px;
+    font-size: 1.1em;
+    color: red;
+}

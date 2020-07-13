@@ -1,0 +1,53 @@
+﻿<script>
+    var formResultData = {
+        "formResults": {
+            "id": "6",
+            "formStatus": "4",
+            "dateUpdated": "2015-02-27 00:00:00",
+            "sections": [
+                {
+                    "id": "1",
+                    "responses": [{
+                        "sis_cl_first_nm": "John",
+                        "sis_cl_last_nm": "Smith",
+                        "sis_res1_firstn": "Jane",
+                        "sis_res1_lastn": "Doe"
+                    }]
+                },
+                {
+                    "id": "31",
+                    "responses": [{
+                        "sis_race": "0",
+                        "sis_loc": "Home"
+                    }]
+                }
+            ]
+        }
+    };
+
+
+    function sendData() {
+        $.ajax({
+            type: "POST",
+            url: "/Defws/UpdateFormResultJSON",
+            data: { json: JSON.stringify(formResultData) },
+            async: false,
+            cache: false,
+            success: function (data) {
+                alert("SUCCESS: " + data);
+                document.getElementById('msg').innerHTML += data + "</br>";
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                //alert("ERROR: " + thrownError);
+                document.getElementById('msg').innerHTML += "Add ResponseValue error:  " + thrownError + "</br>";
+            },
+            complete: function (data) {
+                alert("COMPLETE: " + data);
+            }
+        });
+    }
+</script>
+
+<div id="msg"></div>
+
+<div><input type="button" onclick="sendData()" /></div>

@@ -1,0 +1,170 @@
+@model Assmnts.Models.GeneralForm
+@using OptionKey = AJBoggs.Sis.Reports.SisPdfReportOptions.OptionKey;
+@{
+    ViewBag.Title = "Report Options";
+    Layout = "~/Views/Shared/AssmntLayout.cshtml";
+    Validator.Required("The field is required.");
+}
+
+@section HeadContent {
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <style type="text/css">
+        #btnExpandResps
+        {
+            height: 18px;
+            width: 184px;
+            font-family: Arial, Geneva, Verdana;
+        }
+
+        .class_wide_input {
+            width: 300px;
+        }
+    </style>
+    
+    <link rel="stylesheet" type="text/css" href="/Content/css/jquery.datepick.css">
+    <link rel="stylesheet" type="text/css" href="/Content/css/jquery.timeentry.css">
+    <script src="/Content/js/jquery.plugin.js"></script>
+    <script src="/Content/js/jquery.datepick.js"></script>
+    <script src="/Content/js/jquery.maskedinput.min.js"></script>
+    <script src="/Content/js/jquery.timeentry.min.js"></script>
+}
+
+<table id="tblData" border="0" cellpadding="0" cellspacing="0" style="height: 100%">
+    <tr>
+        <td style="width: 189px; background-color: #ffffff" valign="top" align="center">@Html.Partial("AssmntLeftPane")</td>
+        <td>
+            <br />
+            <table border="0" cellpadding="0" cellspacing="0" width="625">
+                <tr>
+                    <td align="left">
+                        <!-- <asp:Label ID="lblErr" Visible="false" ForeColor="red" runat="server" />  -->
+                        <table border="0" cellpadding="5" cellspacing="0" class="tableborder" style="background-color: #ffffff; margin-left: 1.3em;"
+                            width="800">
+                            <tr>
+                                <td style="background-color: #d5d5d5">
+                                    <span class="titleblack">Family-Friendly Report Options</span>
+                                </td>
+                            </tr>
+                        </table>
+                        <form action="/Results/Save" method="post" id="form-id">
+                            <table border="0" cellpadding="5" cellspacing="0" class="tableborder" style="background-color: #f4f4f4; margin-left: 1.3em"
+                                width="800">
+                                <tr>
+                                    <td>
+                                        <table>
+                                            <tr>
+                                                <td>
+                                                    <input type="checkbox" id="grayscale" @(Model.reportOptions[OptionKey.grayscale] ? "checked" : null) />
+                                                    <label for="grayscale"><span></span>Black and White (if unchecked, report will be in color)</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <input type="checkbox" id="includeSups" @(Model.reportOptions[OptionKey.includeSups] ? "checked" : null) />
+                                                    <label for="includeSups"><span></span>Include Supplemental Questions</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <input type="checkbox" id="includeScores" @(Model.reportOptions[OptionKey.includeScores] ? "checked" : null) />
+                                                    <label for="includeScores"><span></span>Include Scores (otherwise only show graph)</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <input type="checkbox" id="includeToFor" @(Model.reportOptions[OptionKey.includeToFor] ? "checked" : null) />
+                                                    <label for="includeToFor"><span></span>Include "Important To" and "Important For" goals and objectives</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <input type="checkbox" id="includeComments" @(Model.reportOptions[OptionKey.includeComments] ? "checked" : null) />
+                                                    <label for="includeComments"><span></span>Include all notes for each item. (Otherwise only Section 1 notes are in report.)</label>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        @*<table>
+                                <tr>
+                                    <td>
+                                        Type
+                                    </td>
+                                    <td style="vertical-align:top">
+                                        <input type="radio" name="type" id="type_family" checked><label for="type_family"><span></span>Family-Friendly Report</label>
+                                        <!--<input type="radio" name="type" id="type_generic"><label for="type_generic"><span></span>Generic Report</label>
+    <input type="radio" name="type" id="type_default"><label for="type_default"><span></span>Default Report</label>-->
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Report Length
+                                    </td>
+                                    <td style="vertical-align:top">
+                                        <input type="radio" name="length" id="short" @(Model.reportOptions.isShort ? "checked" : null)><label for="short"><span></span>Short</label>
+                                        <input type="radio" name="length" id="long" @(!Model.reportOptions.isShort ? "checked" : null)><label for="long"><span></span>Long</label>
+                                    </td>
+                                </tr>
+                            </table>*@
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input type="button" id="id_BuildReport" value="Click Here to Build Report">
+                                        @*@Html.ActionLink(
+                                            linkText: "Click Here to Build Report",
+                                            actionName: "BuildReport",
+                                            controllerName: "SisPdfRpts",
+                                            routeValues: new { },
+                                            htmlAttributes: new { id = "id_BuildReport" }
+                                        )*@
+                                    </td>
+                                    <script>
+                                        $('#id_BuildReport').click(function () {
+                                            var url = '../SisPdfRpts/BuildReport?hasOptions=true';
+
+                                            @foreach (OptionKey key in Enum.GetValues(typeof(OptionKey)))
+                                            {
+                                                @:url += '&@key.ToString()=' + $('#@key.ToString()').prop('checked');
+                                            }
+                                            window.location.href = url;
+                                        });
+                                    </script>
+                                </tr>
+                                <tr>
+                                    <td>
+
+                                        @Html.Partial("AssmntNavPrevNext")
+                                        <script>
+                                            $(document).ready(function () {
+                                                $('.class_nextscreen').hide();
+                                            })
+                                        </script>
+
+                                        <div id="sectIndivParticipation" visible="false">
+                                            <fieldset>
+                                                <legend></legend>
+                                            </fieldset>
+                                        </div>
+                                        <div id="sectIntSetting" style="margin-top: 12px;" visible="false">
+                                            &nbsp;
+                                        </div>
+                                    </td>
+                </tr>
+            </table>
+            <br />
+            <br />
+            <input type="submit" value="Submit" id="btnSubmit" />
+            </form>
+        </td>
+    </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0">
+    <tr>
+        <td style="height: 5px">&nbsp;</td>
+    </tr>
+</table>
+</td>
+    </tr>
+</table>
+<br />
+
+		

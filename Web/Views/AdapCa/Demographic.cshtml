@@ -1,0 +1,435 @@
+﻿@model Assmnts.Models.GeneralForm
+@{
+    Layout = "AppLayout.cshtml";
+}
+<div class="panel panel-default" id="demographic-name">
+    <div class="panel-body" style="background-color:#f8f8f8">
+        <div class="form-group">
+            <div class="col-md-3">
+                <label class="control-label">D1. Full Legal Name</label>
+            </div>
+            <div class="col-md-1">
+                <div class=" pull-right">
+                    <label class="control-label" for="LastName">@Model.fldLabels["LastName"]</label>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <input type="text" class="form-control" name="LastName" id="LastName" maxlength="60" value='@Model.rspValues["LastName"]'/>
+            </div>
+            <div class="col-md-1">
+                <div class=" pull-right">
+                    <label class="control-label" for="FirstName">@Model.fldLabels["FirstName"]</label>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <input type="text" class="form-control" name="FirstName" id="FirstName" maxlength="60" value='@Model.rspValues["FirstName"]' />
+            </div>
+            <div class="col-md-1">
+                <div class=" pull-right">
+                    <label class="control-label" for="MiddleInitial">@Model.fldLabels["MiddleInitial"]M.I.</label>
+                </div>
+            </div>
+            <div class="col-md-1">
+                <input type="text" class="form-control" name="MiddleInitial" id="MiddleInitial" maxlength="1" value='@Model.rspValues["MiddleInitial"]' />
+            </div>
+        </div>
+        <hr>
+        <div class="form-group">
+            <div class="col-md-3">
+                <label class="control-label" for="MaidenName">@Model.fldLabels["MaidenName"]</span></label>
+            </div>
+            <div class="col-md-4">
+                <input type="text" class="form-control" name="MaidenName" id="MaidenName" maxlength="60" value='@Model.rspValues["MaidenName"]' />
+            </div>
+        </div>
+        <hr>
+        <div class="form-group">
+            <div class="col-md-3">
+                <label class="control-label" for="ProofOfLegalName">Attach Proof of Legal Name</label>
+            </div>
+            <div class="col-md-5">
+                <!-- change ProofName ID/Name to whatever, name not given in original screen data dictionary -->
+                <input type="file" class="file" id="ProofOfLegalName" name="ProofOfLegalName" data-show-preview="false" data-show-upload="false" maxlength="75">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="panel panel-default" id="demographic-dob">
+    <div class="panel-body" style="background-color:#f8f8f8">
+        <div class="form-group">
+            <div class="col-md-2">
+                <label class="control-label" for="DateOfBirth">@Model.fldLabels["DateOfBirth"]</label>
+            </div>
+            <div class="col-md-3">
+                <div class="input-group date">
+                    <input type="text" class="form-control" id="DateOfBirth" name="DateOfBirth" placeholder="mm/dd/yyyy" maxlength="12" value='@Model.rspValues["DateOfBirth"]' />
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="panel panel-default" id="demographic-race">
+    <div class="panel-body" style="background-color:#f8f8f8">
+        <div class="form-group">
+            <div class="col-md-4">
+                <label class="control-label">
+                    D3. What is your race? <span class="muted small">(Check all that apply)</span>
+                </label>
+            </div>
+            <div class="col-md-4">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" id="IsWhiteRace" name="IsWhiteRace" checked="@Model.rspValues["IsWhiteRace"]">@Model.fldLabels["IsWhiteRace"]
+                    </label>
+                </div>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" id="IsHawaiianOrPacificIslanderRace" name="ADAP_D3_NativeHPI" checked="@Model.rspValues["IsHawaiianOrPacificIslanderRace"]">@Model.fldLabels["IsHawaiianOrPacificIslanderRace"]
+                    </label>
+                </div>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" id="IsAsianRace" name="IsAsianRace" checked="@Model.rspValues["IsAsianRace"]">@Model.fldLabels["IsAsianRace"]
+                    </label>
+                </div>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" id="IsBlackOrAfricanAmericanRace" name="IsBlackOrAfricanAmericanRace" checked="@Model.rspValues["IsBlackOrAfricanAmericanRace"]">@Model.fldLabels["IsBlackOrAfricanAmericanRace"]
+                    </label>
+                </div>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" id="IsAmericanIndianOrAlaskaNativeRace" name="IsAmericanIndianOrAlaskaNativeRace" checked="@Model.rspValues["IsAmericanIndianOrAlaskaNativeRace"]">@Model.fldLabels["IsAmericanIndianOrAlaskaNativeRace"]
+                    </label>
+                </div>
+            </div>
+        </div>
+        <!-- only display if native hawaiian/pacific islander is checked -->
+        <div id="PIAncestry">
+            <div class="form-group">
+                <div class="col-md-10">
+                    <label class="control-label">
+                        If you answered Native Hawaiian/Pacific Islander, how would you identify?<span class="muted small">(Check all that apply)</span>
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-1 col-md-3">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" id="IsNativeHawaiian" name="IsNativeHawaiian" checked='@Model.rspValues["IsNativeHawaiian"]'>Native Hawaiian @Model.fldLabels["IsNativeHawaiian"]
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" id="IsGuamanianOrChamorro" name="IsGuamanianOrChamorro" checked='@Model.rspValues["IsGuamanianOrChamorro"]'>Guamanian or Chamorro @Model.fldLabels["IsGuamanianOrChamorro"]
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" id="IsSamoan" name="IsSamoan" checked='@Model.rspValues["IsSamoan"]'>Samoan @Model.fldLabels["IsSamoan"]
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" id="IsFijian" name="IsFijian" checked='@Model.rspValues["IsFijian"]'>Fijian @Model.fldLabels["IsFijian"]
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" id="IsTongan" name="IsTongan" checked='@Model.rspValues["IsTongan"]'>Tongan @Model.fldLabels["IsTongan"]
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" id="IsOtherPacificIslander" name="IsOtherPacificIslander" checked='@Model.rspValues["IsOtherPacificIslander"]' >Other Pacific Islander Tongan @Model.fldLabels["IsOtherPacificIslander"]
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- only display if asian is slected above -->
+        <div id="AsianAncestry">
+            <div class="form-group">
+                <div class="col-md-8">
+                    <label class="control-label">
+                        If you answered Asian, how would you identify? <span class="muted small">(Check all that apply)</span>
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-1 col-md-2">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" id="IsFilipino" name="IsFilipino" checked='@Model.rspValues["IsFilipino"]' >@Model.fldLabels["IsFilipino"]
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" id="IsKorean" name="IsKorean" checked='@Model.rspValues["IsKorean"]'>@Model.fldLabels["IsKorean"]
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" id="IsChinese" name="IsChinese" checked='@Model.rspValues["IsChinese"]'>@Model.fldLabels["IsChinese"]
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" id="IsJapanese" name="IsJapanese" checked='@Model.rspValues["IsJapanese"]'>@Model.fldLabels["IsJapanese"]
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" id="IsVietnamese" name="IsVietnamese" checked='@Model.rspValues["IsVietnamese"]'>@Model.fldLabels["IsVietnamese"]
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" id="IsLaotian" name="IsLaotian" checked='@Model.rspValues["IsLaotian"]'>@Model.fldLabels["IsLaotian"]
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" id="IsCambodian" name="IsCambodian" checked='@Model.rspValues["IsCambodian"]'>@Model.fldLabels["IsCambodian"]
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" id="IsBangladeshi" name="IsBangladeshi" checked='@Model.rspValues["IsBangladeshi"]'>@Model.fldLabels["IsBangladeshi"]
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" id="IsHmong" name="IsHmong" checked='@Model.rspValues["IsHmong"]'>@Model.fldLabels["IsHmong"]
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" id="IsIndonesian" name="IsIndonesian" checked='@Model.rspValues["IsIndonesian"]'>@Model.fldLabels["IsIndonesian"]
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" id="IsMalaysian" name="IsMalaysian" checked='@Model.rspValues["IsMalaysian"]'>@Model.fldLabels["IsMalaysian"]
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" id="IsPakistani" name="IsPakistani" checked='@Model.rspValues["IsPakistani"]'>@Model.fldLabels["IsPakistani"]
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" id="IsSriLankan" name="IsSriLankan" checked='@Model.rspValues["IsSriLankan"]'>@Model.fldLabels["IsSriLankan"]
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" id="IsTaiwanese" name="IsTaiwanese" checked='@Model.rspValues["IsTaiwanese"]'>@Model.fldLabels["IsTaiwanese"]
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" id="IsThai" name="IsThai" checked='@Model.rspValues["IsThai"]'>@Model.fldLabels["IsThai"]
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" id="IsBurmese" name="IsBurmese" checked='@Model.rspValues["IsBurmese"]'>@Model.fldLabels["IsBurmese"]
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" id="IsSingaporean" name="IsSingaporean" checked='@Model.rspValues["IsSingaporean"]'>@Model.fldLabels["IsSingaporean"]
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" id="IsOtherAsian" name="IsOtherAsian" checked='@Model.rspValues["IsOtherAsian"]'>@Model.fldLabels["IsOtherAsian"]
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-default" id="demographic-ethnicity">
+    <div class="panel-body" style="background-color:#f8f8f8">
+        <div class="form-group">
+            <div class="col-md-3">
+                <label class="control-label" for="Ethnicity">@Model.fldLabels["Ethnicity"]</label>
+            </div>
+            <div class="col-md-4">
+                <select class="form-control" name="Ethnicity" id="Ethnicity">
+                    <option value="" selected disabled>Choose one</option>
+                    <option value="1">Hispanic/Latino/a</option>
+                    <option value="2">Non-Hispanic</option>
+                    <option value="3">Unknown</option>
+                </select>
+            </div>
+        </div>
+        <!-- only display if hispanic/latino(a) is slected above -->
+        <div id="HispanicAncestry">
+            <div class="form-group">
+                <div class="col-md-8">
+                    <label class="control-label">
+                        If you answered Hispanic/Latino/a, how would you identify? <span class="muted small">(Check all that apply)</span>
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-1 col-md-5">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" id="IsMexicanOrMexicanAmerican" name="IsMexicanOrMexicanAmerican" checked='@Model.rspValues["IsMexicanOrMexicanAmerican"]'>@Model.fldLabels["IsMexicanOrMexicanAmerican"]
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" id="IsPuertoRican" name="IsPuertoRican" checked='@Model.rspValues["IsPuertoRican"]'>@Model.fldLabels["IsPuertoRican"]
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" id="IsCuban" name="IsCuban" checked='@Model.rspValues["IsCuban"]'>@Model.fldLabels["IsCuban"]
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" id="IsSpanish" name="IsSpanish" checked='@Model.rspValues["IsSpanish"]'>@Model.fldLabels["IsSpanish"]
+                        </label>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-default" id="demographic-language">
+    <div class="panel-body" style="background-color:#f8f8f8">
+        <div class="form-group">
+            <div class="col-md-4">
+                <label class="control-label" for="PreferredLanguage">Preferred Language</label>
+                @* <label class="control-label" for="PreferredLanguage">@Model.fldLabels["PreferredLanguage"]</label> *@
+            </div>
+            <div class="col-md-4">
+                <select class="form-control" name="PreferredLanguage" id="PreferredLanguage">
+                    <option value="" selected disabled>Choose one</option>
+                    <option value="1">English</option>
+                    <option value="2">Spanish</option>
+                    <option value="3">Tagalog</option>
+                    <option value="4">Chinese/Mandarin</option>
+                    <option value="5">Other (please specify below)</option>
+                </select>
+            </div>
+        </div>
+        <!-- only display if Other (please specify below) is selected for preferred/language -->
+        <div class="form-group">
+            <div class="col-md-4 col-md-offset-4">
+                <input type="text" class="form-control" name="PreferredLanguageOther" id="PreferredLanguageOther" maxlength="25" value='@Model.rspValues["PreferredLanguageOther"]'>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="panel panel-default" id="demographic-gender">
+    <div class="panel-body" style="background-color:#f8f8f8">
+        <div class="form-group">
+            <div class="col-md-2">
+                <label class="control-label" for="CurrentGender">@Model.fldLabels["CurrentGender"]</label>
+            </div>
+            <div class="col-md-2">
+                <select class="form-control" name="CurrentGender" id="CurrentGender">
+                    <option value="" selected disabled>Choose one</option>
+                    <option value="1">Male</option>
+                    <option value="2">Female</option>
+                    <option value="3">Transgender</option>
+                    <option value="4">Unknown</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <div class="pull-right">
+                    <label class="control-label" for="Transgender">@Model.fldLabels["Transgender"]</label>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <select class="form-control" name="Transgender" id="Transgender">
+                    <option value="" selected disabled>Choose one</option>
+                    <option value="1">Male-to-Female</option>
+                    <option value="2">Female-to-Male</option>
+                    <option value="3">Unknown</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <div class="pull-right">
+                    <label class="control-label" for="BirthGender">@Model.fldLabels["BirthGender"]</label>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <select class="form-control" name="BirthGender" id="BirthGender">
+                    <option value="" selected disabled>Choose one</option>
+                    <option value="1">Male</option>
+                    <option value="2">Female</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-default" id="demographic-ramsell">
+    <div class="panel-body" style="background-color:#f8f8f8">
+        <div class="form-group">
+            <div class="col-md-4">
+                <label class="control-label" for="MemberID">@Model.fldLabels["MemberID"]</label>
+            </div>
+            <div class="col-md-3">
+                <input type="text" class="form-control" name="MemberID" id="MemberID" maxlength="20" value='@Model.rspValues["MemberID"]'>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-default" id="demographic-ssn">
+    <div class="panel-body" style="background-color:#f8f8f8">
+        <div class="form-group">
+            <div class="col-md-6">
+                <label class="control-label" for="SocialSecurityNumber">@Model.fldLabels["SocialSecurityNumber"]</label>
+            </div>
+            <div class="col-md-3">
+                <input type="text" class="form-control" name="SocialSecurityNumber" id="SocialSecurityNumber" maxlength="11" value='@Model.fldLabels["SocialSecurityNumber"]'>
+            </div>
+        </div>
+        <hr>
+        <div class="form-group">
+            <div class="checkbox left-buffer-15">
+                <label class="control-label" for="IneligibleImmigrant">
+                    <input type="checkbox" id="IneligibleImmigrant" name="IneligibleImmigrant" value='@Model.rspValues["IneligibleImmigrant"]'>@Model.fldLabels["IneligibleImmigrant"]
+                </label>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="panel panel-default" id="demographic-itin">
+    <div class="panel-body" style="background-color:#f8f8f8">
+        <div class="form-group">
+            <div class="col-md-5">
+                <label class="control-label" for="ITIN">
+                    @Model.fldLabels["ITIN"]
+                </label>
+            </div>
+            <div class="col-md-3">
+                <input type="text" class="form-control" name="ITIN" id="ITIN" maxlength="20"  value='@Model.rspValues["ITIN"]'>
+            </div>
+        </div>
+    </div>
+</div>

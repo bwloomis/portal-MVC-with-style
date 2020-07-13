@@ -1,0 +1,261 @@
+@model Assmnts.Models.TemplateFormParts
+@{
+    ViewBag.Title = "Part Edit";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+@section HeadContent {
+
+	@*<link rel="stylesheet" type="text/css" href="/Content/css/sitewide.css" />*@
+	
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <link href="/Content/css/sis-red/jquery-ui-1.7.sisred.css" rel="stylesheet" type="text/css" />
+	
+}
+	
+<style>
+    table, th, td {
+        padding: 5px;
+    }
+
+    .pageEdit {
+        padding-top: .6em;
+        font-size: small;
+    }
+</style>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var noDsplyRecs = 10;
+        $('#PartModalSearch').on('click', function (event) {
+            $('#ModalPaging').data('iniIndex', 0);
+            ModalQuery(0);
+        });
+
+        $('#ModalPrev').on('click', function () {
+            var iniIndex = $('#ModalPaging').data('iniIndex');
+            if (iniIndex > 0) {
+                ModalQuery(-1 * noDsplyRecs);
+            }
+        });
+
+        $('#ModalNext').on('click', function () {
+            var iniIndex = $('#ModalPaging').data('iniIndex');
+            var count = $('#ModalPaging').data('count');
+            if (iniIndex < count - noDsplyRecs) {
+                ModalQuery(noDsplyRecs);
+            }
+        });
+
+        function ModalQuery(turnPage) {
+            var iden = $('#IdSearch').val();
+            var title = $('#TitleSearch').val();
+            var iniIndex = $('#ModalPaging').data('iniIndex');
+
+            postdata = {
+                "identifier": iden,
+                "title": title,
+                "iniIndex": iniIndex,
+                "turnPage": turnPage
+            }
+
+            $.ajax({
+                url: "/Templates/PartList",
+                type: 'POST',
+                data: postdata,
+                dataType: 'json',
+                success: function (data) {
+                    var iniIndex = data[0].substring(data[0].indexOf("page=") + "page=".length, data[0].indexOf("&"));
+                    var last = data[0].substring(data[0].indexOf("endIndex=") + "endIndex=".length, data[0].indexOf("&", data[0].indexOf("endIndex=")));
+                    var count = data[0].substring(data[0].indexOf("count=") + "count=".length, data[0].length);
+                    var paging = $('#ModalPaging');
+                    if (count > 10) {
+                        paging.show();
+                    } else {
+                        paging.hide();
+                    }
+
+                    paging.data('iniIndex', iniIndex);
+                    paging.data('count', count);
+
+                    $('#pageLabel').html(iniIndex + ' to ' + last + ' of ' + count + ' Records');
+
+                    var result = "<br /><b>";
+                    for (var i = 1; i < data.length; i++) {
+                        result += "<br />";
+                        result += data[i];
+                    }
+                    result += "</b><br /><br />";
+                    $('#PartSearchResults').html(result);
+                }
+            });
+        }
+
+        $('#ModalSelect').on('click', function () {
+            var id = "";
+            var ident = "";
+            var title = "";
+
+            var radios = $('input[type=radio]');
+            for (i = 0; i < radios.size() ; i++) {
+                if (radios[i].checked) {
+                    var value = radios[i].value;
+                    id = value.substring(value.indexOf("id=") + "id=".length, value.indexOf("&"));
+                    ident = value.substring(value.indexOf("identifier=") + "identifier=".length, value.indexOf("&", value.indexOf("identifier=")));
+                    title = value.substring(value.indexOf("title=") + "title=".length, value.length);
+                }
+            }
+
+            if (value != "") {
+                $('#formParts_0__partId').val(id);
+                $('#formParts_0__def_Parts_identifier').val(ident);
+                $('#formParts_0__def_Parts_title').val(title);
+                $('#formPartChange').val('true');
+            }
+        });
+
+        // validation fields indicating required database updates.
+        // parts are updated when the part fields are changed.
+        // formParts are updated when the formPart (form hierarchy) fields are changed, or when the part is replaced.
+        $('#formParts_0__def_Parts_identifier').change(function () {
+            $('#partChange').val('true');
+        });
+        $('#formParts_0__def_Parts_title').change(function () {
+            $('#partChange').val('true');
+        });
+        $('#formParts_0__order').change(function () {
+            $('#formPartChange').val('true');
+        });
+    });
+
+    function newPart() {
+        $('#formParts_0__partId').val("0");
+        $('#formParts_0__def_Parts_identifier').val("");
+        $('#formParts_0__def_Parts_title').val("");
+        $('#formPartChange').val('true');
+    }
+</script>
+<h3>Part Edit</h3>
+<div class="form-group ">
+    <form action="/Templates/PostFormPart" method="post">
+        @Html.HiddenFor(model => model.formParts[0].formPartId)
+        @Html.HiddenFor(model => model.partChange)
+        @if(Model.formParts[0].formPartId == 0) 
+        { 
+            @Html.HiddenFor(model => model.formPartChange, new { @value = true }) 
+        } 
+        else 
+        { 
+            @Html.HiddenFor(model => model.formPartChange)
+        }
+        <div class="row">
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.formParts[0].partId, @"Part Id", new { @class = "pageEdit" })
+            </div>
+            <div class="col-md-2">
+                @Html.TextBoxFor(model => model.formParts[0].partId, new { @class = "form-control", @readonly = "readonly" })
+            </div>
+            <div class="col-md-3">
+                <input type="button" class="btn btn-primary" data-toggle="modal" data-target="#PartModal" value="Find Part" />
+                @*<input type="button" class="btn btn-success" value="Add Part" onclick="window.location='PartEdit?prev=FormPartEdit@((Model.formParts[0].formPartId != 0) ? "?formPartId=" + Model.formParts[0].formPartId : "?partId=" + Model.formParts[0].partId)'" />*@
+                <input type="button" class="btn btn-success" value="New Part" onclick="newPart()" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.formParts[0].def_Parts.identifier, @"Part Identifier", new { @class = "control-label pageEdit" })
+            </div>
+            <div class="col-md-6">
+                @Html.TextBoxFor(model => model.formParts[0].def_Parts.identifier, new { @class = "form-control", @style = "max-width:1000px" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.formParts[0].def_Parts.title, @"Part Title", new { @class = "control-label pageEdit" })
+            </div>
+            <div class="col-md-6">
+                @Html.TextBoxFor(model => model.formParts[0].def_Parts.title, new { @class = "form-control", @style = "max-width:1000px" })
+            </div>
+        </div>
+
+        <br />
+        <h4>Form Hierarchy:</h4>
+
+        <div class="row">
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.formParts[0].order, @"Order", new { @class = "control-label pageEdit" })
+            </div>
+            <div class="col-md-2">
+                @Html.TextBoxFor(model => model.formParts[0].order, new { @class = "form-control" })
+            </div>
+        </div>
+
+        <br />
+        <h4>Links to:</h4>
+
+        <div class="row">
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.formParts[0].formId, @"Form Id", new { @class = "control-label pageEdit" })
+            </div>
+            <div class="col-md-2">
+                @Html.TextBoxFor(model => model.formParts[0].formId, new { @class = "form-control", @readonly = "readonly" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.formParts[0].def_Forms.identifier, @"Form Identifier", new { @class = "control-label pageEdit" })
+            </div>
+            <div class="col-md-2">
+                @Html.TextBoxFor(model => model.formParts[0].def_Forms.identifier, new { @class = "form-control", @readonly = "readonly" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.formParts[0].def_Forms.title, @"Form Title", new { @class = "control-label pageEdit" })
+            </div>
+            <div class="col-md-6">
+                @Html.TextBoxFor(model => model.formParts[0].def_Forms.title, new { @class = "form-control", @readonly = "readonly" })
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-4">
+                <input type="submit" class="btn btn-success" value="Submit">
+                <input type="button" class="btn btn-danger" value="Cancel" onclick="window.location='FormParts?formId=@Model.formId'">
+                @*<input type="button" class="btn btn-danger" value="Return to Forms" onclick="window.location='Index'">*@
+            </div>
+        </div>
+    </form>
+</div>
+<!-- End of Form -->
+<!-- Part Id Modal -->
+<div class="modal fade" id="PartModal" tabindex="-1" role="dialog" aria-labelledby="PartModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="PartModalLabel">
+                    <b><span id="Title">Part Search</span></b>
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <label>Identifier</label>
+                    <input type="text" id="IdSearch" class="control" />
+                    <label>Title</label>
+                    <input type="text" id="TitleSearch" class="control" />
+                    <input type="button" id="PartModalSearch" class="button btn-success" value="Search" />
+                    <span id="PartSearchResults"></span>
+                </div>
+                <div id="ModalPaging" hidden="hidden" data-iniindex="0" data-count="0">
+                    <input type="button" id="ModalPrev" class="button btn-primary" value="Prev" />
+                    <span id="pageLabel"></span>
+                    <input type="button" id="ModalNext" class="button btn-primary" value="Next" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="ModalSelect" type="button" class="btn btn-success" data-toggle="modal" data-target="#PartModal">Select</button>
+                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#PartModal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>

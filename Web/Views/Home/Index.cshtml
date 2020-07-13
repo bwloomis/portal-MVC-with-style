@@ -1,0 +1,123 @@
+﻿@model Assmnts.Models.Home
+@using Assmnts
+@{
+
+    Layout = "~/Views/Shared/HomeLayout.cshtml";
+}
+<link href="/Content/js/jquery-ui-1.11.2-custom/jquery-ui.min.css" rel="stylesheet" />
+<style>
+    body {
+        margin-top: 100px;
+    }
+
+    #SIS-A {
+       background-image: url('../../Content/images/SIS A logo.jpg');
+       background-repeat: no-repeat;
+       background-position-x: center;
+       background-position-y: 30%;
+       padding-top:140px;
+       height: 170px;
+
+    }
+
+    #SIS-C {
+       background-image: url('../../Content/images/SIS C logo.jpg');
+       background-repeat: no-repeat;
+       background-position-x: center;
+       background-position-y: 30%;
+       background-color: #008000;
+       padding-top:140px;
+       height: 170px;
+    }
+</style>
+
+<div class="container">
+    <div class="row centered-form">
+        <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
+            <div class="panel panel-default">
+                <div class="panel-heading grey" style="border:none">
+                   <!--<img src="/Content/images/CDPHEbanner.png" style="width:100%" /> -->
+                </div>
+                <div class="panel-body grey">
+                    
+                    
+                    <span class="label label-default" style="position:relative; top:-10px;">Session Minutes Remaining: 
+                    </span>
+                    <span style="position:relative; top:-10px; right:-10px;">
+                        <input id="minutesRemaining" style="color:red; width:50px; height:17px; font-size:12px; vertical-align:bottom;" type="text" disabled value="" />
+                    </span>
+                    <span class="label label-default" style="position:relative; top:-10px; left:200px">logged in as @Model.LoginID</span>
+                    @if(Model.create)
+                    {
+                        try 
+                        {
+                            foreach(KeyValuePair<int, string> entry in Model.Forms)
+                            {
+                            <form action="/Search/NewBlankAssessment" method="get">
+                                <input type="hidden" name="formId" value="@entry.Key" />
+                                <input type="submit" id="@entry.Value" class="btn btn-primary btn-block sis-btn" value="Create @entry.Value Assessment"
+                                       style="font-weight: bold;" />
+                            </form>
+                            <br />
+                            }
+                        }
+                        catch (Exception)
+                        {
+
+                        }
+                     }
+
+                        <input type="button" value="Search for Assessments" class="btn btn-info btn-block" onclick="window.location = '/Search/Index'"
+                               style="background-color:#8E3C42; border-color:#A46267; font-weight: bold;" />
+                        <br />
+                        @*@if (Model.isAdmin == true)
+                        {*@
+                            <input type="button" onclick="xferSecureEmail()" value="Secure Email" class="btn btn-info btn-block"
+                                   style="background-color: rgb(150, 98, 16); border-color: rgb(84, 55, 9); font-weight: bold; " />
+
+                            <br />
+
+
+                            <input type="button" onclick="xferUas()" value="User Administration" class="btn btn-info btn-block"
+                                   style="background-color: rgb(150, 98, 16); border-color: rgb(84, 55, 9); font-weight: bold; " />
+
+                            <br />
+                        @*}*@
+                        <input type="button" value="Logout" class="btn btn-info btn-block" onclick="window.location = '/Account/LogoutUAS'"
+                               style="background-color: #545454; border-color: #656565; font-weight: bold; " />
+                        <!--<div class="center-block text-danger">Your recertification is due May 17, 2015.</div>-->
+                        <br />
+</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/Scripts/jquery-ui-1.11.4.min.js"></script>
+<script src="~/Content/js/jquery.sessionTimeout.js" type="text/javascript"></script>
+<script src="~/Content/js/timeout.js" type="text/javascript"></script>
+
+<script>
+    var timeout = @Model.timeout;
+
+    function xferUas() {
+        window.location = '@Assmnts.Infrastructure.SessionHelper.UasAdminUrl';
+        
+        @*$.ajax({
+            url: "@(Url.Action("xferUAS", "Account"))",
+            type: "GET",
+        cache: false,
+        async: false,
+        success: function (result) {
+            window.open(result);
+        }
+     });*@
+    }
+
+
+    
+    function xferSecureEmail() {
+        window.location = '@Assmnts.Infrastructure.SessionHelper.SecureEmailUrl';
+        
+    }
+</script>

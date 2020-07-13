@@ -1,0 +1,380 @@
+﻿@model Assmnts.Models.AdapApplicantRpt1
+@{
+    Layout = "/Views/Templates/ADAP/AppLayout.cshtml";
+}
+
+@section AddToHead {
+    
+	<!-- dataTables -->
+<script src="https://cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.11/js/dataTables.bootstrap.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.0.2/js/dataTables.responsive.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.0.2/js/responsive.bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.11/css/dataTables.bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.0.2/css/responsive.bootstrap.min.css">
+
+
+<link href="~/Content/adap/css/ADAPForms.css" rel="stylesheet" />
+
+    <script type="text/javascript">
+
+        function doSearch() {
+            var searchFName = $('#s_fName').val();
+            var searchLName = $('#s_lName').val();
+            var searchTeam = $('#d_Team').val();
+            var searchStat = $('#d_Status').val();
+            var searchDate = $('#d_Date').val();
+            var dt = $('#DTgridReport1').DataTable();
+
+            var reportName = '@Model.ReportName';
+            if (reportName.indexOf('Re-Certification') > -1) {
+                searchDate = searchDate + ' Re-Certs';
+            } else if (reportName.indexOf('Pending') > -1) {
+                searchStat = searchStat + ' Pending';
+            }
+
+            dt.columns(1).search(searchFName);
+            dt.columns(2).search(searchLName);
+            dt.columns(3).search(searchTeam);
+            dt.columns(4).search(searchStat);
+            dt.columns(5).search(searchDate).draw();
+        }
+
+        function openContact(userId) {
+            window.open("/Adap/ContactInfo?userId=" + userId);
+        }
+
+        $(document).ready(function () {
+            $('#ADAPHeader').hide(true);
+            $('#ADAPFooter').hide(true);
+            $(".form-control").keypress(function (e) {
+                if ((e.which && e.which == 13) || (e.keyCode && e.keyCode == 13)) {
+                    doSearch();
+                    return false;
+                } else {
+                    return true;
+                }
+            });
+
+            $('#id_Search').click(function () {
+                doSearch();
+            });
+
+            filterData = {
+                "Team": "@Model.setTeam",
+                "Status": "@Model.setStatus",
+                "Date": "@Model.setDate",
+                "FormIdentifiers": "ADAP"
+            }
+            $('#DTgridReport1').DataTable({
+                "bPaginate": true,
+                "bFilter": false,
+                "bInfo": true,
+                "responsive": true,
+                "processing": true,
+                "serverSide": true,
+                "ordering": true,
+                "searching": true,
+                "ajax": {
+                    url: "/ADAP/DataTableApplicationsList",
+                    data: filterData,
+                    type: "POST"
+                },
+                "columnDefs": [
+                    {
+                        "targets": [7],
+                        "visible": false,
+                    },
+                    {
+                        "targets": [9,10],
+                        "orderable": false,
+                    }
+                ],
+                "dom": '<l<t><"row"<"col-md-6"i><"col-md-6"p>>>',
+                "drawCallback": function (settings) {
+                    //center the icons in each of the cells under "Print" column
+                    $('.glyphicon-print').parent().addClass("text-center");
+                }
+            });
+
+
+            $('#cmmtModal').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget);
+                var userId = button.data('userid');
+                // alert('userId: ' + userId);
+                var formResultId = button.data('formresultid');
+                // alert('formResultId: ' + formResultId);
+                var modal = $(this);
+
+                $.ajax({
+                    url: "/Adap/AppCmmt?formResultId=" + formResultId,
+                    type: 'GET',
+                    dataType: 'html',
+                    success: function (data) {
+                        // alert('data:' + data);
+                        modal.find('#cmmts').html(data);
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        alert('xhr.status: ' + xhr.status);
+                        alert(thrownError);
+                    }
+
+                });
+            });
+
+            $('#contactsModal').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget);
+                var formResultId = button.data('formresultid');
+                var modal = $(this);
+
+                $.ajax({
+                    url: "/Adap/ContactInfo?formResultId=" + formResultId,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+
+                        //populate data in contact modal 
+                        modal.find('#Name').text(data.Name);
+                        modal.find('#HomePhone').text(data.HomePhone);
+                        modal.find('#CellPhone').text(data.CellPhone);
+                        modal.find('#ResidAddress1').text(data.ResidAddress1);
+                        modal.find('#ResidAddress2').text(data.ResidAddress2);
+                        modal.find('#ResidCitySTZip').text(data.ResidCity + ", " + data.ResidState + " " + data.ResidZip);
+                        modal.find('#MailAddress1').text(data.MailAddress1);
+                        modal.find('#MailAddress2').text(data.MailAddress2);
+                        modal.find('#MailCitySTZip').text(data.MailCity + ", " + data.MailState + " " + data.MailZip);
+                        modal.find('#Email').text(data.Email);
+                        modal.find('#CaseManager').text(data.CaseManager);
+                        modal.find('#Clinic').text(data.Clinic);
+                        modal.find('#Team').text(data.Team);
+                        modal.find('#Plan').text(data.Plan);
+                        modal.find('#Group').text(data.Group);
+
+                        //show "compose message" button if email is present
+                        modal.find('#composeMessage')
+                            .toggle(!(data.Email === null || data.Email.match(/^ *$/) !== null))
+                            .unbind('click')
+                            .click(function () {
+                                window.open('/LAADAP/RedirectToSecureEmail?recipients=' + data.UserId, '_blank');
+                            });
+                    }
+                });
+            });
+
+            $('#infoModal').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget);
+                var userId = button.data('userId');
+                var formResultId = button.data('formresultid');
+                
+                var modal = $(this);
+
+                $.ajax({
+                    url: "/Adap/MissingInfo?userId=" + userId + "&formResultId=" + formResultId,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        // first index contains name.
+                        modal.find('#Name').text(data[0]);
+                        var result = "<b>";
+                        for (var i = 1; i < data.length; i++) {
+                            if (i > 1) {
+                                result += "<br />";
+                            }
+
+                            result += data[i];
+                        }
+                        result += "</b>";
+
+                        modal.find('#fields').html(result);
+                    }
+                });
+            });
+        });
+    </script>
+}
+
+<div class="container">
+    <h3>ADAP @Model.ReportName </h3>
+    <hr />    
+    
+    @if (Model.errorMessage != null && Model.errorMessage.Trim().Length > 0)
+    {
+        <div class="alert alert-danger alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close" style="top:-5px;"><span aria-hidden="true">&times;</span></button>
+            @Model.errorMessage 
+        </div>
+    }
+    
+        <table id="DTgridReport1" class="table table-striped table-hover table-bordered responsive no-wraps small dataTable no-footer dtr-inline" cellpadding="0" cellspacing="0" border="0">
+            <thead>
+                <tr>
+                    <th tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Member ID: activate to sort column ascending">Member ID</th>
+                    <th tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="First Name: activate to sort column ascending">First Name</th>
+                    <th tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Last Name: activate to sort column ascending">Last Name</th>
+                    <th tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="DOB: activate to sort column ascending">DOB</th>
+                    <th tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Status: activate to sort column ascending">Status</th>
+                    <th tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Status Changed: activate to sort column ascending">Status Changed</th>
+                    <th tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Next Recert: activate to sort column ascending">Next Recert</th>
+                    <th>Type</th>
+                    <th tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Type: activate to sort column ascending">Team Color</th>
+                    <th tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Contact Info: activate to sort column ascending">Contact Info</th>
+                    <th aria-label="Print">Print</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+
+    <div class="bs-callout bs-callout-primary" style="background-color:#fcf8e3">
+        <h4 style="color:black">Search ADAP @Model.ReportName </h4>
+        <br>
+        <div>
+            <div class="row">
+                <div class="col-md-2">
+                    <label for="s_fName">First Name</label>
+                    <input type="text" id="s_fName" class="form-control input-md" name="first name" placeholder="First Name">
+                </div>
+                <div class="col-md-2">
+                    <label for="s_lName">Last Name</label>
+                    <input type="text" id="s_lName" class="form-control input-md" name="last name" placeholder="Last Name">
+                </div>
+                <div class="col-md-2">
+                    <label for="d_Team">Team Color</label>
+                    <select id="d_Team" class="form-control" name="d_Team">
+                        <option value="" disabled @(Model.TeamDDL != null && Model.TeamDDL.Count > 0 ? String.Empty : "selected")>Team Colors</option>
+                        @foreach (Assmnts.UasServiceRef.Group g in Model.TeamDDL)
+                        {
+                            if (!String.IsNullOrEmpty(@Model.setTeam) && @Model.setTeam.Equals(@g.GroupName))
+                            {
+                                <option value="@g.GroupName" selected="selected">@g.GroupName</option>
+                            }
+                            else
+                            {
+                                <option value="@g.GroupName">@g.GroupName</option>
+                            }
+                        }
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label for="d_Status">Status</label>
+                    <select id="d_Status" class="form-control" name="d_Status">
+                        <option value="" disabled @(Model.StatusDDL != null && Model.StatusDDL.Count > 0 ? String.Empty : "selected")>Status</option>
+                        @foreach (string statusText in Model.StatusDDL.OrderBy( kv => kv.Key ).Select( kv => kv.Value ) )
+                        {
+                            bool selected = !String.IsNullOrEmpty(@Model.setStatus) && @Model.setStatus.Equals(statusText);
+                            <option value="@statusText" @(selected ? "selected" : "")>@statusText</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label for="d_Date">Date</label>
+                    <select id="d_Date" class="form-control" name="d_Date">
+                        <option value="" disabled @(Model.DateDDL != null && Model.DateDDL.Count > 0 ? String.Empty : "selected")>Dates</option>
+                        @foreach (string s in Model.DateDDL)
+                        {
+                            bool selected = !String.IsNullOrEmpty(@Model.setDate) && @Model.setDate.Equals(@s);
+                            <option value="@s" @(selected ? "selected" : "")>@s</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3" style="margin-top:15px">
+                    <input type="button" id="id_Search" class="btn btn-md btn-success btn-block" value="Search" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Contacts Modal -->
+    <div class="modal fade" id="contactsModal" tabindex="-1" role="dialog" aria-labelledby="contactsModalLabel">
+        <div class="modal-dialog" role="document" style="width:700px">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color: #337ab7; color:white;">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="contactsModalLabel">Contact Information for <span id="Name"></span></h4>
+                </div>
+                    <div class="modal-body">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <h5><b>Home Phone</b></h5>
+                                    <span class="indent" id="HomePhone"></span>
+                                    <h5><b>Cell Phone</b></h5>
+                                    <span class="indent" id="CellPhone"></span>
+                                    <h5><b>Residential Address</b></h5>
+                                    <span class="indent" id="ResidAddress1"></span><br />
+                                    <span class="indent" id="ResidAddress2"></span><br />
+                                    <span class="indent" id="ResidCitySTZip"></span>
+                                    <h5><b>Maliing Address</b></h5>
+                                    <span class="indent" id="MailAddress1"></span><br />
+                                    <span class="indent" id="MailAddress2"></span><br />
+                                    <span class="indent" id="MailCitySTZip"></span>
+                                </div>
+                                <div class="col-md-3">
+                                    <h5><b>Email Address</b></h5>
+                                    <span class="indent" id="Email"></span>
+                                    <h5><b>Case Manager</b></h5>
+                                    <span class="indent" id="CaseManager"></span>
+                                    <h5><b>Clinic</b></h5>
+                                    <span class="indent" id="Clinic"></span>
+                                    <h5><b>ADAP Team</b></h5>
+                                    <span class="indent" id="Team"></span>
+                                    @*<h5><b>Plan Type</b></h5>
+                <span class="indent" id="Plan"></span>
+            <h5><b>Group #</b></h5>
+                <span class="ident" id="Group"></span>*@
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" hidden id="composeMessage">Compose Message</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Missing Info Modal -->
+    <div class="modal fade" id="infoModal" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color: #337ab7; color:white;">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="infoModalLabel"><b><span id="Name"></span></b>Missing Info</h4>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <span id="fields">
+                        </span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Application Comments -->
+    <div class="modal fade" id="cmmtModal" tabindex="-1" role="dialog" aria-labelledby="cmmtModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content" style="width:850px;">
+                <div class="modal-header" style="background-color: #337ab7; color:white;">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="cmmtModalLabel"><b><span id="cmmtHdr"></span></b>Comments</h4>
+                </div>
+                <div class="modal-body" style="height:800px; overflow-y:auto">
+                    <div>
+                        <span id="cmmts">
+                        </span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

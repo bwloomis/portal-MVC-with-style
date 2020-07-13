@@ -1,0 +1,221 @@
+@model Assmnts.Models.GeneralForm            
+@using Assmnts
+@{
+    ViewBag.Title = "Interview and Profile";
+    Layout = "~/Views/Shared/AssmntLayout.cshtml";
+}
+
+@section HeadContent {
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <link href="/Content/css/jquery.timeentry.css" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+        #btnExpandResps
+        {
+            height: 18px;
+            width: 184px;
+            font-family: Arial, Geneva, Verdana;
+        }
+
+        #wideInput {
+            width: 300px;
+        }
+    </style>
+    <script src="/Content/js/Misc.js"></script>
+    <script src="/Content/js/textchanger.js"></script>
+	
+    <script>
+
+        function expandcontent(id) {
+            s = document.getElementById(id).style;
+            showState = document.getElementById("showstate_" + id);
+            if (s.display == "table-row") {
+                s.display = "none";
+                if (showState != null)
+                    showState.src = "../Content/images/redPlus.gif";
+            } else {
+                s.display = "table-row";
+                if (showState != null)
+                    showState.src = "../Content/images/redminus.gif";
+            }
+        }
+
+        function SubmitForm( targetSectionId ) {
+            document.getElementById('navSectionId').setAttribute( 'value', targetSectionId );
+            document.getElementById('form-id').submit();
+        }
+    </script>
+}
+ 
+        <table id="tblData" border="0" cellpadding="0" cellspacing="0" style="height: 100%">
+            <tr>
+                <td style="width: 189px; background-color: #ffffff" valign="top" align="center">
+                    @Html.Partial("AssmntLeftPane");
+                </td>
+				<td>
+                    <br />
+                    <table border="0" cellpadding="0" cellspacing="0" width="625">
+                        <tr>
+                            <td align="left">
+                                <!-- <asp:Label ID="lblErr" Visible="false" ForeColor="red" runat="server" />  -->
+                        <table border="0" cellpadding="5" cellspacing="0" style="background-color: #fff; margin-left: 1.3em;"
+                            width="625">
+                            <tr>
+                                <td>
+                                    <span style="color:#9d4d5a; font-weight:normal; font-size:x-large">Interview and Profile Form</span>
+                                </td>
+                            </tr>
+                        </table>
+								<form id="form-id" action="/Results/Save" method="post">
+                                <table border="0" cellpadding="5" cellspacing="0" style="background-color: #fff;
+                                    margin-left: 1.3em" width="625">
+                                    <tr>
+                                        <td>
+
+<!-- recent code starts here -->
+<table>
+    <tr>
+        <td style="vertical-align:top">
+            @Helpers.RadioList(Model, Html, "sis_iq_item", "sis_iq")
+        </td>
+        <td style="width: 20px"></td>
+        <td style="vertical-align:top">
+            @Helpers.RadioList(Model, Html, "sis_ab_item", "sis_ab")
+        </td>
+        <td style="width: 20px"></td>
+    </tr>
+	<tr><td>&nbsp;</td></tr>
+    <tr>
+        <td style="vertical-align:top">
+            @Helpers.RadioList(Model, Html, "sis_race_item", "sis_race")
+        </td>
+        <td style="width: 20px"></td>
+        <td style="vertical-align:top">
+            @Helpers.RadioList(Model, Html, "sis_ethnic_item", "sis_ethnic")
+        </td>
+        <td style="width: 20px"></td>
+    </tr>
+	<tr><td>&nbsp;</td></tr>
+	<tr>
+		<td style="vertical-align:top">            
+            @Helpers.LabelSpan(Model, "sis_disab_item", new { style = "font-weight:bold" })<br />
+			@Helpers.LabeledCheckboxInput(Model, "sis_disab_int",Model.fldLabels["sis_disab_int_item"])<br/>
+			@Helpers.LabeledCheckboxInput(Model, "sis_disab_asd", Model.fldLabels["sis_disab_asd_item"])<br/>
+			@Helpers.LabeledCheckboxInput(Model, "sis_disab_mhd", Model.fldLabels["sis_disab_mhd_item"])<br/>
+			@Helpers.LabeledCheckboxInput(Model, "sis_disab_sli", Model.fldLabels["sis_disab_sli_item"])<br/>
+			@Helpers.LabeledCheckboxInput(Model, "sis_disab_pd", Model.fldLabels["sis_disab_pd_item"])<br/>
+			@Helpers.LabeledCheckboxInput(Model, "sis_disab_blind", Model.fldLabels["sis_disab_blind_item"])<br/>
+			@Helpers.LabeledCheckboxInput(Model, "sis_disab_deaf", Model.fldLabels["sis_disab_deaf_item"])<br/>
+			@Helpers.LabeledCheckboxInput(Model, "sis_disab_chc", Model.fldLabels["sis_disab_chc_item"], new { @class = "toggler1" })
+            <br class="togglee1" />
+            <textarea cols="35" wrap="soft" rows="4" class="togglee1" name="sis_disab_chc_text">@Model.rspValues["sis_disab_chc_text"]</textarea><br>
+			<script>
+			    $(document).ready(
+                    function () {
+                        update1();
+                        $(".toggler1").change(update1);
+                        function update1() {
+                            if ( $(".toggler1").prop("checked") )
+                                $(".togglee1").show();
+                            else
+                                $(".togglee1").hide();
+                        }
+                    }
+                )
+			</script>
+			@Helpers.LabeledCheckboxInput(Model, "sis_disab_other", Model.fldLabels["sis_disab_other_item"], new { @class = "toggler2" })
+            <br class="togglee2">            
+            <textarea cols="35" wrap="soft" rows="4" class="togglee2" name="sis_disab_other_text">@Model.rspValues["sis_disab_other_text"]</textarea><br>
+            <script>
+            	$(document).ready(
+                    function () {
+                        update2();
+                        $(".toggler2").change(update2);
+                        function update2() {
+                            if ($(".toggler2").prop("checked"))
+                                $(".togglee2").show();
+                            else
+                                $(".togglee2").hide();
+                        }
+                    }
+                )
+			</script>
+		</td>
+		<td style="width: 20px"></td>
+        <td style="vertical-align:top">
+            @Helpers.RadioList(Model, Html, "sis_resid_item", "sis_resid")
+        </td>
+		<td style="width: 20px"></td>
+	</tr>
+	<tr><td>&nbsp;</td></tr>
+
+	<tr>
+        <td style="vertical-align:top">
+            @Helpers.RadioList(Model, Html, "sis_loc_item", "sis_loc")
+        </td>
+		<td style="width: 20px"></td>
+        <td style="vertical-align:top">
+            @Helpers.RadioList(Model, Html, "sis_ed_item", "sis_ed")
+        </td>
+		<td style="width: 20px"></td>
+	</tr>
+	<tr><td>&nbsp;</td></tr>
+
+    <tr>
+		<td style="vertical-align:top">
+			@Helpers.LabelSpan(Model,"sis_employ_item", new { style = "font-weight:bold" })<br>
+			@Helpers.LabeledCheckboxInput(Model, "sis_employ_comp",Model.fldLabels["sis_employ_comp_item"])<br/>
+			@Helpers.LabeledCheckboxInput(Model, "sis_employ_sup",Model.fldLabels["sis_employ_sup_item"])<br/>
+			@Helpers.LabeledCheckboxInput(Model, "sis_employ_shel",Model.fldLabels["sis_employ_shel_item"])<br/>
+			@Helpers.LabeledCheckboxInput(Model, "sis_employ_nonp",Model.fldLabels["sis_employ_nonp_item"])<br/>
+			@Helpers.LabeledCheckboxInput(Model, "sis_employ_unemp",Model.fldLabels["sis_employ_unemp_item"])<br/>
+			@Helpers.LabeledCheckboxInput(Model, "sis_employ_ret",Model.fldLabels["sis_employ_ret_item"])<br/>
+		</td>
+		<td style="width: 20px"></td>
+    </tr>
+
+    @*
+	<tr>
+		<td style="vertical-align:top">
+			<span><b>@Model.fldLabels["sis_employ_item"]</b></span><br>
+			<input type="checkbox" checked="@Model.rspValues["sis_employ_comp"]"  name="sis_employ_comp"  value="1"/>@Model.fldLabels["sis_employ_comp_item"] <br/>
+			<input type="checkbox" checked="@Model.rspValues["sis_employ_sup"]"   name="sis_employ_sup"   value="1"/>@Model.fldLabels["sis_employ_sup_item"]  <br/>
+			<input type="checkbox" checked="@Model.rspValues["sis_employ_shel"]"  name="sis_employ_shel"  value="1"/>@Model.fldLabels["sis_employ_shel_item"] <br/>
+			<input type="checkbox" checked="@Model.rspValues["sis_employ_nonp"]"  name="sis_employ_nonp"  value="1"/>@Model.fldLabels["sis_employ_nonp_item"] <br/>
+			<input type="checkbox" checked="@Model.rspValues["sis_employ_unemp"]" name="sis_employ_unemp" value="1"/>@Model.fldLabels["sis_employ_unemp_item"]<br/>
+			<input type="checkbox" checked="@Model.rspValues["sis_employ_ret"]"   name="sis_employ_ret"   value="1"/>@Model.fldLabels["sis_employ_ret_item"]  <br/>
+		</td>
+		<td style="width: 20px"></td>
+	</tr>
+    *@
+	<tr><td>&nbsp;</td></tr>
+</table>                                @Html.Partial("AssmntPageNotes")
+                                        @Html.Partial("AssmntNavPrevNext")
+
+                                            <div id="sectIndivParticipation" visible="false">
+                                                <fieldset>
+                                                    <legend></legend>
+                                                </fieldset>
+                                            </div>
+                                            <div id="sectIntSetting" style="margin-top: 12px;" visible="false">
+                                                &nbsp;
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                                    <br/>
+                                    <br/>
+                                    <input type="submit" value="Save" id="btnSubmit" />
+								</form>
+                            </td>
+                        </tr>
+                    </table>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tr>
+                            <td style="height: 5px">&nbsp;</td>
+                        </tr>
+                    </table>
+				</td>
+			</tr>
+		</table>
+        <br />
+ 
